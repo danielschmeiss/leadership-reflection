@@ -1,6 +1,8 @@
-# Leadership Reflection Tool
+# Reflect & Act
 
-A privacy-focused React application designed to help engineering leaders navigate situational challenges through structured reflection frameworks. Get from challenge to clarity in under 10 minutes with proven leadership methodologies.
+*Pause, reflect, and move forward with purpose.*
+
+A privacy-focused React application designed to help engineering leaders navigate situational challenges through structured reflection frameworks. Transform leadership challenges into growth opportunities with proven methodologies.
 
 ## 🎯 Purpose
 
@@ -47,7 +49,7 @@ This tool supports engineering leaders in handling situational leadership challe
 ```bash
 # Clone the repository
 git clone <repository-url>
-cd leadership-reflection-tool
+cd reflect-and-act
 
 # Install dependencies
 npm install
@@ -186,6 +188,4 @@ MIT License - see LICENSE file for details
 
 ---
 
-**Built for engineering leaders, by engineering leaders** 🚀
-
-*Start your leadership reflection journey today and turn challenges into growth opportunities.*
+**Reflect & Act - Built for engineering leaders, by engineering leaders** 🚀

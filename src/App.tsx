@@ -87,27 +87,31 @@ function App() {
 
   const getProblemDescription = (category: SituationCategory, subcategory: string): string => {
     const descriptions: Record<string, Record<string, string>> = {
-      feedback: {
-        constructive: 'Giving constructive feedback',
-        positive: 'Giving positive feedback',
-        difficult: 'Having a difficult conversation'
-      },
       conflict: {
-        'team-conflict': 'Resolving a team conflict',
-        'cross-team-conflict': 'Resolving a cross-team conflict',
-        'resource-conflict': 'Resolving resource or priority disputes'
+        'with-team-member': 'Conflict with team member',
+        'between-team-members': 'Conflict between team members',
+        'cross-team-conflict': 'Cross-team conflict'
+      },
+      feedback: {
+        'positive': 'Positive feedback',
+        'developmental': 'Developmental feedback',
+        'peer-to-peer-feedback-facilitation': 'Peer-to-peer feedback facilitation'
       },
       decision: {
-        complex: 'Making a complex decision',
-        urgent: 'Making an urgent decision'
+        'operational': 'Operational decision (Team)',
+        'strategic': 'Strategic decision (Domain/Organization)',
+        'ownership-accountability-gaps': 'Ownership/Accountability gaps'
       },
       stakeholder: {
-        expectations: 'Managing stakeholder expectations',
-        communication: 'Improving stakeholder communication'
+        'expectation-management': 'Expectation management',
+        'alignment-with-leadership': 'Alignment with leadership'
+      },
+      'team-dynamics': {
+        'ownership-clarity': 'Ownership clarity',
+        'team-health-check': 'Team health check'
       },
       other: {
-        'problem-solving': 'Structured problem-solving',
-        reflection: 'General reflection and planning'
+        'free-reflection': 'Free reflection'
       }
     };
     
@@ -116,7 +120,7 @@ function App() {
 
   const getTitle = () => {
     switch (currentState) {
-      case 'dashboard': return 'Leadership Reflection Tool';
+      case 'dashboard': return 'Reflect & Act';
       case 'decision-tree': return 'Identify Your Challenge';
       case 'reflection': 
         if (session) {
@@ -126,7 +130,7 @@ function App() {
         return 'Reflection';
       case 'history': return 'Reflection History';
       case 'view-reflection': return viewingReflection?.title || 'Reflection';
-      default: return 'Leadership Reflection Tool';
+      default: return 'Reflect & Lead';
     }
   };
 
@@ -139,7 +143,7 @@ function App() {
       case 'history': 
         return 'Review your past reflections to identify patterns and track your leadership development over time.';
       default: 
-        return '';
+        return 'Reflect & Act';
     }
   };
 

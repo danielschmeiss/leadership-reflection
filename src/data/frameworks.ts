@@ -1,7 +1,250 @@
 import { Framework, DecisionTreeNode } from '../types';
 
-// Base frameworks - these will be customized based on the specific situation
+// New framework definitions based on updated structure
+const newFrameworks: Record<string, Framework> = {
+  'interest-based-negotiation': {
+    id: 'interest-based-negotiation',
+    name: 'Interest-based Negotiation',
+    description: 'Framework for resolving cross-team conflicts by focusing on underlying interests',
+    questions: [
+      {
+        id: 'teams_priorities',
+        text: 'Which teams are involved and what are their priorities?',
+        type: 'textarea',
+        required: true,
+        placeholder: 'List the teams and their main priorities or goals...'
+      },
+      {
+        id: 'alignment_conflicts',
+        text: 'Where do their goals align or conflict?',
+        type: 'textarea',
+        required: true,
+        placeholder: 'Identify areas of alignment and points of conflict...'
+      },
+      {
+        id: 'constraints_pressures',
+        text: 'What constraints or pressures influence their positions?',
+        type: 'textarea',
+        required: true,
+        placeholder: 'Consider deadlines, resources, organizational pressures...'
+      },
+      {
+        id: 'shared_problem',
+        text: 'How can you frame this as a shared problem to solve?',
+        type: 'textarea',
+        required: true,
+        placeholder: 'Reframe the conflict as a mutual challenge to address...'
+      },
+      {
+        id: 'mutual_benefit',
+        text: 'What compromise or mutual benefit is possible?',
+        type: 'textarea',
+        required: true,
+        placeholder: 'Identify win-win solutions or acceptable compromises...'
+      }
+    ]
+  },
+  'feedforward-coaching': {
+    id: 'feedforward-coaching',
+    name: 'Feedforward Coaching',
+    description: 'Future-focused approach to peer feedback facilitation',
+    questions: [
+      {
+        id: 'peer_feedback',
+        text: 'Which peer feedback is being given?',
+        type: 'textarea',
+        required: true,
+        placeholder: 'Describe the feedback situation between peers...'
+      },
+      {
+        id: 'future_advice',
+        text: 'What future-focused advice or suggestions can help?',
+        type: 'textarea',
+        required: true,
+        placeholder: 'Focus on actionable suggestions for improvement...'
+      },
+      {
+        id: 'constructive_framing',
+        text: 'How can this be framed constructively without blame?',
+        type: 'textarea',
+        required: true,
+        placeholder: 'Frame feedback positively and solution-oriented...'
+      },
+      {
+        id: 'follow_up',
+        text: 'What follow-up will ensure improvement is tracked?',
+        type: 'textarea',
+        required: true,
+        placeholder: 'Define how progress will be monitored and supported...'
+      }
+    ]
+  },
+  'responsibility-mapping': {
+    id: 'responsibility-mapping',
+    name: 'RACI/Responsibility Mapping',
+    description: 'Framework for clarifying ownership and accountability gaps',
+    questions: [
+      {
+        id: 'unclear_ownership',
+        text: 'What tasks or outcomes are unclear in ownership?',
+        type: 'textarea',
+        required: true,
+        placeholder: 'List specific tasks or outcomes with unclear ownership...'
+      },
+      {
+        id: 'raci_mapping',
+        text: 'Who should be responsible, accountable, consulted, and informed?',
+        type: 'textarea',
+        required: true,
+        placeholder: 'Map out RACI for each task or outcome...'
+      },
+      {
+        id: 'overlaps_gaps',
+        text: 'Where are overlaps or gaps causing confusion?',
+        type: 'textarea',
+        required: true,
+        placeholder: 'Identify specific areas of confusion or conflict...'
+      },
+      {
+        id: 'clarify_ownership',
+        text: 'How can you clarify ownership with the team?',
+        type: 'textarea',
+        required: true,
+        placeholder: 'Plan how to communicate and establish clear ownership...'
+      },
+      {
+        id: 'prevent_ambiguity',
+        text: 'What follow-up mechanism will prevent future ambiguity?',
+        type: 'textarea',
+        required: true,
+        placeholder: 'Define ongoing processes to maintain clarity...'
+      }
+    ]
+  },
+  'alignment-canvas': {
+    id: 'alignment-canvas',
+    name: 'Alignment Canvas',
+    description: 'Structured approach for aligning with leadership',
+    questions: [
+      {
+        id: 'alignment_purpose',
+        text: 'What is the purpose of this alignment?',
+        type: 'textarea',
+        required: true,
+        placeholder: 'Why do you need to align with leadership on this topic?'
+      },
+      {
+        id: 'decision_approval',
+        text: 'What decision or approval do you need?',
+        type: 'textarea',
+        required: true,
+        placeholder: 'Be specific about what you need from leadership...'
+      },
+      {
+        id: 'information_data',
+        text: 'What information or data must you provide?',
+        type: 'textarea',
+        required: true,
+        placeholder: 'What context and evidence will support your case?'
+      },
+      {
+        id: 'clear_argumentation',
+        text: 'How will you ensure your argumentation is clear and evidence-based?',
+        type: 'textarea',
+        required: true,
+        placeholder: 'How will you structure your presentation and reasoning?'
+      }
+    ]
+  },
+  'delegation-empowerment': {
+    id: 'delegation-empowerment',
+    name: 'Delegation/Empowerment',
+    description: 'Framework for clarifying ownership and empowering team members',
+    questions: [
+      {
+        id: 'ownership_confusion',
+        text: 'What tasks are currently causing confusion around ownership?',
+        type: 'textarea',
+        required: true,
+        placeholder: 'List specific tasks or areas with unclear ownership...'
+      },
+      {
+        id: 'delegatable_decisions',
+        text: 'What decisions can be delegated?',
+        type: 'textarea',
+        required: true,
+        placeholder: 'Identify decisions that can be pushed down to the team...'
+      },
+      {
+        id: 'best_suited_owners',
+        text: 'Who is best suited to own each task or area?',
+        type: 'textarea',
+        required: true,
+        placeholder: 'Match tasks to team members based on skills and interests...'
+      },
+      {
+        id: 'empowerment_approach',
+        text: 'How will you empower them to take responsibility?',
+        type: 'textarea',
+        required: true,
+        placeholder: 'Define how you will support and enable ownership...'
+      },
+      {
+        id: 'accountability_tracking',
+        text: 'How will accountability be tracked?',
+        type: 'textarea',
+        required: true,
+        placeholder: 'Establish mechanisms for monitoring and feedback...'
+      }
+    ]
+  },
+  'five-dysfunctions': {
+    id: 'five-dysfunctions',
+    name: '5 Dysfunctions of a Team',
+    description: 'Framework for assessing and improving team health',
+    questions: [
+      {
+        id: 'trust_level',
+        text: 'Is there enough trust within the team?',
+        type: 'textarea',
+        required: true,
+        placeholder: 'Assess the level of vulnerability-based trust in the team...'
+      },
+      {
+        id: 'conflict_handling',
+        text: 'Are conflicts addressed constructively?',
+        type: 'textarea',
+        required: true,
+        placeholder: 'Evaluate how the team handles disagreements and debates...'
+      },
+      {
+        id: 'commitment_strength',
+        text: 'Is commitment to goals strong?',
+        type: 'textarea',
+        required: true,
+        placeholder: 'Assess team buy-in and commitment to decisions and goals...'
+      },
+      {
+        id: 'accountability_clarity',
+        text: 'Is accountability clear and accepted?',
+        type: 'textarea',
+        required: true,
+        placeholder: 'Evaluate how team members hold each other accountable...'
+      },
+      {
+        id: 'results_focus',
+        text: 'Are we achieving results effectively?',
+        type: 'textarea',
+        required: true,
+        placeholder: 'Assess focus on collective results vs individual goals...'
+      }
+    ]
+  }
+};
+
+// Base frameworks with their questions
 const baseFrameworks: Record<string, Framework> = {
+  ...newFrameworks,
   sbi: {
     id: 'sbi',
     name: 'SBI Framework',
@@ -9,115 +252,73 @@ const baseFrameworks: Record<string, Framework> = {
     questions: [
       {
         id: 'situation',
-        text: 'Describe the specific situation (when and where)',
+        text: 'What specific situation do you want to highlight?',
         type: 'textarea',
         required: true,
-        placeholder: 'e.g., During yesterday\'s sprint planning meeting...'
+        placeholder: 'Describe the specific context, time, and place...'
       },
       {
         id: 'behavior',
-        text: 'What specific behavior did you observe?',
+        text: 'What behavior did you observe?',
         type: 'textarea',
         required: true,
         placeholder: 'Focus on observable actions, not interpretations...'
       },
       {
         id: 'impact',
-        text: 'What was the impact of this behavior?',
+        text: 'What positive impact did this behavior have?',
         type: 'textarea',
         required: true,
-        placeholder: 'How did it affect you, the team, or the outcome?'
+        placeholder: 'Describe the effect on you, the team, or outcomes...'
       },
       {
-        id: 'desired_outcome',
-        text: 'What outcome do you want to achieve?',
+        id: 'reinforcement',
+        text: 'How can you ensure this behavior is reinforced?',
         type: 'textarea',
         required: true,
-        placeholder: 'What change or understanding are you seeking?'
-      }
-    ]
-  },
-  grow: {
-    id: 'grow',
-    name: 'GROW Model',
-    description: 'Goal-Reality-Options-Way forward coaching framework',
-    questions: [
-      {
-        id: 'goal',
-        text: 'What is your goal or desired outcome?',
-        type: 'textarea',
-        required: true,
-        placeholder: 'Be specific and measurable...'
-      },
-      {
-        id: 'reality',
-        text: 'What is the current reality/situation?',
-        type: 'textarea',
-        required: true,
-        placeholder: 'What\'s happening now? What are the facts?'
-      },
-      {
-        id: 'obstacles',
-        text: 'What obstacles or challenges exist?',
-        type: 'textarea',
-        required: true,
-        placeholder: 'What\'s preventing progress?'
-      },
-      {
-        id: 'options',
-        text: 'What options or alternatives do you have?',
-        type: 'textarea',
-        required: true,
-        placeholder: 'Brainstorm multiple approaches...'
-      },
-      {
-        id: 'way_forward',
-        text: 'What specific actions will you take?',
-        type: 'textarea',
-        required: true,
-        placeholder: 'Define concrete next steps with timelines...'
+        placeholder: 'What steps will help continue this positive behavior?'
       }
     ]
   },
   mediation: {
     id: 'mediation',
-    name: 'Conflict Mediation',
+    name: 'Mediation Framework',
     description: 'Structured approach to resolve conflicts',
     questions: [
       {
-        id: 'parties',
-        text: 'Who are the parties involved?',
+        id: 'situation',
+        text: 'What is the specific situation that triggered the conflict?',
         type: 'textarea',
         required: true,
-        placeholder: 'List all stakeholders (use roles, not names for privacy)'
+        placeholder: 'Describe the triggering event or ongoing issue...'
       },
       {
-        id: 'issue',
-        text: 'What is the core issue?',
+        id: 'your_interests',
+        text: 'What are your interests or needs in this situation?',
         type: 'textarea',
         required: true,
-        placeholder: 'Focus on the underlying problem, not symptoms'
+        placeholder: 'What do you really need or care about here?'
       },
       {
-        id: 'interests',
-        text: 'What are each party\'s underlying interests?',
+        id: 'their_interests',
+        text: 'What interests or needs do you assume the other person has?',
         type: 'textarea',
         required: true,
-        placeholder: 'What does each person really need or care about?'
-      },
-      {
-        id: 'common_ground',
-        text: 'What common ground exists?',
-        type: 'textarea',
-        required: true,
-        placeholder: 'Shared goals, values, or concerns...'
+        placeholder: 'Try to understand their perspective and needs...'
       },
       {
         id: 'solutions',
-        text: 'What potential solutions could address everyone\'s interests?',
+        text: 'What possible solutions do you see?',
         type: 'textarea',
         required: true,
-        placeholder: 'Brainstorm win-win options...'
+        placeholder: 'Brainstorm options that could address both parties\' needs...'
+      },
+      {
+        id: 'common_ground',
+        text: 'How can you find common ground?',
+        type: 'textarea',
+        required: true,
+        placeholder: 'What shared goals or values can you build on?'
       }
     ]
   },
@@ -127,39 +328,165 @@ const baseFrameworks: Record<string, Framework> = {
     description: 'Systematic approach to evaluate options',
     questions: [
       {
-        id: 'decision',
-        text: 'What decision needs to be made?',
+        id: 'options',
+        text: 'What options are available?',
         type: 'textarea',
         required: true,
-        placeholder: 'Clearly define the decision to be made...'
+        placeholder: 'List all viable alternatives you\'re considering...'
       },
       {
         id: 'criteria',
-        text: 'What are the key criteria for evaluation?',
+        text: 'What criteria are most important (e.g., cost, speed, team acceptance)?',
         type: 'textarea',
         required: true,
-        placeholder: 'List important factors (cost, time, risk, etc.)'
+        placeholder: 'Define the factors that matter most for this decision...'
       },
       {
-        id: 'options',
-        text: 'What options are you considering?',
+        id: 'scoring',
+        text: 'How does each option score against these criteria?',
         type: 'textarea',
         required: true,
-        placeholder: 'List all viable alternatives...'
+        placeholder: 'Rate each option against each criterion (e.g., 1-5 scale)...'
+      },
+      {
+        id: 'best_option',
+        text: 'Which option has the highest overall score?',
+        type: 'textarea',
+        required: true,
+        placeholder: 'Based on your scoring, which option comes out ahead?'
+      },
+      {
+        id: 'risks',
+        text: 'What are the potential risks of this decision?',
+        type: 'textarea',
+        required: true,
+        placeholder: 'What could go wrong and how might you mitigate these risks?'
+      }
+    ]
+  },
+  'pros-cons': {
+    id: 'pros-cons',
+    name: 'Pros/Cons Analysis',
+    description: 'Systematic evaluation of advantages and disadvantages',
+    questions: [
+      {
+        id: 'options',
+        text: 'What strategic options are available?',
+        type: 'textarea',
+        required: true,
+        placeholder: 'List the strategic alternatives you\'re considering...'
+      },
+      {
+        id: 'advantages',
+        text: 'What are the advantages of each option?',
+        type: 'textarea',
+        required: true,
+        placeholder: 'List the benefits and positive outcomes for each option...'
+      },
+      {
+        id: 'disadvantages',
+        text: 'What are the disadvantages of each option?',
+        type: 'textarea',
+        required: true,
+        placeholder: 'List the drawbacks and potential negative consequences...'
+      },
+      {
+        id: 'alignment',
+        text: 'How does each option align with long-term vision or goals?',
+        type: 'textarea',
+        required: true,
+        placeholder: 'Consider strategic fit and long-term implications...'
       },
       {
         id: 'stakeholders',
-        text: 'Who are the key stakeholders affected?',
+        text: 'Which stakeholders need to be engaged?',
         type: 'textarea',
         required: true,
-        placeholder: 'Who needs to be consulted or informed?'
+        placeholder: 'Who needs to be involved in or informed about this decision?'
+      }
+    ]
+  },
+  raci: {
+    id: 'raci',
+    name: 'RACI/Alignment',
+    description: 'Framework for stakeholder alignment and role clarity',
+    questions: [
+      {
+        id: 'stakeholders',
+        text: 'Who are the key stakeholders involved?',
+        type: 'textarea',
+        required: true,
+        placeholder: 'List all relevant parties and their roles...'
       },
       {
-        id: 'evaluation',
-        text: 'How do the options score against your criteria?',
+        id: 'expectations',
+        text: 'What are their expectations?',
         type: 'textarea',
         required: true,
-        placeholder: 'Rate each option against each criterion...'
+        placeholder: 'What does each stakeholder expect or need?'
+      },
+      {
+        id: 'misunderstandings',
+        text: 'Where do misunderstandings or conflicting goals exist?',
+        type: 'textarea',
+        required: true,
+        placeholder: 'Identify areas of confusion or conflicting interests...'
+      },
+      {
+        id: 'transparency',
+        text: 'How will you create transparency around status and decisions?',
+        type: 'textarea',
+        required: true,
+        placeholder: 'What communication mechanisms will you establish?'
+      },
+      {
+        id: 'roles',
+        text: 'How do you ensure everyone understands their role?',
+        type: 'textarea',
+        required: true,
+        placeholder: 'How will you clarify responsibilities and decision rights?'
+      }
+    ]
+  },
+  grow: {
+    id: 'grow',
+    name: 'GROW Model',
+    description: 'Goal-Reality-Options-Will framework for structured reflection',
+    questions: [
+      {
+        id: 'goal',
+        text: 'What is the goal you want to achieve in this situation?',
+        type: 'textarea',
+        required: true,
+        placeholder: 'Be specific about what you want to accomplish...'
+      },
+      {
+        id: 'reality',
+        text: 'What is the current reality?',
+        type: 'textarea',
+        required: true,
+        placeholder: 'Describe the current situation objectively...'
+      },
+      {
+        id: 'options',
+        text: 'What options are available to you?',
+        type: 'textarea',
+        required: true,
+        placeholder: 'Brainstorm different approaches you could take...'
+      },
+      {
+        id: 'will',
+        text: 'Which option will you choose and why?',
+        type: 'textarea',
+        required: true,
+        placeholder: 'Decide on your approach and explain your reasoning...'
+      },
+      {
+        id: 'next_step',
+        text: 'What is your next step?',
+        type: 'textarea',
+        required: true,
+        placeholder: 'Define the specific action you will take first...'
       }
     ]
   }
@@ -178,94 +505,117 @@ export function getCustomizedFramework(frameworkId: string, category: string, su
 
   // Customize questions based on category and subcategory
   if (frameworkId === 'sbi') {
-    if (category === 'feedback') {
-      if (subcategory === 'constructive') {
-        customizedFramework.questions[0].text = 'Describe the specific situation where you observed the behavior that needs addressing';
-        customizedFramework.questions[0].placeholder = 'e.g., During yesterday\'s code review when discussing the API design...';
-        customizedFramework.questions[1].text = 'What specific behavior did you observe that you want to address?';
-        customizedFramework.questions[1].placeholder = 'e.g., They dismissed the security concerns without discussion and pushed back on suggested changes...';
-        customizedFramework.questions[2].text = 'What was the impact of this behavior on you, the team, or the work?';
-        customizedFramework.questions[2].placeholder = 'e.g., The team felt their expertise wasn\'t valued, and we may have security vulnerabilities...';
-        customizedFramework.questions[3].text = 'What positive change do you want to see from this feedback conversation?';
-        customizedFramework.questions[3].placeholder = 'e.g., More collaborative discussion of technical concerns and better security practices...';
-      } else if (subcategory === 'positive') {
-        customizedFramework.questions[0].text = 'Describe the specific situation where you observed excellent performance';
-        customizedFramework.questions[0].placeholder = 'e.g., During the incident response last week when the payment system went down...';
-        customizedFramework.questions[1].text = 'What specific positive behaviors did you observe?';
-        customizedFramework.questions[1].placeholder = 'e.g., They quickly identified the root cause, communicated clearly with stakeholders, and coordinated the fix...';
-        customizedFramework.questions[2].text = 'What was the positive impact of their behavior?';
-        customizedFramework.questions[2].placeholder = 'e.g., We resolved the issue 50% faster than usual, customers were well-informed, and the team felt confident...';
-        customizedFramework.questions[3].text = 'How do you want them to continue or expand on this behavior?';
-        customizedFramework.questions[3].placeholder = 'e.g., Continue taking leadership in incidents and maybe mentor others on incident response...';
-      }
-    } else if (category === 'stakeholder' && subcategory === 'communication') {
-      customizedFramework.questions[0].text = 'Describe the specific communication situation with your stakeholder';
-      customizedFramework.questions[0].placeholder = 'e.g., During the quarterly planning meeting with the product team...';
-      customizedFramework.questions[1].text = 'What communication behaviors do you want to address?';
-      customizedFramework.questions[1].placeholder = 'e.g., They frequently interrupt technical explanations and seem dismissive of engineering constraints...';
-      customizedFramework.questions[2].text = 'How is this communication pattern affecting the relationship and work?';
-      customizedFramework.questions[2].placeholder = 'e.g., Engineering team feels unheard, technical debt is accumulating, and project timelines are unrealistic...';
-      customizedFramework.questions[3].text = 'What improved communication dynamic do you want to achieve?';
-      customizedFramework.questions[3].placeholder = 'e.g., More collaborative planning sessions where technical constraints are respected and discussed...';
+    if (category === 'feedback' && subcategory === 'developmental') {
+      customizedFramework.questions = [
+        {
+          id: 'situation',
+          text: 'What specific situation requires feedback?',
+          type: 'textarea',
+          required: true,
+          placeholder: 'Describe when and where the behavior occurred...'
+        },
+        {
+          id: 'behavior',
+          text: 'What behavior was problematic?',
+          type: 'textarea',
+          required: true,
+          placeholder: 'Focus on specific, observable actions...'
+        },
+        {
+          id: 'impact',
+          text: 'What negative impact did it have on the team or outcomes?',
+          type: 'textarea',
+          required: true,
+          placeholder: 'Explain the consequences of this behavior...'
+        },
+        {
+          id: 'constructive',
+          text: 'How can you phrase feedback constructively and solution-focused?',
+          type: 'textarea',
+          required: true,
+          placeholder: 'Frame the feedback in a way that encourages improvement...'
+        },
+        {
+          id: 'support',
+          text: 'How will you support the person in improving?',
+          type: 'textarea',
+          required: true,
+          placeholder: 'What resources, guidance, or support will you provide?'
+        }
+      ];
     }
-  } else if (frameworkId === 'grow') {
-    if (category === 'feedback' && subcategory === 'difficult') {
-      customizedFramework.questions[0].text = 'What is your goal for this difficult conversation?';
-      customizedFramework.questions[0].placeholder = 'e.g., Address performance issues while maintaining team relationship and motivation...';
-      customizedFramework.questions[1].text = 'What is the current reality of the situation?';
-      customizedFramework.questions[1].placeholder = 'e.g., Team member is missing deadlines, code quality has declined, and other team members are frustrated...';
-      customizedFramework.questions[2].text = 'What obstacles might prevent a successful conversation?';
-      customizedFramework.questions[2].placeholder = 'e.g., They might get defensive, I might avoid being direct enough, or external stressors might be affecting them...';
-      customizedFramework.questions[3].text = 'What options do you have for approaching this conversation?';
-      customizedFramework.questions[3].placeholder = 'e.g., One-on-one meeting, involve HR, focus on specific examples, explore if they need support...';
-      customizedFramework.questions[4].text = 'What specific steps will you take to prepare for and conduct this conversation?';
-      customizedFramework.questions[4].placeholder = 'e.g., Schedule private meeting, prepare specific examples, plan to listen for underlying issues, set clear expectations...';
-    } else if (category === 'stakeholder' && subcategory === 'expectations') {
-      customizedFramework.questions[0].text = 'What is your goal for managing stakeholder expectations?';
-      customizedFramework.questions[0].placeholder = 'e.g., Align on realistic timelines and scope while maintaining trust and support for the engineering team...';
-      customizedFramework.questions[1].text = 'What is the current reality of stakeholder expectations vs. engineering capacity?';
-      customizedFramework.questions[1].placeholder = 'e.g., They expect feature delivery in 2 weeks, but our estimate is 6 weeks due to technical complexity...';
-      customizedFramework.questions[2].text = 'What obstacles exist in aligning expectations?';
-      customizedFramework.questions[2].placeholder = 'e.g., Lack of technical understanding, pressure from their leadership, previous over-promising, market pressures...';
-      customizedFramework.questions[3].text = 'What options do you have for better expectation management?';
-      customizedFramework.questions[3].placeholder = 'e.g., Technical deep-dive sessions, phased delivery approach, involve architect in discussions, create visual roadmaps...';
-      customizedFramework.questions[4].text = 'What specific actions will you take to improve expectation alignment?';
-      customizedFramework.questions[4].placeholder = 'e.g., Schedule technical walkthrough, create detailed project plan, establish regular check-ins, document assumptions...';
-    } else if (category === 'other' && subcategory === 'problem-solving') {
-      customizedFramework.questions[0].text = 'What specific problem or challenge do you want to solve?';
-      customizedFramework.questions[0].placeholder = 'e.g., Team productivity has decreased and morale seems low after the recent reorganization...';
-      customizedFramework.questions[1].text = 'What is the current reality of this problem?';
-      customizedFramework.questions[1].placeholder = 'e.g., Sprint velocity down 30%, more bugs in production, team members seem disengaged in meetings...';
-      customizedFramework.questions[2].text = 'What obstacles or root causes might be contributing to this problem?';
-      customizedFramework.questions[2].placeholder = 'e.g., Unclear new roles, loss of team identity, increased context switching, communication gaps...';
-      customizedFramework.questions[3].text = 'What options do you have for addressing this problem?';
-      customizedFramework.questions[3].placeholder = 'e.g., Team retrospective, one-on-ones with each member, clarify roles and responsibilities, team building activities...';
-      customizedFramework.questions[4].text = 'What specific actions will you take to solve this problem?';
-      customizedFramework.questions[4].placeholder = 'e.g., Schedule team retrospective this week, conduct individual check-ins, create role clarity document, plan team lunch...';
+  } else if (frameworkId === 'mediation') {
+    if (category === 'conflict' && subcategory === 'between-team-members') {
+      customizedFramework.questions = [
+        {
+          id: 'root_cause',
+          text: 'What is the root cause of the conflict between the parties?',
+          type: 'textarea',
+          required: true,
+          placeholder: 'Look beyond surface issues to underlying causes...'
+        },
+        {
+          id: 'team_impact',
+          text: 'How is this conflict impacting daily team dynamics?',
+          type: 'textarea',
+          required: true,
+          placeholder: 'Describe the effect on team collaboration and morale...'
+        },
+        {
+          id: 'moderator_role',
+          text: 'What role should you take as a moderator?',
+          type: 'textarea',
+          required: true,
+          placeholder: 'How will you facilitate resolution while staying neutral?'
+        },
+        {
+          id: 'resolution_steps',
+          text: 'What steps can each side take towards resolution?',
+          type: 'textarea',
+          required: true,
+          placeholder: 'What actions can each party commit to?'
+        },
+        {
+          id: 'future_collaboration',
+          text: 'How will you ensure the team collaborates effectively afterwards?',
+          type: 'textarea',
+          required: true,
+          placeholder: 'What ongoing measures will prevent future conflicts?'
+        }
+      ];
     }
-  } else if (frameworkId === 'decision-matrix') {
-    if (category === 'decision' && subcategory === 'complex') {
-      customizedFramework.questions[0].text = 'What complex decision needs to be made?';
-      customizedFramework.questions[0].placeholder = 'e.g., Choose the architecture approach for our new microservices platform...';
-      customizedFramework.questions[1].text = 'What are the key criteria for evaluating this complex decision?';
-      customizedFramework.questions[1].placeholder = 'e.g., Scalability, development speed, team expertise, maintenance cost, integration complexity, future flexibility...';
-      customizedFramework.questions[2].text = 'What are all the viable options you\'re considering?';
-      customizedFramework.questions[2].placeholder = 'e.g., Event-driven architecture, REST-based services, GraphQL federation, hybrid approach...';
-      customizedFramework.questions[3].text = 'Who are the key stakeholders that will be affected by this decision?';
-      customizedFramework.questions[3].placeholder = 'e.g., Development teams, DevOps, Product managers, QA team, future engineers who will maintain this...';
-      customizedFramework.questions[4].text = 'How do you evaluate each option against your criteria?';
-      customizedFramework.questions[4].placeholder = 'e.g., Rate each architecture option 1-5 on scalability, development speed, etc. Include reasoning for each score...';
-    } else if (category === 'decision' && subcategory === 'urgent') {
-      customizedFramework.questions[0].text = 'What urgent decision needs to be made and by when?';
-      customizedFramework.questions[0].placeholder = 'e.g., Choose incident response approach for the current production outage - decision needed within 30 minutes...';
-      customizedFramework.questions[1].text = 'What are the most critical criteria for this urgent decision?';
-      customizedFramework.questions[1].placeholder = 'e.g., Time to resolution, risk of making it worse, resource availability, customer impact...';
-      customizedFramework.questions[2].text = 'What are your immediate options?';
-      customizedFramework.questions[2].placeholder = 'e.g., Rollback to previous version, apply hotfix, scale up infrastructure, redirect traffic...';
-      customizedFramework.questions[3].text = 'Who needs to be involved in or informed about this urgent decision?';
-      customizedFramework.questions[3].placeholder = 'e.g., On-call engineer, DevOps lead, Product manager, Customer support, Executive team...';
-      customizedFramework.questions[4].text = 'How do you quickly evaluate the options given the time constraint?';
-      customizedFramework.questions[4].placeholder = 'e.g., Rollback: Low risk, 5min implementation. Hotfix: Medium risk, 20min implementation. Consider impact vs. speed...';
+  } else if (frameworkId === 'raci') {
+    if (category === 'stakeholder' && subcategory === 'alignment-with-leadership') {
+      customizedFramework.questions = [
+        {
+          id: 'purpose',
+          text: 'What is the purpose of this alignment?',
+          type: 'textarea',
+          required: true,
+          placeholder: 'Why do you need to align with leadership on this topic?'
+        },
+        {
+          id: 'decision_needed',
+          text: 'What decision or approval do you need?',
+          type: 'textarea',
+          required: true,
+          placeholder: 'Be specific about what you need from leadership...'
+        },
+        {
+          id: 'information',
+          text: 'What information or data must you provide?',
+          type: 'textarea',
+          required: true,
+          placeholder: 'What context and evidence will support your case?'
+        },
+        {
+          id: 'clear_argument',
+          text: 'How will you ensure your argumentation is clear and evidence-based?',
+          type: 'textarea',
+          required: true,
+          placeholder: 'How will you structure your presentation and reasoning?'
+        }
+      ];
     }
   }
 
@@ -280,74 +630,84 @@ export const decisionTree: DecisionTreeNode = {
   question: 'What type of leadership challenge are you facing?',
   options: [
     {
-      text: 'Giving or receiving feedback',
-      next: 'feedback'
+      text: 'Conflict - Tensions or disagreements within the team or with individuals',
+      next: 'conflict',
+      category: 'conflict'
     },
     {
-      text: 'Resolving a conflict',
-      next: 'conflict'
+      text: 'Feedback - Preparation for feedback or performance conversations',
+      next: 'feedback',
+      category: 'feedback'
     },
     {
-      text: 'Making a decision',
-      next: 'decision'
+      text: 'Decision - Making an important technical or organizational decision',
+      next: 'decision',
+      category: 'decision'
     },
     {
-      text: 'Managing stakeholders',
-      next: 'stakeholder'
+      text: 'Stakeholder - Managing communication and expectations with stakeholders or leadership',
+      next: 'stakeholder',
+      category: 'stakeholder'
     },
     {
-      text: 'Other leadership challenge',
-      next: 'other'
+      text: 'Team dynamics - Improving collaboration, engagement, or clarity within the team',
+      next: 'team-dynamics',
+      category: 'team-dynamics'
+    },
+    {
+      text: 'Other - Free-form reflection for situations that don\'t fit standard categories',
+      next: 'other',
+      category: 'other'
     }
   ]
 };
 
 export const decisionTreeNodes: Record<string, DecisionTreeNode> = {
-  feedback: {
-    id: 'feedback',
-    question: 'What type of feedback situation?',
-    options: [
-      {
-        text: 'Giving constructive feedback',
-        framework: 'sbi',
-        category: 'feedback',
-        subcategory: 'constructive'
-      },
-      {
-        text: 'Giving positive feedback',
-        framework: 'sbi',
-        category: 'feedback',
-        subcategory: 'positive'
-      },
-      {
-        text: 'Having a difficult conversation',
-        framework: 'grow',
-        category: 'feedback',
-        subcategory: 'difficult'
-      }
-    ]
-  },
   conflict: {
     id: 'conflict',
     question: 'What type of conflict situation?',
     options: [
       {
-        text: 'Team members disagreeing',
+        text: 'With team member',
         framework: 'mediation',
         category: 'conflict',
-        subcategory: 'team-conflict'
+        subcategory: 'with-team-member'
+      },
+      {
+        text: 'Between team members',
+        framework: 'mediation',
+        category: 'conflict',
+        subcategory: 'between-team-members'
       },
       {
         text: 'Cross-team conflict',
-        framework: 'mediation',
+        framework: 'interest-based-negotiation',
         category: 'conflict',
         subcategory: 'cross-team-conflict'
+      }
+    ]
+  },
+  feedback: {
+    id: 'feedback',
+    question: 'What type of feedback situation?',
+    options: [
+      {
+        text: 'Positive feedback',
+        framework: 'sbi',
+        category: 'feedback',
+        subcategory: 'positive'
       },
       {
-        text: 'Resource or priority disputes',
-        framework: 'mediation',
-        category: 'conflict',
-        subcategory: 'resource-conflict'
+        text: 'Developmental feedback',
+        framework: 'sbi',
+        category: 'feedback',
+        subcategory: 'developmental'
+      },
+      {
+        text: 'Peer-to-peer feedback facilitation',
+        framework: 'feedforward-coaching',
+        category: 'feedback',
+        subcategory: 'peer-to-peer-feedback-facilitation'
       }
     ]
   },
@@ -356,16 +716,22 @@ export const decisionTreeNodes: Record<string, DecisionTreeNode> = {
     question: 'What kind of decision?',
     options: [
       {
-        text: 'Complex decision with multiple options',
+        text: 'Operational (Team)',
         framework: 'decision-matrix',
         category: 'decision',
-        subcategory: 'complex'
+        subcategory: 'operational'
       },
       {
-        text: 'Quick decision needed',
-        framework: 'decision-matrix',
+        text: 'Strategic (Domain/Organization)',
+        framework: 'pros-cons',
         category: 'decision',
-        subcategory: 'urgent'
+        subcategory: 'strategic'
+      },
+      {
+        text: 'Ownership/Accountability gaps',
+        framework: 'responsibility-mapping',
+        category: 'decision',
+        subcategory: 'ownership-accountability-gaps'
       }
     ]
   },
@@ -374,16 +740,34 @@ export const decisionTreeNodes: Record<string, DecisionTreeNode> = {
     question: 'What stakeholder challenge?',
     options: [
       {
-        text: 'Managing expectations',
-        framework: 'grow',
+        text: 'Expectation management',
+        framework: 'raci',
         category: 'stakeholder',
-        subcategory: 'expectations'
+        subcategory: 'expectation-management'
       },
       {
-        text: 'Improving communication',
-        framework: 'sbi',
+        text: 'Alignment with leadership',
+        framework: 'alignment-canvas',
         category: 'stakeholder',
-        subcategory: 'communication'
+        subcategory: 'alignment-with-leadership'
+      }
+    ]
+  },
+  'team-dynamics': {
+    id: 'team-dynamics',
+    question: 'What team dynamics challenge?',
+    options: [
+      {
+        text: 'Ownership clarity',
+        framework: 'delegation-empowerment',
+        category: 'team-dynamics',
+        subcategory: 'ownership-clarity'
+      },
+      {
+        text: 'Team health check',
+        framework: 'five-dysfunctions',
+        category: 'team-dynamics',
+        subcategory: 'team-health-check'
       }
     ]
   },
@@ -392,16 +776,10 @@ export const decisionTreeNodes: Record<string, DecisionTreeNode> = {
     question: 'What would be most helpful?',
     options: [
       {
-        text: 'Structured problem-solving',
+        text: 'Free reflection',
         framework: 'grow',
         category: 'other',
-        subcategory: 'problem-solving'
-      },
-      {
-        text: 'Reflection and planning',
-        framework: 'grow',
-        category: 'other',
-        subcategory: 'reflection'
+        subcategory: 'free-reflection'
       }
     ]
   }

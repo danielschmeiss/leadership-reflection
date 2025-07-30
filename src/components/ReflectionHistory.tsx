@@ -40,6 +40,7 @@ export function ReflectionHistory({ reflections, onEdit, onDelete }: ReflectionH
     { value: 'conflict', label: 'Conflict' },
     { value: 'decision', label: 'Decision' },
     { value: 'stakeholder', label: 'Stakeholder' },
+    { value: 'team-dynamics', label: 'Team Dynamics' },
     { value: 'other', label: 'Other' }
   ];
 

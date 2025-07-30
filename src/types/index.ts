@@ -11,9 +11,9 @@ export interface Situation {
   problemDescription?: string;
 }
 
-export type SituationCategory = 'conflict' | 'feedback' | 'decision' | 'stakeholder' | 'other';
+export type SituationCategory = 'conflict' | 'feedback' | 'decision' | 'stakeholder' | 'team-dynamics' | 'other';
 
-export type FrameworkType = 'sbi' | 'grow' | 'mediation' | 'decision-matrix' | 'raci' | 'pros-cons';
+export type FrameworkType = 'sbi' | 'grow' | 'mediation' | 'decision-matrix' | 'raci' | 'pros-cons' | 'interest-based-negotiation' | 'feedforward-coaching' | 'responsibility-mapping' | 'alignment-canvas' | 'delegation-empowerment' | 'five-dysfunctions';
 
 export interface Framework {
   id: FrameworkType;

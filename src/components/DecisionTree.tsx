@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronRight, Target, Users, MessageSquare, GitBranch, HelpCircle, Info, Lightbulb } from 'lucide-react';
+import { ChevronRight, Target, Users, MessageSquare, GitBranch, HelpCircle, Info, Lightbulb, Zap } from 'lucide-react';
 import { decisionTree, decisionTreeNodes } from '../data/frameworks';
 import { DecisionTreeNode, FrameworkType, SituationCategory } from '../types';
 
@@ -13,6 +13,8 @@ const getCategoryIcon = (category: string) => {
     case 'conflict': return <Users className="w-5 h-5" />;
     case 'decision': return <Target className="w-5 h-5" />;
     case 'stakeholder': return <GitBranch className="w-5 h-5" />;
+    case 'team-dynamics': return <Users className="w-5 h-5" />;
+    case 'other': return <Zap className="w-5 h-5" />;
     default: return <HelpCircle className="w-5 h-5" />;
   }
 };
@@ -23,6 +25,12 @@ const getFrameworkDescription = (framework: FrameworkType) => {
     case 'grow': return 'Ideal for coaching conversations and helping others find their own solutions through guided questions.';
     case 'mediation': return 'Structured approach to resolve conflicts by understanding all parties\' interests and finding win-win solutions.';
     case 'decision-matrix': return 'Systematic evaluation of options against key criteria to make well-informed decisions.';
+    case 'interest-based-negotiation': return 'Framework for resolving cross-team conflicts by focusing on underlying interests rather than positions.';
+    case 'feedforward-coaching': return 'Future-focused approach to peer feedback that emphasizes constructive suggestions for improvement.';
+    case 'responsibility-mapping': return 'Clear framework for defining roles and responsibilities using RACI methodology.';
+    case 'alignment-canvas': return 'Structured approach for preparing and conducting alignment conversations with leadership.';
+    case 'delegation-empowerment': return 'Framework for effectively delegating tasks and empowering team members to take ownership.';
+    case 'five-dysfunctions': return 'Comprehensive assessment tool for identifying and addressing team health issues.';
     default: return '';
   }
 };
@@ -33,25 +41,32 @@ const getExampleScenarios = (category: string) => {
       return [
         'A team member consistently misses deadlines',
         'Someone did excellent work on a challenging project',
-        'Need to address communication issues in meetings'
+        'Need to address communication issues in meetings',
+        'Facilitating feedback between two team members'
       ];
     case 'conflict':
       return [
         'Two team members disagree on technical approach',
-        'Tension between teams over resource allocation',
-        'Personality clash affecting team dynamics'
+        'Tension between frontend and backend teams',
+        'Cross-team conflict over API design decisions'
       ];
     case 'decision':
       return [
         'Choosing between multiple technical solutions',
-        'Deciding on team structure changes',
-        'Prioritizing competing project demands'
+        'Strategic decision about technology stack',
+        'Unclear ownership causing project delays'
       ];
     case 'stakeholder':
       return [
         'Managing expectations with product managers',
-        'Communicating delays to leadership',
-        'Aligning multiple teams on shared goals'
+        'Getting leadership buy-in for technical debt work',
+        'Aligning on quarterly priorities with leadership'
+      ];
+    case 'team-dynamics':
+      return [
+        'Team members unclear about their responsibilities',
+        'Low trust and poor collaboration within team',
+        'Need to delegate more effectively to team leads'
       ];
     default:
       return [];
@@ -167,9 +182,9 @@ export function DecisionTree({ onFrameworkSelected }: DecisionTreeProps) {
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  {option.category && (
+                  {(option.category || option.next) && (
                     <div className="text-blue-600">
-                      {getCategoryIcon(option.category)}
+                      {option.category ? getCategoryIcon(option.category) : getCategoryIcon(option.next || '')}
                     </div>
                   )}
                   <div>

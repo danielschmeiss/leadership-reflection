@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrowLeft, Shield, Download, HelpCircle } from 'lucide-react';
+import { Logo } from './Logo';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -27,6 +28,7 @@ export function Layout({ children, title, showBack = false, onBack, actions, hel
                   <ArrowLeft className="w-5 h-5 text-slate-600" />
                 </button>
               )}
+              <Logo size="sm" />
               <h1 className="text-2xl font-bold text-slate-900">{title}</h1>
             </div>
             
@@ -39,15 +41,6 @@ export function Layout({ children, title, showBack = false, onBack, actions, hel
             </div>
           </div>
           
-          {helpText && (
-            <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-              <div className="flex items-start gap-2">
-                <HelpCircle className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
-                <p className="text-sm text-blue-800">{helpText}</p>
-              </div>
-            </div>
-          )}
-          
           <div className="h-1 bg-gradient-to-r from-blue-600 via-teal-500 to-orange-400 rounded-full"></div>
         </header>
 
@@ -58,7 +51,7 @@ export function Layout({ children, title, showBack = false, onBack, actions, hel
 
         {/* Footer */}
         <footer className="mt-12 text-center text-sm text-slate-500">
-          <p>Leadership Reflection Tool • Privacy-focused • Data stored locally</p>
+          <p>Reflect & Act • Privacy-focused • Data stored locally</p>
         </footer>
       </div>
     </div>

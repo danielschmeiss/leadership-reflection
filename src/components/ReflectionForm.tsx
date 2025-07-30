@@ -52,6 +52,130 @@ export function ReflectionForm({ framework, problemDescription, onSave, onCancel
 
   const getQuestionHelp = (questionId: string, frameworkId: string) => {
     const helpContent: Record<string, Record<string, { tip: string; example: string }>> = {
+      'interest-based-negotiation': {
+        teams_priorities: {
+          tip: "List each team involved and their main objectives. Focus on what they're trying to achieve, not their positions.",
+          example: "Frontend team: Fast user experience, clean UI components. Backend team: Scalable architecture, maintainable APIs. Both want: On-time delivery, quality code."
+        },
+        alignment_conflicts: {
+          tip: "Identify where teams share common goals and where their priorities create tension or competing demands.",
+          example: "Alignment: Both want quality and timely delivery. Conflict: Frontend wants simple APIs, Backend wants flexible, future-proof design."
+        },
+        constraints_pressures: {
+          tip: "Consider external factors affecting each team's positions - deadlines, resources, organizational pressures, technical debt.",
+          example: "Frontend under pressure from product for quick iterations. Backend dealing with legacy system constraints and upcoming compliance requirements."
+        },
+        shared_problem: {
+          tip: "Reframe the conflict as a challenge that affects everyone, focusing on shared outcomes rather than individual team positions.",
+          example: "Instead of 'Frontend vs Backend API design,' frame as 'How can we deliver great user experience while maintaining system scalability?'"
+        },
+        mutual_benefit: {
+          tip: "Look for solutions that address core needs of all parties, not just splitting the difference between positions.",
+          example: "Phased API approach: Start with simple endpoints for quick wins, then iterate toward more flexible design as requirements clarify."
+        }
+      },
+      'feedforward-coaching': {
+        peer_feedback: {
+          tip: "Describe the feedback situation objectively, focusing on the behavior and context rather than personalities.",
+          example: "Sarah needs to give feedback to Mike about interrupting during code reviews, but wants to maintain their collaborative relationship."
+        },
+        future_advice: {
+          tip: "Focus on specific, actionable suggestions for improvement rather than dwelling on past mistakes.",
+          example: "Suggest: 'Try asking clarifying questions before offering solutions' rather than 'You always jump to conclusions.'"
+        },
+        constructive_framing: {
+          tip: "Frame feedback in terms of impact and future success, avoiding blame or personal criticism.",
+          example: "Frame as: 'To help our code reviews be more effective...' rather than 'You have a problem with...'"
+        },
+        follow_up: {
+          tip: "Define specific, measurable ways to track improvement and provide ongoing support.",
+          example: "Schedule weekly check-ins for a month, observe next 3 code reviews, ask for peer feedback on improvement."
+        }
+      },
+      'responsibility-mapping': {
+        unclear_ownership: {
+          tip: "List specific tasks, decisions, or outcomes where it's unclear who should take the lead or make the call.",
+          example: "API design decisions, deployment approvals, bug triage prioritization, cross-team dependency coordination."
+        },
+        raci_mapping: {
+          tip: "For each unclear area, define who is Responsible (does the work), Accountable (makes decisions), Consulted (provides input), Informed (needs updates).",
+          example: "API design: Backend lead (R), Tech lead (A), Frontend team (C), Product manager (I)."
+        },
+        overlaps_gaps: {
+          tip: "Identify where multiple people think they're responsible (overlap) or where no one is taking ownership (gap).",
+          example: "Overlap: Both senior devs think they own architecture decisions. Gap: No one owns cross-team communication."
+        },
+        clarify_ownership: {
+          tip: "Plan how to communicate the new ownership structure clearly and get buy-in from all involved parties.",
+          example: "Team meeting to present RACI, individual conversations with affected people, document in team wiki, trial period with feedback."
+        },
+        prevent_ambiguity: {
+          tip: "Establish ongoing processes to maintain clarity as the team and responsibilities evolve.",
+          example: "Monthly ownership review, RACI updates during sprint planning, new team member onboarding checklist."
+        }
+      },
+      'alignment-canvas': {
+        alignment_purpose: {
+          tip: "Be clear about why this alignment conversation is needed and what success looks like.",
+          example: "Need leadership support for technical debt sprint because current pace is unsustainable and affecting team morale."
+        },
+        decision_approval: {
+          tip: "Specify exactly what you need from leadership - approval, resources, decision, or just awareness.",
+          example: "Need approval to dedicate 30% of next quarter's capacity to technical debt and infrastructure improvements."
+        },
+        information_data: {
+          tip: "Gather concrete evidence and context that leadership needs to make an informed decision.",
+          example: "Performance metrics showing 40% increase in bug reports, developer survey showing frustration, time spent on maintenance vs features."
+        },
+        clear_argumentation: {
+          tip: "Structure your case logically with clear problem statement, evidence, proposed solution, and expected outcomes.",
+          example: "Problem: Technical debt slowing delivery. Evidence: Metrics and team feedback. Solution: Dedicated tech debt time. Outcome: Faster feature delivery."
+        }
+      },
+      'delegation-empowerment': {
+        ownership_confusion: {
+          tip: "List specific tasks or areas where team members are unclear about who should take the lead or make decisions.",
+          example: "Code review standards, deployment procedures, customer bug escalation, new feature scoping, junior developer mentoring."
+        },
+        delegatable_decisions: {
+          tip: "Identify decisions you're currently making that could be handled by team members with proper context and boundaries.",
+          example: "Technical implementation choices, code review approval for small changes, sprint task prioritization, tool selection for team use."
+        },
+        best_suited_owners: {
+          tip: "Match tasks to people based on their skills, interests, and development goals, not just availability.",
+          example: "Senior dev owns architecture decisions, mid-level dev owns code standards, junior dev owns documentation with mentorship."
+        },
+        empowerment_approach: {
+          tip: "Define how you'll provide context, boundaries, and support without micromanaging their approach.",
+          example: "Provide clear success criteria, regular check-ins, access to resources, and permission to make mistakes and learn."
+        },
+        accountability_tracking: {
+          tip: "Establish clear, measurable ways to track progress and outcomes without hovering over day-to-day work.",
+          example: "Weekly progress updates, monthly outcome reviews, peer feedback sessions, clear escalation criteria."
+        }
+      },
+      'five-dysfunctions': {
+        trust_level: {
+          tip: "Assess whether team members feel safe to be vulnerable, admit mistakes, and ask for help without fear of judgment.",
+          example: "Do people admit when they don't know something? Do they ask for help? Do they acknowledge mistakes openly in meetings?"
+        },
+        conflict_handling: {
+          tip: "Evaluate whether the team engages in productive debate about ideas or avoids difficult conversations.",
+          example: "Do people challenge ideas in meetings? Do technical disagreements get resolved openly? Do people avoid giving honest feedback?"
+        },
+        commitment_strength: {
+          tip: "Determine if team members truly buy into decisions and goals, even when they initially disagreed.",
+          example: "After decisions are made, do people follow through enthusiastically? Do they support decisions publicly even if they disagreed privately?"
+        },
+        accountability_clarity: {
+          tip: "Check whether team members hold each other accountable for commitments and standards, not just you as the leader.",
+          example: "Do team members call out missed deadlines? Do they address quality issues with each other? Do they enforce team agreements?"
+        },
+        results_focus: {
+          tip: "Assess whether the team prioritizes collective success over individual recognition or departmental goals.",
+          example: "Do people celebrate team wins over individual achievements? Do they make decisions based on team success rather than personal advancement?"
+        }
+      },
       sbi: {
         situation: {
           tip: "Be specific about when and where this happened. Context helps the other person understand and remember the situation.",
@@ -65,9 +189,17 @@ export function ReflectionForm({ framework, problemDescription, onSave, onCancel
           tip: "Explain the effect on you, the team, or the work. Be honest about how it made you feel or what it caused.",
           example: "This made Sarah seem frustrated, and we didn't get her full input on the technical approach, which could lead to implementation issues later."
         },
-        desired_outcome: {
-          tip: "Be clear about what you want to achieve. Focus on future behavior and positive outcomes.",
-          example: "I'd like us to create space for everyone to share their expertise fully, so we make better technical decisions as a team."
+        reinforcement: {
+          tip: "Think about specific actions you can take to encourage this positive behavior to continue.",
+          example: "I'll mention this in our next team meeting as a great example, and I'll make sure to create more opportunities for collaborative problem-solving."
+        },
+        constructive: {
+          tip: "Frame the feedback in a way that focuses on improvement and solutions rather than blame or criticism.",
+          example: "Instead of 'You always interrupt,' try 'I'd love to hear everyone's full thoughts before we move to solutions.'"
+        },
+        support: {
+          tip: "Think about concrete ways you can help the person improve, such as resources, training, or ongoing guidance.",
+          example: "I can pair you with Sarah for the next few code reviews to practice collaborative discussion techniques."
         }
       },
       grow: {
@@ -79,61 +211,125 @@ export function ReflectionForm({ framework, problemDescription, onSave, onCancel
           tip: "Be honest about the current situation. What's working? What isn't? What are the facts?",
           example: "Currently, PRs sit for 2-3 days on average. Team members say they're too busy with feature work to prioritize reviews."
         },
-        obstacles: {
-          tip: "Identify what's preventing progress. Include both external barriers and internal challenges.",
-          example: "Heavy feature workload, no clear review assignment process, reviews aren't prioritized in sprint planning."
-        },
         options: {
           tip: "Brainstorm multiple approaches without judging them initially. Think creatively about solutions.",
           example: "Assign review buddies, add review time to sprint capacity, implement review rotation, set up automated reminders."
         },
-        way_forward: {
+        will: {
           tip: "Choose specific, actionable steps with clear timelines and ownership. What will you do first?",
           example: "This week: Discuss with team in retro. Next week: Implement buddy system pilot. Month 1: Measure and adjust."
+        },
+        next_step: {
+          tip: "Define the very first concrete action you will take, with a specific timeline.",
+          example: "Tomorrow morning: Schedule 30-minute team discussion for Friday's retro to present the review buddy system idea."
         }
       },
       mediation: {
-        parties: {
-          tip: "List everyone involved or affected. Use roles instead of names to maintain privacy.",
-          example: "Senior Frontend Developer, Backend Team Lead, Product Manager, and the broader development team."
+        situation: {
+          tip: "Describe the triggering event or ongoing issue objectively, without taking sides or assigning blame.",
+          example: "During yesterday's architecture review, tensions escalated when the frontend and backend teams disagreed about API design approach."
         },
-        issue: {
-          tip: "Focus on the underlying problem, not just the symptoms. What's really at stake here?",
-          example: "Disagreement about API design approach is causing delays and tension between frontend and backend teams."
+        your_interests: {
+          tip: "Focus on what you really need or care about in this situation, not your position or preferred solution.",
+          example: "I need the teams to work collaboratively, make good technical decisions together, and maintain mutual respect."
         },
-        interests: {
-          tip: "Look beyond positions to understand what each person really needs or cares about.",
-          example: "Frontend dev wants predictable, easy-to-use APIs. Backend lead wants maintainable, scalable architecture. Both want to deliver quality work on time."
-        },
-        common_ground: {
-          tip: "Find shared values, goals, or concerns that everyone can agree on.",
-          example: "Everyone wants to deliver a great user experience, maintain code quality, and work collaboratively."
+        their_interests: {
+          tip: "Try to understand what each party really needs, beyond their stated positions. Look for underlying concerns.",
+          example: "Frontend team needs predictable, easy-to-use APIs. Backend team needs maintainable, scalable architecture. Both want to deliver quality work."
         },
         solutions: {
-          tip: "Generate options that address everyone's core interests, not just compromise positions.",
-          example: "Create API design sessions with both teams, establish shared documentation standards, implement gradual rollout for testing."
+          tip: "Generate options that could address everyone's underlying interests, not just compromise between positions.",
+          example: "Joint API design sessions, shared documentation standards, prototype-and-iterate approach, cross-team pairing."
+        },
+        common_ground: {
+          tip: "Identify shared values, goals, or concerns that everyone can agree on as a foundation for resolution.",
+          example: "Everyone wants to deliver great user experience, maintain code quality, and work in a collaborative environment."
+        },
+        root_cause: {
+          tip: "Look beyond the surface disagreement to understand the deeper issues causing the conflict.",
+          example: "Surface: Disagreement about API design. Root cause: Lack of shared understanding about user needs and technical constraints."
+        },
+        team_impact: {
+          tip: "Describe specific ways the conflict is affecting daily work, team morale, and productivity.",
+          example: "Daily standups are tense, people are avoiding cross-team collaboration, and feature delivery is delayed by API disagreements."
+        },
+        moderator_role: {
+          tip: "Define how you'll facilitate resolution while staying neutral and helping both sides communicate effectively.",
+          example: "I'll facilitate a structured discussion, ensure both sides are heard, help identify shared goals, and guide toward win-win solutions."
+        },
+        resolution_steps: {
+          tip: "Identify specific, actionable commitments each party can make to move toward resolution.",
+          example: "Frontend team: Share user stories and UI mockups. Backend team: Explain technical constraints. Both: Attend joint design sessions."
+        },
+        future_collaboration: {
+          tip: "Plan ongoing practices to prevent similar conflicts and maintain good working relationships.",
+          example: "Monthly cross-team design reviews, shared Slack channel for API discussions, joint retrospectives on collaboration."
         }
       },
       'decision-matrix': {
-        decision: {
-          tip: "Frame the decision clearly. What exactly needs to be decided and by when?",
-          example: "Choose the primary technology stack for our new microservices architecture, decision needed by end of month."
+        options: {
+          tip: "List all viable alternatives you're considering, including creative options you might not have fully explored yet.",
+          example: "Node.js with Express, Python with FastAPI, Java with Spring Boot, Go with Gin, hybrid approach with multiple services."
         },
         criteria: {
-          tip: "List the factors that matter most for this decision. Consider both technical and business aspects.",
-          example: "Development speed, scalability, team expertise, maintenance cost, integration complexity, community support."
+          tip: "Define the factors that matter most for this decision, considering both technical and business aspects.",
+          example: "Development speed, scalability, team expertise, maintenance cost, integration complexity, community support, hiring availability."
         },
+        scoring: {
+          tip: "Rate each option against each criterion objectively using a consistent scale (e.g., 1-5), and consider weighting criteria by importance.",
+          example: "Node.js: Development speed (4), Scalability (3), Team expertise (5), Maintenance cost (4). Weight: Development speed x2, Scalability x3."
+        },
+        best_option: {
+          tip: "Calculate which option has the highest weighted score, but also consider qualitative factors that numbers might miss.",
+          example: "Python scores highest (weighted total: 87), but Node.js is close (82) and has better team expertise. Consider team preference and learning curve."
+        },
+        risks: {
+          tip: "For your chosen option, identify what could go wrong and how you might prevent or mitigate these risks.",
+          example: "Risk: Team lacks Python expertise. Mitigation: Training budget, hire senior Python dev, start with pilot project, pair programming."
+        }
+      },
+      'pros-cons': {
         options: {
-          tip: "Include all viable alternatives, even if some seem less likely. Don't eliminate options too early.",
-          example: "Node.js with Express, Python with FastAPI, Java with Spring Boot, Go with Gin framework."
+          tip: "List the strategic alternatives you're considering, focusing on significantly different approaches rather than minor variations.",
+          example: "Build in-house platform, adopt existing SaaS solution, hybrid approach with core in-house and integrations, partner with vendor for custom solution."
+        },
+        advantages: {
+          tip: "For each option, list the benefits and positive outcomes, considering both immediate and long-term advantages.",
+          example: "In-house: Full control, custom features, no vendor lock-in, team learning. SaaS: Fast implementation, proven reliability, ongoing support."
+        },
+        disadvantages: {
+          tip: "Honestly assess the drawbacks and potential negative consequences of each option, including hidden costs.",
+          example: "In-house: High development cost, ongoing maintenance burden, longer time to market. SaaS: Limited customization, monthly costs, data dependency."
+        },
+        alignment: {
+          tip: "Consider how each option fits with your organization's long-term strategy, values, and technical direction.",
+          example: "In-house aligns with our platform strategy and engineering growth goals. SaaS aligns with our speed-to-market and focus-on-core-business priorities."
         },
         stakeholders: {
-          tip: "Consider who will be affected by this decision and who should have input.",
-          example: "Development team, DevOps team, Product Manager, Engineering Director, and future team members who'll maintain this."
+          tip: "Identify who needs to be involved in or informed about this decision, considering both technical and business stakeholders.",
+          example: "Engineering team, Product leadership, Finance (for budget), Legal (for vendor contracts), Customer Success (for user impact)."
+        }
+      },
+      raci: {
+        stakeholders: {
+          tip: "List all people or groups who are involved in or affected by this situation, including their current roles.",
+          example: "Product Manager, Engineering Team Lead, Frontend Developers, Backend Developers, QA Team, DevOps Engineer, Engineering Director."
         },
-        evaluation: {
-          tip: "Rate each option against each criterion objectively. Use a consistent scale (e.g., 1-5).",
-          example: "Node.js: Development speed (4), Scalability (3), Team expertise (5), Maintenance cost (4)..."
+        expectations: {
+          tip: "For each stakeholder, describe what they expect or need from this situation or project.",
+          example: "Product Manager expects clear timelines and regular updates. Developers expect clear requirements and technical autonomy. QA expects testable features."
+        },
+        misunderstandings: {
+          tip: "Identify specific areas where stakeholders have different assumptions or conflicting goals.",
+          example: "Product thinks 'done' means feature-complete. Engineering thinks 'done' includes performance testing. QA thinks 'done' includes full regression testing."
+        },
+        transparency: {
+          tip: "Define specific communication mechanisms and schedules to keep everyone informed about progress and decisions.",
+          example: "Weekly status emails, bi-weekly stakeholder demos, shared project dashboard, Slack updates for blockers, monthly retrospectives."
+        },
+        roles: {
+          tip: "Use RACI framework to clarify who is Responsible, Accountable, Consulted, and Informed for key decisions and tasks.",
+          example: "Feature prioritization: Product Manager (A), Engineering Lead (C), Team (I). Technical implementation: Senior Dev (R), Tech Lead (A), Product (I)."
         }
       }
     };
@@ -162,6 +358,16 @@ export function ReflectionForm({ framework, problemDescription, onSave, onCancel
         "Weight your criteria by importance before evaluating options",
         "Get input from others to avoid blind spots",
         "Consider both short-term and long-term implications"
+      ],
+      'delegation-empowerment': [
+        "Start with clear expectations and boundaries for delegated tasks",
+        "Match tasks to people's strengths and development goals",
+        "Provide support without micromanaging - check in regularly but don't hover"
+      ],
+      raci: [
+        "Focus on clarity over perfection - roles can be adjusted as you learn",
+        "Get stakeholder buy-in on the RACI assignments before implementing",
+        "Use this as a communication tool, not just a documentation exercise"
       ]
     };
 
@@ -212,6 +418,38 @@ export function ReflectionForm({ framework, problemDescription, onSave, onCancel
                   ))}
                 </ul>
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* Previous Questions and Answers */}
+        {currentQuestionIndex > 0 && (
+          <div className="mb-8 space-y-4">
+            <h3 className="text-lg font-medium text-slate-900 mb-4">Your Previous Responses</h3>
+            {framework.questions.slice(0, currentQuestionIndex).map((question, index) => (
+              <div key={question.id} className="bg-slate-50 border border-slate-200 rounded-lg p-4">
+                <div className="flex items-start gap-3 mb-3">
+                  <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-medium flex-shrink-0">
+                    {index + 1}
+                  </div>
+                  <h4 className="font-medium text-slate-900 text-sm">
+                    {question.text}
+                  </h4>
+                </div>
+                <div className="ml-9">
+                  <p className="text-slate-700 text-sm whitespace-pre-wrap bg-white p-3 rounded border">
+                    {responses[question.id] || 'No response'}
+                  </p>
+                </div>
+              </div>
+            ))}
+            <div className="border-t border-slate-300 pt-6 mt-6">
+              <h3 className="text-lg font-medium text-slate-900 mb-2 flex items-center gap-2">
+                <div className="w-6 h-6 bg-teal-600 text-white rounded-full flex items-center justify-center text-sm font-medium">
+                  {currentQuestionIndex + 1}
+                </div>
+                Current Question
+              </h3>
             </div>
           </div>
         )}
