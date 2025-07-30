@@ -1,5 +1,5 @@
 import React from 'react';
-import { Plus, BookOpen, TrendingUp, Clock, Shield, Target, Users, MessageSquare, GitBranch, AlertTriangle, CheckCircle, ArrowRight, HelpCircle } from 'lucide-react';
+import { Play, BookOpen, TrendingUp, Target, Users, MessageSquare, GitBranch, BarChart3, ArrowRight, CheckCircle, Award } from 'lucide-react';
 import { Logo } from './Logo';
 
 interface DashboardProps {
@@ -9,272 +9,222 @@ interface DashboardProps {
 }
 
 export function Dashboard({ onStartNewReflection, onViewHistory, reflectionCount }: DashboardProps) {
-  const commonChallenges = [
+  const challengeTypes = [
     {
-      icon: <MessageSquare className="w-5 h-5" />,
-      text: "Giving difficult feedback without damaging relationships"
+      icon: <MessageSquare className="w-6 h-6" />,
+      title: "Feedback Conversations",
+      description: "Structure effective feedback discussions",
+      color: "from-blue-500 to-blue-600",
+      bgColor: "bg-blue-50",
+      textColor: "text-blue-700",
+      borderColor: "border-blue-200"
     },
     {
-      icon: <Users className="w-5 h-5" />,
-      text: "Resolving conflicts between team members"
+      icon: <Users className="w-6 h-6" />,
+      title: "Team Conflicts",
+      description: "Navigate and resolve team tensions",
+      color: "from-amber-500 to-orange-600",
+      bgColor: "bg-amber-50",
+      textColor: "text-amber-700",
+      borderColor: "border-amber-200"
     },
     {
-      icon: <Target className="w-5 h-5" />,
-      text: "Making complex decisions with multiple stakeholders"
+      icon: <Target className="w-6 h-6" />,
+      title: "Strategic Decisions",
+      description: "Make informed leadership choices",
+      color: "from-purple-500 to-purple-600",
+      bgColor: "bg-purple-50",
+      textColor: "text-purple-700",
+      borderColor: "border-purple-200"
     },
     {
-      icon: <GitBranch className="w-5 h-5" />,
-      text: "Managing expectations and aligning with leadership"
+      icon: <GitBranch className="w-6 h-6" />,
+      title: "Stakeholder Alignment",
+      description: "Manage expectations and communication",
+      color: "from-emerald-500 to-emerald-600",
+      bgColor: "bg-emerald-50",
+      textColor: "text-emerald-700",
+      borderColor: "border-emerald-200"
     }
   ];
 
-  const solutionBenefits = [
-    "Get clarity on complex situations in 5-10 minutes",
-    "Use proven frameworks trusted by professional coaches",
-    "Build confidence through structured thinking",
-    "Track patterns and grow as a leader over time"
-  ];
+  const getProgressLevel = (count: number) => {
+    if (count >= 20) return { level: 'Expert', color: 'from-purple-500 to-indigo-600', progress: 100 };
+    if (count >= 10) return { level: 'Advanced', color: 'from-blue-500 to-purple-600', progress: (count / 20) * 100 };
+    if (count >= 5) return { level: 'Intermediate', color: 'from-emerald-500 to-blue-600', progress: (count / 10) * 100 };
+    if (count >= 1) return { level: 'Developing', color: 'from-amber-500 to-emerald-600', progress: (count / 5) * 100 };
+    return { level: 'Getting Started', color: 'from-gray-400 to-gray-500', progress: 0 };
+  };
+
+  const progressInfo = getProgressLevel(reflectionCount);
 
   return (
-    <div className="space-y-12">
-      {/* Problem & Solution */}
-      <div className="grid md:grid-cols-2 gap-8">
-        {/* Problem */}
-        <div className="bg-amber-50 border border-amber-200 rounded-xl p-8">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="p-2 bg-amber-100 rounded-lg">
-              <HelpCircle className="w-6 h-6 text-amber-600" />
+    <div className="space-y-8">
+      {/* Welcome Hero */}
+      <div className="relative overflow-hidden bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-700 rounded-2xl p-8 text-white shadow-lg">
+        <div className="relative z-10">
+          <div className="flex items-center gap-6 mb-8">
+            <div className="p-4 bg-white bg-opacity-20 rounded-2xl backdrop-blur-sm">
+              <Logo size="lg" />
             </div>
-            <h2 className="text-2xl font-bold text-amber-900">The Challenge</h2>
-          </div>
-          <p className="text-amber-800 text-lg mb-4">
-            Complex leadership situations can feel overwhelming.
-          </p>
-          <ul className="space-y-2 text-amber-700">
-            <li className="flex items-start gap-2">
-              <span className="w-1.5 h-1.5 bg-amber-500 rounded-full mt-2 flex-shrink-0"></span>
-              Tough conversations feel daunting
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="w-1.5 h-1.5 bg-amber-500 rounded-full mt-2 flex-shrink-0"></span>
-              Team tensions need careful handling
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="w-1.5 h-1.5 bg-amber-500 rounded-full mt-2 flex-shrink-0"></span>
-              Important decisions require clarity
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="w-1.5 h-1.5 bg-amber-500 rounded-full mt-2 flex-shrink-0"></span>
-              You want to handle situations better
-            </li>
-          </ul>
-        </div>
-
-        {/* Solution */}
-        <div className="bg-blue-50 border border-blue-200 rounded-xl p-8">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="p-2 bg-blue-100 rounded-lg">
-              <CheckCircle className="w-6 h-6 text-blue-600" />
+            <div>
+              <h1 className="text-4xl font-bold mb-3">Enhance Your Leadership Impact</h1>
+              <p className="text-xl text-blue-100">
+                Use proven frameworks to navigate complex leadership challenges
+              </p>
             </div>
-            <h2 className="text-2xl font-bold text-blue-900">Reflect & Act</h2>
           </div>
-          <p className="text-blue-800 text-lg mb-4">
-            Transform challenges into clarity with proven frameworks.
-          </p>
-          <ul className="space-y-2 text-blue-700 mb-6">
-            <li className="flex items-start gap-2">
-              <CheckCircle className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" />
-              Get clarity in 5-10 minutes
-            </li>
-            <li className="flex items-start gap-2">
-              <CheckCircle className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" />
-              Use professional coaching methods
-            </li>
-            <li className="flex items-start gap-2">
-              <CheckCircle className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" />
-              Build confidence through structure
-            </li>
-            <li className="flex items-start gap-2">
-              <CheckCircle className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" />
-              Track patterns and grow over time
-            </li>
-          </ul>
           
           <button
             onClick={onStartNewReflection}
-            className="w-full flex items-center justify-center gap-3 bg-blue-600 text-white px-6 py-4 rounded-xl hover:bg-blue-700 transition-colors text-lg font-semibold shadow-lg hover:shadow-xl"
+            className="group flex items-center gap-4 bg-white text-gray-900 px-8 py-4 rounded-xl font-semibold text-lg hover:bg-gray-50 transition-all duration-200 shadow-lg hover:shadow-xl"
           >
-            <Plus className="w-5 h-5" />
-            Start Your First Reflection
+            <div className="p-2 bg-blue-600 rounded-lg text-white group-hover:bg-blue-700 transition-colors">
+              <Play className="w-6 h-6" />
+            </div>
+            Start New Reflection
+            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </button>
-          <p className="text-blue-600 text-sm mt-3 text-center">
-            5-10 minutes • Completely private • No signup required
+          
+          <p className="text-sm text-blue-200 mt-4">
+            5-10 minutes • Completely private • Evidence-based frameworks
           </p>
         </div>
-      </div>
-
-      {/* Problem Statement */}
-      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-8">
-        <div className="flex items-start gap-4 mb-6">
-          <div className="p-3 bg-amber-100 rounded-lg">
-            <AlertTriangle className="w-6 h-6 text-amber-600" />
-          </div>
-          <div>
-            <h2 className="text-2xl font-semibold text-slate-900 mb-3">
-              Leadership challenges shouldn't leave you stuck
-            </h2>
-            <p className="text-lg text-slate-600 mb-4">
-              As an engineering leader, you face complex interpersonal and strategic situations daily. 
-              Without a structured approach, it's easy to:
-            </p>
-          </div>
-        </div>
-
-        <div className="grid md:grid-cols-2 gap-4 mb-6">
-          {commonChallenges.map((challenge, index) => (
-            <div key={index} className="flex items-start gap-3 p-4 bg-slate-50 rounded-lg">
-              <div className="text-amber-600 mt-0.5">
-                {challenge.icon}
-              </div>
-              <span className="text-slate-700">{challenge.text}</span>
-            </div>
-          ))}
-        </div>
-
-        <p className="text-slate-600 text-center">
-          <strong>The result?</strong> Delayed decisions, awkward conversations, and missed opportunities for growth.
-        </p>
-      </div>
-
-      {/* Solution */}
-      <div className="bg-gradient-to-r from-blue-600 to-teal-600 text-white rounded-xl p-8">
-        <div className="flex items-start gap-4 mb-6">
-          <div className="p-3 bg-white bg-opacity-20 rounded-lg">
-            <CheckCircle className="w-6 h-6 text-white" />
-          </div>
-          <div>
-            <h2 className="text-2xl font-semibold mb-3">
-              Transform challenges into clarity with proven frameworks
-            </h2>
-            <p className="text-blue-100 text-lg mb-6">
-              Professional coaches use structured frameworks to help leaders navigate complex situations. 
-              Now you can access these same tools for private, focused reflection.
-            </p>
-          </div>
-        </div>
-
-        <div className="grid md:grid-cols-2 gap-4 mb-8">
-          {solutionBenefits.map((benefit, index) => (
-            <div key={index} className="flex items-start gap-3">
-              <CheckCircle className="w-5 h-5 text-green-300 mt-0.5 flex-shrink-0" />
-              <span className="text-blue-100">{benefit}</span>
-            </div>
-          ))}
-        </div>
-
-        <div className="text-center">
-          <button
-            onClick={onStartNewReflection}
-            className="inline-flex items-center gap-3 bg-white text-blue-600 px-8 py-4 rounded-xl hover:bg-blue-50 transition-colors text-lg font-semibold shadow-lg hover:shadow-xl"
-          >
-            <Plus className="w-6 h-6" />
-            Start Your First Reflection
-            <ArrowRight className="w-5 h-5" />
-          </button>
-          <p className="text-blue-200 text-sm mt-3">
-            Takes 5-10 minutes • Completely private • No signup required
-          </p>
-        </div>
-      </div>
-
-      {/* How It Works */}
-      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-8">
-        <h2 className="text-2xl font-semibold text-slate-900 mb-2 text-center">
-          From challenge to action in 3 simple steps
-        </h2>
-        <p className="text-slate-600 mb-8 text-center">
-          Most reflections take 5-10 minutes and provide immediate clarity
-        </p>
         
-        <div className="grid md:grid-cols-3 gap-8">
-          <div className="text-center">
-            <div className="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">
-              1
+        {/* Subtle decorative elements */}
+        <div className="absolute top-8 right-8 w-24 h-24 bg-white bg-opacity-5 rounded-full"></div>
+        <div className="absolute bottom-8 right-16 w-16 h-16 bg-white bg-opacity-5 rounded-full"></div>
+      </div>
+
+      {/* Challenge Types */}
+      <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-200">
+        <div className="text-center mb-8">
+          <h2 className="text-2xl font-bold text-gray-900 mb-3">What challenge are you facing?</h2>
+          <p className="text-gray-600">Select the area where you need structured guidance</p>
+        </div>
+        
+        <div className="grid md:grid-cols-2 gap-6">
+          {challengeTypes.map((challenge, index) => (
+            <div
+              key={index}
+              className={`${challenge.bgColor} p-6 rounded-xl border ${challenge.borderColor} hover:shadow-md transition-all duration-200 cursor-pointer group`}
+              onClick={onStartNewReflection}
+            >
+              <div className="flex items-start gap-4">
+                <div className={`p-3 bg-gradient-to-r ${challenge.color} rounded-lg text-white shadow-sm`}>
+                  {challenge.icon}
+                </div>
+                <div className="flex-1">
+                  <h3 className={`font-semibold text-lg ${challenge.textColor} mb-2 group-hover:text-gray-900 transition-colors`}>
+                    {challenge.title}
+                  </h3>
+                  <p className="text-gray-600 text-sm">
+                    {challenge.description}
+                  </p>
+                </div>
+                <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-gray-600 group-hover:translate-x-1 transition-all" />
+              </div>
             </div>
-            <h3 className="font-semibold text-slate-900 mb-2">Identify Your Challenge</h3>
-            <p className="text-slate-600 text-sm mb-3">
-              Answer 2-3 quick questions to get the right framework for your specific situation
-            </p>
-            <div className="text-xs text-slate-500 bg-slate-50 px-3 py-1 rounded-full inline-block">
-              ~30 seconds
+          ))}
+        </div>
+      </div>
+
+      {/* Progress & Analytics */}
+      <div className="grid md:grid-cols-2 gap-8">
+        {/* Progress Tracking */}
+        <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-200">
+          <div className="flex items-center gap-4 mb-6">
+            <div className={`p-3 bg-gradient-to-r ${progressInfo.color} rounded-lg text-white`}>
+              <TrendingUp className="w-6 h-6" />
+            </div>
+            <div>
+              <h3 className="text-xl font-semibold text-gray-900">Development Progress</h3>
+              <p className="text-gray-600 text-sm">Track your leadership growth</p>
             </div>
           </div>
           
-          <div className="text-center">
-            <div className="w-12 h-12 bg-teal-600 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">
-              2
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <span className="text-gray-700 font-medium">Current Level</span>
+              <div className="flex items-center gap-2">
+                <span className="text-2xl font-bold text-blue-600">{progressInfo.level}</span>
+                <Award className="w-5 h-5 text-blue-500" />
+              </div>
             </div>
-            <h3 className="font-semibold text-slate-900 mb-2">Reflect with Structure</h3>
-            <p className="text-slate-600 text-sm mb-3">
-              Work through proven questions with helpful tips and real examples
-            </p>
-            <div className="text-xs text-slate-500 bg-slate-50 px-3 py-1 rounded-full inline-block">
-              5-10 minutes
+            
+            <div className="bg-gray-100 rounded-full h-3 overflow-hidden">
+              <div 
+                className={`bg-gradient-to-r ${progressInfo.color} h-full rounded-full transition-all duration-700`}
+                style={{ width: `${progressInfo.progress}%` }}
+              ></div>
+            </div>
+            
+            <div className="flex items-center justify-between text-sm text-gray-600">
+              <span>{reflectionCount} reflections completed</span>
+              <span>{Math.round(progressInfo.progress)}% to next level</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Insights */}
+        <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-200">
+          <div className="flex items-center gap-4 mb-6">
+            <div className="p-3 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-lg text-white">
+              <BarChart3 className="w-6 h-6" />
+            </div>
+            <div>
+              <h3 className="text-xl font-semibold text-gray-900">Your Insights</h3>
+              <p className="text-gray-600 text-sm">Reflection analytics</p>
             </div>
           </div>
           
-          <div className="text-center">
-            <div className="w-12 h-12 bg-orange-600 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">
-              3
+          <div className="space-y-4">
+            <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+              <span className="text-gray-700 font-medium">Total Reflections</span>
+              <span className="text-2xl font-bold text-emerald-600">{reflectionCount}</span>
             </div>
-            <h3 className="font-semibold text-slate-900 mb-2">Act with Confidence</h3>
-            <p className="text-slate-600 text-sm mb-3">
-              Get clear next steps and actionable insights you can apply immediately
-            </p>
-            <div className="text-xs text-slate-500 bg-slate-50 px-3 py-1 rounded-full inline-block">
-              Immediate results
-            </div>
+            
+            {reflectionCount > 0 ? (
+              <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                <p className="text-blue-800 text-sm">
+                  <strong>Keep it up!</strong> Regular reflection builds stronger leadership skills and better decision-making capabilities.
+                </p>
+              </div>
+            ) : (
+              <div className="p-4 bg-amber-50 rounded-lg border border-amber-200">
+                <p className="text-amber-800 text-sm">
+                  <strong>Ready to start?</strong> Your first reflection will help establish a baseline for your leadership development journey.
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>
 
-      {/* Secondary Actions */}
-      <div className="grid md:grid-cols-2 gap-6">
-        <div 
-          onClick={onViewHistory}
-          className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition-shadow cursor-pointer group"
-        >
-          <div className="flex items-center gap-4 mb-4">
-            <div className="p-3 bg-teal-100 rounded-lg group-hover:bg-teal-200 transition-colors">
-              <BookOpen className="w-6 h-6 text-teal-600" />
+      {/* History Section */}
+      <div 
+        onClick={onViewHistory}
+        className="bg-white rounded-2xl p-8 shadow-sm border border-gray-200 hover:shadow-md transition-all duration-200 cursor-pointer group"
+      >
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <div className="p-4 bg-gradient-to-r from-slate-500 to-gray-600 rounded-lg text-white group-hover:from-slate-600 group-hover:to-gray-700 transition-all">
+              <BookOpen className="w-6 h-6" />
             </div>
-            <h3 className="text-xl font-semibold text-slate-900">View Past Reflections</h3>
-          </div>
-          <p className="text-slate-600 mb-4">
-            Review your leadership journey and identify patterns in your growth.
-          </p>
-          <div className="flex items-center justify-between">
-            <span className="text-2xl font-bold text-teal-600">{reflectionCount}</span>
-            <span className="text-sm text-slate-500">
-              {reflectionCount === 0 ? 'No reflections yet' : 
-               reflectionCount === 1 ? 'reflection completed' : 
-               'reflections completed'}
-            </span>
-          </div>
-        </div>
-
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-          <div className="flex items-center gap-4 mb-4">
-            <div className="p-3 bg-green-100 rounded-lg">
-              <Shield className="w-6 h-6 text-green-600" />
+            <div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-1">Reflection History</h3>
+              <p className="text-gray-600">
+                {reflectionCount === 0 
+                  ? "No reflections yet - start your leadership journey above" 
+                  : `Review your ${reflectionCount} completed reflection${reflectionCount === 1 ? '' : 's'}`
+                }
+              </p>
             </div>
-            <h3 className="text-xl font-semibold text-slate-900">Your Privacy Protected</h3>
           </div>
-          <p className="text-slate-600 mb-4">
-            All reflections stay on your device. No accounts, no tracking, no data sharing.
-          </p>
-          <div className="text-sm text-green-600 font-medium">
-            ✓ 100% Local Storage ✓ Works Offline ✓ Export Anytime
+          
+          <div className="flex items-center gap-2 text-blue-600 group-hover:text-blue-700">
+            <span className="font-medium">View All</span>
+            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </div>
         </div>
       </div>

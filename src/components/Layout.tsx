@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowLeft, Shield, Download, HelpCircle } from 'lucide-react';
+import { ArrowLeft, Shield } from 'lucide-react';
 import { Logo } from './Logo';
 
 interface LayoutProps {
@@ -11,47 +11,64 @@ interface LayoutProps {
   helpText?: string;
 }
 
-export function Layout({ children, title, showBack = false, onBack, actions, helpText }: LayoutProps) {
+export function Layout({ 
+  children, 
+  title, 
+  showBack = false, 
+  onBack, 
+  actions, 
+  helpText
+}: LayoutProps) {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-      <div className="container mx-auto px-4 py-6 max-w-4xl">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+      <div className="container mx-auto px-6 py-6 max-w-5xl">
         {/* Header */}
         <header className="mb-8">
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-4">
               {showBack && (
                 <button
                   onClick={onBack}
-                  className="p-2 hover:bg-white hover:shadow-sm rounded-lg transition-all"
+                  className="p-3 bg-white hover:bg-gray-50 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 border border-gray-200"
                   aria-label="Go back"
                 >
-                  <ArrowLeft className="w-5 h-5 text-slate-600" />
+                  <ArrowLeft className="w-5 h-5 text-gray-600" />
                 </button>
               )}
-              <Logo size="sm" />
-              <h1 className="text-2xl font-bold text-slate-900">{title}</h1>
-            </div>
-            
-            <div className="flex items-center gap-3">
-              {actions}
-              <div className="flex items-center gap-2 text-sm text-slate-600 bg-white px-3 py-2 rounded-lg shadow-sm">
-                <Shield className="w-4 h-4 text-green-600" />
-                <span>Data stays local</span>
+              <div className="flex items-center gap-4">
+                <Logo size="md" />
+                <div>
+                  <h1 className="text-3xl font-bold text-gray-900">{title}</h1>
+                  <p className="text-gray-600 mt-1">Pause, reflect, and move forward with purpose.</p>
+                  {helpText && (
+                    <p className="text-sm text-gray-500 mt-2">{helpText}</p>
+                  )}
+                </div>
               </div>
             </div>
+            
+            <div className="flex items-center gap-4">
+              {/* Privacy badge */}
+              <div className="flex items-center gap-2 text-sm text-emerald-700 bg-emerald-50 px-4 py-2 rounded-full border border-emerald-200">
+                <Shield className="w-4 h-4" />
+                <span className="font-medium">Private & Secure</span>
+              </div>
+              
+              {actions}
+            </div>
           </div>
-          
-          <div className="h-1 bg-gradient-to-r from-blue-600 via-teal-500 to-orange-400 rounded-full"></div>
         </header>
 
         {/* Main Content */}
-        <main className="space-y-6">
+        <main className="space-y-8">
           {children}
         </main>
 
         {/* Footer */}
-        <footer className="mt-12 text-center text-sm text-slate-500">
-          <p>Reflect & Act • Privacy-focused • Data stored locally</p>
+        <footer className="mt-16 text-center">
+          <div className="text-sm text-gray-500">
+            <span>Professional Leadership Development Tool</span>
+          </div>
         </footer>
       </div>
     </div>

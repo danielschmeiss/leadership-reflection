@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Save, Sparkles, ArrowRight, AlertCircle, HelpCircle, Lightbulb, CheckCircle } from 'lucide-react';
+import { Save, Sparkles, ArrowRight, ArrowLeft, AlertCircle, HelpCircle, Lightbulb, CheckCircle, Target, Zap } from 'lucide-react';
 import { Framework, Question } from '../types';
 
 interface ReflectionFormProps {
@@ -19,6 +19,7 @@ export function ReflectionForm({ framework, problemDescription, onSave, onCancel
   const currentQuestion = framework.questions[currentQuestionIndex];
   const isLastQuestion = currentQuestionIndex === framework.questions.length - 1;
   const canProceed = !currentQuestion.required || responses[currentQuestion.id]?.trim();
+  const progress = ((currentQuestionIndex + 1) / framework.questions.length) * 100;
 
   const handleResponseChange = (questionId: string, value: string) => {
     setResponses(prev => ({
@@ -32,22 +33,19 @@ export function ReflectionForm({ framework, problemDescription, onSave, onCancel
       handleSave();
     } else {
       setCurrentQuestionIndex(prev => prev + 1);
+      setShowQuestionHelp(false);
     }
   };
 
   const handlePrevious = () => {
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex(prev => prev - 1);
+      setShowQuestionHelp(false);
     }
   };
 
   const handleSave = () => {
     onSave(responses);
-  };
-
-  const getAISuggestion = () => {
-    // Placeholder for AI integration
-    return "AI suggestions would appear here, based on anonymized input to protect privacy.";
   };
 
   const getQuestionHelp = (questionId: string, frameworkId: string) => {
@@ -334,155 +332,106 @@ export function ReflectionForm({ framework, problemDescription, onSave, onCancel
       }
     };
 
-    return helpContent[frameworkId]?.[questionId] || { tip: "Take your time to think through this question thoroughly.", example: "" };
-  };
-
-  const getFrameworkTips = (frameworkId: string) => {
-    const tips: Record<string, string[]> = {
-      sbi: [
-        "Keep it factual and specific - avoid generalizations like 'always' or 'never'",
-        "Focus on one situation at a time for clarity",
-        "Prepare for dialogue - this is a conversation, not a monologue"
-      ],
-      grow: [
-        "Be honest with yourself - this works best with genuine self-reflection",
-        "Think big picture first, then get specific with actions",
-        "Consider multiple perspectives on each question"
-      ],
-      mediation: [
-        "Stay neutral and focus on interests, not positions",
-        "Look for win-win solutions that address everyone's core needs",
-        "Remember that understanding doesn't mean agreeing"
-      ],
-      'decision-matrix': [
-        "Weight your criteria by importance before evaluating options",
-        "Get input from others to avoid blind spots",
-        "Consider both short-term and long-term implications"
-      ],
-      'delegation-empowerment': [
-        "Start with clear expectations and boundaries for delegated tasks",
-        "Match tasks to people's strengths and development goals",
-        "Provide support without micromanaging - check in regularly but don't hover"
-      ],
-      raci: [
-        "Focus on clarity over perfection - roles can be adjusted as you learn",
-        "Get stakeholder buy-in on the RACI assignments before implementing",
-        "Use this as a communication tool, not just a documentation exercise"
-      ]
-    };
-
-    return tips[frameworkId] || [];
+    return helpContent[frameworkId]?.[questionId] || { tip: "Think through this question step by step, considering your specific situation and context.", example: "" };
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-blue-600 to-teal-600 text-white p-6">
-        <div className="mb-3">
-          <div className="text-sm text-blue-200 mb-1">Working on:</div>
-          <h2 className="text-xl font-semibold mb-2">{problemDescription}</h2>
-          <div className="text-sm text-blue-200">Using: <span className="font-medium">{framework.name}</span></div>
-        </div>
-        <p className="text-blue-100 text-sm">{framework.description}</p>
-        
-        {/* Progress bar */}
-        <div className="mt-4">
-          <div className="flex justify-between text-sm text-blue-100 mb-2">
-            <span>Question {currentQuestionIndex + 1} of {framework.questions.length}</span>
-            <span>{Math.round(((currentQuestionIndex + 1) / framework.questions.length) * 100)}%</span>
+    <div className="max-w-4xl mx-auto space-y-8">
+      {/* Progress Header */}
+      <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+        <div className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-700 text-white p-6">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <div className="text-sm text-blue-200 mb-1">Current Challenge:</div>
+              <h2 className="text-2xl font-semibold mb-1">{problemDescription}</h2>
+              <div className="text-sm text-blue-200">Framework: <span className="font-medium">{framework.name}</span></div>
+            </div>
+            <div className="text-right">
+              <div className="text-3xl font-bold">{currentQuestionIndex + 1}/{framework.questions.length}</div>
+              <div className="text-sm text-blue-200">Questions</div>
+            </div>
           </div>
-          <div className="w-full bg-blue-500 rounded-full h-2">
-            <div 
-              className="bg-white rounded-full h-2 transition-all duration-300"
-              style={{ width: `${((currentQuestionIndex + 1) / framework.questions.length) * 100}%` }}
-            ></div>
+          
+          <div className="space-y-2">
+            <div className="flex justify-between text-sm text-blue-200">
+              <span>Progress</span>
+              <span>{Math.round(progress)}% complete</span>
+            </div>
+            <div className="w-full bg-blue-700 bg-opacity-50 rounded-full h-3">
+              <div 
+                className="bg-white rounded-full h-3 transition-all duration-500"
+                style={{ width: `${progress}%` }}
+              ></div>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Question content */}
-      <div className="p-6">
+      {/* Question Card */}
+      <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
         {/* Framework tips - shown only on first question */}
         {currentQuestionIndex === 0 && (
-          <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
-            <div className="flex items-start gap-3">
-              <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
+          <div className="mb-8 p-6 bg-blue-50 border border-blue-200 rounded-xl">
+            <div className="flex items-start gap-4">
+              <div className="p-3 bg-blue-600 rounded-lg text-white">
+                <CheckCircle className="w-6 h-6" />
+              </div>
               <div>
-                <h4 className="font-medium text-green-900 mb-2">Tips for {framework.name}</h4>
-                <ul className="text-green-800 text-sm space-y-1">
-                  {getFrameworkTips(framework.id).map((tip, index) => (
-                    <li key={index} className="flex items-start gap-2">
-                      <span className="w-1 h-1 bg-green-600 rounded-full mt-2 flex-shrink-0"></span>
-                      {tip}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Previous Questions and Answers */}
-        {currentQuestionIndex > 0 && (
-          <div className="mb-8 space-y-4">
-            <h3 className="text-lg font-medium text-slate-900 mb-4">Your Previous Responses</h3>
-            {framework.questions.slice(0, currentQuestionIndex).map((question, index) => (
-              <div key={question.id} className="bg-slate-50 border border-slate-200 rounded-lg p-4">
-                <div className="flex items-start gap-3 mb-3">
-                  <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-medium flex-shrink-0">
-                    {index + 1}
+                <h4 className="font-semibold text-blue-900 mb-3 text-lg">Framework Guidelines</h4>
+                <div className="space-y-2 text-blue-800">
+                  <div className="flex items-start gap-2">
+                    <Target className="w-4 h-4 mt-1 text-blue-600 flex-shrink-0" />
+                    <span className="text-sm">Be specific and honest in your responses</span>
                   </div>
-                  <h4 className="font-medium text-slate-900 text-sm">
-                    {question.text}
-                  </h4>
-                </div>
-                <div className="ml-9">
-                  <p className="text-slate-700 text-sm whitespace-pre-wrap bg-white p-3 rounded border">
-                    {responses[question.id] || 'No response'}
-                  </p>
+                  <div className="flex items-start gap-2">
+                    <Lightbulb className="w-4 h-4 mt-1 text-blue-600 flex-shrink-0" />
+                    <span className="text-sm">Use the help button if you need guidance</span>
+                  </div>
                 </div>
               </div>
-            ))}
-            <div className="border-t border-slate-300 pt-6 mt-6">
-              <h3 className="text-lg font-medium text-slate-900 mb-2 flex items-center gap-2">
-                <div className="w-6 h-6 bg-teal-600 text-white rounded-full flex items-center justify-center text-sm font-medium">
-                  {currentQuestionIndex + 1}
-                </div>
-                Current Question
-              </h3>
             </div>
           </div>
         )}
 
-        <div className="mb-6">
-          <div className="flex items-start justify-between mb-3">
-            <h3 className="text-lg font-medium text-slate-900">
-              {currentQuestion.text}
-              {currentQuestion.required && <span className="text-red-500 ml-1">*</span>}
-            </h3>
+        {/* Current Question */}
+        <div className="mb-8">
+          <div className="flex items-start justify-between mb-4">
+            <div className="flex items-start gap-4 flex-1">
+              <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
+                {currentQuestionIndex + 1}
+              </div>
+              <div className="flex-1">
+                <h3 className="text-2xl font-semibold text-gray-900 mb-2">
+                  {currentQuestion.text}
+                  {currentQuestion.required && <span className="text-red-500 ml-1">*</span>}
+                </h3>
+              </div>
+            </div>
             <button
               onClick={() => setShowQuestionHelp(!showQuestionHelp)}
-              className="p-1 text-slate-400 hover:text-blue-600 transition-colors"
+              className={`p-2 rounded-lg transition-all ${showQuestionHelp ? 'bg-blue-100 text-blue-600' : 'text-gray-400 hover:text-blue-600 hover:bg-blue-50'}`}
               title="Get help with this question"
             >
               <HelpCircle className="w-5 h-5" />
             </button>
           </div>
 
-          {/* Question-specific help */}
+          {/* Question Help */}
           {showQuestionHelp && (
-            <div className="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-              <div className="flex items-start gap-3">
-                <Lightbulb className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
+            <div className="mb-6 p-6 bg-amber-50 border border-amber-200 rounded-xl">
+              <div className="flex items-start gap-4">
+                <div className="p-3 bg-amber-500 rounded-lg text-white">
+                  <Lightbulb className="w-6 h-6" />
+                </div>
                 <div>
-                  <h5 className="font-medium text-blue-900 mb-2">How to approach this question</h5>
-                  <p className="text-blue-800 text-sm mb-3">
+                  <h5 className="font-semibold text-amber-900 mb-3">How to approach this question</h5>
+                  <p className="text-amber-800 mb-4">
                     {getQuestionHelp(currentQuestion.id, framework.id).tip}
                   </p>
                   {getQuestionHelp(currentQuestion.id, framework.id).example && (
-                    <div>
-                      <p className="font-medium text-blue-900 text-sm mb-1">Example:</p>
-                      <p className="text-blue-700 text-sm italic">
+                    <div className="bg-white bg-opacity-60 p-4 rounded-lg">
+                      <p className="font-medium text-amber-900 mb-2">Example:</p>
+                      <p className="text-amber-700 italic">
                         "{getQuestionHelp(currentQuestion.id, framework.id).example}"
                       </p>
                     </div>
@@ -492,12 +441,13 @@ export function ReflectionForm({ framework, problemDescription, onSave, onCancel
             </div>
           )}
           
+          {/* Input Field */}
           {currentQuestion.type === 'textarea' ? (
             <textarea
               value={responses[currentQuestion.id] || ''}
               onChange={(e) => handleResponseChange(currentQuestion.id, e.target.value)}
               placeholder={currentQuestion.placeholder}
-              className="w-full h-32 p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+              className="w-full h-40 p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none text-gray-900 placeholder-gray-500"
               autoFocus
             />
           ) : (
@@ -506,34 +456,43 @@ export function ReflectionForm({ framework, problemDescription, onSave, onCancel
               value={responses[currentQuestion.id] || ''}
               onChange={(e) => handleResponseChange(currentQuestion.id, e.target.value)}
               placeholder={currentQuestion.placeholder}
-              className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 placeholder-gray-500"
               autoFocus
             />
           )}
 
           {!canProceed && currentQuestion.required && (
-            <div className="mt-2 flex items-center gap-2 text-amber-600">
+            <div className="mt-3 flex items-center gap-2 text-amber-600">
               <AlertCircle className="w-4 h-4" />
-              <span className="text-sm">This field is required</span>
+              <span className="text-sm font-medium">This field is required to continue</span>
             </div>
           )}
         </div>
 
-        {/* AI assistance */}
-        <div className="mb-6">
+        {/* AI Assistant */}
+        <div className="mb-8">
           <button
             onClick={() => setShowAI(!showAI)}
-            className="flex items-center gap-2 text-purple-600 hover:text-purple-700 text-sm font-medium"
+            className="flex items-center gap-2 text-indigo-600 hover:text-indigo-700 font-medium px-4 py-2 rounded-lg hover:bg-indigo-50 transition-all"
           >
             <Sparkles className="w-4 h-4" />
-            Get AI perspective (anonymized)
+            Get AI Assistance (Anonymous)
           </button>
           
           {showAI && (
-            <div className="mt-3 p-4 bg-purple-50 border border-purple-200 rounded-lg">
-              <p className="text-sm text-purple-800">
-                {getAISuggestion()}
-              </p>
+            <div className="mt-4 p-6 bg-indigo-50 border border-indigo-200 rounded-xl">
+              <div className="flex items-start gap-3">
+                <div className="p-2 bg-indigo-600 rounded-lg text-white">
+                  <Sparkles className="w-4 h-4" />
+                </div>
+                <div>
+                  <h5 className="font-medium text-indigo-900 mb-2">AI Assistant</h5>
+                  <p className="text-sm text-indigo-800">
+                    AI suggestions would appear here, based on anonymized input to protect your privacy. 
+                    This feature helps provide additional perspectives while keeping your data secure.
+                  </p>
+                </div>
+              </div>
             </div>
           )}
         </div>
@@ -544,14 +503,15 @@ export function ReflectionForm({ framework, problemDescription, onSave, onCancel
             {currentQuestionIndex > 0 && (
               <button
                 onClick={handlePrevious}
-                className="px-4 py-2 text-slate-600 hover:text-slate-800 font-medium"
+                className="flex items-center gap-2 px-6 py-3 text-gray-600 hover:text-gray-800 font-medium rounded-xl hover:bg-gray-100 transition-all"
               >
+                <ArrowLeft className="w-4 h-4" />
                 Previous
               </button>
             )}
             <button
               onClick={onCancel}
-              className="px-4 py-2 text-slate-600 hover:text-slate-800 font-medium"
+              className="px-6 py-3 text-gray-600 hover:text-gray-800 font-medium rounded-xl hover:bg-gray-100 transition-all"
             >
               Cancel
             </button>
@@ -560,17 +520,17 @@ export function ReflectionForm({ framework, problemDescription, onSave, onCancel
           <button
             onClick={handleNext}
             disabled={!canProceed}
-            className="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-slate-300 disabled:cursor-not-allowed font-medium"
+            className="flex items-center gap-3 px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:from-blue-700 hover:to-indigo-700 disabled:from-gray-300 disabled:to-gray-400 disabled:cursor-not-allowed font-semibold shadow-sm hover:shadow-md transition-all duration-200 disabled:hover:scale-100"
           >
             {isLastQuestion ? (
               <>
-                <Save className="w-4 h-4" />
+                <Save className="w-5 h-5" />
                 Complete Reflection
               </>
             ) : (
               <>
-                Next
-                <ArrowRight className="w-4 h-4" />
+                Next Question
+                <ArrowRight className="w-5 h-5" />
               </>
             )}
           </button>

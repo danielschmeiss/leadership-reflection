@@ -80,7 +80,7 @@ function App() {
   };
 
   const handleDeleteReflection = (id: string) => {
-    if (confirm('Are you sure you want to delete this reflection?')) {
+    if (confirm('🗑️ Are you sure you want to delete this reflection? This action cannot be undone.')) {
       deleteReflection(id);
     }
   };
@@ -143,7 +143,7 @@ function App() {
       case 'history': 
         return 'Review your past reflections to identify patterns and track your leadership development over time.';
       default: 
-        return 'Reflect & Act';
+        return '';
     }
   };
 
