@@ -20,64 +20,68 @@ export function Logo({ className = '', size = 'md' }: LogoProps) {
         xmlns="http://www.w3.org/2000/svg"
         className="w-full h-full"
       >
-        {/* Background */}
+        {/* Background with rounded corners */}
         <rect
           width="48"
           height="48"
-          rx="8"
-          fill="url(#backgroundGradient)"
+          rx="12"
+          fill="url(#logoGradient)"
         />
         
-        {/* REFLECT - Left side: Curved arrow pointing back */}
-        <path
-          d="M8 24 Q8 16 16 16 Q20 16 20 20"
-          stroke="white"
-          strokeWidth="3"
-          fill="none"
-          strokeLinecap="round"
-        />
-        <path
-          d="M18 18 L20 20 L18 22"
-          stroke="white"
-          strokeWidth="3"
-          fill="none"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
+        {/* REFLECT - Left side: Curved arrow pointing backward */}
+        <g transform="translate(6, 12)">
+          <path
+            d="M12 12 Q4 12 4 20 Q4 24 8 24"
+            stroke="white"
+            strokeWidth="3"
+            fill="none"
+            strokeLinecap="round"
+          />
+          <path
+            d="M6 22 L8 24 L6 26"
+            stroke="white"
+            strokeWidth="3"
+            fill="none"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </g>
         
-        {/* Vertical separator */}
+        {/* Vertical divider */}
         <line
           x1="24"
-          y1="12"
+          y1="16"
           x2="24"
-          y2="36"
+          y2="32"
           stroke="white"
           strokeWidth="2"
-          opacity="0.3"
+          opacity="0.4"
         />
         
         {/* ACT - Right side: Straight arrow pointing forward */}
-        <path
-          d="M28 24 L38 24"
-          stroke="white"
-          strokeWidth="3"
-          strokeLinecap="round"
-        />
-        <path
-          d="M36 22 L38 24 L36 26"
-          stroke="white"
-          strokeWidth="3"
-          fill="none"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
+        <g transform="translate(30, 12)">
+          <path
+            d="M2 12 L14 12"
+            stroke="white"
+            strokeWidth="3"
+            strokeLinecap="round"
+          />
+          <path
+            d="M12 10 L14 12 L12 14"
+            stroke="white"
+            strokeWidth="3"
+            fill="none"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </g>
         
-        {/* Professional gradient */}
+        {/* Gradient definition */}
         <defs>
-          <linearGradient id="backgroundGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#1e40af" />
             <stop offset="50%" stopColor="#3b82f6" />
-            <stop offset="100%" stopColor="#1d4ed8" />
+            <stop offset="100%" stopColor="#6366f1" />
           </linearGradient>
         </defs>
       </svg>

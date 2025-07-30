@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Save, Sparkles, ArrowRight, ArrowLeft, AlertCircle, HelpCircle, Lightbulb, CheckCircle, Target, Zap } from 'lucide-react';
+import { Save, Sparkles, ArrowRight, ArrowLeft, AlertCircle, HelpCircle, Lightbulb, CheckCircle, Target, Zap, Bot, AlertTriangle } from 'lucide-react';
 import { Framework, Question } from '../types';
 
 interface ReflectionFormProps {
@@ -15,6 +15,7 @@ export function ReflectionForm({ framework, problemDescription, onSave, onCancel
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [showAI, setShowAI] = useState(false);
   const [showQuestionHelp, setShowQuestionHelp] = useState(false);
+  const [showCopyToast, setShowCopyToast] = useState(false);
 
   const currentQuestion = framework.questions[currentQuestionIndex];
   const isLastQuestion = currentQuestionIndex === framework.questions.length - 1;
@@ -335,8 +336,83 @@ export function ReflectionForm({ framework, problemDescription, onSave, onCancel
     return helpContent[frameworkId]?.[questionId] || { tip: "Think through this question step by step, considering your specific situation and context.", example: "" };
   };
 
+  const copyCurrentStepForAI = async () => {
+    const completedResponses = framework.questions.slice(0, currentQuestionIndex + 1)
+      .filter(q => responses[q.id]?.trim())
+      .map((q, index) => `### ${index + 1}. ${q.text}
+
+**My Response:**
+${responses[q.id]}
+`).join('\n');
+
+    const aiContent = `# Leadership Reflection - In Progress Analysis Request
+
+I'm working through a leadership reflection using the "${framework.name}" framework and would like your insights on my progress so far.
+
+## Context
+- **Framework**: ${framework.name}
+- **Framework Purpose**: ${framework.description}
+- **Current Progress**: Question ${currentQuestionIndex + 1} of ${framework.questions.length}
+- **Current Question**: ${currentQuestion.text}
+
+## My Responses So Far
+
+${completedResponses || 'No responses completed yet.'}
+
+## Current Question I'm Working On
+
+**${currentQuestion.text}**
+
+${responses[currentQuestion.id] ? `**My Current Response:**
+${responses[currentQuestion.id]}` : '*I haven\'t answered this question yet.*'}
+
+## What I'm Looking For
+
+Please help me with:
+
+1. **Current Question Guidance**: How can I approach the current question more effectively?
+2. **Response Quality**: Are my responses so far thorough and insightful enough?
+3. **Missing Elements**: What important aspects should I consider that I might be overlooking?
+4. **Connection Patterns**: How do my responses connect and what themes are emerging?
+5. **Next Steps**: What should I focus on as I continue this reflection?
+
+Please provide specific, actionable guidance to help me get the most value from this leadership reflection process.`;
+
+    try {
+      await navigator.clipboard.writeText(aiContent);
+      setShowCopyToast(true);
+      setTimeout(() => setShowCopyToast(false), 8000);
+    } catch (err) {
+      console.error('Failed to copy to clipboard:', err);
+    }
+  };
+
   return (
-    <div className="max-w-4xl mx-auto space-y-8">
+    <div className="relative max-w-4xl mx-auto space-y-8">
+      {/* Copy Success Toast */}
+      {showCopyToast && (
+        <div className="fixed top-6 right-6 z-50 bg-emerald-600 text-white px-6 py-4 rounded-xl shadow-lg border border-emerald-500 animate-in slide-in-from-top-2 duration-500 max-w-md">
+          <div className="flex items-start gap-3">
+            <CheckCircle className="w-5 h-5 mt-0.5 flex-shrink-0" />
+            <div>
+              <div className="font-semibold mb-1">Copied to Clipboard! 📋</div>
+              <div className="text-sm text-emerald-100">
+                Your reflection progress is ready to paste into your preferred AI assistant for guidance and insights.
+              </div>
+              <div className="mt-3 p-3 bg-amber-500 bg-opacity-20 rounded-lg border border-amber-400 border-opacity-30">
+                <div className="flex items-start gap-2 mb-2">
+                <AlertTriangle className="w-4 h-4 text-amber-200 mt-0.5 flex-shrink-0" />
+                  <div className="text-xs text-amber-100 font-semibold">Privacy Notice:</div>
+                </div>
+                <div className="text-xs text-amber-100 leading-relaxed">
+                  You're sharing personal leadership reflections. <strong>Consider using local LLMs (like Ollama) for maximum privacy</strong>, or only use trusted AI services and avoid sharing sensitive company information.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      
       {/* Progress Header */}
       <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
         <div className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-700 text-white p-6">
@@ -471,13 +547,24 @@ export function ReflectionForm({ framework, problemDescription, onSave, onCancel
 
         {/* AI Assistant */}
         <div className="mb-8">
-          <button
-            onClick={() => setShowAI(!showAI)}
-            className="flex items-center gap-2 text-indigo-600 hover:text-indigo-700 font-medium px-4 py-2 rounded-lg hover:bg-indigo-50 transition-all"
-          >
-            <Sparkles className="w-4 h-4" />
-            Get AI Assistance (Anonymous)
-          </button>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => setShowAI(!showAI)}
+              className="flex items-center gap-2 text-indigo-600 hover:text-indigo-700 font-medium px-4 py-2 rounded-lg hover:bg-indigo-50 transition-all"
+            >
+              <Sparkles className="w-4 h-4" />
+              Get AI Assistance (Anonymous)
+            </button>
+            
+            <button
+              onClick={copyCurrentStepForAI}
+              className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white rounded-lg font-medium transition-all duration-200 shadow-sm hover:shadow-md"
+              title="Copy progress with AI instructions to clipboard"
+            >
+              <Bot className="w-4 h-4" />
+              Copy for AI Help
+            </button>
+          </div>
           
           {showAI && (
             <div className="mt-4 p-6 bg-indigo-50 border border-indigo-200 rounded-xl">

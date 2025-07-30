@@ -5,6 +5,7 @@ import { DecisionTree } from './components/DecisionTree';
 import { ReflectionForm } from './components/ReflectionForm';
 import { ReflectionHistory } from './components/ReflectionHistory';
 import { ReflectionSummary } from './components/ReflectionSummary';
+import { Imprint } from './components/Imprint';
 import { useReflections } from './hooks/useLocalStorage';
 import { frameworks, getCustomizedFramework } from './data/frameworks';
 import { FrameworkType, SituationCategory, Situation } from './types';
@@ -14,7 +15,8 @@ type AppState =
   | 'decision-tree'
   | 'reflection'
   | 'history'
-  | 'view-reflection';
+  | 'view-reflection'
+  | 'imprint';
 
 interface ReflectionSession {
   framework: FrameworkType;
@@ -130,6 +132,7 @@ function App() {
         return 'Reflection';
       case 'history': return 'Reflection History';
       case 'view-reflection': return viewingReflection?.title || 'Reflection';
+      case 'imprint': return 'Legal Information';
       default: return 'Reflect & Lead';
     }
   };
@@ -142,6 +145,8 @@ function App() {
         return session ? `Use the ${frameworks[session.framework].name} to work through your situation step by step.` : '';
       case 'history': 
         return 'Review your past reflections to identify patterns and track your leadership development over time.';
+      case 'imprint':
+        return 'Legal information and contact details according to § 5 TMG.';
       default: 
         return '';
     }
@@ -153,6 +158,7 @@ function App() {
     switch (currentState) {
       case 'decision-tree':
       case 'history':
+      case 'imprint':
         setCurrentState('dashboard');
         break;
       case 'reflection':
@@ -217,6 +223,9 @@ function App() {
           />
         );
 
+      case 'imprint':
+        return <Imprint />;
+
       default:
         return null;
     }
@@ -228,6 +237,7 @@ function App() {
       helpText={getHelpText()}
       showBack={shouldShowBack}
       onBack={handleBack}
+      onNavigateToImprint={() => setCurrentState('imprint')}
     >
       {renderContent()}
     </Layout>

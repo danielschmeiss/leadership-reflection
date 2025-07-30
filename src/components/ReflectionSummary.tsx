@@ -1,5 +1,6 @@
 import React from 'react';
-import { Download, Edit, Trash2, Calendar, Tag, Star, CheckCircle, Target } from 'lucide-react';
+import { useState } from 'react';
+import { Download, Edit, Trash2, Calendar, Tag, Star, CheckCircle, Target, Bot, Copy, AlertTriangle } from 'lucide-react';
 import { Situation } from '../types';
 import { frameworks } from '../data/frameworks';
 
@@ -13,6 +14,7 @@ interface ReflectionSummaryProps {
 export function ReflectionSummary({ reflection, onEdit, onDelete, onExport }: ReflectionSummaryProps) {
   const framework = frameworks[reflection.framework];
   const createdDate = new Date(reflection.createdAt).toLocaleDateString();
+  const [showCopyToast, setShowCopyToast] = useState(false);
 
   const getCategoryColor = (category: string) => {
     switch (category) {
@@ -67,8 +69,75 @@ export function ReflectionSummary({ reflection, onEdit, onDelete, onExport }: Re
     URL.revokeObjectURL(url);
   };
 
+  const copyForAI = async () => {
+    const aiContent = `# Leadership Reflection Analysis Request
+
+I'm sharing a leadership reflection from my private development tool "Reflect & Act" and would like your insights and analysis.
+
+## Context
+- **Date**: ${createdDate}
+- **Category**: ${reflection.category} (${getCategoryEmoji(reflection.category)})
+- **Framework Used**: ${framework.name}
+- **Framework Purpose**: ${framework.description}
+
+## My Reflection Responses
+
+${framework.questions.map((question, index) => {
+  const response = reflection.responses[question.id] || 'No response provided';
+  return `### ${index + 1}. ${question.text}
+
+**My Response:**
+${response}
+`;
+}).join('\n')}
+
+## What I'm Looking For
+
+Please analyze my reflection and provide:
+
+1. **Key Insights**: What patterns or themes do you notice in my responses?
+2. **Blind Spots**: What important aspects might I have missed or not fully considered?
+3. **Actionable Advice**: What specific next steps would you recommend?
+4. **Leadership Growth**: How does this reflection show areas for my leadership development?
+5. **Alternative Perspectives**: Are there other ways to view this situation?
+
+Please be constructive and specific in your feedback. This reflection represents real leadership challenges I'm working through.`;
+
+    try {
+      await navigator.clipboard.writeText(aiContent);
+      setShowCopyToast(true);
+      setTimeout(() => setShowCopyToast(false), 8000);
+    } catch (err) {
+      console.error('Failed to copy to clipboard:', err);
+    }
+  };
+
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-all duration-200">
+    <div className="relative bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-all duration-200">
+      {/* Copy Success Toast */}
+      {showCopyToast && (
+        <div className="absolute top-4 right-4 z-50 bg-emerald-600 text-white px-6 py-4 rounded-xl shadow-lg border border-emerald-500 animate-in slide-in-from-top-2 duration-500 max-w-md">
+          <div className="flex items-start gap-3">
+            <CheckCircle className="w-5 h-5 mt-0.5 flex-shrink-0" />
+            <div>
+              <div className="font-semibold mb-1">Copied to Clipboard! 📋</div>
+              <div className="text-sm text-emerald-100">
+                Your reflection is ready to paste into ChatGPT, Claude, or any AI assistant for analysis and insights.
+              </div>
+              <div className="mt-3 p-3 bg-amber-500 bg-opacity-20 rounded-lg border border-amber-400 border-opacity-30">
+                <div className="flex items-start gap-2 mb-2">
+                <AlertTriangle className="w-4 h-4 text-amber-200 mt-0.5 flex-shrink-0" />
+                  <div className="text-xs text-amber-100 font-semibold">Privacy Notice:</div>
+                </div>
+                <div className="text-xs text-amber-100 leading-relaxed">
+                  You're sharing personal leadership reflections. <strong>Consider using local LLMs (like Ollama) for maximum privacy</strong>, or only use trusted AI services and avoid sharing sensitive company information.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      
       {/* Header */}
       <div className={`bg-gradient-to-r ${getCategoryColor(reflection.category)} text-white p-6`}>
         <div className="flex justify-between items-start mb-4">
@@ -101,6 +170,14 @@ export function ReflectionSummary({ reflection, onEdit, onDelete, onExport }: Re
                 <Edit className="w-4 h-4" />
               </button>
             )}
+            <button
+              onClick={copyForAI}
+              className="flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 rounded-lg transition-all duration-200 text-white font-medium shadow-sm hover:shadow-md"
+              title="Copy reflection with AI instructions to clipboard"
+            >
+              <Bot className="w-4 h-4" />
+              <span className="text-sm">Copy for AI</span>
+            </button>
             <button
               onClick={exportToPDF}
               className="p-3 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-lg transition-all duration-200"
@@ -173,6 +250,10 @@ export function ReflectionSummary({ reflection, onEdit, onDelete, onExport }: Re
                   Draft
                 </>
               )}
+            </div>
+            <div className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-xs font-medium">
+              <Bot className="w-3 h-3 inline mr-1" />
+              Copy for AI
             </div>
           </div>
           
