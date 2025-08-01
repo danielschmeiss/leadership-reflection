@@ -149,7 +149,7 @@ function App() {
       case 'reflection': 
         if (session) {
           const problemDesc = getProblemDescription(session.category, session.subcategory);
-          return `${problemDesc} - ${frameworks[session.framework].name}`;
+          return problemDesc;
         }
         return 'Reflection';
       case 'reflection-complete': return 'Reflection Complete';
@@ -165,7 +165,11 @@ function App() {
       case 'decision-tree': 
         return 'Answer a few questions to find the best framework for your leadership challenge. This takes less than 30 seconds.';
       case 'reflection': 
-        return session ? `Use the ${frameworks[session.framework].name} to work through your situation step by step.` : '';
+        if (session) {
+          const framework = frameworks[session.framework];
+          return `${framework.name}: ${framework.description}`;
+        }
+        return '';
       case 'reflection-complete':
         return 'Review your complete reflection and get specific action steps to implement your insights.';
       case 'history': 
@@ -205,6 +209,139 @@ function App() {
       default:
         setCurrentState('dashboard');
     }
+  };
+
+  const getFrameworkRationale = (frameworkId: string) => {
+    const rationales: Record<string, { title: string; description: string; whenToUse: string; keyBenefits: string[] }> = {
+      'sbi': {
+        title: 'SBI Framework',
+        description: 'The Situation-Behavior-Impact framework is the gold standard for giving specific, actionable feedback.',
+        whenToUse: 'Perfect for both positive recognition and developmental feedback conversations.',
+        keyBenefits: [
+          'Removes emotion and judgment from feedback',
+          'Focuses on observable behaviors, not personality',
+          'Shows clear connection between actions and outcomes',
+          'Makes feedback specific and actionable'
+        ]
+      },
+      'mediation': {
+        title: 'Mediation Framework',
+        description: 'A structured approach to resolve conflicts by focusing on underlying interests rather than positions.',
+        whenToUse: 'Best for interpersonal conflicts where both parties have valid concerns.',
+        keyBenefits: [
+          'Moves beyond "who\'s right" to "what\'s needed"',
+          'Helps find win-win solutions',
+          'Preserves relationships while solving problems',
+          'Creates sustainable agreements'
+        ]
+      },
+      'interest-based-negotiation': {
+        title: 'Interest-Based Negotiation',
+        description: 'Resolves cross-team conflicts by identifying shared interests and collaborative solutions.',
+        whenToUse: 'Ideal for conflicts between teams with different priorities but shared organizational goals.',
+        keyBenefits: [
+          'Transforms competition into collaboration',
+          'Addresses root causes, not just symptoms',
+          'Creates solutions that benefit all parties',
+          'Builds stronger cross-team relationships'
+        ]
+      },
+      'decision-matrix': {
+        title: 'Decision Matrix',
+        description: 'A systematic approach to evaluate multiple options against defined criteria.',
+        whenToUse: 'Perfect for complex operational decisions with multiple factors to consider.',
+        keyBenefits: [
+          'Removes bias from decision-making',
+          'Makes decision rationale transparent',
+          'Ensures all important factors are considered',
+          'Creates defensible, logical choices'
+        ]
+      },
+      'pros-cons': {
+        title: 'Pros/Cons Analysis',
+        description: 'A comprehensive evaluation of strategic alternatives considering long-term implications.',
+        whenToUse: 'Best for high-stakes strategic decisions that affect the organization\'s direction.',
+        keyBenefits: [
+          'Forces consideration of both benefits and risks',
+          'Aligns decisions with long-term strategy',
+          'Engages stakeholders in decision process',
+          'Creates thorough documentation for future reference'
+        ]
+      },
+      'grow': {
+        title: 'GROW Model',
+        description: 'A coaching framework that guides systematic thinking from goals to concrete actions.',
+        whenToUse: 'Excellent for complex situations requiring structured problem-solving and planning.',
+        keyBenefits: [
+          'Provides clear structure for complex thinking',
+          'Moves from abstract goals to concrete actions',
+          'Encourages creative option generation',
+          'Creates accountability through specific commitments'
+        ]
+      },
+      'responsibility-mapping': {
+        title: 'RACI/Responsibility Mapping',
+        description: 'Clarifies ownership and accountability using the RACI framework (Responsible, Accountable, Consulted, Informed).',
+        whenToUse: 'Essential when team members are unclear about roles and decision-making authority.',
+        keyBenefits: [
+          'Eliminates confusion about who does what',
+          'Prevents work from falling through cracks',
+          'Reduces conflicts over ownership',
+          'Improves team efficiency and coordination'
+        ]
+      },
+      'alignment-canvas': {
+        title: 'Alignment Canvas',
+        description: 'A structured approach to prepare for and conduct alignment conversations with leadership.',
+        whenToUse: 'When you need leadership buy-in, approval, or support for important initiatives.',
+        keyBenefits: [
+          'Ensures you have all necessary information',
+          'Structures your argument logically',
+          'Increases likelihood of successful alignment',
+          'Demonstrates strategic thinking to leadership'
+        ]
+      },
+      'delegation-empowerment': {
+        title: 'Delegation/Empowerment',
+        description: 'A framework for effectively delegating tasks and empowering team members to take ownership.',
+        whenToUse: 'When you need to distribute ownership and develop team members\' capabilities.',
+        keyBenefits: [
+          'Develops team members\' skills and confidence',
+          'Frees up your time for higher-level work',
+          'Creates more resilient and capable teams',
+          'Improves team engagement and motivation'
+        ]
+      },
+      'five-dysfunctions': {
+        title: '5 Dysfunctions of a Team',
+        description: 'Based on Patrick Lencioni\'s model, this framework assesses and improves team health across five key areas.',
+        whenToUse: 'When you sense team dynamics issues but need to diagnose the root causes.',
+        keyBenefits: [
+          'Provides comprehensive team health assessment',
+          'Identifies root causes of team problems',
+          'Offers clear path for team improvement',
+          'Based on proven organizational psychology research'
+        ]
+      },
+      'feedforward-coaching': {
+        title: 'Feedforward Coaching',
+        description: 'A future-focused approach to peer feedback that emphasizes improvement rather than criticism.',
+        whenToUse: 'When facilitating peer feedback conversations that need to stay constructive and forward-looking.',
+        keyBenefits: [
+          'Keeps conversations positive and solution-focused',
+          'Reduces defensiveness in feedback recipients',
+          'Builds stronger peer relationships',
+          'Creates actionable improvement plans'
+        ]
+      }
+    };
+
+    return rationales[frameworkId] || {
+      title: 'Framework',
+      description: 'A structured approach to leadership challenges.',
+      whenToUse: 'Applicable to various leadership situations.',
+      keyBenefits: ['Provides structure', 'Improves outcomes']
+    };
   };
 
   const renderContent = () => {
@@ -290,6 +427,8 @@ function App() {
       showBack={shouldShowBack}
       onBack={handleBack}
       onNavigateToImprint={() => setCurrentState('imprint')}
+      showFrameworkInfo={currentState === 'reflection' && session !== null}
+      frameworkRationale={session ? getFrameworkRationale(session.framework) : undefined}
     >
       {renderContent()}
     </Layout>

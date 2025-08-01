@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Save, Sparkles, ArrowRight, ArrowLeft, AlertCircle, HelpCircle, Lightbulb, CheckCircle, Target, Zap, Bot, AlertTriangle, Plus, X } from 'lucide-react';
+import { Save, Sparkles, ArrowRight, ArrowLeft, AlertCircle, HelpCircle, Lightbulb, CheckCircle, Target, Zap, Bot, AlertTriangle, Plus, X, Info } from 'lucide-react';
 import { Framework, Question } from '../types';
 
 interface ReflectionFormProps {
@@ -13,6 +13,7 @@ interface ReflectionFormProps {
 export function ReflectionForm({ framework, problemDescription, onSave, onCancel, initialResponses = {} }: ReflectionFormProps) {
   const [responses, setResponses] = useState<Record<string, string>>(initialResponses);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [hasAttemptedNext, setHasAttemptedNext] = useState(false);
   const [showAI, setShowAI] = useState(false);
   const [showQuestionHelp, setShowQuestionHelp] = useState(false);
   const [showCopyToast, setShowCopyToast] = useState(false);
@@ -80,11 +81,18 @@ export function ReflectionForm({ framework, problemDescription, onSave, onCancel
     }
   }, [currentQuestion.id, currentQuestion.text]);
   const handleNext = () => {
+    setHasAttemptedNext(true);
+    
+    if (!canProceed) {
+      return; // Don't proceed if validation fails
+    }
+    
     if (isLastQuestion) {
       handleSave();
     } else {
       setCurrentQuestionIndex(prev => prev + 1);
       setShowQuestionHelp(false);
+      setHasAttemptedNext(false); // Reset for next question
     }
   };
 
@@ -92,6 +100,7 @@ export function ReflectionForm({ framework, problemDescription, onSave, onCancel
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex(prev => prev - 1);
       setShowQuestionHelp(false);
+      setHasAttemptedNext(false); // Reset when going back
     }
   };
 
@@ -551,32 +560,19 @@ Please provide specific, actionable guidance to help me get the most value from 
       )}
       
       {/* Progress Header */}
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
-        <div className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-700 text-white p-6">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <div className="text-sm text-blue-200 mb-1">Current Challenge:</div>
-              <h2 className="text-2xl font-semibold mb-1">{problemDescription}</h2>
-              <div className="text-sm text-blue-200">Framework: <span className="font-medium">{framework.name}</span></div>
-            </div>
-            <div className="text-right">
-              <div className="text-3xl font-bold">{currentQuestionIndex + 1}/{framework.questions.length}</div>
-              <div className="text-sm text-blue-200">Questions</div>
-            </div>
+      <div className="bg-gray-100 rounded-lg p-3 border border-gray-200">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="text-sm font-medium text-gray-600">{currentQuestionIndex + 1}/{framework.questions.length}</div>
+            <div className="text-xs text-gray-500">Questions</div>
           </div>
-          
-          <div className="space-y-2">
-            <div className="flex justify-between text-sm text-blue-200">
-              <span>Progress</span>
-              <span>{Math.round(progress)}% complete</span>
-            </div>
-            <div className="w-full bg-blue-700 bg-opacity-50 rounded-full h-3">
-              <div 
-                className="bg-white rounded-full h-3 transition-all duration-500"
-                style={{ width: `${progress}%` }}
-              ></div>
-            </div>
-          </div>
+          <div className="text-xs text-gray-500">{Math.round(progress)}% complete</div>
+        </div>
+        <div className="w-full bg-gray-200 rounded-full h-1.5 mt-2">
+          <div 
+            className="bg-blue-400 rounded-full h-1.5 transition-all duration-500"
+            style={{ width: `${progress}%` }}
+          ></div>
         </div>
       </div>
 
@@ -635,7 +631,7 @@ Please provide specific, actionable guidance to help me get the most value from 
                           handleResponseChange(currentQuestion.id, allItemResponses);
                         }}
                         placeholder={`How does this relate to the current question? (e.g., alignment, conflicts, constraints, etc.)`}
-                        className="w-full h-24 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none text-gray-900 placeholder-gray-500 text-sm"
+                        className="w-full h-24 p-3 border-2 border-gray-300 rounded-lg focus:ring-4 focus:ring-blue-200 focus:border-blue-500 resize-none text-gray-900 placeholder-gray-500 text-sm shadow-sm hover:border-gray-400 transition-all duration-200"
                       />
                     </div>
                   ))}
@@ -699,7 +695,7 @@ Please provide specific, actionable guidance to help me get the most value from 
                       value={item}
                       onChange={(e) => updateListItem(index, e.target.value)}
                       placeholder={`Enter item ${index + 1}...`}
-                      className="flex-1 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 placeholder-gray-500"
+                      className="flex-1 p-3 border-2 border-gray-300 rounded-lg focus:ring-4 focus:ring-blue-200 focus:border-blue-500 text-gray-900 placeholder-gray-500 shadow-sm hover:border-gray-400 transition-all duration-200"
                       autoFocus={index === listItems.length - 1}
                     />
                     {listItems.length > 1 && (
@@ -728,7 +724,7 @@ Please provide specific, actionable guidance to help me get the most value from 
               value={responses[currentQuestion.id] || ''}
               onChange={(e) => handleResponseChange(currentQuestion.id, e.target.value)}
               placeholder={currentQuestion.placeholder}
-              className="w-full h-40 p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none text-gray-900 placeholder-gray-500"
+              className="w-full h-40 p-4 border-2 border-gray-300 rounded-xl focus:ring-4 focus:ring-blue-200 focus:border-blue-500 resize-none text-gray-900 placeholder-gray-500 shadow-sm hover:border-gray-400 transition-all duration-200"
               autoFocus
             />
           ) : (
@@ -737,12 +733,12 @@ Please provide specific, actionable guidance to help me get the most value from 
               value={responses[currentQuestion.id] || ''}
               onChange={(e) => handleResponseChange(currentQuestion.id, e.target.value)}
               placeholder={currentQuestion.placeholder}
-              className="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 placeholder-gray-500"
+              className="w-full p-4 border-2 border-gray-300 rounded-xl focus:ring-4 focus:ring-blue-200 focus:border-blue-500 text-gray-900 placeholder-gray-500 shadow-sm hover:border-gray-400 transition-all duration-200"
               autoFocus
             />
           )}
 
-          {!canProceed && currentQuestion.required && !isListQuestion(currentQuestion.text) && (
+          {!canProceed && currentQuestion.required && hasAttemptedNext && !isListQuestion(currentQuestion.text) && (
             <div className="mt-3 flex items-center gap-2 text-amber-600">
               <AlertCircle className="w-4 h-4" />
               <span className="text-sm font-medium">
@@ -754,7 +750,7 @@ Please provide specific, actionable guidance to help me get the most value from 
             </div>
           )}
           
-          {isListQuestion(currentQuestion.text) && listItems.filter(item => item.trim()).length === 0 && currentQuestion.required && (
+          {isListQuestion(currentQuestion.text) && listItems.filter(item => item.trim()).length === 0 && currentQuestion.required && hasAttemptedNext && (
             <div className="mt-3 flex items-center gap-2 text-amber-600">
               <AlertCircle className="w-4 h-4" />
               <span className="text-sm font-medium">Please add at least one item to continue</span>
