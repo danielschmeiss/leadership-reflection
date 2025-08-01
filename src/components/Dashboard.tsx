@@ -1,5 +1,5 @@
 import React from 'react';
-import { Play, BookOpen, TrendingUp, Target, Users, MessageSquare, GitBranch, BarChart3, ArrowRight, CheckCircle, Award, HelpCircle } from 'lucide-react';
+import { Play, BookOpen, TrendingUp, Target, Users, MessageSquare, GitBranch, BarChart3, ArrowRight, CheckCircle, Award, HelpCircle, Zap } from 'lucide-react';
 import { Logo } from './Logo';
 
 interface DashboardProps {

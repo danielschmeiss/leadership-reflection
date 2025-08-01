@@ -4,19 +4,6 @@ import { Mail, Building, User } from 'lucide-react';
 export function Imprint() {
   return (
     <div className="max-w-2xl mx-auto space-y-8">
-      {/* Header */}
-      <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-200">
-        <div className="flex items-center gap-4 mb-6">
-          <div className="p-3 bg-gradient-to-r from-slate-600 to-gray-700 rounded-lg text-white">
-            <Building className="w-6 h-6" />
-          </div>
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">Legal Information</h1>
-            <p className="text-gray-600">Information according to § 5 TMG</p>
-          </div>
-        </div>
-      </div>
-
       {/* Imprint Content */}
       <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-200">
         <div className="space-y-8">

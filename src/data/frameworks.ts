@@ -668,19 +668,19 @@ export const decisionTreeNodes: Record<string, DecisionTreeNode> = {
     question: 'What type of conflict situation?',
     options: [
       {
-        text: 'With team member',
+        text: 'I have a conflict with a team member',
         framework: 'mediation',
         category: 'conflict',
         subcategory: 'with-team-member'
       },
       {
-        text: 'Between team members',
+        text: 'Two team members are in conflict with each other',
         framework: 'mediation',
         category: 'conflict',
         subcategory: 'between-team-members'
       },
       {
-        text: 'Cross-team conflict',
+        text: 'Different teams disagree or have competing priorities',
         framework: 'interest-based-negotiation',
         category: 'conflict',
         subcategory: 'cross-team-conflict'
@@ -716,19 +716,19 @@ export const decisionTreeNodes: Record<string, DecisionTreeNode> = {
     question: 'What kind of decision?',
     options: [
       {
-        text: 'Operational (Team)',
+        text: 'Team-level operational decision',
         framework: 'decision-matrix',
         category: 'decision',
         subcategory: 'operational'
       },
       {
-        text: 'Strategic (Domain/Organization)',
+        text: 'Strategic or organizational decision',
         framework: 'pros-cons',
         category: 'decision',
         subcategory: 'strategic'
       },
       {
-        text: 'Ownership/Accountability gaps',
+        text: 'Unclear roles and responsibilities',
         framework: 'responsibility-mapping',
         category: 'decision',
         subcategory: 'ownership-accountability-gaps'

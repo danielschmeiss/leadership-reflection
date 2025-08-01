@@ -445,30 +445,6 @@ Please provide specific, actionable guidance to help me get the most value from 
 
       {/* Question Card */}
       <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
-        {/* Framework tips - shown only on first question */}
-        {currentQuestionIndex === 0 && (
-          <div className="mb-8 p-6 bg-blue-50 border border-blue-200 rounded-xl">
-            <div className="flex items-start gap-4">
-              <div className="p-3 bg-blue-600 rounded-lg text-white">
-                <CheckCircle className="w-6 h-6" />
-              </div>
-              <div>
-                <h4 className="font-semibold text-blue-900 mb-3 text-lg">Framework Guidelines</h4>
-                <div className="space-y-2 text-blue-800">
-                  <div className="flex items-start gap-2">
-                    <Target className="w-4 h-4 mt-1 text-blue-600 flex-shrink-0" />
-                    <span className="text-sm">Be specific and honest in your responses</span>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <Lightbulb className="w-4 h-4 mt-1 text-blue-600 flex-shrink-0" />
-                    <span className="text-sm">Use the help button if you need guidance</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
         {/* Current Question */}
         <div className="mb-8">
           <div className="flex items-start justify-between mb-4">
