@@ -10,8 +10,8 @@ This tool supports engineering leaders in handling situational leadership challe
 - Giving constructive or positive feedback
 - Resolving team and cross-team conflicts
 - Making complex or urgent decisions
-- Managing stakeholder expectations
-- Improving communication dynamics
+- Managing stakeholder expectations and alignment
+- Improving team dynamics and ownership clarity
 
 ## ✨ Key Features
 
@@ -19,24 +19,34 @@ This tool supports engineering leaders in handling situational leadership challe
 - Quick 30-second classification of your leadership challenge
 - Guided selection of the most appropriate framework
 - Context-aware recommendations based on situation type
+- Smart framework customization based on your specific scenario
 
 ### 📋 Proven Frameworks
 - **SBI Framework**: Situation-Behavior-Impact for effective feedback
 - **GROW Model**: Goal-Reality-Options-Way forward for coaching conversations
-- **Conflict Mediation**: Structured approach to resolve disputes
-- **Decision Matrix**: Systematic evaluation of complex choices
+- **Mediation Framework**: Structured approach to resolve interpersonal conflicts
+- **Interest-Based Negotiation**: Cross-team conflict resolution
+- **Decision Matrix**: Systematic evaluation of operational choices
+- **Pros/Cons Analysis**: Strategic decision-making framework
+- **RACI/Responsibility Mapping**: Clarify ownership and accountability
+- **Alignment Canvas**: Structure leadership alignment conversations
+- **Delegation/Empowerment**: Effective task and decision delegation
+- **5 Dysfunctions of a Team**: Comprehensive team health assessment
+- **Feedforward Coaching**: Future-focused peer feedback facilitation
 
 ### 🔒 Privacy-First Design
 - **100% Local Storage**: All data stays on your device
 - **No External Dependencies**: Works completely offline
-- **Optional AI Assistance**: Anonymized inputs only when requested
-- **Export Capability**: Download reflections as text files
+- **No Data Collection**: No tracking, analytics, or external data transmission
+- **Export Capability**: Download reflections as comprehensive PDF reports
+- **AI Integration**: Optional AI assistance with privacy-conscious prompts
 
 ### 📊 Reflection Management
 - **Historical Tracking**: Review past reflections and identify patterns
 - **Search & Filter**: Find specific reflections by content or category
-- **Insights Dashboard**: Track your most common challenges and growth areas
-- **Reusable Templates**: Build on previous successful approaches
+- **Progress Dashboard**: Track your reflection journey and development level
+- **Actionable Insights**: Get specific next steps for each completed reflection
+- **Mobile Optimized**: Seamless experience across all devices
 
 ## 🚀 Quick Start
 
@@ -73,20 +83,21 @@ npm run preview
 ## 🎮 How to Use
 
 ### 1. Start a New Reflection (< 30 seconds)
-1. Click "Start New Reflection" on the dashboard
-2. Answer 2-3 quick questions about your challenge
-3. The system automatically selects the best framework
+1. Click "Begin Your Reflection Now" on the dashboard
+2. Answer 2 quick questions about your challenge type
+3. The system automatically selects and customizes the best framework
 
 ### 2. Work Through Your Challenge (5-10 minutes)
-1. Follow the structured questions tailored to your situation
-2. Use the built-in help and examples for guidance
-3. Optionally get AI perspectives (anonymized)
-4. Complete the reflection step-by-step
+1. Follow the structured questions tailored to your specific situation
+2. Use built-in help, examples, and guidance for each question
+3. Optionally copy your progress for AI analysis (privacy-conscious)
+4. Complete the reflection step-by-step with smart navigation
 
 ### 3. Review and Apply
-1. Export your reflection for future reference
-2. Apply the insights to your leadership situation
-3. Track patterns in your reflection history
+1. Get actionable insights and specific next steps
+2. Export your reflection as a comprehensive PDF report
+3. Copy formatted content for AI analysis and additional insights
+4. Track patterns in your reflection history
 
 ## 🧠 Available Frameworks
 
@@ -95,25 +106,68 @@ npm run preview
 - **Situation**: When and where did this happen?
 - **Behavior**: What specific actions did you observe?
 - **Impact**: What was the effect on you, the team, or work?
+- **Reinforcement/Support**: How to continue or improve the behavior
 
 ### GROW Model  
-**Best for**: Coaching conversations and problem-solving
+**Best for**: Coaching conversations and structured problem-solving
 - **Goal**: What do you want to achieve?
 - **Reality**: What's the current situation?
 - **Options**: What alternatives do you have?
 - **Way Forward**: What specific actions will you take?
 
-### Conflict Mediation
-**Best for**: Resolving team or stakeholder conflicts
+### Mediation Framework
+**Best for**: Resolving interpersonal conflicts
 - Focus on underlying interests, not positions
 - Find common ground and win-win solutions
-- Structure difficult conversations
+- Structure difficult conversations effectively
+
+### Interest-Based Negotiation
+**Best for**: Cross-team conflicts and alignment
+- Identify team priorities and constraints
+- Find shared problems and mutual benefits
+- Create collaborative solutions
 
 ### Decision Matrix
-**Best for**: Complex decisions with multiple factors
+**Best for**: Complex operational decisions with multiple factors
 - Define clear evaluation criteria
 - Systematically compare options
-- Consider stakeholder impact
+- Consider risks and stakeholder impact
+
+### Pros/Cons Analysis
+**Best for**: Strategic decisions with long-term implications
+- Comprehensive advantage/disadvantage analysis
+- Strategic alignment assessment
+- Stakeholder engagement planning
+
+### RACI/Responsibility Mapping
+**Best for**: Clarifying ownership and accountability
+- Define who is Responsible, Accountable, Consulted, Informed
+- Eliminate confusion and gaps in ownership
+- Establish clear decision-making authority
+
+### Alignment Canvas
+**Best for**: Preparing for leadership alignment conversations
+- Structure your case with evidence and clear argumentation
+- Define what approval or decision you need
+- Prepare for stakeholder engagement
+
+### Delegation/Empowerment
+**Best for**: Distributing ownership and developing team members
+- Identify delegatable decisions and tasks
+- Match responsibilities to team member strengths
+- Create accountability without micromanagement
+
+### 5 Dysfunctions of a Team
+**Best for**: Comprehensive team health assessment
+- Evaluate trust, conflict, commitment, accountability, and results
+- Identify root causes of team dysfunction
+- Create targeted improvement plans
+
+### Feedforward Coaching
+**Best for**: Facilitating constructive peer feedback
+- Focus on future improvement rather than past mistakes
+- Frame feedback positively and solution-oriented
+- Support ongoing development and relationships
 
 ## 🛡️ Privacy & Security
 
@@ -121,66 +175,96 @@ npm run preview
 - **No Tracking**: No analytics, cookies, or external data collection
 - **Offline Capable**: Works without internet connection
 - **Data Control**: Export or delete your data anytime
-- **Optional AI**: AI assistance uses anonymized data only
+- **Privacy-Conscious AI**: AI assistance uses anonymized, formatted prompts with privacy warnings
 
 ## 🏗️ Technical Architecture
 
 ### Built With
-- **React 18** with TypeScript
-- **Tailwind CSS** for styling
-- **Lucide React** for icons
-- **Vite** for build tooling
-- **Local Storage API** for data persistence
+- **React 18** with TypeScript for robust component architecture
+- **Tailwind CSS** for responsive, mobile-first styling
+- **Lucide React** for consistent iconography
+- **Vite** for fast development and optimized builds
+- **Local Storage API** for client-side data persistence
+- **jsPDF** for comprehensive PDF export functionality
+- **html2canvas** for advanced PDF generation
 
 ### Project Structure
 ```
 src/
 ├── components/          # React components
-│   ├── Dashboard.tsx    # Main dashboard
-│   ├── DecisionTree.tsx # Challenge classification
-│   ├── ReflectionForm.tsx # Framework questions
-│   └── ...
-├── data/               # Framework definitions
-├── hooks/              # Custom React hooks
-├── types/              # TypeScript definitions
-└── App.tsx            # Main application
+│   ├── Dashboard.tsx    # Main dashboard with progress tracking
+│   ├── DecisionTree.tsx # Challenge classification system
+│   ├── ReflectionForm.tsx # Dynamic framework questions
+│   ├── ReflectionCompletion.tsx # Results and action plans
+│   ├── ReflectionHistory.tsx # Historical reflection management
+│   └── Layout.tsx       # App shell and navigation
+├── data/               # Framework definitions and decision tree
+├── hooks/              # Custom React hooks for local storage
+├── types/              # TypeScript type definitions
+└── App.tsx            # Main application logic and routing
 ```
 
 ## 🎨 Design Principles
 
 - **Apple-level aesthetics**: Clean, sophisticated, attention to detail
+- **Mobile-first responsive**: Optimized for all screen sizes
 - **Accessibility-first**: High contrast, keyboard navigation, screen reader support
-- **Mobile-responsive**: Optimized for desktop and tablet use
-- **Micro-interactions**: Subtle animations and feedback
 - **Progressive disclosure**: Reveal complexity gradually
+- **Micro-interactions**: Subtle animations and feedback
+- **Privacy-focused UX**: Clear privacy indicators and controls
+
+## 📱 Mobile Experience
+
+- **Touch-optimized**: Large touch targets and gesture-friendly navigation
+- **Responsive layouts**: Adapts seamlessly to different screen sizes
+- **Smart scrolling**: Automatic scroll to relevant content on navigation
+- **Offline capable**: Full functionality without internet connection
+- **Fast loading**: Optimized for mobile networks
 
 ## 🔧 Development
 
 ### Available Scripts
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
-- `npm run lint` - Run ESLint
+- `npm run dev` - Start development server with hot reload
+- `npm run build` - Build optimized production bundle
+- `npm run preview` - Preview production build locally
+- `npm run lint` - Run ESLint for code quality
 
 ### Contributing
 1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Make your changes with proper TypeScript types
+4. Test thoroughly across devices and browsers
+5. Submit a pull request with detailed description
 
 ## 📈 Roadmap
 
+### Near Term
+- [ ] Enhanced PDF export with better formatting
+- [ ] Bulk reflection export functionality
+- [ ] Advanced search and filtering options
+- [ ] Custom framework builder for organizations
+
+### Medium Term
 - [ ] Encrypted local storage option
-- [ ] Team collaboration features
-- [ ] Advanced analytics and insights
-- [ ] Mobile app version
-- [ ] Integration with calendar apps
-- [ ] Custom framework builder
+- [ ] Team collaboration features (privacy-preserving)
+- [ ] Advanced analytics and pattern recognition
+- [ ] Integration with calendar apps for reflection reminders
 
-## 🤝 Support
+### Long Term
+- [ ] Native mobile app versions
+- [ ] Offline-first PWA capabilities
+- [ ] Multi-language support
+- [ ] Enterprise deployment options
 
-This tool is designed for engineering leaders who want to improve their leadership skills through structured reflection. It's not a replacement for professional coaching but provides a solid foundation for leadership development.
+## 🤝 Support & Usage
+
+This tool is designed for engineering leaders, managers, and anyone who wants to improve their leadership skills through structured reflection. It's not a replacement for professional coaching but provides a solid foundation for leadership development and situational problem-solving.
+
+### Best Practices
+- **Regular use**: Aim for 1-2 reflections per week for maximum benefit
+- **Honest responses**: The tool is most effective with candid self-reflection
+- **Action-oriented**: Focus on implementing the suggested next steps
+- **Pattern recognition**: Review your history regularly to identify growth areas
 
 ## 📄 License
 
@@ -189,3 +273,5 @@ MIT License - see LICENSE file for details
 ---
 
 **Reflect & Act - Built for engineering leaders, by engineering leaders** 🚀
+
+*Transform leadership challenges into growth opportunities through structured reflection.*
