@@ -2,7 +2,7 @@
 
 *Pause, reflect, and move forward with purpose.*
 
-A privacy-focused React application designed to help engineering leaders navigate situational challenges through structured reflection frameworks. Transform leadership challenges into growth opportunities with proven methodologies.
+A privacy-focused React application designed to help engineering leaders navigate situational challenges through structured reflection frameworks. Built with a clean separation of content and code for maximum maintainability and internationalization readiness.
 
 ## 🎯 Purpose
 
@@ -47,6 +47,7 @@ This tool supports engineering leaders in handling situational leadership challe
 - **Progress Dashboard**: Track your reflection journey and development level
 - **Actionable Insights**: Get specific next steps for each completed reflection
 - **Mobile Optimized**: Seamless experience across all devices
+- **Content Management**: Clean separation of content from code for easy updates
 
 ## 🚀 Quick Start
 
@@ -187,6 +188,7 @@ npm run preview
 - **Local Storage API** for client-side data persistence
 - **jsPDF** for comprehensive PDF export functionality
 - **html2canvas** for advanced PDF generation
+- **JSON-based Content Management** for maintainable text and messaging
 
 ### Project Structure
 ```
@@ -198,11 +200,42 @@ src/
 │   ├── ReflectionCompletion.tsx # Results and action plans
 │   ├── ReflectionHistory.tsx # Historical reflection management
 │   └── Layout.tsx       # App shell and navigation
-├── data/               # Framework definitions and decision tree
+├── data/               # Content and framework definitions
+│   ├── content.json     # UI text, labels, and messages
+│   ├── actionInsights.json # Framework-specific action plans
+│   ├── frameworkRationales.json # Framework explanations
+│   ├── questionHelp.json # Question-specific help content
+│   └── frameworks.ts    # Framework definitions and decision tree
 ├── hooks/              # Custom React hooks for local storage
 ├── types/              # TypeScript type definitions
 └── App.tsx            # Main application logic and routing
 ```
+
+### Content Management Architecture
+
+The application uses a clean separation between content and code:
+
+#### **📁 Content Files**
+- **`content.json`** - Main UI content (buttons, labels, help text, tooltips)
+- **`actionInsights.json`** - Framework-specific action plans and next steps
+- **`frameworkRationales.json`** - Detailed framework explanations and benefits
+- **`questionHelp.json`** - Context-sensitive help for reflection questions
+
+#### **🌐 Internationalization Ready**
+```
+src/data/
+├── content.json         # Default (English) content
+├── content.es.json      # Spanish content (future)
+├── content.de.json      # German content (future)
+└── content.fr.json      # French content (future)
+```
+
+#### **✅ Benefits**
+- **Easy Updates**: Change text without touching component code
+- **Consistent Messaging**: Centralized content management
+- **Translation Ready**: Simple to add multiple languages
+- **Type Safety**: Full TypeScript support for content references
+- **Maintainable**: Clear separation of concerns
 
 ## 🎨 Design Principles
 
@@ -212,6 +245,7 @@ src/
 - **Progressive disclosure**: Reveal complexity gradually
 - **Micro-interactions**: Subtle animations and feedback
 - **Privacy-focused UX**: Clear privacy indicators and controls
+- **Content-Code Separation**: Maintainable architecture with externalized content
 
 ## 📱 Mobile Experience
 
@@ -232,9 +266,18 @@ src/
 ### Contributing
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Make your changes with proper TypeScript types
+3. Make your changes:
+   - **Content changes**: Update JSON files in `src/data/`
+   - **Feature changes**: Update TypeScript components with proper types
 4. Test thoroughly across devices and browsers
 5. Submit a pull request with detailed description
+
+### Content Updates
+To update text, labels, or messaging:
+1. Locate the appropriate JSON file in `src/data/`
+2. Update the content while maintaining the JSON structure
+3. Test the changes in the application
+4. No component code changes required!
 
 ## 📈 Roadmap
 
@@ -243,18 +286,21 @@ src/
 - [ ] Bulk reflection export functionality
 - [ ] Advanced search and filtering options
 - [ ] Custom framework builder for organizations
+- [ ] Multi-language support using the content architecture
 
 ### Medium Term
 - [ ] Encrypted local storage option
 - [ ] Team collaboration features (privacy-preserving)
 - [ ] Advanced analytics and pattern recognition
 - [ ] Integration with calendar apps for reflection reminders
+- [ ] Content management interface for organizations
 
 ### Long Term
 - [ ] Native mobile app versions
 - [ ] Offline-first PWA capabilities
 - [ ] Multi-language support
 - [ ] Enterprise deployment options
+- [ ] Advanced content personalization
 
 ## 🤝 Support & Usage
 
@@ -265,6 +311,7 @@ This tool is designed for engineering leaders, managers, and anyone who wants to
 - **Honest responses**: The tool is most effective with candid self-reflection
 - **Action-oriented**: Focus on implementing the suggested next steps
 - **Pattern recognition**: Review your history regularly to identify growth areas
+- **Content feedback**: Report any unclear or confusing text for improvement
 
 ## 📄 License
 

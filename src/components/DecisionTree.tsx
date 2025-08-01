@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ChevronRight, Target, Users, MessageSquare, GitBranch, Zap, ArrowLeft, CheckCircle, Lightbulb, User, UserCheck, Building2, ThumbsUp, AlertTriangle, BarChart3, TrendingUp, FileText, Shield, UserPlus, Heart, Compass } from 'lucide-react';
 import { decisionTree, decisionTreeNodes } from '../data/frameworks';
 import { DecisionTreeNode, FrameworkType, SituationCategory } from '../types';
+import content from '../data/content.json';
 
 interface DecisionTreeProps {
   onFrameworkSelected: (framework: FrameworkType, category: SituationCategory, subcategory: string) => void;
@@ -76,6 +77,7 @@ const getFrameworkDescription = (framework: FrameworkType) => {
     case 'delegation-empowerment': return 'Effective delegation approach';
     case 'five-dysfunctions': return 'Team health assessment';
     case 'pros-cons': return 'Weigh advantages vs disadvantages';
+    case 'raci': return 'Stakeholder expectation framework';
   }
 };
 
@@ -138,18 +140,18 @@ export function DecisionTree({ onFrameworkSelected, preselectedCategory }: Decis
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="text-sm font-medium text-gray-600">{path.length + 1}/2</div>
-            <div className="text-xs text-gray-500">Steps</div>
+            <div className="text-xs text-gray-500">{content.decisionTree.progress.steps}</div>
             {path.length > 0 && (
               <button
                 onClick={goBack}
                 className="ml-4 flex items-center gap-1 text-blue-600 hover:text-blue-700 font-medium text-xs"
               >
                 <ArrowLeft className="w-3 h-3" />
-                Back
+                {content.decisionTree.progress.backButton}
               </button>
             )}
           </div>
-          <div className="text-xs text-gray-500">{Math.round(((path.length + 1) / 2) * 100)}% complete</div>
+          <div className="text-xs text-gray-500">{Math.round(((path.length + 1) / 2) * 100)}% {content.decisionTree.progress.complete}</div>
         </div>
         <div className="w-full bg-gray-200 rounded-full h-1.5 mt-2">
           <div 
@@ -239,51 +241,28 @@ export function DecisionTree({ onFrameworkSelected, preselectedCategory }: Decis
               <Lightbulb className="w-6 h-6 text-white" />
             </div>
             <div className="flex-1">
-              <h4 className="font-bold text-amber-900 mb-3 text-lg">Need help choosing?</h4>
+              <h4 className="font-bold text-amber-900 mb-3 text-lg">{content.decisionTree.help.firstLevel.title}</h4>
               <p className="text-amber-800 mb-4">
-                Consider the primary challenge you're facing right now. Here are some quick examples to guide you:
+                {content.decisionTree.help.firstLevel.description}
               </p>
               <div className="grid sm:grid-cols-2 gap-4">
-                <div className="bg-white bg-opacity-70 p-4 rounded-xl border border-amber-200">
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg flex items-center justify-center text-white">
-                      <MessageSquare className="w-4 h-4" />
+                {content.decisionTree.help.firstLevel.examples.map((example, index) => (
+                  <div key={index} className="bg-white bg-opacity-70 p-4 rounded-xl border border-amber-200">
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className={`w-8 h-8 bg-gradient-to-r ${example.color} rounded-lg flex items-center justify-center text-white`}>
+                        {getCategoryIcon(example.category)}
+                      </div>
+                      <strong className={`text-${example.category === 'feedback' ? 'blue' : example.category === 'conflict' ? 'amber' : example.category === 'decision' ? 'purple' : 'emerald'}-700`}>
+                        {example.title}
+                      </strong>
                     </div>
-                    <strong className="text-blue-700">Feedback</strong>
+                    <p className="text-sm text-amber-800">{example.description}</p>
                   </div>
-                  <p className="text-sm text-amber-800">Performance conversations, recognition, or developmental discussions</p>
-                </div>
-                <div className="bg-white bg-opacity-70 p-4 rounded-xl border border-amber-200">
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="w-8 h-8 bg-gradient-to-r from-amber-500 to-orange-600 rounded-lg flex items-center justify-center text-white">
-                      <Users className="w-4 h-4" />
-                    </div>
-                    <strong className="text-amber-700">Conflict</strong>
-                  </div>
-                  <p className="text-sm text-amber-800">Team disagreements, interpersonal tensions, or disputes</p>
-                </div>
-                <div className="bg-white bg-opacity-70 p-4 rounded-xl border border-amber-200">
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg flex items-center justify-center text-white">
-                      <Target className="w-4 h-4" />
-                    </div>
-                    <strong className="text-purple-700">Decision</strong>
-                  </div>
-                  <p className="text-sm text-amber-800">Strategic choices, resource allocation, or process decisions</p>
-                </div>
-                <div className="bg-white bg-opacity-70 p-4 rounded-xl border border-amber-200">
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="w-8 h-8 bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-lg flex items-center justify-center text-white">
-                      <GitBranch className="w-4 h-4" />
-                    </div>
-                    <strong className="text-emerald-700">Stakeholder</strong>
-                  </div>
-                  <p className="text-sm text-amber-800">Managing expectations, alignment, or communication</p>
-                </div>
+                ))}
               </div>
               <div className="mt-4 p-3 bg-blue-100 bg-opacity-50 rounded-lg">
                 <p className="text-sm text-blue-800 font-medium">
-                  💡 <strong>Pro tip:</strong> Choose the category that represents your biggest pain point right now. You can always come back for other challenges later!
+                  💡 <strong>Pro tip:</strong> {content.decisionTree.help.firstLevel.proTip}
                 </p>
               </div>
             </div>
@@ -299,17 +278,16 @@ export function DecisionTree({ onFrameworkSelected, preselectedCategory }: Decis
               <Lightbulb className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
             </div>
             <div>
-              <h4 className="font-semibold text-amber-900 mb-2 text-sm sm:text-base">Choose your specific situation</h4>
+              <h4 className="font-semibold text-amber-900 mb-2 text-sm sm:text-base">{content.decisionTree.help.secondLevel.title}</h4>
               <p className="text-xs sm:text-sm text-amber-800 mb-3 sm:mb-4">
-                Select the option that most closely matches your current challenge. Each will guide you through a proven framework.
+                {content.decisionTree.help.secondLevel.description}
               </p>
               <div className="grid sm:grid-cols-2 gap-2 sm:gap-3 text-xs sm:text-sm">
-                <div className="bg-white bg-opacity-60 p-2 sm:p-3 rounded-lg">
-                  <strong className="text-blue-700">Structured approach:</strong> Each option uses research-backed frameworks
-                </div>
-                <div className="bg-white bg-opacity-60 p-2 sm:p-3 rounded-lg">
-                  <strong className="text-emerald-700">Quick results:</strong> Get actionable insights in 5-10 minutes
-                </div>
+                {content.decisionTree.help.secondLevel.benefits.map((benefit, index) => (
+                  <div key={index} className="bg-white bg-opacity-60 p-2 sm:p-3 rounded-lg">
+                    <strong className={`text-${index === 0 ? 'blue' : 'emerald'}-700`}>{benefit.title}:</strong> {benefit.description}
+                  </div>
+                ))}
               </div>
             </div>
           </div>

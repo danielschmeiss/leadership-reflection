@@ -7,6 +7,7 @@ import { ReflectionForm } from './components/ReflectionForm';
 import { ReflectionHistory } from './components/ReflectionHistory';
 import { ReflectionSummary } from './components/ReflectionSummary';
 import { ReflectionCompletion } from './components/ReflectionCompletion';
+import { FrameworksGuide } from './components/FrameworksGuide';
 import { Imprint } from './components/Imprint';
 import { useReflections } from './hooks/useLocalStorage';
 import { frameworks, getCustomizedFramework } from './data/frameworks';
@@ -19,6 +20,7 @@ type AppState =
   | 'reflection-complete'
   | 'history'
   | 'view-reflection'
+  | 'frameworks-guide'
   | 'imprint';
 
 interface ReflectionSession {
@@ -161,6 +163,7 @@ function App() {
       case 'reflection-complete': return 'Reflection Complete';
       case 'history': return 'Reflection History';
       case 'view-reflection': return viewingReflection?.title || 'Reflection';
+      case 'frameworks-guide': return 'Leadership Frameworks Guide';
       case 'imprint': return 'Legal Information';
       default: return 'Reflect & Lead';
     }
@@ -180,6 +183,8 @@ function App() {
         return 'Review your complete reflection and get specific action steps to implement your insights.';
       case 'history': 
         return 'Review your past reflections to identify patterns and track your leadership development over time.';
+      case 'frameworks-guide':
+        return 'Comprehensive explanations of all available frameworks to help you choose the right approach for your leadership challenges.';
       case 'imprint':
         return 'Legal information and contact details according to § 5 TMG.';
       default: 
@@ -193,6 +198,7 @@ function App() {
     switch (currentState) {
       case 'decision-tree':
       case 'history':
+      case 'frameworks-guide':
       case 'imprint':
         setCurrentState('dashboard');
         break;
@@ -212,6 +218,9 @@ function App() {
         setCurrentState('history');
         setViewingReflection(null);
         break;
+      case 'frameworks-guide':
+        setCurrentState('dashboard');
+        break;
       default:
         setCurrentState('dashboard');
     }
@@ -221,123 +230,123 @@ function App() {
     const rationales: Record<string, { title: string; description: string; whenToUse: string; keyBenefits: string[] }> = {
       'sbi': {
         title: 'SBI Framework',
-        description: 'The Situation-Behavior-Impact framework is the gold standard for giving specific, actionable feedback.',
-        whenToUse: 'Perfect for both positive recognition and developmental feedback conversations.',
+        description: 'The Situation-Behavior-Impact framework removes emotion and subjectivity from feedback by focusing on observable facts and their concrete effects.',
+        whenToUse: 'Use when you need to give specific feedback about someone\'s actions, whether positive reinforcement or developmental guidance.',
         keyBenefits: [
-          'Removes emotion and judgment from feedback',
-          'Focuses on observable behaviors, not personality',
-          'Shows clear connection between actions and outcomes',
-          'Makes feedback specific and actionable'
+          'Eliminates defensiveness by focusing on facts, not personality',
+          'Creates clear cause-and-effect understanding',
+          'Makes feedback specific enough to act on immediately',
+          'Works for both praise and constructive feedback'
         ]
       },
       'mediation': {
         title: 'Mediation Framework',
-        description: 'A structured approach to resolve conflicts by focusing on underlying interests rather than positions.',
-        whenToUse: 'Best for interpersonal conflicts where both parties have valid concerns.',
+        description: 'Most feedback fails because it\'s vague ("be more collaborative") or feels like an attack ("you\'re not a team player"). SBI gives you a script that focuses on facts, not personality.',
+        whenToUse: 'Use when someone did something specific that had a clear impact - either positive (to reinforce) or problematic (to change). Works for any feedback conversation.',
         keyBenefits: [
-          'Moves beyond "who\'s right" to "what\'s needed"',
-          'Helps find win-win solutions',
-          'Preserves relationships while solving problems',
-          'Creates sustainable agreements'
+          'Person can\'t argue with facts - reduces the "that\'s not what I meant" defensiveness',
+          'Shows clear cause-and-effect so they understand why it matters',
+          'Gives them something specific to repeat (positive) or change (developmental)',
+          'Takes the emotion out of difficult conversations'
         ]
       },
       'interest-based-negotiation': {
         title: 'Interest-Based Negotiation',
-        description: 'Resolves cross-team conflicts by identifying shared interests and collaborative solutions.',
-        whenToUse: 'Ideal for conflicts between teams with different priorities but shared organizational goals.',
+        description: 'When people are in conflict, they argue about positions ("I want X") instead of interests ("I need Y because..."). This framework gets to the real needs underneath the fight.',
+        whenToUse: 'Use when two people are stuck arguing, avoiding each other, or when their conflict is affecting team dynamics. Essential when you need them to keep working together.',
         keyBenefits: [
-          'Transforms competition into collaboration',
-          'Addresses root causes, not just symptoms',
-          'Creates solutions that benefit all parties',
-          'Builds stronger cross-team relationships'
+          'Gets past the surface argument to the real problem (usually different priorities or constraints)',
+          'Preserves working relationships instead of creating winners and losers',
+          'Both people own the solution because they helped create it',
+          'Addresses root causes so the same fight doesn\'t happen again'
         ]
       },
       'decision-matrix': {
         title: 'Decision Matrix',
-        description: 'A systematic approach to evaluate multiple options against defined criteria.',
-        whenToUse: 'Perfect for complex operational decisions with multiple factors to consider.',
+        description: 'Cross-team conflicts usually happen because teams optimize for their own success metrics. This framework reframes the problem as "how do we both win?" instead of "who gets their way?"',
+        whenToUse: 'Use when teams are blocking each other, have competing priorities, or when you need a solution that both teams will actually implement (not just agree to).',
         keyBenefits: [
-          'Removes bias from decision-making',
-          'Makes decision rationale transparent',
-          'Ensures all important factors are considered',
-          'Creates defensible, logical choices'
+          'Stops the "us vs them" dynamic that kills cross-team collaboration',
+          'Identifies the real constraints each team faces (not just what they\'re asking for)',
+          'Creates solutions that make both teams more successful',
+          'Builds relationships that prevent future conflicts'
         ]
       },
       'pros-cons': {
         title: 'Pros/Cons Analysis',
-        description: 'A comprehensive evaluation of strategic alternatives considering long-term implications.',
-        whenToUse: 'Best for high-stakes strategic decisions that affect the organization\'s direction.',
+        description: 'When you have multiple good options, your brain gets overwhelmed and defaults to gut feeling or the loudest voice in the room. This forces you to define what actually matters and score objectively.',
+        whenToUse: 'Use when you have 3+ viable options, when the decision affects multiple people who need to understand your reasoning, or when you\'re second-guessing yourself.',
         keyBenefits: [
-          'Forces consideration of both benefits and risks',
-          'Aligns decisions with long-term strategy',
-          'Engages stakeholders in decision process',
-          'Creates thorough documentation for future reference'
+          'Breaks decision paralysis by giving you a clear "winner" based on what matters most',
+          'Shows your team/boss exactly how you made the decision (builds trust)',
+          'Forces you to consider factors you might forget under pressure',
+          'Creates a template for similar decisions in the future'
         ]
       },
       'grow': {
         title: 'GROW Model',
-        description: 'A coaching framework that guides systematic thinking from goals to concrete actions.',
-        whenToUse: 'Excellent for complex situations requiring structured problem-solving and planning.',
+        description: 'Most people jump straight to solutions without understanding the real goal or current reality. GROW forces you to get clear on what success looks like before brainstorming how to get there.',
+        whenToUse: 'Use when you\'re stuck on a complex problem, when you keep going in circles, or when coaching someone who says "I don\'t know what to do."',
         keyBenefits: [
-          'Provides clear structure for complex thinking',
-          'Moves from abstract goals to concrete actions',
-          'Encourages creative option generation',
-          'Creates accountability through specific commitments'
+          'Prevents you from solving the wrong problem by getting clear on the real goal first',
+          'Uncovers options you missed because you were focused on obvious solutions',
+          'Turns vague intentions ("I should improve X") into specific next steps',
+          'Works whether you\'re coaching yourself or helping someone else think through a problem'
         ]
       },
       'responsibility-mapping': {
         title: 'RACI/Responsibility Mapping',
-        description: 'Clarifies ownership and accountability using the RACI framework (Responsible, Accountable, Consulted, Informed).',
-        whenToUse: 'Essential when team members are unclear about roles and decision-making authority.',
+        description: 'The "I thought you were handling that" problem kills projects. RACI forces you to explicitly assign who does the work (R), who\'s accountable for outcomes (A), who gives input (C), and who just needs updates (I).',
+        whenToUse: 'Use when tasks are getting dropped, people are duplicating work, decisions are slow because no one knows who decides, or when onboarding new people to complex projects.',
         keyBenefits: [
-          'Eliminates confusion about who does what',
-          'Prevents work from falling through cracks',
-          'Reduces conflicts over ownership',
-          'Improves team efficiency and coordination'
+          'Eliminates the "I thought someone else was doing that" problem completely',
+          'Speeds up decisions because everyone knows who has the authority to decide',
+          'Stops people from stepping on each other\'s toes or duplicating work',
+          'New team members know exactly who to ask about what'
         ]
       },
       'alignment-canvas': {
         title: 'Alignment Canvas',
-        description: 'A structured approach to prepare for and conduct alignment conversations with leadership.',
-        whenToUse: 'When you need leadership buy-in, approval, or support for important initiatives.',
+        description: 'Most people go into leadership meetings hoping to "wing it" or with a vague sense of what they need. This framework forces you to organize your evidence and anticipate the questions you\'ll get.',
+        whenToUse: 'Use before any meeting where you need leadership buy-in, budget approval, or strategic decisions. Essential when the stakes are high and you only get one shot.',
         keyBenefits: [
-          'Ensures you have all necessary information',
-          'Structures your argument logically',
-          'Increases likelihood of successful alignment',
-          'Demonstrates strategic thinking to leadership'
+          'Prevents the "I hadn\'t thought of that" moment when leadership asks obvious questions',
+          'Organizes your argument so it builds logically instead of jumping around',
+          'Dramatically increases your success rate in high-stakes conversations',
+          'Shows leadership you think like they do (strategic, evidence-based)'
         ]
       },
       'delegation-empowerment': {
         title: 'Delegation/Empowerment',
-        description: 'A framework for effectively delegating tasks and empowering team members to take ownership.',
-        whenToUse: 'When you need to distribute ownership and develop team members\' capabilities.',
+        description: 'Most "delegation" is just task assignment with micromanagement. Real empowerment means giving people the context and authority to make decisions within clear boundaries.',
+        whenToUse: 'Use when you\'re the bottleneck for decisions, when you want to develop someone\'s judgment, or when you need things to happen without your constant involvement.',
         keyBenefits: [
-          'Develops team members\' skills and confidence',
-          'Frees up your time for higher-level work',
-          'Creates more resilient and capable teams',
-          'Improves team engagement and motivation'
+          'Develops people\'s judgment so they make better decisions over time',
+          'Gets you out of the daily weeds so you can focus on bigger problems',
+          'Creates a team that doesn\'t need you for every decision',
+          'People care more about outcomes when they own the decisions'
         ]
       },
       'five-dysfunctions': {
         title: '5 Dysfunctions of a Team',
-        description: 'Based on Patrick Lencioni\'s model, this framework assesses and improves team health across five key areas.',
-        whenToUse: 'When you sense team dynamics issues but need to diagnose the root causes.',
+        description: 'Team problems usually have a root cause: people don\'t trust each other enough to have real conflicts, so they fake agreement, avoid accountability, and focus on individual success over team results.',
+        whenToUse: 'Use when your team feels "off" but you can\'t pinpoint why, when meetings are polite but unproductive, or when people seem disengaged despite being capable.',
         keyBenefits: [
-          'Provides comprehensive team health assessment',
-          'Identifies root causes of team problems',
-          'Offers clear path for team improvement',
-          'Based on proven organizational psychology research'
+          'Identifies the real problem (usually trust) instead of treating symptoms',
+          'Shows you which dysfunction to fix first (they build on each other)',
+          'Based on research with thousands of teams, not just theory',
+          'Gives you specific actions to take at each level of team development'
         ]
       },
       'feedforward-coaching': {
         title: 'Feedforward Coaching',
-        description: 'A future-focused approach to peer feedback that emphasizes improvement rather than criticism.',
-        whenToUse: 'When facilitating peer feedback conversations that need to stay constructive and forward-looking.',
+        description: 'Peer feedback often turns into blame sessions about past mistakes. Feedforward flips this: instead of "here\'s what you did wrong," it\'s "here\'s what would work better next time."',
+        whenToUse: 'Use when facilitating feedback between team members, especially when there\'s tension or when previous feedback conversations went poorly.',
         keyBenefits: [
-          'Keeps conversations positive and solution-focused',
-          'Reduces defensiveness in feedback recipients',
-          'Builds stronger peer relationships',
-          'Creates actionable improvement plans'
+          'Eliminates defensiveness because you\'re not relitigating past mistakes',
+          'Creates specific actions people can take instead of vague "be better" advice',
+          'Actually improves relationships instead of creating resentment',
+          'People get excited about improving instead of defensive about criticism'
         ]
       }
     };
@@ -358,6 +367,7 @@ function App() {
             onStartNewReflection={handleStartNewReflection}
             onStartCategoryReflection={handleStartCategoryReflection}
             onViewHistory={() => setCurrentState('history')}
+            onViewFrameworksGuide={() => setCurrentState('frameworks-guide')}
             reflectionCount={reflections.length}
           />
         );
@@ -422,6 +432,47 @@ function App() {
 
       case 'imprint':
         return <Imprint />;
+
+      case 'frameworks-guide':
+        return (
+          <FrameworksGuide 
+            onStartReflection={(category, subcategory) => {
+              // Find the appropriate framework for this category/subcategory combination
+              const frameworkMapping: Record<string, Record<string, string>> = {
+                'feedback': {
+                  'positive': 'sbi',
+                  'developmental': 'sbi',
+                  'peer-to-peer-feedback-facilitation': 'feedforward-coaching'
+                },
+                'conflict': {
+                  'with-team-member': 'mediation',
+                  'between-team-members': 'mediation',
+                  'cross-team-conflict': 'interest-based-negotiation'
+                },
+                'decision': {
+                  'operational': 'decision-matrix',
+                  'strategic': 'pros-cons',
+                  'ownership-accountability-gaps': 'responsibility-mapping'
+                },
+                'stakeholder': {
+                  'alignment-with-leadership': 'alignment-canvas'
+                },
+                'team-dynamics': {
+                  'ownership-clarity': 'delegation-empowerment',
+                  'team-health-check': 'five-dysfunctions'
+                },
+                'other': {
+                  'free-reflection': 'grow'
+                }
+              };
+              
+              const frameworkId = frameworkMapping[category]?.[subcategory];
+              if (frameworkId) {
+                handleFrameworkSelected(frameworkId as FrameworkType, category as SituationCategory, subcategory);
+              }
+            }}
+          />
+        );
 
       default:
         return null;

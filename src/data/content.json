@@ -1,0 +1,440 @@
+{
+  "dashboard": {
+    "hero": {
+      "title": "Figure Out What to Do Next",
+      "subtitle": "Tackle tough feedback, conflicts, and decisions in just 5-10 minutes",
+      "ctaText": "Begin Your Reflection Now",
+      "privacyText": "Private, evidence-based, and designed to give you immediate steps forward"
+    },
+    "challengeTypes": {
+      "title": "What leadership challenge would you like to tackle?",
+      "types": [
+        {
+          "id": "feedback",
+          "title": "Give Better Feedback",
+          "description": "Handle challenging or positive feedback conversations effectively",
+          "color": "from-blue-500 to-blue-600",
+          "bgColor": "bg-blue-50",
+          "textColor": "text-blue-700",
+          "borderColor": "border-blue-200",
+          "category": "feedback"
+        },
+        {
+          "id": "conflict",
+          "title": "Resolve Team Conflicts",
+          "description": "Resolve tensions within or between teams",
+          "color": "from-amber-500 to-orange-600",
+          "bgColor": "bg-amber-50",
+          "textColor": "text-amber-700",
+          "borderColor": "border-amber-200",
+          "category": "conflict"
+        },
+        {
+          "id": "decision",
+          "title": "Make Strategic Decisions",
+          "description": "Choose the right path when stakes are high",
+          "color": "from-purple-500 to-purple-600",
+          "bgColor": "bg-purple-50",
+          "textColor": "text-purple-700",
+          "borderColor": "border-purple-200",
+          "category": "decision"
+        },
+        {
+          "id": "stakeholder",
+          "title": "Align with Stakeholders",
+          "description": "Get buy-in and manage expectations effectively",
+          "color": "from-emerald-500 to-emerald-600",
+          "bgColor": "bg-emerald-50",
+          "textColor": "text-emerald-700",
+          "borderColor": "border-emerald-200",
+          "category": "stakeholder"
+        }
+      ]
+    },
+    "frameworksGuide": {
+      "title": "Leadership Frameworks Guide",
+      "description": "Comprehensive explanations of all available frameworks to help you choose the right approach",
+      "ctaText": "Learn More"
+    },
+    "progress": {
+      "title": "Your Reflection Journey",
+      "description": "Track your progress and insights",
+      "levels": {
+        "gettingStarted": "Getting Started",
+        "developing": "Developing", 
+        "intermediate": "Intermediate",
+        "advanced": "Advanced",
+        "expert": "Expert"
+      },
+      "tooltips": {
+        "level": {
+          "title": "Leadership Level",
+          "description": "Your current leadership development stage based on reflection count:",
+          "stages": [
+            "Getting Started: 0 reflections",
+            "Developing: 1-4 reflections", 
+            "Intermediate: 5-9 reflections",
+            "Advanced: 10-19 reflections",
+            "Expert: 20+ reflections"
+          ]
+        },
+        "total": {
+          "title": "Total Reflections",
+          "description": "The number of leadership reflections you've completed. Each reflection helps you:",
+          "benefits": [
+            "Process challenging situations",
+            "Identify patterns in your leadership", 
+            "Build decision-making skills",
+            "Track your growth over time"
+          ]
+        },
+        "momentum": {
+          "title": "Growth Momentum",
+          "description": "Your current reflection momentum and habit development:",
+          "levels": [
+            "Ready to Begin: Starting your journey",
+            "Building Habits: Developing routine",
+            "Strong Momentum: Consistent practice"
+          ],
+          "note": "Regular reflection accelerates leadership growth."
+        }
+      },
+      "labels": {
+        "totalReflections": "Total Reflections",
+        "keepBuilding": "Keep building momentum",
+        "recentActivity": "Recent activity",
+        "primaryFocus": "Primary focus area",
+        "thisMonth": "This month",
+        "currentLevel": "Leadership Level",
+        "maxLevel": "Maximum level reached!",
+        "progressTo": "progress to",
+        "readyToBegin": "Ready to Begin",
+        "buildingHabits": "Building Habits", 
+        "strongMomentum": "Strong Momentum",
+        "firstSteps": "First steps",
+        "developingRoutine": "Developing routine",
+        "consistentPractice": "Consistent practice"
+      },
+      "motivationalMessages": {
+        "hasReflections": "Great momentum! You're building a powerful habit of structured reflection. Each session sharpens your leadership instincts and gives you proven approaches for future challenges.",
+        "noReflections": "Ready to start? Your first reflection takes just 5-10 minutes and gives you immediate action steps. Each reflection builds your leadership toolkit for future challenges."
+      },
+      "patternMessage": "Pattern identified: You've been focusing on {category} situations. This indicates active skill development in this leadership area."
+    },
+    "history": {
+      "title": "Reflection History", 
+      "descriptions": {
+        "empty": "No reflections yet - start your leadership journey above",
+        "withCount": "Review your {count} completed reflection{plural}"
+      },
+      "ctaText": "View All"
+    }
+  },
+  "decisionTree": {
+    "help": {
+      "firstLevel": {
+        "title": "Need help choosing?",
+        "description": "Consider the primary challenge you're facing right now. Here are some quick examples to guide you:",
+        "examples": [
+          {
+            "category": "feedback",
+            "title": "Feedback", 
+            "description": "Performance conversations, recognition, or developmental discussions",
+            "color": "from-blue-500 to-blue-600"
+          },
+          {
+            "category": "conflict",
+            "title": "Conflict",
+            "description": "Team disagreements, interpersonal tensions, or disputes", 
+            "color": "from-amber-500 to-orange-600"
+          },
+          {
+            "category": "decision", 
+            "title": "Decision",
+            "description": "Strategic choices, resource allocation, or process decisions",
+            "color": "from-purple-500 to-purple-600"
+          },
+          {
+            "category": "stakeholder",
+            "title": "Stakeholder", 
+            "description": "Managing expectations, alignment, or communication",
+            "color": "from-emerald-500 to-emerald-600"
+          }
+        ],
+        "proTip": "Pro tip: Choose the category that represents your biggest pain point right now. You can always come back for other challenges later!"
+      },
+      "secondLevel": {
+        "title": "Choose your specific situation",
+        "description": "Select the option that most closely matches your current challenge. Each will guide you through a proven framework.",
+        "benefits": [
+          {
+            "title": "Structured approach",
+            "description": "Each option uses research-backed frameworks"
+          },
+          {
+            "title": "Quick results", 
+            "description": "Get actionable insights in 5-10 minutes"
+          }
+        ]
+      }
+    },
+    "progress": {
+      "steps": "Steps",
+      "complete": "complete",
+      "backButton": "Back"
+    }
+  },
+  "reflectionForm": {
+    "progress": {
+      "questions": "Questions",
+      "complete": "complete",
+      "backButton": "Back"
+    },
+    "help": {
+      "title": "How to approach this question",
+      "exampleLabel": "Example:"
+    },
+    "structuredInput": {
+      "title": "Structured Input",
+      "description": "Add each item separately for better organization. You can add as many as needed.",
+      "addButton": "Add another item",
+      "removeTitle": "Remove item",
+      "placeholder": "Enter item {index}..."
+    },
+    "ai": {
+      "title": "AI Assistant",
+      "description": "AI suggestions would appear here, based on anonymized input to protect your privacy. This feature helps provide additional perspectives while keeping your data secure."
+    },
+    "validation": {
+      "required": "This field is required to continue",
+      "requiredAnalysis": "Please provide analysis for at least one item to continue", 
+      "requiredListItem": "Please add at least one item to continue"
+    },
+    "buttons": {
+      "cancel": "Cancel",
+      "copyForAI": "Copy for AI Help",
+      "copyForAIShort": "AI Help",
+      "nextQuestion": "Next Question", 
+      "next": "Next",
+      "completeReflection": "Complete Reflection",
+      "complete": "Complete"
+    },
+    "copyToast": {
+      "title": "Copied to Clipboard! 📋",
+      "description": "Your reflection progress is ready to paste into your preferred AI assistant for guidance and insights.",
+      "privacyTitle": "Privacy Notice:",
+      "privacyText": "You're sharing personal leadership reflections. Consider using local LLMs (like Ollama) for maximum privacy, or only use trusted AI services and avoid sharing sensitive company information."
+    },
+    "referencedAnswers": {
+      "analyzeLabel": "Analyze each item from your previous answer:",
+      "analysisPlaceholder": "How does this relate to the current question? (e.g., alignment, conflicts, constraints, etc.)"
+    }
+  },
+  "reflectionCompletion": {
+    "header": {
+      "title": "Reflection Complete! 🎉",
+      "subtitle": "You've successfully worked through: {problemDescription}",
+      "dateLabel": "Date",
+      "frameworkLabel": "Framework"
+    },
+    "sections": {
+      "yourReflection": {
+        "title": "Your Complete Reflection",
+        "description": "Review your responses and insights"
+      },
+      "actionPlan": {
+        "proTip": "Pro tip: Start with the first 1-2 actions. Leadership change is most effective when implemented gradually and consistently."
+      },
+      "export": {
+        "title": "Ready to take action?",
+        "description": "Export your reflection or get additional AI insights"
+      }
+    },
+    "buttons": {
+      "copyForAI": "Copy for AI Analysis",
+      "exportReflection": "Export Reflection", 
+      "startNew": "Start New Reflection",
+      "continueToDashboard": "Continue to Dashboard"
+    },
+    "copyToast": {
+      "title": "Copied to Clipboard! 📋",
+      "description": "Your complete reflection with action planning request is ready to paste into your preferred AI assistant.",
+      "privacyTitle": "Privacy Notice:",
+      "privacyText": "You're sharing personal leadership reflections. Consider using local LLMs (like Ollama) for maximum privacy, or only use trusted AI services and avoid sharing sensitive company information."
+    }
+  },
+  "reflectionHistory": {
+    "stats": {
+      "title": "Your Leadership Journey",
+      "subtitle": "Current level: {level} • Continue developing your leadership skills",
+      "totalReflections": "Total Reflections",
+      "keepBuilding": "Keep building momentum",
+      "thisMonth": "This month", 
+      "recentActivity": "Recent activity",
+      "primaryFocus": "Primary focus area",
+      "patternMessage": "Pattern identified: You've been focusing on {category} situations. This indicates active skill development in this leadership area."
+    },
+    "search": {
+      "title": "Find Your Reflections",
+      "description": "Search through your leadership growth journey",
+      "placeholder": "Search reflections by content or topic...",
+      "sortByDate": "Sort by Date",
+      "sortByCategory": "Sort by Category"
+    },
+    "categories": [
+      { "value": "all", "label": "All Categories", "emoji": "📚" },
+      { "value": "feedback", "label": "Feedback", "emoji": "💬" },
+      { "value": "conflict", "label": "Conflict", "emoji": "🤝" },
+      { "value": "decision", "label": "Decision", "emoji": "🎯" },
+      { "value": "stakeholder", "label": "Stakeholder", "emoji": "🌐" },
+      { "value": "team-dynamics", "label": "Team Dynamics", "emoji": "👥" },
+      { "value": "other", "label": "Other", "emoji": "⚡" }
+    ],
+    "results": {
+      "showing": "Showing {filtered} of {total} reflections",
+      "mostRecent": "Most recent: {date}",
+      "noResults": {
+        "title": "No matching reflections found",
+        "description": "Try adjusting your search or filter criteria"
+      },
+      "empty": {
+        "title": "Ready to start your journey?",
+        "description": "Your first reflection is just a click away!",
+        "gettingStarted": "Getting started: Regular reflection helps you identify patterns and accelerate your leadership growth."
+      }
+    }
+  },
+  "reflectionSummary": {
+    "buttons": {
+      "edit": "Edit reflection",
+      "copyForAI": "Copy reflection with AI instructions to clipboard",
+      "copyForAIShort": "Copy for AI",
+      "export": "Export reflection",
+      "delete": "Delete reflection"
+    },
+    "status": {
+      "completed": "Completed",
+      "draft": "Draft"
+    },
+    "labels": {
+      "framework": "Framework",
+      "lastUpdated": "Last updated: {date}",
+      "clickToView": "Click to view completion screen with action plan"
+    },
+    "copyToast": {
+      "title": "Copied to Clipboard! 📋",
+      "description": "Your reflection is ready to paste into ChatGPT, Claude, or any AI assistant for analysis and insights.",
+      "privacyTitle": "Privacy Notice:",
+      "privacyText": "You're sharing personal leadership reflections. Consider using local LLMs (like Ollama) for maximum privacy, or only use trusted AI services and avoid sharing sensitive company information."
+    }
+  },
+  "frameworksGuide": {
+    "header": {
+      "title": "Leadership Frameworks Guide",
+      "subtitle": "Comprehensive explanations of all available frameworks to help you choose the right approach for your leadership challenges.",
+      "badge": "Research-backed • Proven in practice • Ready to use"
+    },
+    "tableOfContents": {
+      "title": "Table of Contents",
+      "description": "Jump to any framework for detailed information"
+    },
+    "framework": {
+      "usedIn": "Used in these reflections:",
+      "abbreviationTitle": "What does the abbreviation mean?",
+      "whyTitle": "Why {title}?",
+      "whenToUse": "When to use:",
+      "keyBenefits": "Key benefits:"
+    },
+    "footer": {
+      "title": "Ready to get started?",
+      "description": "Each framework is designed to be practical and immediately actionable. Choose the one that matches your current challenge, or start with a new reflection to get a personalized recommendation."
+    }
+  },
+  "layout": {
+    "tagline": "Pause, reflect, and move forward with purpose.",
+    "privacy": {
+      "badge": "Private",
+      "title": "Your Privacy is Protected",
+      "features": [
+        {
+          "title": "100% Local Storage",
+          "description": "All reflections stay on your device"
+        },
+        {
+          "title": "No Data Collection", 
+          "description": "We don't track, store, or analyze your content"
+        },
+        {
+          "title": "Offline Capable",
+          "description": "Works without internet connection"
+        },
+        {
+          "title": "You Control Your Data",
+          "description": "Export or delete anytime"
+        }
+      ]
+    },
+    "frameworkInfo": {
+      "title": "Why {title}?",
+      "whenToUse": "When to use:",
+      "keyBenefits": "Key benefits:"
+    },
+    "footer": {
+      "imprint": "Imprint"
+    }
+  },
+  "imprint": {
+    "sections": {
+      "serviceProvider": {
+        "title": "Service Provider",
+        "name": "Reflect & Act"
+      },
+      "representative": {
+        "title": "Represented by",
+        "name": "Daniel Schmeiß"
+      },
+      "contact": {
+        "title": "Contact",
+        "emailLabel": "E-Mail",
+        "email": "zoomen.zweimal.7f@icloud.com"
+      }
+    },
+    "about": {
+      "title": "About This Service",
+      "description": "Reflect & Act is a privacy-focused leadership reflection tool designed to help engineering leaders navigate situational challenges through structured frameworks. All data is stored locally on your device and no personal information is collected or transmitted."
+    }
+  },
+  "common": {
+    "buttons": {
+      "back": "Back",
+      "save": "Save",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "edit": "Edit",
+      "export": "Export",
+      "continue": "Continue",
+      "startNew": "Start New",
+      "viewAll": "View All",
+      "learnMore": "Learn More"
+    },
+    "labels": {
+      "date": "Date",
+      "category": "Category", 
+      "framework": "Framework",
+      "status": "Status",
+      "progress": "Progress",
+      "complete": "Complete",
+      "loading": "Loading...",
+      "error": "Error",
+      "success": "Success"
+    },
+    "categoryEmojis": {
+      "feedback": "💬",
+      "conflict": "🤝", 
+      "decision": "🎯",
+      "stakeholder": "🌐",
+      "team-dynamics": "👥",
+      "other": "⚡"
+    }
+  }
+}

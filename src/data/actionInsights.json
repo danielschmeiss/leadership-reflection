@@ -1,0 +1,122 @@
+{
+  "sbi": {
+    "title": "Next Steps for Feedback",
+    "actions": [
+      "Schedule a private 1:1 meeting within the next 2-3 days",
+      "Prepare your opening: \"I wanted to share some feedback about...\"",
+      "Practice delivering the feedback using the SBI structure",
+      "Plan follow-up check-ins to track progress or reinforce positive behavior",
+      "Document the conversation outcomes for future reference"
+    ]
+  },
+  "mediation": {
+    "title": "Conflict Resolution Action Plan",
+    "actions": [
+      "Schedule separate 1:1s with each party to understand their perspectives",
+      "Identify a neutral meeting space and time for mediated discussion",
+      "Prepare ground rules for the conversation (respect, listening, solution-focus)",
+      "Facilitate the discussion using the common ground you identified",
+      "Document agreed-upon solutions and follow-up commitments"
+    ]
+  },
+  "interest-based-negotiation": {
+    "title": "Cross-Team Alignment Strategy",
+    "actions": [
+      "Schedule a joint meeting with representatives from each team",
+      "Present the shared problem framing to get buy-in",
+      "Facilitate brainstorming of win-win solutions",
+      "Create a written agreement on the chosen approach",
+      "Establish regular check-ins to monitor progress and address issues"
+    ]
+  },
+  "decision-matrix": {
+    "title": "Decision Implementation Plan",
+    "actions": [
+      "Present your decision matrix to key stakeholders for validation",
+      "Create a detailed implementation plan for the chosen option",
+      "Identify and mitigate the risks you outlined",
+      "Communicate the decision and rationale to affected team members",
+      "Set up monitoring to track the decision's effectiveness"
+    ]
+  },
+  "pros-cons": {
+    "title": "Strategic Decision Next Steps",
+    "actions": [
+      "Schedule stakeholder meetings to discuss your analysis",
+      "Prepare a presentation of your pros/cons analysis",
+      "Gather additional input on factors you may have missed",
+      "Make the strategic decision based on your analysis",
+      "Create a communication plan for announcing the decision"
+    ]
+  },
+  "grow": {
+    "title": "Goal Achievement Action Plan",
+    "actions": [
+      "Break down your chosen option into specific, measurable tasks",
+      "Set deadlines for each task and add them to your calendar",
+      "Identify who you need to involve or inform about your plan",
+      "Take your defined next step within the next 24-48 hours",
+      "Schedule weekly reviews to track progress toward your goal"
+    ]
+  },
+  "responsibility-mapping": {
+    "title": "Ownership Clarification Plan",
+    "actions": [
+      "Schedule a team meeting to present the RACI matrix",
+      "Get explicit agreement from each person on their responsibilities",
+      "Document the ownership structure in a shared location",
+      "Set up the follow-up mechanism you identified",
+      "Monitor for confusion and address it quickly"
+    ]
+  },
+  "alignment-canvas": {
+    "title": "Leadership Alignment Strategy",
+    "actions": [
+      "Schedule a meeting with the relevant leadership stakeholders",
+      "Prepare your presentation with clear data and evidence",
+      "Practice your argumentation to ensure clarity",
+      "Anticipate questions and prepare thoughtful responses",
+      "Follow up with a summary of decisions and next steps"
+    ]
+  },
+  "delegation-empowerment": {
+    "title": "Empowerment Implementation Plan",
+    "actions": [
+      "Have 1:1 conversations with each person about their new ownership",
+      "Provide clear context and boundaries for their decision-making",
+      "Set up regular check-ins without micromanaging",
+      "Create documentation of the new ownership structure",
+      "Celebrate early wins to reinforce the empowerment"
+    ]
+  },
+  "five-dysfunctions": {
+    "title": "Team Health Improvement Plan",
+    "actions": [
+      "Address the most critical dysfunction you identified first",
+      "Plan team activities to build trust and psychological safety",
+      "Establish norms for healthy conflict and debate",
+      "Create mechanisms for team members to hold each other accountable",
+      "Regularly measure and celebrate team progress"
+    ]
+  },
+  "feedforward-coaching": {
+    "title": "Peer Feedback Facilitation Plan",
+    "actions": [
+      "Schedule a structured feedback session with clear ground rules",
+      "Focus the conversation on future improvements rather than past mistakes",
+      "Help both parties identify specific, actionable next steps",
+      "Create a follow-up plan to track progress and relationship health",
+      "Document key insights and commitments for future reference"
+    ]
+  },
+  "default": {
+    "title": "General Action Plan",
+    "actions": [
+      "Review your responses and identify the most important insights",
+      "Choose 1-2 specific actions to focus on first",
+      "Set deadlines for your chosen actions",
+      "Identify who you need to involve or communicate with",
+      "Schedule time to review progress in 1-2 weeks"
+    ]
+  }
+}

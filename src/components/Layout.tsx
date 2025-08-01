@@ -186,20 +186,13 @@ export function Layout({
 
         {/* Footer */}
         <footer className="mt-12 sm:mt-16 text-center">
-          <div className="space-y-4">
-            <div className="text-sm text-gray-500">
-              <span>Professional Leadership Development Tool</span>
-            </div>
-            
-            {/* Footer Links */}
-            <div className="text-sm text-gray-500">
-              <button
-                onClick={() => window.location.hash = 'imprint'}
-                className="flex items-center gap-1 sm:gap-2 text-xs text-emerald-700 bg-emerald-50 p-2 sm:px-4 sm:py-2 rounded-full border border-emerald-200 hover:bg-emerald-100 transition-all cursor-pointer"
-              >
-                <span className="font-medium text-xs hidden sm:inline">Private</span>
-              </button>
-            </div>
+          <div className="text-sm text-gray-500">
+            <button
+              onClick={() => window.location.hash = 'imprint'}
+              className="text-gray-500 hover:text-gray-700 underline hover:no-underline transition-all cursor-pointer"
+            >
+              Imprint
+            </button>
           </div>
         </footer>
       </div>

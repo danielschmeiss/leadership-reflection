@@ -1,0 +1,123 @@
+{
+  "sbi": {
+    "title": "SBI Framework",
+    "description": "Most feedback fails because it's vague (\"be more collaborative\") or feels like an attack (\"you're not a team player\"). SBI gives you a script that focuses on facts, not personality.",
+    "whenToUse": "Use when someone did something specific that had a clear impact - either positive (to reinforce) or problematic (to change). Works for any feedback conversation.",
+    "keyBenefits": [
+      "Person can't argue with facts - reduces the \"that's not what I meant\" defensiveness",
+      "Shows clear cause-and-effect so they understand why it matters",
+      "Gives them something specific to repeat (positive) or change (developmental)",
+      "Takes the emotion out of difficult conversations"
+    ]
+  },
+  "mediation": {
+    "title": "Mediation Framework",
+    "description": "When people are in conflict, they argue about positions (\"I want X\") instead of interests (\"I need Y because...\"). This framework gets to the real needs underneath the fight.",
+    "whenToUse": "Use when two people are stuck arguing, avoiding each other, or when their conflict is affecting team dynamics. Essential when you need them to keep working together.",
+    "keyBenefits": [
+      "Gets past the surface argument to the real problem (usually different priorities or constraints)",
+      "Preserves working relationships instead of creating winners and losers",
+      "Both people own the solution because they helped create it",
+      "Addresses root causes so the same fight doesn't happen again"
+    ]
+  },
+  "interest-based-negotiation": {
+    "title": "Interest-Based Negotiation",
+    "description": "Cross-team conflicts usually happen because teams optimize for their own success metrics. This framework reframes the problem as \"how do we both win?\" instead of \"who gets their way?\"",
+    "whenToUse": "Use when teams are blocking each other, have competing priorities, or when you need a solution that both teams will actually implement (not just agree to).",
+    "keyBenefits": [
+      "Stops the \"us vs them\" dynamic that kills cross-team collaboration",
+      "Identifies the real constraints each team faces (not just what they're asking for)",
+      "Creates solutions that make both teams more successful",
+      "Builds relationships that prevent future conflicts"
+    ]
+  },
+  "decision-matrix": {
+    "title": "Decision Matrix",
+    "description": "When you have multiple good options, your brain gets overwhelmed and defaults to gut feeling or the loudest voice in the room. This forces you to define what actually matters and score objectively.",
+    "whenToUse": "Use when you have 3+ viable options, when the decision affects multiple people who need to understand your reasoning, or when you're second-guessing yourself.",
+    "keyBenefits": [
+      "Breaks decision paralysis by giving you a clear \"winner\" based on what matters most",
+      "Shows your team/boss exactly how you made the decision (builds trust)",
+      "Forces you to consider factors you might forget under pressure",
+      "Creates a template for similar decisions in the future"
+    ]
+  },
+  "pros-cons": {
+    "title": "Pros/Cons Analysis",
+    "description": "Most people make pros/cons lists that miss the real decision factors. This framework forces you to think about second-order effects, opportunity costs, and how each option plays out 6-12 months later.",
+    "whenToUse": "Use for decisions that will significantly impact your team's direction, when you need to justify your choice to leadership, or when the \"obvious\" choice feels wrong but you can't articulate why.",
+    "keyBenefits": [
+      "Uncovers the hidden costs and unexpected benefits you didn't see initially",
+      "Forces you to think about how each option aligns with long-term strategy",
+      "Identifies which stakeholders will be affected and need to be consulted",
+      "Creates a clear record of your reasoning for future reference"
+    ]
+  },
+  "grow": {
+    "title": "GROW Model",
+    "description": "Most people jump straight to solutions without understanding the real goal or current reality. GROW forces you to get clear on what success looks like before brainstorming how to get there.",
+    "whenToUse": "Use when you're stuck on a complex problem, when you keep going in circles, or when coaching someone who says \"I don't know what to do.\"",
+    "keyBenefits": [
+      "Prevents you from solving the wrong problem by getting clear on the real goal first",
+      "Uncovers options you missed because you were focused on obvious solutions",
+      "Turns vague intentions (\"I should improve X\") into specific next steps",
+      "Works whether you're coaching yourself or helping someone else think through a problem"
+    ]
+  },
+  "responsibility-mapping": {
+    "title": "RACI/Responsibility Mapping",
+    "description": "The \"I thought you were handling that\" problem kills projects. RACI forces you to explicitly assign who does the work (R), who's accountable for outcomes (A), who gives input (C), and who just needs updates (I).",
+    "whenToUse": "Use when tasks are getting dropped, people are duplicating work, decisions are slow because no one knows who decides, or when onboarding new people to complex projects.",
+    "keyBenefits": [
+      "Eliminates the \"I thought someone else was doing that\" problem completely",
+      "Speeds up decisions because everyone knows who has the authority to decide",
+      "Stops people from stepping on each other's toes or duplicating work",
+      "New team members know exactly who to ask about what"
+    ]
+  },
+  "alignment-canvas": {
+    "title": "Alignment Canvas",
+    "description": "Most people go into leadership meetings hoping to \"wing it\" or with a vague sense of what they need. This framework forces you to organize your evidence and anticipate the questions you'll get.",
+    "whenToUse": "Use before any meeting where you need leadership buy-in, budget approval, or strategic decisions. Essential when the stakes are high and you only get one shot.",
+    "keyBenefits": [
+      "Prevents the \"I hadn't thought of that\" moment when leadership asks obvious questions",
+      "Organizes your argument so it builds logically instead of jumping around",
+      "Dramatically increases your success rate in high-stakes conversations",
+      "Shows leadership you think like they do (strategic, evidence-based)"
+    ]
+  },
+  "delegation-empowerment": {
+    "title": "Delegation/Empowerment",
+    "description": "Most \"delegation\" is just task assignment with micromanagement. Real empowerment means giving people the context and authority to make decisions within clear boundaries.",
+    "whenToUse": "Use when you're the bottleneck for decisions, when you want to develop someone's judgment, or when you need things to happen without your constant involvement.",
+    "keyBenefits": [
+      "Develops people's judgment so they make better decisions over time",
+      "Gets you out of the daily weeds so you can focus on bigger problems",
+      "Creates a team that doesn't need you for every decision",
+      "People care more about outcomes when they own the decisions"
+    ]
+  },
+  "five-dysfunctions": {
+    "title": "5 Dysfunctions of a Team",
+    "description": "Team problems usually have a root cause: people don't trust each other enough to have real conflicts, so they fake agreement, avoid accountability, and focus on individual success over team results.",
+    "whenToUse": "Use when your team feels \"off\" but you can't pinpoint why, when meetings are polite but unproductive, or when people seem disengaged despite being capable.",
+    "keyBenefits": [
+      "Identifies the real problem (usually trust) instead of treating symptoms",
+      "Shows you which dysfunction to fix first (they build on each other)",
+      "Based on research with thousands of teams, not just theory",
+      "Gives you specific actions to take at each level of team development"
+    ]
+  },
+  "feedforward-coaching": {
+    "title": "Feedforward Coaching",
+    "description": "Peer feedback often turns into blame sessions about past mistakes. Feedforward flips this: instead of \"here's what you did wrong,\" it's \"here's what would work better next time.\"",
+    "whenToUse": "Use when facilitating feedback between team members, especially when there's tension or when previous feedback conversations went poorly.",
+    "keyBenefits": [
+      "Eliminates defensiveness because you're not relitigating past mistakes",
+      "Creates specific actions people can take instead of vague \"be better\" advice",
+      "Actually improves relationships instead of creating resentment",
+      "People get excited about improving instead of defensive about criticism"
+    ]
+  }
+}
