@@ -2,6 +2,53 @@
 
 *Pause, reflect, and move forward with purpose.*
 
+## Table of Contents
+
+- [Purpose](#-purpose)
+- [Key Features](#-key-features)
+  - [Interactive Decision Tree](#-interactive-decision-tree)
+  - [Proven Frameworks](#-proven-frameworks)
+  - [Privacy-First Design](#-privacy-first-design)
+  - [Reflection Management](#-reflection-management)
+- [Quick Start](#-quick-start)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Building for Production](#building-for-production)
+- [How to Use](#-how-to-use)
+  - [Start a New Reflection](#1-start-a-new-reflection--30-seconds)
+  - [Work Through Your Challenge](#2-work-through-your-challenge-5-10-minutes)
+  - [Review and Apply](#3-review-and-apply)
+- [Available Frameworks](#-available-frameworks)
+  - [SBI Framework](#sbi-framework)
+  - [GROW Model](#grow-model)
+  - [Mediation Framework](#mediation-framework)
+  - [Interest-Based Negotiation](#interest-based-negotiation)
+  - [Decision Matrix](#decision-matrix)
+  - [Pros/Cons Analysis](#proscons-analysis)
+  - [RACI/Responsibility Mapping](#raciresponsibility-mapping)
+  - [Alignment Canvas](#alignment-canvas)
+  - [Delegation/Empowerment](#delegationempowerment)
+  - [5 Dysfunctions of a Team](#5-dysfunctions-of-a-team)
+  - [Feedforward Coaching](#feedforward-coaching)
+- [Privacy & Security](#-privacy--security)
+- [Technical Architecture](#-technical-architecture)
+  - [Built With](#built-with)
+  - [Project Structure](#project-structure)
+  - [Content Management Architecture](#content-management-architecture)
+- [Design Principles](#-design-principles)
+- [Mobile Experience](#-mobile-experience)
+- [Development](#-development)
+  - [Available Scripts](#available-scripts)
+  - [Contributing](#contributing)
+  - [Content Updates](#content-updates)
+- [Roadmap](#-roadmap)
+  - [Near Term](#near-term)
+  - [Medium Term](#medium-term)
+  - [Long Term](#long-term)
+- [Support & Usage](#-support--usage)
+  - [Best Practices](#best-practices)
+- [License](#-license)
+
 A privacy-focused React application designed to help engineering leaders navigate situational challenges through structured reflection frameworks. Built with a clean separation of content and code for maximum maintainability and internationalization readiness.
 
 ## 🎯 Purpose
