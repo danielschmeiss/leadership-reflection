@@ -1,21 +1,24 @@
-import React from 'react';
-import { useState } from 'react';
-import { Download, Edit, Trash2, Calendar, Tag, Star, CheckCircle, Target, Bot, Copy, AlertTriangle } from 'lucide-react';
-import { Situation } from '../types';
-import { frameworks } from '../data/frameworks';
+import React, { useState } from 'react';
+import { CheckCircle, Download, ArrowRight, Lightbulb, Target, Users, MessageSquare, Calendar, Bot, Copy, AlertTriangle, Star, Zap } from 'lucide-react';
+import { Framework, Situation } from '../types';
 import jsPDF from 'jspdf';
 
-interface ReflectionSummaryProps {
-  reflection: Situation;
-  onEdit?: () => void;
-  onDelete?: () => void;
-  onExport?: () => void;
-  onViewCompletion?: () => void;
+interface ReflectionCompletionProps {
+  framework: Framework;
+  responses: Record<string, string>;
+  problemDescription: string;
+  onContinue: () => void;
+  onStartNew: () => void;
 }
 
-export function ReflectionSummary({ reflection, onEdit, onDelete, onExport, onViewCompletion }: ReflectionSummaryProps) {
-  const framework = frameworks[reflection.framework];
-  const createdDate = new Date(reflection.createdAt).toLocaleDateString();
+export function ReflectionCompletion({ 
+  framework, 
+  responses, 
+  problemDescription, 
+  onContinue, 
+  onStartNew 
+}: ReflectionCompletionProps) {
+  const [showCopyToast, setShowCopyToast] = useState(false);
 
   const getActionableInsights = (frameworkId: string, responses: Record<string, string>) => {
     const insights: { title: string; actions: string[]; icon: React.ReactNode; color: string }[] = [];
@@ -24,7 +27,7 @@ export function ReflectionSummary({ reflection, onEdit, onDelete, onExport, onVi
       case 'sbi':
         insights.push({
           title: 'Next Steps for Feedback',
-          icon: <></>,
+          icon: <MessageSquare className="w-5 h-5" />,
           color: 'from-blue-500 to-blue-600',
           actions: [
             'Schedule a private 1:1 meeting within the next 2-3 days',
@@ -39,7 +42,7 @@ export function ReflectionSummary({ reflection, onEdit, onDelete, onExport, onVi
       case 'mediation':
         insights.push({
           title: 'Conflict Resolution Action Plan',
-          icon: <></>,
+          icon: <Users className="w-5 h-5" />,
           color: 'from-amber-500 to-orange-600',
           actions: [
             'Schedule separate 1:1s with each party to understand their perspectives',
@@ -54,7 +57,7 @@ export function ReflectionSummary({ reflection, onEdit, onDelete, onExport, onVi
       case 'interest-based-negotiation':
         insights.push({
           title: 'Cross-Team Alignment Strategy',
-          icon: <></>,
+          icon: <Target className="w-5 h-5" />,
           color: 'from-purple-500 to-purple-600',
           actions: [
             'Schedule a joint meeting with representatives from each team',
@@ -69,7 +72,7 @@ export function ReflectionSummary({ reflection, onEdit, onDelete, onExport, onVi
       case 'decision-matrix':
         insights.push({
           title: 'Decision Implementation Plan',
-          icon: <></>,
+          icon: <Target className="w-5 h-5" />,
           color: 'from-emerald-500 to-emerald-600',
           actions: [
             'Present your decision matrix to key stakeholders for validation',
@@ -84,7 +87,7 @@ export function ReflectionSummary({ reflection, onEdit, onDelete, onExport, onVi
       case 'pros-cons':
         insights.push({
           title: 'Strategic Decision Next Steps',
-          icon: <></>,
+          icon: <Zap className="w-5 h-5" />,
           color: 'from-indigo-500 to-purple-600',
           actions: [
             'Schedule stakeholder meetings to discuss your analysis',
@@ -99,7 +102,7 @@ export function ReflectionSummary({ reflection, onEdit, onDelete, onExport, onVi
       case 'grow':
         insights.push({
           title: 'Goal Achievement Action Plan',
-          icon: <></>,
+          icon: <Target className="w-5 h-5" />,
           color: 'from-green-500 to-emerald-600',
           actions: [
             'Break down your chosen option into specific, measurable tasks',
@@ -114,7 +117,7 @@ export function ReflectionSummary({ reflection, onEdit, onDelete, onExport, onVi
       case 'responsibility-mapping':
         insights.push({
           title: 'Ownership Clarification Plan',
-          icon: <></>,
+          icon: <Users className="w-5 h-5" />,
           color: 'from-blue-500 to-indigo-600',
           actions: [
             'Schedule a team meeting to present the RACI matrix',
@@ -129,7 +132,7 @@ export function ReflectionSummary({ reflection, onEdit, onDelete, onExport, onVi
       case 'alignment-canvas':
         insights.push({
           title: 'Leadership Alignment Strategy',
-          icon: <></>,
+          icon: <Star className="w-5 h-5" />,
           color: 'from-purple-500 to-pink-600',
           actions: [
             'Schedule a meeting with the relevant leadership stakeholders',
@@ -144,7 +147,7 @@ export function ReflectionSummary({ reflection, onEdit, onDelete, onExport, onVi
       case 'delegation-empowerment':
         insights.push({
           title: 'Empowerment Implementation Plan',
-          icon: <></>,
+          icon: <Users className="w-5 h-5" />,
           color: 'from-emerald-500 to-teal-600',
           actions: [
             'Have 1:1 conversations with each person about their new ownership',
@@ -159,7 +162,7 @@ export function ReflectionSummary({ reflection, onEdit, onDelete, onExport, onVi
       case 'five-dysfunctions':
         insights.push({
           title: 'Team Health Improvement Plan',
-          icon: <></>,
+          icon: <Users className="w-5 h-5" />,
           color: 'from-rose-500 to-pink-600',
           actions: [
             'Address the most critical dysfunction you identified first',
@@ -174,7 +177,7 @@ export function ReflectionSummary({ reflection, onEdit, onDelete, onExport, onVi
       default:
         insights.push({
           title: 'General Action Plan',
-          icon: <></>,
+          icon: <Target className="w-5 h-5" />,
           color: 'from-gray-500 to-gray-600',
           actions: [
             'Review your responses and identify the most important insights',
@@ -188,33 +191,8 @@ export function ReflectionSummary({ reflection, onEdit, onDelete, onExport, onVi
 
     return insights;
   };
-  const [showCopyToast, setShowCopyToast] = useState(false);
 
-  const getCategoryColor = (category: string) => {
-    switch (category) {
-      case 'feedback': return 'from-blue-400 to-blue-600';
-      case 'conflict': return 'from-red-400 to-red-600';
-      case 'decision': return 'from-purple-400 to-purple-600';
-      case 'stakeholder': return 'from-green-400 to-green-600';
-      case 'team-dynamics': return 'from-orange-400 to-orange-600';
-      case 'other': return 'from-gray-400 to-gray-600';
-      default: return 'from-blue-400 to-blue-600';
-    }
-  };
-
-  const getCategoryEmoji = (category: string) => {
-    switch (category) {
-      case 'feedback': return '💬';
-      case 'conflict': return '🤝';
-      case 'decision': return '🎯';
-      case 'stakeholder': return '🌐';
-      case 'team-dynamics': return '👥';
-      case 'other': return '⚡';
-      default: return '📝';
-    }
-  };
-
-  const exportToPDF = () => {
+  const exportReflection = () => {
     generatePDF();
   };
 
@@ -225,7 +203,8 @@ export function ReflectionSummary({ reflection, onEdit, onDelete, onExport, onVi
     const margin = 20;
     const contentWidth = pageWidth - 2 * margin;
     let yPosition = margin;
-    const insights = getActionableInsights(framework.id, reflection.responses);
+    const createdDate = new Date().toLocaleDateString();
+    const insights = getActionableInsights(framework.id, responses);
 
     // Helper function to add text with word wrapping
     const addWrappedText = (text: string, x: number, y: number, maxWidth: number, fontSize: number = 10, isBold: boolean = false) => {
@@ -279,7 +258,7 @@ export function ReflectionSummary({ reflection, onEdit, onDelete, onExport, onVi
     pdf.setFont('helvetica', 'bold');
     pdf.text('Challenge:', margin + 5, yPosition);
     pdf.setFont('helvetica', 'normal');
-    pdf.text(reflection.subcategory || reflection.category, margin + 30, yPosition);
+    pdf.text(problemDescription, margin + 30, yPosition);
     
     yPosition += 8;
     pdf.setFont('helvetica', 'bold');
@@ -305,7 +284,7 @@ export function ReflectionSummary({ reflection, onEdit, onDelete, onExport, onVi
     pdf.setTextColor(0, 0, 0);
 
     framework.questions.forEach((question, index) => {
-      const response = reflection.responses[question.id];
+      const response = responses[question.id];
       if (!response?.trim()) return;
       
       checkNewPage(40);
@@ -412,7 +391,7 @@ I've completed a leadership reflection using the "${framework.name}" framework a
 ## My Complete Reflection
 
 ${framework.questions.map((question, index) => {
-  const response = reflection.responses[question.id] || 'No response provided';
+  const response = responses[question.id] || 'No response provided';
   return `### ${index + 1}. ${question.text}
 
 **My Response:**
@@ -454,20 +433,17 @@ Please provide specific, actionable advice based on my reflection responses. Foc
   };
 
   const copyForAI = async () => {
-    const aiContent = `# Leadership Reflection Analysis Request
+    const createdDate = new Date().toLocaleDateString();
+    const aiContent = `# Leadership Reflection Analysis & Action Planning Request
 
-I'm sharing a leadership reflection from my private development tool "Reflect & Act" and would like your insights and analysis.
+I've completed a leadership reflection using the "${framework.name}" framework and would like your help with analysis and action planning.
 
 ## Context
-- **Date**: ${createdDate}
-- **Category**: ${reflection.category} (${getCategoryEmoji(reflection.category)})
-- **Framework Used**: ${framework.name}
-- **Framework Purpose**: ${framework.description}
 
-## My Reflection Responses
+## My Complete Reflection
 
 ${framework.questions.map((question, index) => {
-  const response = reflection.responses[question.id] || 'No response provided';
+  const response = responses[question.id] || 'No response provided';
   return `### ${index + 1}. ${question.text}
 
 **My Response:**
@@ -477,16 +453,16 @@ ${response}
 
 ## What I'm Looking For
 
-Please analyze my reflection and provide:
+Please help me with:
 
-1. **Key Insights**: What patterns or themes do you notice in my responses?
-2. **Blind Spots**: What important aspects might I have missed or not fully considered?
-3. **Actionable Advice**: What specific next steps would you recommend?
-4. **Leadership Growth**: How does this reflection show areas for my leadership development?
-5. **Alternative Perspectives**: Are there other ways to view this situation?
+1. **Key Insights**: What are the most important insights from my reflection?
+2. **Action Priorities**: Which actions should I prioritize first and why?
+3. **Implementation Strategy**: How should I approach implementing these actions?
+4. **Potential Obstacles**: What challenges might I face and how can I prepare for them?
+5. **Success Metrics**: How will I know if my actions are working?
+6. **Timeline**: What's a realistic timeline for implementing these changes?
 
-Please be constructive and specific in your feedback. This reflection represents real leadership challenges I'm working through.`;
-
+Please provide specific, actionable advice based on my reflection responses. Focus on practical next steps I can take as a leader.`;
     try {
       await navigator.clipboard.writeText(aiContent);
       setShowCopyToast(true);
@@ -496,17 +472,19 @@ Please be constructive and specific in your feedback. This reflection represents
     }
   };
 
+  const insights = getActionableInsights(framework.id, responses);
+
   return (
-    <div className="relative bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-all duration-200 cursor-pointer group" onClick={onViewCompletion}>
+    <div className="relative max-w-4xl mx-auto space-y-8">
       {/* Copy Success Toast */}
       {showCopyToast && (
-        <div className="absolute top-4 right-4 z-50 bg-emerald-600 text-white px-6 py-4 rounded-xl shadow-lg border border-emerald-500 animate-in slide-in-from-top-2 duration-500 max-w-md">
+        <div className="fixed top-6 right-6 z-50 bg-emerald-600 text-white px-6 py-4 rounded-xl shadow-lg border border-emerald-500 animate-in slide-in-from-top-2 duration-500 max-w-md">
           <div className="flex items-start gap-3">
             <CheckCircle className="w-5 h-5 mt-0.5 flex-shrink-0" />
             <div>
               <div className="font-semibold mb-1">Copied to Clipboard! 📋</div>
               <div className="text-sm text-emerald-100">
-                Your reflection is ready to paste into ChatGPT, Claude, or any AI assistant for analysis and insights.
+                Your complete reflection with action planning request is ready to paste into your preferred AI assistant.
               </div>
               <div className="mt-3 p-3 bg-amber-500 bg-opacity-20 rounded-lg border border-amber-400 border-opacity-30">
                 <div className="flex items-start gap-2 mb-2">
@@ -521,146 +499,152 @@ Please be constructive and specific in your feedback. This reflection represents
           </div>
         </div>
       )}
-      
-      {/* Header */}
-      <div className={`bg-gradient-to-r ${getCategoryColor(reflection.category)} text-white p-6`}>
-        <div className="flex justify-between items-start mb-4">
-          <div className="flex items-start gap-4">
-            <div className="text-4xl">{getCategoryEmoji(reflection.category)}</div>
+
+      {/* Completion Header */}
+      <div className="bg-gradient-to-r from-emerald-600 via-green-600 to-teal-700 rounded-2xl p-8 text-white shadow-lg">
+        <div className="flex items-start gap-6">
+          <div className="p-4 bg-white bg-opacity-20 backdrop-blur-sm rounded-xl">
+            <CheckCircle className="w-12 h-12" />
+          </div>
+          <div className="flex-1">
+            <h1 className="text-3xl font-bold mb-3">Reflection Complete! 🎉</h1>
+            <p className="text-xl text-green-100 mb-4">
+              You've successfully worked through: <strong>{problemDescription}</strong>
+            </p>
+            <div className="flex items-center gap-4 text-green-200">
+              <div className="flex items-center gap-2">
+                <Calendar className="w-4 h-4" />
+                <span>{new Date().toLocaleDateString()}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Target className="w-4 h-4" />
+                <span>{framework.name}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Your Responses */}
+      <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
+        <div className="flex items-center gap-4 mb-8">
+          <div className="p-3 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg text-white">
+            <MessageSquare className="w-6 h-6" />
+          </div>
+          <div>
+            <h2 className="text-2xl font-semibold text-gray-900">Your Complete Reflection</h2>
+            <p className="text-gray-600">Review your responses and insights</p>
+          </div>
+        </div>
+
+        <div className="space-y-6">
+          {framework.questions.map((question, index) => {
+            const response = responses[question.id];
+            if (!response?.trim()) return null;
+            
+            return (
+              <div key={question.id} className="bg-gray-50 p-6 rounded-xl border-l-4 border-blue-500">
+                <div className="flex items-start gap-4">
+                  <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+                    {index + 1}
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-gray-900 mb-3">
+                      {question.text}
+                    </h3>
+                    <p className="text-gray-700 whitespace-pre-wrap leading-relaxed">
+                      {response}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Actionable Insights */}
+      {insights.map((insight, index) => (
+        <div key={index} className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
+          <div className="flex items-center gap-4 mb-6">
+            <div className={`p-3 bg-gradient-to-r ${insight.color} rounded-lg text-white`}>
+              {insight.icon}
+            </div>
             <div>
-              <h2 className="text-2xl font-semibold mb-2">
-                {reflection.title || framework.name}
-              </h2>
-              <div className="flex items-center gap-4 text-sm text-white text-opacity-90">
-                <div className="flex items-center gap-1">
-                  <Calendar className="w-4 h-4" />
-                  <span>{createdDate}</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <Tag className="w-4 h-4" />
-                  <span className="capitalize">{reflection.category}</span>
-                </div>
-              </div>
+              <h2 className="text-2xl font-semibold text-gray-900">{insight.title}</h2>
+              <p className="text-gray-600">Specific actions you can take right now</p>
             </div>
           </div>
-          
-          <div className="flex items-center gap-2">
-            {onEdit && (
-              <button
-                onClick={onEdit}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onEdit?.();
-                }}
-                className="p-3 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-lg transition-all duration-200"
-                title="Edit reflection"
-              >
-                <Edit className="w-4 h-4" />
-              </button>
-            )}
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                copyForAI();
-              }}
-              className="flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 rounded-lg transition-all duration-200 text-white font-medium shadow-sm hover:shadow-md"
-              title="Copy reflection with AI instructions to clipboard"
-            >
-              <Bot className="w-4 h-4" />
-              <span className="text-sm">Copy for AI</span>
-            </button>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                exportToPDF();
-              }}
-              className="p-3 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-lg transition-all duration-200"
-              title="Export reflection"
-            >
-              <Download className="w-4 h-4" />
-            </button>
-            {onDelete && (
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onDelete?.();
-                }}
-                className="p-3 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-lg transition-all duration-200"
-                title="Delete reflection"
-              >
-                <Trash2 className="w-4 h-4" />
-              </button>
-            )}
+
+          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 border border-blue-200">
+            <div className="space-y-4">
+              {insight.actions.map((action, actionIndex) => (
+                <div key={actionIndex} className="flex items-start gap-4">
+                  <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+                    {actionIndex + 1}
+                  </div>
+                  <p className="text-gray-800 font-medium leading-relaxed">{action}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-6 p-4 bg-amber-50 rounded-xl border border-amber-200">
+            <div className="flex items-start gap-3">
+              <Lightbulb className="w-5 h-5 text-amber-600 mt-0.5 flex-shrink-0" />
+              <p className="text-amber-800 text-sm">
+                <strong>Pro tip:</strong> Start with the first 1-2 actions. Leadership change is most effective when implemented gradually and consistently.
+              </p>
+            </div>
           </div>
         </div>
-        
-        <div className="bg-white bg-opacity-20 backdrop-blur-sm p-4 rounded-xl">
-          <p className="text-white text-sm">
-            <strong>Framework:</strong> {framework.description}
-            <span className="block mt-2 text-xs text-white text-opacity-75 group-hover:text-opacity-100 transition-all">
-              Click to view completion screen with action plan
-            </span>
-          </p>
+      ))}
+
+      {/* Actions */}
+      <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
+        <div className="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
+          <div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">Ready to take action?</h3>
+            <p className="text-gray-600">Export your reflection or get additional AI insights</p>
+          </div>
+          
+          <div className="flex flex-col sm:flex-row gap-3">
+            <button
+              onClick={copyForAI}
+              className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white rounded-xl font-medium transition-all duration-200 shadow-sm hover:shadow-md"
+            >
+              <Bot className="w-5 h-5" />
+              Copy for AI Analysis
+            </button>
+            
+            <button
+              onClick={exportReflection}
+              className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-xl font-medium transition-all duration-200 shadow-sm hover:shadow-md"
+            >
+              <Download className="w-5 h-5" />
+              Export Reflection
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Content */}
-      <div className="p-6 space-y-6">
-        {framework.questions.map((question, index) => {
-          const response = reflection.responses[question.id];
-          if (!response?.trim()) return null;
-          
-          return (
-            <div key={question.id} className="bg-gray-50 p-6 rounded-xl border-l-4 border-blue-500">
-              <div className="flex items-start gap-4">
-                <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
-                  {index + 1}
-                </div>
-                <div className="flex-1">
-                  <h3 className="font-semibold text-gray-900 mb-3">
-                    {question.text}
-                  </h3>
-                  <p className="text-gray-700 whitespace-pre-wrap leading-relaxed">
-                    {response}
-                  </p>
-                </div>
-              </div>
-            </div>
-          );
-        })}
-      </div>
+      {/* Navigation */}
+      <div className="flex justify-between items-center">
+        <button
+          onClick={onStartNew}
+          className="flex items-center gap-2 px-6 py-3 text-blue-600 hover:text-blue-700 font-medium rounded-xl hover:bg-blue-50 transition-all"
+        >
+          <Target className="w-5 h-5" />
+          Start New Reflection
+        </button>
 
-      {/* Footer */}
-      <div className="px-6 py-4 bg-gray-50 border-t border-gray-200">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className={`flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium ${
-              reflection.status === 'completed' 
-                ? 'bg-green-100 text-green-800' 
-                : 'bg-amber-100 text-amber-800'
-            }`}>
-              {reflection.status === 'completed' ? (
-                <>
-                  <CheckCircle className="w-4 h-4" />
-                  Completed
-                </>
-              ) : (
-                <>
-                  <Target className="w-4 h-4" />
-                  Draft
-                </>
-              )}
-            </div>
-            <div className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-xs font-medium">
-              <Bot className="w-3 h-3 inline mr-1" />
-              Copy for AI
-            </div>
-          </div>
-          
-          <span className="text-sm text-gray-500">
-            Last updated: {new Date(reflection.updatedAt).toLocaleDateString()}
-          </span>
-        </div>
+        <button
+          onClick={onContinue}
+          className="flex items-center gap-3 px-8 py-3 bg-gradient-to-r from-emerald-600 to-green-600 text-white rounded-xl hover:from-emerald-700 hover:to-green-700 font-semibold shadow-sm hover:shadow-md transition-all duration-200"
+        >
+          Continue to Dashboard
+          <ArrowRight className="w-5 h-5" />
+        </button>
       </div>
     </div>
   );

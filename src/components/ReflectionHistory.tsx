@@ -7,9 +7,10 @@ interface ReflectionHistoryProps {
   reflections: Situation[];
   onEdit: (reflection: Situation) => void;
   onDelete: (id: string) => void;
+  onViewCompletion: (reflection: Situation) => void;
 }
 
-export function ReflectionHistory({ reflections, onEdit, onDelete }: ReflectionHistoryProps) {
+export function ReflectionHistory({ reflections, onEdit, onDelete, onViewCompletion }: ReflectionHistoryProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterCategory, setFilterCategory] = useState<SituationCategory | 'all'>('all');
   const [sortBy, setSortBy] = useState<'date' | 'category'>('date');
@@ -229,6 +230,7 @@ export function ReflectionHistory({ reflections, onEdit, onDelete }: ReflectionH
                 reflection={reflection}
                 onEdit={() => onEdit(reflection)}
                 onDelete={() => onDelete(reflection.id)}
+                onViewCompletion={() => onViewCompletion(reflection)}
               />
             ))}
           </>

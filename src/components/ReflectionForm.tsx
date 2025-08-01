@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Save, Sparkles, ArrowRight, ArrowLeft, AlertCircle, HelpCircle, Lightbulb, CheckCircle, Target, Zap, Bot, AlertTriangle } from 'lucide-react';
+import { Save, Sparkles, ArrowRight, ArrowLeft, AlertCircle, HelpCircle, Lightbulb, CheckCircle, Target, Zap, Bot, AlertTriangle, Plus, X } from 'lucide-react';
 import { Framework, Question } from '../types';
 
 interface ReflectionFormProps {
@@ -16,6 +16,7 @@ export function ReflectionForm({ framework, problemDescription, onSave, onCancel
   const [showAI, setShowAI] = useState(false);
   const [showQuestionHelp, setShowQuestionHelp] = useState(false);
   const [showCopyToast, setShowCopyToast] = useState(false);
+  const [listItems, setListItems] = useState<string[]>([]);
 
   const currentQuestion = framework.questions[currentQuestionIndex];
   const isLastQuestion = currentQuestionIndex === framework.questions.length - 1;
@@ -29,6 +30,55 @@ export function ReflectionForm({ framework, problemDescription, onSave, onCancel
     }));
   };
 
+  const isListQuestion = (questionText: string) => {
+    const listKeywords = [
+      'which teams', 'what teams', 'who are the', 'what stakeholders', 
+      'which stakeholders', 'what options', 'which options', 'list the',
+      'what criteria', 'which criteria', 'what advantages', 'what disadvantages'
+    ];
+    return listKeywords.some(keyword => 
+      questionText.toLowerCase().includes(keyword.toLowerCase())
+    );
+  };
+
+  const addListItem = () => {
+    setListItems(prev => [...prev, '']);
+  };
+
+  const updateListItem = (index: number, value: string) => {
+    const newItems = [...listItems];
+    newItems[index] = value;
+    setListItems(newItems);
+    
+    // Update the response with formatted list
+    const formattedList = newItems.filter(item => item.trim()).map(item => `• ${item}`).join('\n');
+    handleResponseChange(currentQuestion.id, formattedList);
+  };
+
+  const removeListItem = (index: number) => {
+    const newItems = listItems.filter((_, i) => i !== index);
+    setListItems(newItems);
+    
+    // Update the response
+    const formattedList = newItems.filter(item => item.trim()).map(item => `• ${item}`).join('\n');
+    handleResponseChange(currentQuestion.id, formattedList);
+  };
+
+  // Initialize list items when question changes
+  React.useEffect(() => {
+    if (isListQuestion(currentQuestion.text)) {
+      const existingResponse = responses[currentQuestion.id] || '';
+      if (existingResponse) {
+        // Parse existing bullet points back to array
+        const items = existingResponse.split('\n')
+          .map(line => line.replace(/^•\s*/, '').trim())
+          .filter(item => item);
+        setListItems(items.length > 0 ? items : ['']);
+      } else {
+        setListItems(['']);
+      }
+    }
+  }, [currentQuestion.id, currentQuestion.text]);
   const handleNext = () => {
     if (isLastQuestion) {
       handleSave();
@@ -387,6 +437,93 @@ Please provide specific, actionable guidance to help me get the most value from 
     }
   };
 
+  const getReferencedAnswers = (questionText: string) => {
+    const references: Array<{
+      title: string;
+      content: string;
+      items?: string[];
+      questionId?: string;
+    }> = [];
+    const lowerText = questionText.toLowerCase();
+    
+    // Only look for references if we're not on the first question
+    if (currentQuestionIndex === 0) {
+      return references;
+    }
+    
+    // Check for references to previous answers
+    if (lowerText.includes('their goals') || lowerText.includes('their priorities')) {
+      const teamsQuestion = framework.questions.find(q => 
+        q.text.toLowerCase().includes('which teams') || q.text.toLowerCase().includes('what teams')
+      );
+      if (teamsQuestion && responses[teamsQuestion.id]) {
+        const items = responses[teamsQuestion.id].split('\n')
+          .map(line => line.replace(/^•\s*/, '').trim())
+          .filter(item => item);
+        references.push({
+          title: 'Teams & Priorities (from earlier)',
+          content: responses[teamsQuestion.id],
+          items: items,
+          questionId: teamsQuestion.id
+        });
+      }
+    }
+    
+    if (lowerText.includes('stakeholders') && lowerText.includes('how') || lowerText.includes('ensure')) {
+      const stakeholdersQuestion = framework.questions.find(q => 
+        q.text.toLowerCase().includes('stakeholders') && q.text.toLowerCase().includes('who')
+      );
+      if (stakeholdersQuestion && responses[stakeholdersQuestion.id]) {
+        const items = responses[stakeholdersQuestion.id].split('\n')
+          .map(line => line.replace(/^•\s*/, '').trim())
+          .filter(item => item);
+        references.push({
+          title: 'Key Stakeholders (from earlier)',
+          content: responses[stakeholdersQuestion.id],
+          items: items,
+          questionId: stakeholdersQuestion.id
+        });
+      }
+    }
+    
+    if (lowerText.includes('each option') || lowerText.includes('these options')) {
+      const optionsQuestion = framework.questions.find(q => 
+        q.text.toLowerCase().includes('what options') || q.text.toLowerCase().includes('which options')
+      );
+      if (optionsQuestion && responses[optionsQuestion.id]) {
+        const items = responses[optionsQuestion.id].split('\n')
+          .map(line => line.replace(/^•\s*/, '').trim())
+          .filter(item => item);
+        references.push({
+          title: 'Available Options (from earlier)',
+          content: responses[optionsQuestion.id],
+          items: items,
+          questionId: optionsQuestion.id
+        });
+      }
+    }
+    
+    if (lowerText.includes('these criteria') || lowerText.includes('each criterion')) {
+      const criteriaQuestion = framework.questions.find(q => 
+        q.text.toLowerCase().includes('what criteria') || q.text.toLowerCase().includes('which criteria')
+      );
+      if (criteriaQuestion && responses[criteriaQuestion.id]) {
+        const items = responses[criteriaQuestion.id].split('\n')
+          .map(line => line.replace(/^•\s*/, '').trim())
+          .filter(item => item);
+        references.push({
+          title: 'Evaluation Criteria (from earlier)',
+          content: responses[criteriaQuestion.id],
+          items: items,
+          questionId: criteriaQuestion.id
+        });
+      }
+    }
+    
+    return references;
+  };
+
+  const referencedAnswers = getReferencedAnswers(currentQuestion.text);
   return (
     <div className="relative max-w-4xl mx-auto space-y-8">
       {/* Copy Success Toast */}
@@ -468,6 +605,44 @@ Please provide specific, actionable guidance to help me get the most value from 
             </button>
           </div>
 
+          {/* Referenced Answers */}
+          {referencedAnswers.length > 0 && referencedAnswers[0].items && (
+            <div className="mb-6 space-y-4">
+              <div className="flex items-center gap-2 text-sm font-medium text-gray-700">
+                <Target className="w-4 h-4 text-blue-600" />
+                Analyze each item from your previous answer:
+              </div>
+              <div className="bg-blue-50 border border-blue-200 rounded-xl p-6">
+                <h5 className="font-medium text-blue-900 mb-4">{referencedAnswers[0].title}</h5>
+                <div className="space-y-4">
+                  {referencedAnswers[0].items!.map((item, index) => (
+                    <div key={index} className="bg-white rounded-lg p-4 border border-blue-200">
+                      <div className="flex items-start gap-3 mb-3">
+                        <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-white font-medium text-sm flex-shrink-0">
+                          {index + 1}
+                        </div>
+                        <div className="font-medium text-gray-900 flex-1">{item}</div>
+                      </div>
+                      <textarea
+                        value={responses[`${currentQuestion.id}_item_${index}`] || ''}
+                        onChange={(e) => {
+                          handleResponseChange(`${currentQuestion.id}_item_${index}`, e.target.value);
+                          // Also update the main response by combining all item responses
+                          const allItemResponses = referencedAnswers[0].items!.map((_, i) => {
+                            const itemResponse = i === index ? e.target.value : (responses[`${currentQuestion.id}_item_${i}`] || '');
+                            return itemResponse.trim() ? `**${referencedAnswers[0].items![i]}:**\n${itemResponse}` : '';
+                          }).filter(r => r).join('\n\n');
+                          handleResponseChange(currentQuestion.id, allItemResponses);
+                        }}
+                        placeholder={`How does this relate to the current question? (e.g., alignment, conflicts, constraints, etc.)`}
+                        className="w-full h-24 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none text-gray-900 placeholder-gray-500 text-sm"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
           {/* Question Help */}
           {showQuestionHelp && (
             <div className="mb-6 p-6 bg-amber-50 border border-amber-200 rounded-xl">
@@ -493,8 +668,62 @@ Please provide specific, actionable guidance to help me get the most value from 
             </div>
           )}
           
-          {/* Input Field */}
-          {currentQuestion.type === 'textarea' ? (
+          {/* Input Field - Structured or Regular */}
+          {referencedAnswers.length > 0 && referencedAnswers[0].items ? (
+            // Skip the regular input when we have structured item inputs
+            null
+          ) : isListQuestion(currentQuestion.text) ? (
+            <div className="space-y-4">
+              <div className="bg-blue-50 p-4 rounded-xl border border-blue-200">
+                <div className="flex items-start gap-3">
+                  <div className="p-2 bg-blue-600 rounded-lg text-white">
+                    <Target className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h5 className="font-medium text-blue-900 mb-1">Structured Input</h5>
+                    <p className="text-sm text-blue-800">
+                      Add each item separately for better organization. You can add as many as needed.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="space-y-3">
+                {listItems.map((item, index) => (
+                  <div key={index} className="flex items-center gap-3">
+                    <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-medium text-sm flex-shrink-0">
+                      {index + 1}
+                    </div>
+                    <input
+                      type="text"
+                      value={item}
+                      onChange={(e) => updateListItem(index, e.target.value)}
+                      placeholder={`Enter item ${index + 1}...`}
+                      className="flex-1 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 placeholder-gray-500"
+                      autoFocus={index === listItems.length - 1}
+                    />
+                    {listItems.length > 1 && (
+                      <button
+                        onClick={() => removeListItem(index)}
+                        className="p-2 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg transition-all"
+                        title="Remove item"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    )}
+                  </div>
+                ))}
+                
+                <button
+                  onClick={addListItem}
+                  className="flex items-center gap-2 px-4 py-2 text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition-all font-medium"
+                >
+                  <Plus className="w-4 h-4" />
+                  Add another item
+                </button>
+              </div>
+            </div>
+          ) : currentQuestion.type === 'textarea' ? (
             <textarea
               value={responses[currentQuestion.id] || ''}
               onChange={(e) => handleResponseChange(currentQuestion.id, e.target.value)}
@@ -513,10 +742,22 @@ Please provide specific, actionable guidance to help me get the most value from 
             />
           )}
 
-          {!canProceed && currentQuestion.required && (
+          {!canProceed && currentQuestion.required && !isListQuestion(currentQuestion.text) && (
             <div className="mt-3 flex items-center gap-2 text-amber-600">
               <AlertCircle className="w-4 h-4" />
-              <span className="text-sm font-medium">This field is required to continue</span>
+              <span className="text-sm font-medium">
+                {referencedAnswers.length > 0 && referencedAnswers[0].items 
+                  ? 'Please provide analysis for at least one item to continue'
+                  : 'This field is required to continue'
+                }
+              </span>
+            </div>
+          )}
+          
+          {isListQuestion(currentQuestion.text) && listItems.filter(item => item.trim()).length === 0 && currentQuestion.required && (
+            <div className="mt-3 flex items-center gap-2 text-amber-600">
+              <AlertCircle className="w-4 h-4" />
+              <span className="text-sm font-medium">Please add at least one item to continue</span>
             </div>
           )}
         </div>

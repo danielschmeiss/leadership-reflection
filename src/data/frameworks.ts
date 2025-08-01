@@ -655,7 +655,7 @@ export const decisionTree: DecisionTreeNode = {
       category: 'team-dynamics'
     },
     {
-      text: 'Other - Free-form reflection for situations that don\'t fit standard categories',
+      text: 'Other - Free-form reflection for unique or complex leadership situations',
       next: 'other',
       category: 'other'
     }
@@ -668,19 +668,19 @@ export const decisionTreeNodes: Record<string, DecisionTreeNode> = {
     question: 'What type of conflict situation?',
     options: [
       {
-        text: 'I have a conflict with a team member',
+        text: 'With team member',
         framework: 'mediation',
         category: 'conflict',
         subcategory: 'with-team-member'
       },
       {
-        text: 'Two team members are in conflict with each other',
+        text: 'Between team members',
         framework: 'mediation',
         category: 'conflict',
         subcategory: 'between-team-members'
       },
       {
-        text: 'Different teams disagree or have competing priorities',
+        text: 'Cross-team conflict',
         framework: 'interest-based-negotiation',
         category: 'conflict',
         subcategory: 'cross-team-conflict'
@@ -716,19 +716,19 @@ export const decisionTreeNodes: Record<string, DecisionTreeNode> = {
     question: 'What kind of decision?',
     options: [
       {
-        text: 'Team-level operational decision',
+        text: 'Operational (Team)',
         framework: 'decision-matrix',
         category: 'decision',
         subcategory: 'operational'
       },
       {
-        text: 'Strategic or organizational decision',
+        text: 'Strategic (Domain/Organization)',
         framework: 'pros-cons',
         category: 'decision',
         subcategory: 'strategic'
       },
       {
-        text: 'Unclear roles and responsibilities',
+        text: 'Ownership/Accountability gaps',
         framework: 'responsibility-mapping',
         category: 'decision',
         subcategory: 'ownership-accountability-gaps'

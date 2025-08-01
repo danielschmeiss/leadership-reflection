@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import { Layout } from './components/Layout';
 import { Dashboard } from './components/Dashboard';
 import { DecisionTree } from './components/DecisionTree';
 import { ReflectionForm } from './components/ReflectionForm';
 import { ReflectionHistory } from './components/ReflectionHistory';
 import { ReflectionSummary } from './components/ReflectionSummary';
+import { ReflectionCompletion } from './components/ReflectionCompletion';
 import { Imprint } from './components/Imprint';
 import { useReflections } from './hooks/useLocalStorage';
 import { frameworks, getCustomizedFramework } from './data/frameworks';
@@ -14,6 +16,7 @@ type AppState =
   | 'dashboard'
   | 'decision-tree'
   | 'reflection'
+  | 'reflection-complete'
   | 'history'
   | 'view-reflection'
   | 'imprint';
@@ -23,6 +26,8 @@ interface ReflectionSession {
   category: SituationCategory;
   subcategory: string;
   editingReflection?: Situation;
+  completedResponses?: Record<string, string>;
+  viewingReflection?: Situation;
 }
 
 function App() {
@@ -31,6 +36,11 @@ function App() {
   const [viewingReflection, setViewingReflection] = useState<Situation | null>(null);
   
   const { reflections, addReflection, updateReflection, deleteReflection } = useReflections();
+
+  // Scroll to top whenever the current state changes
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentState]);
 
   const handleStartNewReflection = () => {
     setSession(null);
@@ -62,8 +72,9 @@ function App() {
       addReflection(reflectionData);
     }
 
-    setCurrentState('dashboard');
-    setSession(null);
+    // Store the responses in session for the completion screen
+    setSession(prev => prev ? { ...prev, completedResponses: responses } : null);
+    setCurrentState('reflection-complete');
   };
 
   const handleEditReflection = (reflection: Situation) => {
@@ -81,6 +92,17 @@ function App() {
     setCurrentState('view-reflection');
   };
 
+  const handleViewCompletion = (reflection: Situation) => {
+    setSession({
+      framework: reflection.framework,
+      category: reflection.category,
+      subcategory: reflection.subcategory,
+      viewingReflection: reflection,
+      completedResponses: reflection.responses
+    });
+    setCurrentState('reflection-complete');
+  };
+
   const handleDeleteReflection = (id: string) => {
     if (confirm('🗑️ Are you sure you want to delete this reflection? This action cannot be undone.')) {
       deleteReflection(id);
@@ -90,34 +112,34 @@ function App() {
   const getProblemDescription = (category: SituationCategory, subcategory: string): string => {
     const descriptions: Record<string, Record<string, string>> = {
       conflict: {
-        'with-team-member': 'Conflict with team member',
-        'between-team-members': 'Conflict between team members',
-        'cross-team-conflict': 'Cross-team conflict'
+        'with-team-member': 'Conflict - With team member',
+        'between-team-members': 'Conflict - Between team members',
+        'cross-team-conflict': 'Conflict - Cross-team conflict'
       },
       feedback: {
-        'positive': 'Positive feedback',
-        'developmental': 'Developmental feedback',
-        'peer-to-peer-feedback-facilitation': 'Peer-to-peer feedback facilitation'
+        'positive': 'Feedback - Positive feedback',
+        'developmental': 'Feedback - Developmental feedback',
+        'peer-to-peer-feedback-facilitation': 'Feedback - Peer-to-peer feedback facilitation'
       },
       decision: {
-        'operational': 'Operational decision (Team)',
-        'strategic': 'Strategic decision (Domain/Organization)',
-        'ownership-accountability-gaps': 'Ownership/Accountability gaps'
+        'operational': 'Decision - Operational (Team)',
+        'strategic': 'Decision - Strategic (Domain/Organization)',
+        'ownership-accountability-gaps': 'Decision - Ownership/Accountability gaps'
       },
       stakeholder: {
-        'expectation-management': 'Expectation management',
-        'alignment-with-leadership': 'Alignment with leadership'
+        'expectation-management': 'Stakeholder - Expectation management',
+        'alignment-with-leadership': 'Stakeholder - Alignment with leadership'
       },
       'team-dynamics': {
-        'ownership-clarity': 'Ownership clarity',
-        'team-health-check': 'Team health check'
+        'ownership-clarity': 'Team dynamics - Ownership clarity',
+        'team-health-check': 'Team dynamics - Team health check'
       },
       other: {
-        'free-reflection': 'Free reflection'
+        'free-reflection': 'Other - Free reflection'
       }
     };
     
-    return descriptions[category]?.[subcategory] || `${category} situation`;
+    return descriptions[category]?.[subcategory] || `${category.charAt(0).toUpperCase() + category.slice(1)} - ${subcategory}`;
   };
 
   const getTitle = () => {
@@ -130,6 +152,7 @@ function App() {
           return `${problemDesc} - ${frameworks[session.framework].name}`;
         }
         return 'Reflection';
+      case 'reflection-complete': return 'Reflection Complete';
       case 'history': return 'Reflection History';
       case 'view-reflection': return viewingReflection?.title || 'Reflection';
       case 'imprint': return 'Legal Information';
@@ -143,6 +166,8 @@ function App() {
         return 'Answer a few questions to find the best framework for your leadership challenge. This takes less than 30 seconds.';
       case 'reflection': 
         return session ? `Use the ${frameworks[session.framework].name} to work through your situation step by step.` : '';
+      case 'reflection-complete':
+        return 'Review your complete reflection and get specific action steps to implement your insights.';
       case 'history': 
         return 'Review your past reflections to identify patterns and track your leadership development over time.';
       case 'imprint':
@@ -163,6 +188,14 @@ function App() {
         break;
       case 'reflection':
         setCurrentState('decision-tree');
+        setSession(null);
+        break;
+      case 'reflection-complete':
+        if (session?.viewingReflection) {
+          setCurrentState('history');
+        } else {
+          setCurrentState('dashboard');
+        }
         setSession(null);
         break;
       case 'view-reflection':
@@ -204,12 +237,31 @@ function App() {
           />
         );
 
+      case 'reflection-complete':
+        if (!session) return null;
+        return (
+          <ReflectionCompletion
+            framework={getCustomizedFramework(session.framework, session.category, session.subcategory)}
+            responses={session.completedResponses || session.editingReflection?.responses || session.viewingReflection?.responses || {}}
+            problemDescription={getProblemDescription(session.category, session.subcategory)}
+            onContinue={() => {
+              setCurrentState('history');
+              setSession(null);
+            }}
+            onStartNew={() => {
+              setSession(null);
+              setCurrentState('decision-tree');
+            }}
+          />
+        );
+
       case 'history':
         return (
           <ReflectionHistory
             reflections={reflections}
             onEdit={handleEditReflection}
             onDelete={handleDeleteReflection}
+            onViewCompletion={handleViewCompletion}
           />
         );
 
