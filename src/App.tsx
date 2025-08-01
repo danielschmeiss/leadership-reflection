@@ -47,6 +47,12 @@ function App() {
     setCurrentState('decision-tree');
   };
 
+  const handleStartCategoryReflection = (category: string) => {
+    setSession(null);
+    setCurrentState('decision-tree');
+    // We'll pass the category to DecisionTree component
+    setSession({ category } as any);
+  };
   const handleFrameworkSelected = (framework: FrameworkType, category: SituationCategory, subcategory: string) => {
     setSession({ framework, category, subcategory });
     setCurrentState('reflection');
@@ -350,6 +356,7 @@ function App() {
         return (
           <Dashboard
             onStartNewReflection={handleStartNewReflection}
+            onStartCategoryReflection={handleStartCategoryReflection}
             onViewHistory={() => setCurrentState('history')}
             reflectionCount={reflections.length}
           />
@@ -359,6 +366,7 @@ function App() {
         return (
           <DecisionTree
             onFrameworkSelected={handleFrameworkSelected}
+            preselectedCategory={session?.category}
           />
         );
 

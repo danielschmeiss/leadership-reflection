@@ -4,47 +4,52 @@ import { Logo } from './Logo';
 
 interface DashboardProps {
   onStartNewReflection: () => void;
+  onStartCategoryReflection: (category: string) => void;
   onViewHistory: () => void;
   reflectionCount: number;
 }
 
-export function Dashboard({ onStartNewReflection, onViewHistory, reflectionCount }: DashboardProps) {
+export function Dashboard({ onStartNewReflection, onStartCategoryReflection, onViewHistory, reflectionCount }: DashboardProps) {
   const challengeTypes = [
     {
       icon: <MessageSquare className="w-6 h-6" />,
-      title: "Feedback Conversations",
-      description: "Structure effective feedback discussions",
+      title: "Give Better Feedback",
+      description: "Handle challenging or positive feedback conversations effectively",
       color: "from-blue-500 to-blue-600",
       bgColor: "bg-blue-50",
       textColor: "text-blue-700",
-      borderColor: "border-blue-200"
+      borderColor: "border-blue-200",
+      category: "feedback"
     },
     {
       icon: <Users className="w-6 h-6" />,
-      title: "Team Conflicts",
-      description: "Navigate and resolve team tensions",
+      title: "Resolve Team Conflicts",
+      description: "Resolve tensions within or between teams",
       color: "from-amber-500 to-orange-600",
       bgColor: "bg-amber-50",
       textColor: "text-amber-700",
-      borderColor: "border-amber-200"
+      borderColor: "border-amber-200",
+      category: "conflict"
     },
     {
       icon: <Target className="w-6 h-6" />,
-      title: "Strategic Decisions",
-      description: "Make informed leadership choices",
+      title: "Make Strategic Decisions",
+      description: "Choose the right path when stakes are high",
       color: "from-purple-500 to-purple-600",
       bgColor: "bg-purple-50",
       textColor: "text-purple-700",
-      borderColor: "border-purple-200"
+      borderColor: "border-purple-200",
+      category: "decision"
     },
     {
       icon: <GitBranch className="w-6 h-6" />,
-      title: "Stakeholder Alignment",
-      description: "Manage expectations and communication",
+      title: "Align with Stakeholders",
+      description: "Get buy-in and manage expectations effectively",
       color: "from-emerald-500 to-emerald-600",
       bgColor: "bg-emerald-50",
       textColor: "text-emerald-700",
-      borderColor: "border-emerald-200"
+      borderColor: "border-emerald-200",
+      category: "stakeholder"
     }
   ];
 
@@ -71,9 +76,9 @@ export function Dashboard({ onStartNewReflection, onViewHistory, reflectionCount
       <div className="relative overflow-hidden bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-700 rounded-2xl p-8 text-white shadow-lg">
         <div className="relative z-10">
           <div className="mb-8">
-            <h1 className="text-4xl font-bold mb-3">Enhance Your Leadership Impact</h1>
+            <h1 className="text-4xl font-bold mb-3">Figure Out What to Do Next</h1>
             <p className="text-xl text-blue-100">
-              Use proven frameworks to navigate complex leadership challenges
+              Tackle tough feedback, conflicts, and decisions in just 5-10 minutes
             </p>
           </div>
           
@@ -84,12 +89,12 @@ export function Dashboard({ onStartNewReflection, onViewHistory, reflectionCount
             <div className="p-2 bg-blue-600 rounded-lg text-white group-hover:bg-blue-700 transition-colors">
               <Play className="w-6 h-6" />
             </div>
-            Start New Reflection
+            Begin Your Reflection Now
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </button>
           
           <p className="text-sm text-blue-200 mt-4">
-            5-10 minutes • Completely private • Evidence-based frameworks
+            Private, evidence-based, and designed to give you immediate steps forward
           </p>
         </div>
         
@@ -101,8 +106,8 @@ export function Dashboard({ onStartNewReflection, onViewHistory, reflectionCount
       {/* Challenge Types */}
       <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-200">
         <div className="text-center mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-3">What challenge are you facing?</h2>
-          <p className="text-gray-600">Select the area where you need structured guidance</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-3">What leadership challenge would you like to tackle?</h2>
+          <p className="text-gray-600">Choose a situation you're facing right now</p>
         </div>
         
         <div className="grid md:grid-cols-2 gap-6">
@@ -110,7 +115,7 @@ export function Dashboard({ onStartNewReflection, onViewHistory, reflectionCount
             <div
               key={index}
               className={`${challenge.bgColor} p-6 rounded-xl border ${challenge.borderColor} hover:shadow-md transition-all duration-200 cursor-pointer group`}
-              onClick={onStartNewReflection}
+              onClick={() => onStartCategoryReflection(challenge.category)}
             >
               <div className="flex items-start gap-4">
                 <div className={`p-3 bg-gradient-to-r ${challenge.color} rounded-lg text-white shadow-sm`}>
@@ -138,7 +143,7 @@ export function Dashboard({ onStartNewReflection, onViewHistory, reflectionCount
             <TrendingUp className="w-6 h-6" />
           </div>
           <div>
-            <h3 className="text-2xl font-semibold text-gray-900">Your Leadership Journey</h3>
+            <h3 className="text-2xl font-semibold text-gray-900">Your Reflection Journey</h3>
             <p className="text-gray-600">Track your progress and insights</p>
           </div>
         </div>
@@ -249,7 +254,7 @@ export function Dashboard({ onStartNewReflection, onViewHistory, reflectionCount
             <div className="flex items-start gap-3">
               <CheckCircle className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
               <p className="text-blue-800">
-                <strong>Excellent progress!</strong> Regular reflection builds stronger leadership skills and better decision-making capabilities. You're developing a valuable habit that will serve you throughout your career.
+                <strong>Great momentum!</strong> You're building a powerful habit of structured reflection. Each session sharpens your leadership instincts and gives you proven approaches for future challenges.
               </p>
             </div>
           </div>
@@ -258,7 +263,7 @@ export function Dashboard({ onStartNewReflection, onViewHistory, reflectionCount
             <div className="flex items-start gap-3">
               <Zap className="w-5 h-5 text-amber-600 mt-0.5 flex-shrink-0" />
               <p className="text-amber-800">
-                <strong>Ready to begin?</strong> Your first reflection will help establish a baseline for your leadership development journey. Each reflection builds on the last, creating a powerful foundation for growth.
+                <strong>Ready to start?</strong> Your first reflection takes just 5-10 minutes and gives you immediate action steps. Each reflection builds your leadership toolkit for future challenges.
               </p>
             </div>
           </div>

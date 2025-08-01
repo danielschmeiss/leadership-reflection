@@ -5,6 +5,7 @@ import { DecisionTreeNode, FrameworkType, SituationCategory } from '../types';
 
 interface DecisionTreeProps {
   onFrameworkSelected: (framework: FrameworkType, category: SituationCategory, subcategory: string) => void;
+  preselectedCategory?: string;
 }
 
 const getCategoryIcon = (category: string) => {
@@ -47,9 +48,17 @@ const getFrameworkDescription = (framework: FrameworkType) => {
   }
 };
 
-export function DecisionTree({ onFrameworkSelected }: DecisionTreeProps) {
+export function DecisionTree({ onFrameworkSelected, preselectedCategory }: DecisionTreeProps) {
   const [currentNode, setCurrentNode] = useState<DecisionTreeNode>(decisionTree);
   const [path, setPath] = useState<string[]>([]);
+
+  // If a category is preselected, navigate directly to it
+  React.useEffect(() => {
+    if (preselectedCategory && decisionTreeNodes[preselectedCategory]) {
+      setCurrentNode(decisionTreeNodes[preselectedCategory]);
+      setPath([decisionTree.question]);
+    }
+  }, [preselectedCategory]);
 
   const handleOptionSelect = (option: DecisionTreeNode['options'][0]) => {
     if (option.framework && option.category && option.subcategory) {

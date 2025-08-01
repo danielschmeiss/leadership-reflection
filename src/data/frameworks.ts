@@ -287,38 +287,38 @@ const baseFrameworks: Record<string, Framework> = {
     questions: [
       {
         id: 'situation',
-        text: 'What is the specific situation that triggered the conflict?',
+        text: 'What event triggered the conflict?',
         type: 'textarea',
         required: true,
-        placeholder: 'Describe the triggering event or ongoing issue...'
+        placeholder: 'Describe the specific event or ongoing issue that started this conflict. Include when and where it happened for context.'
       },
       {
         id: 'your_interests',
-        text: 'What are your interests or needs in this situation?',
+        text: 'What are your needs in this situation?',
         type: 'textarea',
         required: true,
-        placeholder: 'What do you really need or care about here?'
+        placeholder: 'Focus on what you really need or care about, not your position or preferred solution.'
       },
       {
         id: 'their_interests',
-        text: 'What interests or needs do you assume the other person has?',
+        text: 'What needs does the other person have?',
         type: 'textarea',
         required: true,
-        placeholder: 'Try to understand their perspective and needs...'
+        placeholder: 'Try to understand their underlying concerns and what they really need from this situation.'
       },
       {
         id: 'solutions',
-        text: 'What possible solutions do you see?',
+        text: 'What solutions could work for both parties?',
         type: 'textarea',
         required: true,
-        placeholder: 'Brainstorm options that could address both parties\' needs...'
+        placeholder: 'Brainstorm creative options that could address both your needs and theirs.'
       },
       {
         id: 'common_ground',
         text: 'How can you find common ground?',
         type: 'textarea',
         required: true,
-        placeholder: 'What shared goals or values can you build on?'
+        placeholder: 'Identify shared goals, values, or concerns that you can build a solution around.'
       }
     ]
   },

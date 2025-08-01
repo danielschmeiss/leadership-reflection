@@ -93,6 +93,35 @@ export function ReflectionForm({ framework, problemDescription, onSave, onCancel
       setCurrentQuestionIndex(prev => prev + 1);
       setShowQuestionHelp(false);
       setHasAttemptedNext(false); // Reset for next question
+      // Scroll to question card - more reliable for mobile
+      setTimeout(() => {
+        // Try to scroll to the question card
+        const questionCard = document.querySelector('.question-card');
+        if (questionCard) {
+          questionCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+          // Fallback to scrolling to top of content area
+          window.scrollTo(0, 0);
+        }
+        // Additional fallback for mobile
+        try {
+          if (questionCard) {
+            questionCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          } else {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+        } catch (e) {
+          // Fallback for older browsers
+          if (questionCard) {
+            const rect = questionCard.getBoundingClientRect();
+            const scrollTop = window.pageYOffset + rect.top - 20; // 20px offset
+            window.scrollTo(0, scrollTop);
+          } else {
+            document.documentElement.scrollTop = 0;
+            document.body.scrollTop = 0;
+          }
+        }
+      }, 50);
     }
   };
 
@@ -577,7 +606,7 @@ Please provide specific, actionable guidance to help me get the most value from 
       </div>
 
       {/* Question Card */}
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
+      <div className="question-card bg-white rounded-2xl shadow-lg border border-gray-200 p-8">
         {/* Current Question */}
         <div className="mb-8">
           <div className="flex items-start justify-between mb-4">
@@ -586,10 +615,17 @@ Please provide specific, actionable guidance to help me get the most value from 
                 {currentQuestionIndex + 1}
               </div>
               <div className="flex-1">
-                <h3 className="text-2xl font-semibold text-gray-900 mb-2">
+                <h3 className="text-2xl font-bold text-gray-900 mb-3">
                   {currentQuestion.text}
                   {currentQuestion.required && <span className="text-red-500 ml-1">*</span>}
                 </h3>
+                
+                {/* Guidance note */}
+                {currentQuestion.placeholder && (
+                  <p className="text-sm text-gray-600 font-normal mb-4">
+                    {currentQuestion.placeholder}
+                  </p>
+                )}
               </div>
             </div>
             <button
@@ -723,7 +759,7 @@ Please provide specific, actionable guidance to help me get the most value from 
             <textarea
               value={responses[currentQuestion.id] || ''}
               onChange={(e) => handleResponseChange(currentQuestion.id, e.target.value)}
-              placeholder={currentQuestion.placeholder}
+              placeholder="Enter your response here..."
               className="w-full h-40 p-4 border-2 border-gray-300 rounded-xl focus:ring-4 focus:ring-blue-200 focus:border-blue-500 resize-none text-gray-900 placeholder-gray-500 shadow-sm hover:border-gray-400 transition-all duration-200"
               autoFocus
             />
@@ -732,7 +768,7 @@ Please provide specific, actionable guidance to help me get the most value from 
               type="text"
               value={responses[currentQuestion.id] || ''}
               onChange={(e) => handleResponseChange(currentQuestion.id, e.target.value)}
-              placeholder={currentQuestion.placeholder}
+              placeholder="Enter your response here..."
               className="w-full p-4 border-2 border-gray-300 rounded-xl focus:ring-4 focus:ring-blue-200 focus:border-blue-500 text-gray-900 placeholder-gray-500 shadow-sm hover:border-gray-400 transition-all duration-200"
               autoFocus
             />
@@ -759,77 +795,59 @@ Please provide specific, actionable guidance to help me get the most value from 
         </div>
 
         {/* AI Assistant */}
-        <div className="mb-8">
-          <div className="flex items-center gap-4">
+        {showAI && (
+          <div className="mb-8 p-6 bg-indigo-50 border border-indigo-200 rounded-xl">
+            <div className="flex items-start gap-3">
+              <div className="p-2 bg-indigo-600 rounded-lg text-white">
+                <Sparkles className="w-4 h-4" />
+              </div>
+              <div>
+                <h5 className="font-medium text-indigo-900 mb-2">AI Assistant</h5>
+                <p className="text-sm text-indigo-800">
+                  AI suggestions would appear here, based on anonymized input to protect your privacy. 
+                  This feature helps provide additional perspectives while keeping your data secure.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Navigation */}
+        <div className="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
             <button
-              onClick={() => setShowAI(!showAI)}
-              className="flex items-center gap-2 text-indigo-600 hover:text-indigo-700 font-medium px-4 py-2 rounded-lg hover:bg-indigo-50 transition-all"
+              onClick={onCancel}
+              className="px-6 py-3 text-gray-600 hover:text-gray-800 font-medium rounded-xl hover:bg-gray-100 transition-all w-full sm:w-auto text-center"
             >
-              <Sparkles className="w-4 h-4" />
-              Get AI Assistance (Anonymous)
+              Cancel
             </button>
             
             <button
               onClick={copyCurrentStepForAI}
-              className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white rounded-lg font-medium transition-all duration-200 shadow-sm hover:shadow-md"
+              className="flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white rounded-xl font-medium transition-all duration-200 shadow-sm hover:shadow-md w-full sm:w-auto"
               title="Copy progress with AI instructions to clipboard"
             >
               <Bot className="w-4 h-4" />
-              Copy for AI Help
-            </button>
-          </div>
-          
-          {showAI && (
-            <div className="mt-4 p-6 bg-indigo-50 border border-indigo-200 rounded-xl">
-              <div className="flex items-start gap-3">
-                <div className="p-2 bg-indigo-600 rounded-lg text-white">
-                  <Sparkles className="w-4 h-4" />
-                </div>
-                <div>
-                  <h5 className="font-medium text-indigo-900 mb-2">AI Assistant</h5>
-                  <p className="text-sm text-indigo-800">
-                    AI suggestions would appear here, based on anonymized input to protect your privacy. 
-                    This feature helps provide additional perspectives while keeping your data secure.
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Navigation */}
-        <div className="flex justify-between items-center">
-          <div className="flex gap-3">
-            {currentQuestionIndex > 0 && (
-              <button
-                onClick={handlePrevious}
-                className="flex items-center gap-2 px-6 py-3 text-gray-600 hover:text-gray-800 font-medium rounded-xl hover:bg-gray-100 transition-all"
-              >
-                <ArrowLeft className="w-4 h-4" />
-                Previous
-              </button>
-            )}
-            <button
-              onClick={onCancel}
-              className="px-6 py-3 text-gray-600 hover:text-gray-800 font-medium rounded-xl hover:bg-gray-100 transition-all"
-            >
-              Cancel
+              <span className="hidden sm:inline">Copy for AI Help</span>
+              <span className="sm:hidden">AI Help</span>
             </button>
           </div>
 
           <button
             onClick={handleNext}
             disabled={!canProceed}
-            className="flex items-center gap-3 px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:from-blue-700 hover:to-indigo-700 disabled:from-gray-300 disabled:to-gray-400 disabled:cursor-not-allowed font-semibold shadow-sm hover:shadow-md transition-all duration-200 disabled:hover:scale-100"
+            className="flex items-center justify-center gap-3 px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:from-blue-700 hover:to-indigo-700 disabled:from-gray-300 disabled:to-gray-400 disabled:cursor-not-allowed font-semibold shadow-sm hover:shadow-md transition-all duration-200 disabled:hover:scale-100 w-full sm:w-auto order-first sm:order-last"
           >
             {isLastQuestion ? (
               <>
                 <Save className="w-5 h-5" />
-                Complete Reflection
+                <span className="hidden sm:inline">Complete Reflection</span>
+                <span className="sm:hidden">Complete</span>
               </>
             ) : (
               <>
-                Next Question
+                <span className="hidden sm:inline">Next Question</span>
+                <span className="sm:hidden">Next</span>
                 <ArrowRight className="w-5 h-5" />
               </>
             )}
