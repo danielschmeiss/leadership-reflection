@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Situation } from '../types';
 
 export function useLocalStorage<T>(key: string, initialValue: T) {
   const [storedValue, setStoredValue] = useState<T>(() => {
@@ -25,24 +26,24 @@ export function useLocalStorage<T>(key: string, initialValue: T) {
 }
 
 export function useReflections() {
-  const [reflections, setReflections] = useLocalStorage<any[]>('leadership-reflections', []);
+  const [reflections, setReflections] = useLocalStorage<Situation[]>('leadership-reflections', []);
 
-  const addReflection = (reflection: any) => {
-    const newReflection = {
+  const addReflection = (reflection: Omit<Situation, 'id' | 'createdAt' | 'updatedAt'>) => {
+    const newReflection: Situation = {
       ...reflection,
       id: crypto.randomUUID(),
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+      createdAt: new Date(),
+      updatedAt: new Date()
     };
     setReflections(prev => [newReflection, ...prev]);
     return newReflection;
   };
 
-  const updateReflection = (id: string, updates: any) => {
+  const updateReflection = (id: string, updates: Partial<Omit<Situation, 'id' | 'createdAt'>>) => {
     setReflections(prev => 
       prev.map(r => 
         r.id === id 
-          ? { ...r, ...updates, updatedAt: new Date().toISOString() }
+          ? { ...r, ...updates, updatedAt: new Date() }
           : r
       )
     );

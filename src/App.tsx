@@ -4,6 +4,7 @@ import { Layout } from './components/Layout';
 import { Dashboard } from './components/Dashboard';
 import { DecisionTree } from './components/DecisionTree';
 import { ReflectionForm } from './components/ReflectionForm';
+import { EnhancedReflectionForm } from './components/EnhancedReflectionForm';
 import { ReflectionHistory } from './components/ReflectionHistory';
 import { ReflectionSummary } from './components/ReflectionSummary';
 import { ReflectionCompletion } from './components/ReflectionCompletion';
@@ -11,7 +12,7 @@ import { FrameworksGuide } from './components/FrameworksGuide';
 import { Imprint } from './components/Imprint';
 import { useReflections } from './hooks/useLocalStorage';
 import { frameworks, getCustomizedFramework } from './data/frameworks';
-import { FrameworkType, SituationCategory, Situation } from './types';
+import { FrameworkType, SituationCategory, Situation, QuestionResponse } from './types';
 
 type AppState = 
   | 'dashboard'
@@ -60,7 +61,7 @@ function App() {
     setCurrentState('reflection');
   };
 
-  const handleSaveReflection = (responses: Record<string, string>) => {
+  const handleSaveReflection = (responses: Record<string, QuestionResponse>) => {
     if (!session) return;
 
     const problemDescription = getProblemDescription(session.category, session.subcategory);
@@ -217,9 +218,6 @@ function App() {
       case 'view-reflection':
         setCurrentState('history');
         setViewingReflection(null);
-        break;
-      case 'frameworks-guide':
-        setCurrentState('dashboard');
         break;
       default:
         setCurrentState('dashboard');
@@ -382,13 +380,19 @@ function App() {
 
       case 'reflection':
         if (!session) return null;
+        const framework = getCustomizedFramework(session.framework, session.category, session.subcategory);
+        
+        // Use enhanced form for all frameworks
         return (
-          <ReflectionForm
-            framework={getCustomizedFramework(session.framework, session.category, session.subcategory)}
+          <EnhancedReflectionForm
+            framework={framework}
             problemDescription={getProblemDescription(session.category, session.subcategory)}
-            onSave={handleSaveReflection}
+            onSave={(responses) => {
+              // Store structured responses directly
+              handleSaveReflection(responses);
+            }}
             onCancel={() => setCurrentState('dashboard')}
-            initialResponses={session.editingReflection?.responses}
+            initialResponses={{}} // TODO: Convert old responses back to new format
           />
         );
 

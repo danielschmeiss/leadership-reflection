@@ -8,39 +8,51 @@ const newFrameworks: Record<string, Framework> = {
     description: 'Framework for resolving cross-team conflicts by focusing on underlying interests',
     questions: [
       {
-        id: 'teams_priorities',
-        text: 'Which teams are involved and what are their priorities?',
-        type: 'textarea',
+        type: 'enumeration',
+        id: 'teams',
+        text: 'Which teams are involved in this conflict?',
         required: true,
-        placeholder: 'List the teams and their main priorities or goals...'
+        itemLabel: 'Team',
+        minItems: 2,
+        placeholder: 'Enter each team involved',
+        helpText: 'List all teams that are part of the conflict or affected by it'
       },
       {
-        id: 'alignment_conflicts',
+        type: 'itemized-analysis',
+        id: 'team_priorities',
+        text: 'What are the main priorities and constraints for each team?',
+        required: true,
+        referencedQuestion: 'teams',
+        analysisPrompt: 'Describe this team\'s priorities, goals, and constraints',
+        helpText: 'For each team, think about: What are they trying to achieve? What deadlines are they facing? What resources do they need? What organizational pressures are they under? What metrics are they measured on? Understanding these underlying drivers helps identify where teams can collaborate vs. where they truly conflict.'
+      },
+      {
+        type: 'itemized-analysis',
+        id: 'alignment_analysis',
         text: 'Where do their goals align or conflict?',
-        type: 'textarea',
         required: true,
-        placeholder: 'Identify areas of alignment and points of conflict...'
+        referencedQuestion: 'teams',
+        analysisPrompt: 'How does this team\'s goals align or conflict with others?',
+        helpText: 'Look for shared objectives (both teams want the product to succeed), competing priorities (speed vs. quality), resource conflicts (same people/budget), or timeline mismatches. Focus on interests, not positions - what each team really needs to be successful.'
       },
       {
-        id: 'constraints_pressures',
-        text: 'What constraints or pressures influence their positions?',
         type: 'textarea',
-        required: true,
-        placeholder: 'Consider deadlines, resources, organizational pressures...'
-      },
-      {
         id: 'shared_problem',
         text: 'How can you frame this as a shared problem to solve?',
-        type: 'textarea',
         required: true,
-        placeholder: 'Reframe the conflict as a mutual challenge to address...'
+        references: [
+          { questionId: 'team_priorities', label: 'Team priorities' },
+          { questionId: 'alignment_analysis', label: 'Alignment analysis' }
+        ],
+        placeholder: 'Reframe the conflict as a mutual challenge to address'
       },
       {
+        type: 'textarea',
         id: 'mutual_benefit',
         text: 'What compromise or mutual benefit is possible?',
-        type: 'textarea',
         required: true,
-        placeholder: 'Identify win-win solutions or acceptable compromises...'
+        references: [{ questionId: 'shared_problem', label: 'Shared problem framing' }],
+        placeholder: 'Identify win-win solutions or acceptable compromises'
       }
     ]
   },
@@ -50,32 +62,57 @@ const newFrameworks: Record<string, Framework> = {
     description: 'Future-focused approach to peer feedback facilitation',
     questions: [
       {
-        id: 'peer_feedback',
-        text: 'Which peer feedback is being given?',
+        id: 'feedback_situation',
+        text: 'What is the specific peer feedback situation you need to facilitate?',
         type: 'textarea',
         required: true,
-        placeholder: 'Describe the feedback situation between peers...'
+        placeholder: 'Describe the context: who is giving feedback to whom and about what behavior or performance area',
+        helpText: 'Be specific about the participants, the behavior or performance area in question, and why this feedback conversation is needed now. Focus on the situation, not your interpretation of it.'
       },
       {
-        id: 'future_advice',
-        text: 'What future-focused advice or suggestions can help?',
+        id: 'current_behavior',
+        text: 'What current behavior or pattern needs to be addressed?',
         type: 'textarea',
         required: true,
-        placeholder: 'Focus on actionable suggestions for improvement...'
+        placeholder: 'Describe the specific, observable behavior without judgment',
+        helpText: 'Focus on specific, observable actions rather than personality traits or intentions. Good: "Interrupts others during meetings" Bad: "Has poor communication skills" or "Doesn\'t respect teammates"'
       },
       {
-        id: 'constructive_framing',
-        text: 'How can this be framed constructively without blame?',
+        id: 'future_vision',
+        text: 'What would success look like in the future?',
         type: 'textarea',
         required: true,
-        placeholder: 'Frame feedback positively and solution-oriented...'
+        placeholder: 'Paint a clear picture of the desired future state',
+        helpText: 'Describe the positive future state you want to achieve. What would they be doing differently? How would others experience them? Make it concrete and inspiring, not just the absence of current problems.'
       },
       {
-        id: 'follow_up',
-        text: 'What follow-up will ensure improvement is tracked?',
+        id: 'practical_suggestions',
+        text: 'What specific, actionable suggestions can help them get there?',
+        type: 'enumeration',
+        required: true,
+        itemLabel: 'Suggestion',
+        minItems: 2,
+        placeholder: 'Enter each specific suggestion or strategy',
+        helpText: 'Provide concrete, actionable steps they can take. Focus on "next time, try..." rather than "you should stop..." Make each suggestion specific enough that they know exactly what to do.'
+      },
+      {
+        id: 'strengths_to_leverage',
+        text: 'What existing strengths can they build on?',
+        type: 'enumeration',
+        required: true,
+        itemLabel: 'Strength',
+        minItems: 1,
+        placeholder: 'Enter each strength they can leverage',
+        helpText: 'Identify their existing capabilities, natural talents, or past successes that can help them improve in this area. This makes the feedback more balanced and builds confidence.'
+      },
+      {
+        id: 'success_metrics',
+        text: 'How will progress be measured and tracked?',
         type: 'textarea',
         required: true,
-        placeholder: 'Define how progress will be monitored and supported...'
+        references: [{ questionId: 'future_vision', label: 'Success vision' }],
+        placeholder: 'Define specific, observable indicators of improvement',
+        helpText: 'Establish clear, measurable ways to track progress toward the future vision. What will you and others observe when they\'re improving? How often will you check in?'
       }
     ]
   },
@@ -85,39 +122,60 @@ const newFrameworks: Record<string, Framework> = {
     description: 'Framework for clarifying ownership and accountability gaps',
     questions: [
       {
-        id: 'unclear_ownership',
-        text: 'What tasks or outcomes are unclear in ownership?',
-        type: 'textarea',
+        id: 'unclear_tasks',
+        text: 'What specific tasks, processes, or outcomes have unclear ownership?',
+        type: 'enumeration',
         required: true,
-        placeholder: 'List specific tasks or outcomes with unclear ownership...'
+        itemLabel: 'Task/Process',
+        minItems: 1,
+        placeholder: 'Enter each task or outcome with unclear ownership',
+        helpText: 'Be specific about the work that needs clear ownership. Examples: "Code review process", "Production incident response", "Feature prioritization decisions", "Customer escalation handling"'
       },
       {
-        id: 'raci_mapping',
-        text: 'Who should be responsible, accountable, consulted, and informed?',
-        type: 'textarea',
+        id: 'stakeholders',
+        text: 'Who are all the people involved in or affected by these tasks?',
+        type: 'enumeration',
         required: true,
-        placeholder: 'Map out RACI for each task or outcome...'
+        itemLabel: 'Person/Role',
+        minItems: 2,
+        placeholder: 'Enter each person or role involved',
+        helpText: 'List everyone who currently does this work, should do this work, needs to be consulted, or needs to be informed. Include names or specific roles like "Product Manager", "Tech Lead", "Customer Success"'
       },
       {
-        id: 'overlaps_gaps',
-        text: 'Where are overlaps or gaps causing confusion?',
-        type: 'textarea',
+        id: 'raci_analysis',
+        text: 'For each task, who should be Responsible, Accountable, Consulted, and Informed?',
+        type: 'itemized-analysis',
         required: true,
-        placeholder: 'Identify specific areas of confusion or conflict...'
+        referencedQuestion: 'unclear_tasks',
+        analysisPrompt: 'Define the RACI roles for this task',
+        helpText: 'For each task: Responsible = does the work, Accountable = owns the outcome (only one person), Consulted = provides input before decisions, Informed = needs to know the outcome. Be specific about who fills each role.'
       },
       {
-        id: 'clarify_ownership',
-        text: 'How can you clarify ownership with the team?',
+        id: 'current_confusion',
+        text: 'What specific confusion or conflicts are happening now?',
         type: 'textarea',
         required: true,
-        placeholder: 'Plan how to communicate and establish clear ownership...'
+        placeholder: 'Describe current overlaps, gaps, or conflicts in ownership',
+        helpText: 'What problems are you seeing? Examples: "Two people both think they own feature decisions", "No one responds to customer escalations", "Duplicate work being done", "Decisions getting blocked because no one has authority"'
       },
       {
-        id: 'prevent_ambiguity',
-        text: 'What follow-up mechanism will prevent future ambiguity?',
+        id: 'communication_plan',
+        text: 'How will you communicate these role clarifications to the team?',
         type: 'textarea',
         required: true,
-        placeholder: 'Define ongoing processes to maintain clarity...'
+        references: [{ questionId: 'raci_analysis', label: 'RACI analysis' }],
+        placeholder: 'Plan your approach for communicating the new ownership structure',
+        helpText: 'Consider: team meeting, documentation updates, individual conversations, gradual rollout vs immediate change. How will you ensure everyone understands and accepts their new roles?'
+      },
+      {
+        id: 'accountability_mechanisms',
+        text: 'What ongoing mechanisms will maintain role clarity?',
+        type: 'enumeration',
+        required: true,
+        itemLabel: 'Mechanism',
+        minItems: 2,
+        placeholder: 'Enter each mechanism to maintain clarity',
+        helpText: 'Think about: regular RACI reviews, role clarity in job descriptions, onboarding process updates, decision logs, escalation paths, performance metrics tied to ownership'
       }
     ]
   },
@@ -127,32 +185,61 @@ const newFrameworks: Record<string, Framework> = {
     description: 'Structured approach for aligning with leadership',
     questions: [
       {
-        id: 'alignment_purpose',
-        text: 'What is the purpose of this alignment?',
+        id: 'alignment_context',
+        text: 'What is the context requiring leadership alignment?',
         type: 'textarea',
         required: true,
-        placeholder: 'Why do you need to align with leadership on this topic?'
+        placeholder: 'Describe the situation that requires leadership buy-in or decision',
+        helpText: 'Provide the background: What\'s happening? Why now? What triggered the need for this alignment? Be clear about the business context and urgency.'
       },
       {
-        id: 'decision_approval',
-        text: 'What decision or approval do you need?',
+        id: 'specific_ask',
+        text: 'What specific decision, approval, or support do you need?',
         type: 'textarea',
         required: true,
-        placeholder: 'Be specific about what you need from leadership...'
+        placeholder: 'Be precise about what you need from leadership',
+        helpText: 'Be very specific: Are you seeking approval for a plan? Budget for resources? Authority to make decisions? Support for a difficult conversation? The clearer your ask, the easier it is for leadership to respond.'
       },
       {
-        id: 'information_data',
-        text: 'What information or data must you provide?',
-        type: 'textarea',
+        id: 'leadership_concerns',
+        text: 'What concerns or priorities will leadership likely have?',
+        type: 'enumeration',
         required: true,
-        placeholder: 'What context and evidence will support your case?'
+        itemLabel: 'Concern/Priority',
+        minItems: 2,
+        placeholder: 'Enter each likely concern or priority',
+        helpText: 'Think from their perspective: budget impact, timeline concerns, risk to other initiatives, team capacity, customer impact, strategic alignment. What keeps them up at night?'
       },
       {
-        id: 'clear_argumentation',
-        text: 'How will you ensure your argumentation is clear and evidence-based?',
+        id: 'supporting_evidence',
+        text: 'What evidence supports your position?',
+        type: 'enumeration',
+        required: true,
+        itemLabel: 'Evidence',
+        minItems: 2,
+        placeholder: 'Enter each piece of supporting evidence',
+        helpText: 'Include: data/metrics, customer feedback, team input, industry benchmarks, past successful examples, expert opinions, cost-benefit analysis. Make your case compelling with facts.'
+      },
+      {
+        id: 'address_concerns',
+        text: 'How will you address each leadership concern?',
+        type: 'itemized-analysis',
+        required: true,
+        referencedQuestion: 'leadership_concerns',
+        analysisPrompt: 'How will you address this concern?',
+        helpText: 'For each concern: acknowledge it as valid, provide data or reasoning to address it, show how you\'ve mitigated risks, or explain why the benefits outweigh the costs.'
+      },
+      {
+        id: 'communication_strategy',
+        text: 'How will you structure your communication for maximum clarity?',
         type: 'textarea',
         required: true,
-        placeholder: 'How will you structure your presentation and reasoning?'
+        references: [
+          { questionId: 'specific_ask', label: 'Your specific ask' },
+          { questionId: 'supporting_evidence', label: 'Supporting evidence' }
+        ],
+        placeholder: 'Plan your presentation structure and key messages',
+        helpText: 'Consider: Start with the ask, provide context, present evidence, address concerns, propose next steps. Think about their time constraints and communication preferences.'
       }
     ]
   },
@@ -162,39 +249,59 @@ const newFrameworks: Record<string, Framework> = {
     description: 'Framework for clarifying ownership and empowering team members',
     questions: [
       {
-        id: 'ownership_confusion',
-        text: 'What tasks are currently causing confusion around ownership?',
+        id: 'ownership_challenges',
+        text: 'What ownership or empowerment challenges are you seeing?',
         type: 'textarea',
         required: true,
-        placeholder: 'List specific tasks or areas with unclear ownership...'
+        placeholder: 'Describe the current situation with team ownership and decision-making',
+        helpText: 'Be specific about what you\'re observing: Are people waiting for permission for everything? Are tasks falling through cracks? Are team members afraid to make decisions? Do people escalate things they could handle?'
       },
       {
-        id: 'delegatable_decisions',
-        text: 'What decisions can be delegated?',
-        type: 'textarea',
+        id: 'delegatable_items',
+        text: 'What tasks, decisions, or areas can be delegated?',
+        type: 'enumeration',
         required: true,
-        placeholder: 'Identify decisions that can be pushed down to the team...'
+        itemLabel: 'Task/Decision/Area',
+        minItems: 2,
+        placeholder: 'Enter each item that can be delegated',
+        helpText: 'Consider: routine decisions, technical choices within your domain, process improvements, stakeholder communication, project planning, problem-solving that doesn\'t require your specific expertise'
       },
       {
-        id: 'best_suited_owners',
-        text: 'Who is best suited to own each task or area?',
-        type: 'textarea',
+        id: 'ownership_matching',
+        text: 'Who is best positioned to own each delegated item?',
+        type: 'itemized-analysis',
         required: true,
-        placeholder: 'Match tasks to team members based on skills and interests...'
+        referencedQuestion: 'delegatable_items',
+        analysisPrompt: 'Who should own this and why are they the right choice?',
+        helpText: 'Consider: existing skills, growth interests, workload capacity, stakeholder relationships, career development goals. Match the opportunity to the person\'s strengths and development areas.'
       },
       {
-        id: 'empowerment_approach',
-        text: 'How will you empower them to take responsibility?',
-        type: 'textarea',
+        id: 'empowerment_strategy',
+        text: 'How will you set each person up for success in their new ownership?',
+        type: 'itemized-analysis',
         required: true,
-        placeholder: 'Define how you will support and enable ownership...'
+        referencedQuestion: 'delegatable_items',
+        analysisPrompt: 'What support, resources, or authority does the owner need?',
+        helpText: 'For each delegation: What training do they need? What resources or tools? What authority/decision rights? What boundaries or constraints? How will you communicate their authority to others?'
       },
       {
-        id: 'accountability_tracking',
-        text: 'How will accountability be tracked?',
+        id: 'gradual_transition',
+        text: 'How will you transition ownership gradually and safely?',
         type: 'textarea',
         required: true,
-        placeholder: 'Establish mechanisms for monitoring and feedback...'
+        references: [{ questionId: 'ownership_matching', label: 'Ownership assignments' }],
+        placeholder: 'Plan a phased approach to transferring ownership',
+        helpText: 'Consider starting with lower-risk items, shadowing/mentoring phases, trial periods, frequent check-ins initially, then gradually reducing oversight. How will you build confidence without micromanaging?'
+      },
+      {
+        id: 'success_metrics',
+        text: 'How will you measure empowerment success?',
+        type: 'enumeration',
+        required: true,
+        itemLabel: 'Success Indicator',
+        minItems: 2,
+        placeholder: 'Enter each way to measure empowerment success',
+        helpText: 'Think about: decision velocity, quality of outcomes, team confidence levels, reduced escalations to you, team satisfaction, individual growth, innovation/initiative from team members'
       }
     ]
   },
@@ -204,39 +311,74 @@ const newFrameworks: Record<string, Framework> = {
     description: 'Framework for assessing and improving team health',
     questions: [
       {
+        type: 'rating',
         id: 'trust_level',
-        text: 'Is there enough trust within the team?',
-        type: 'textarea',
+        text: 'How would you rate the level of trust within your team?',
         required: true,
-        placeholder: 'Assess the level of vulnerability-based trust in the team...'
+        scale: [1, 5],
+        labels: {
+          1: 'Very Low - Team members hide weaknesses and mistakes',
+          2: 'Low - Limited vulnerability-based trust',
+          3: 'Moderate - Some openness about weaknesses',
+          4: 'High - Team members admit mistakes and weaknesses',
+          5: 'Very High - Complete vulnerability-based trust'
+        },
+        helpText: 'Vulnerability-based trust: can team members admit weaknesses and mistakes?'
       },
       {
+        type: 'textarea',
+        id: 'trust_analysis',
+        text: 'What specific examples support your trust rating?',
+        required: true,
+        references: [{ questionId: 'trust_level', label: 'Your trust rating' }],
+        placeholder: 'Provide specific examples of trust-building or trust-limiting behaviors'
+      },
+      {
+        type: 'rating',
         id: 'conflict_handling',
-        text: 'Are conflicts addressed constructively?',
-        type: 'textarea',
+        text: 'How well does your team handle productive conflict?',
         required: true,
-        placeholder: 'Evaluate how the team handles disagreements and debates...'
+        scale: [1, 5],
+        labels: {
+          1: 'Very Poor - Artificial harmony, no real debates',
+          2: 'Poor - Conflicts avoided or handled poorly',
+          3: 'Moderate - Some productive disagreement',
+          4: 'Good - Regular productive debates',
+          5: 'Excellent - Passionate, unfiltered debate around ideas'
+        }
       },
       {
+        type: 'textarea',
+        id: 'conflict_examples',
+        text: 'Describe how conflicts are typically handled in your team',
+        required: true,
+        references: [{ questionId: 'conflict_handling', label: 'Your conflict rating' }],
+        placeholder: 'Give examples of recent conflicts and how they were resolved'
+      },
+      {
+        type: 'rating',
         id: 'commitment_strength',
-        text: 'Is commitment to goals strong?',
-        type: 'textarea',
+        text: 'How strong is commitment to team goals and decisions?',
         required: true,
-        placeholder: 'Assess team buy-in and commitment to decisions and goals...'
+        scale: [1, 5],
+        labels: {
+          1: 'Very Weak - Team members don\'t follow through',
+          2: 'Weak - Limited buy-in to decisions',
+          3: 'Moderate - Some commitment issues',
+          4: 'Strong - Generally good follow-through',
+          5: 'Very Strong - Complete commitment to team decisions'
+        }
       },
       {
-        id: 'accountability_clarity',
-        text: 'Is accountability clear and accepted?',
         type: 'textarea',
+        id: 'improvement_plan',
+        text: 'Based on your assessment, what specific actions will improve team health?',
         required: true,
-        placeholder: 'Evaluate how team members hold each other accountable...'
-      },
-      {
-        id: 'results_focus',
-        text: 'Are we achieving results effectively?',
-        type: 'textarea',
-        required: true,
-        placeholder: 'Assess focus on collective results vs individual goals...'
+        references: [
+          { questionId: 'trust_analysis', label: 'Trust analysis' },
+          { questionId: 'conflict_examples', label: 'Conflict handling' }
+        ],
+        placeholder: 'Create specific, actionable steps to address the lowest-rated dysfunctions first'
       }
     ]
   }
@@ -255,28 +397,32 @@ const baseFrameworks: Record<string, Framework> = {
         text: 'What specific situation do you want to highlight?',
         type: 'textarea',
         required: true,
-        placeholder: 'Describe the specific context, time, and place...'
+        placeholder: 'Describe the specific context, time, and place...',
+        helpText: 'Be specific about when and where this happened. Good: "In yesterday\'s team meeting when we were discussing the Q4 roadmap..." Bad: "You always interrupt people in meetings..."'
       },
       {
         id: 'behavior',
         text: 'What behavior did you observe?',
         type: 'textarea',
         required: true,
-        placeholder: 'Focus on observable actions, not interpretations...'
+        placeholder: 'Focus on observable actions, not interpretations...',
+        helpText: 'Describe only what you saw or heard, like a video camera would record. Good: "You interrupted Sarah three times while she was presenting..." Bad: "You were being disrespectful to Sarah..."'
       },
       {
         id: 'impact',
         text: 'What positive impact did this behavior have?',
         type: 'textarea',
         required: true,
-        placeholder: 'Describe the effect on you, the team, or outcomes...'
+        placeholder: 'Describe the effect on you, the team, or outcomes...',
+        helpText: 'Focus on concrete results and specific effects. Good: "This helped us move quickly through the agenda and everyone felt heard..." Bad: "It was really good leadership..."'
       },
       {
         id: 'reinforcement',
         text: 'How can you ensure this behavior is reinforced?',
         type: 'textarea',
         required: true,
-        placeholder: 'What steps will help continue this positive behavior?'
+        placeholder: 'What steps will help continue this positive behavior?',
+        helpText: 'Think about recognition, future opportunities, or environmental changes that will encourage more of this behavior. Be specific about what you\'ll do.'
       }
     ]
   },
@@ -290,35 +436,40 @@ const baseFrameworks: Record<string, Framework> = {
         text: 'What event triggered the conflict?',
         type: 'textarea',
         required: true,
-        placeholder: 'Describe the specific event or ongoing issue that started this conflict. Include when and where it happened for context.'
+        placeholder: 'Describe the specific event or ongoing issue that started this conflict. Include when and where it happened for context.',
+        helpText: 'Be factual and objective. Focus on what happened, not why you think it happened. Include specific timing and context that both parties would agree on.'
       },
       {
         id: 'your_interests',
         text: 'What are your needs in this situation?',
         type: 'textarea',
         required: true,
-        placeholder: 'Focus on what you really need or care about, not your position or preferred solution.'
+        placeholder: 'Focus on what you really need or care about, not your position or preferred solution.',
+        helpText: 'Go deeper than your initial position. Ask yourself: Why do I want this? What am I really trying to achieve? What would success look like? Focus on needs, not demands.'
       },
       {
         id: 'their_interests',
         text: 'What needs does the other person have?',
         type: 'textarea',
         required: true,
-        placeholder: 'Try to understand their underlying concerns and what they really need from this situation.'
+        placeholder: 'Try to understand their underlying concerns and what they really need from this situation.',
+        helpText: 'Put yourself in their shoes. What pressures are they facing? What are they trying to accomplish? What would make them feel successful? Avoid assuming negative motives.'
       },
       {
         id: 'solutions',
         text: 'What solutions could work for both parties?',
         type: 'textarea',
         required: true,
-        placeholder: 'Brainstorm creative options that could address both your needs and theirs.'
+        placeholder: 'Brainstorm creative options that could address both your needs and theirs.',
+        helpText: 'Think beyond obvious compromises. Look for creative solutions that give both parties what they really need. Consider options like changing timing, scope, resources, or approach.'
       },
       {
         id: 'common_ground',
         text: 'How can you find common ground?',
         type: 'textarea',
         required: true,
-        placeholder: 'Identify shared goals, values, or concerns that you can build a solution around.'
+        placeholder: 'Identify shared goals, values, or concerns that you can build a solution around.',
+        helpText: 'Look for shared interests: team success, customer satisfaction, professional reputation, or project outcomes. These become the foundation for collaborative solutions.'
       }
     ]
   },
@@ -328,39 +479,51 @@ const baseFrameworks: Record<string, Framework> = {
     description: 'Systematic approach to evaluate options',
     questions: [
       {
+        type: 'enumeration',
         id: 'options',
-        text: 'What options are available?',
-        type: 'textarea',
+        text: 'What options are you considering?',
         required: true,
-        placeholder: 'List all viable alternatives you\'re considering...'
+        itemLabel: 'Option',
+        minItems: 2,
+        placeholder: 'Enter each option you are evaluating',
+        helpText: 'List all viable alternatives you\'re considering. Each option should be a distinct choice.'
       },
       {
+        type: 'enumeration',
         id: 'criteria',
-        text: 'What criteria are most important (e.g., cost, speed, team acceptance)?',
-        type: 'textarea',
+        text: 'What criteria are most important for this decision?',
         required: true,
-        placeholder: 'Define the factors that matter most for this decision...'
+        itemLabel: 'Criterion',
+        minItems: 2,
+        placeholder: 'Enter evaluation criteria (e.g., cost, speed, team acceptance)',
+        helpText: 'Think about factors like cost, timeline, team impact, technical complexity, maintainability, etc.'
       },
       {
+        type: 'scoring-matrix',
         id: 'scoring',
-        text: 'How does each option score against these criteria?',
-        type: 'textarea',
+        text: 'Rate each option against each criterion',
         required: true,
-        placeholder: 'Rate each option against each criterion (e.g., 1-5 scale)...'
+        optionsFrom: 'options',
+        criteriaFrom: 'criteria',
+        scale: [1, 5],
+        helpText: 'Rate from 1 (poor) to 5 (excellent) how well each option meets each criterion'
       },
       {
+        type: 'textarea',
         id: 'best_option',
-        text: 'Which option has the highest overall score?',
-        type: 'textarea',
+        text: 'Based on your scoring, which option ranks highest and why?',
         required: true,
-        placeholder: 'Based on your scoring, which option comes out ahead?'
+        references: [{ questionId: 'scoring', label: 'Your scoring results' }],
+        placeholder: 'Analyze your matrix results and explain your recommended choice',
+        helpText: 'Look at the total scores in your matrix above. Explain why the highest-scoring option is the best choice, considering both the numbers and any qualitative factors.'
       },
       {
+        type: 'itemized-analysis',
         id: 'risks',
-        text: 'What are the potential risks of this decision?',
-        type: 'textarea',
+        text: 'What are the key risks for each option?',
         required: true,
-        placeholder: 'What could go wrong and how might you mitigate these risks?'
+        referencedQuestion: 'options',
+        analysisPrompt: 'Identify potential risks and mitigation strategies for this option'
       }
     ]
   },
@@ -372,30 +535,39 @@ const baseFrameworks: Record<string, Framework> = {
       {
         id: 'options',
         text: 'What strategic options are available?',
-        type: 'textarea',
+        type: 'enumeration',
         required: true,
-        placeholder: 'List the strategic alternatives you\'re considering...'
+        itemLabel: 'Strategic Option',
+        minItems: 2,
+        placeholder: 'Enter each strategic alternative...',
+        helpText: 'List all viable strategic alternatives. Each should be a distinct choice with different implications for your organization or domain.'
       },
       {
         id: 'advantages',
         text: 'What are the advantages of each option?',
-        type: 'textarea',
+        type: 'itemized-analysis',
         required: true,
-        placeholder: 'List the benefits and positive outcomes for each option...'
+        referencedQuestion: 'options',
+        analysisPrompt: 'List the key advantages and benefits of this option',
+        helpText: 'For each option, consider: strategic benefits, competitive advantages, resource gains, risk reduction, growth opportunities, and stakeholder benefits.'
       },
       {
         id: 'disadvantages',
         text: 'What are the disadvantages of each option?',
-        type: 'textarea',
+        type: 'itemized-analysis',
         required: true,
-        placeholder: 'List the drawbacks and potential negative consequences...'
+        referencedQuestion: 'options',
+        analysisPrompt: 'List the key disadvantages and risks of this option',
+        helpText: 'For each option, consider: costs, risks, resource requirements, potential negative impacts, opportunity costs, and stakeholder concerns.'
       },
       {
         id: 'alignment',
         text: 'How does each option align with long-term vision or goals?',
-        type: 'textarea',
+        type: 'itemized-analysis',
         required: true,
-        placeholder: 'Consider strategic fit and long-term implications...'
+        referencedQuestion: 'options',
+        analysisPrompt: 'Assess how well this option aligns with strategic goals and vision',
+        helpText: 'Consider fit with organizational vision, strategic priorities, values, and long-term objectives. Rate alignment and explain your reasoning.'
       },
       {
         id: 'stakeholders',
@@ -458,28 +630,47 @@ const baseFrameworks: Record<string, Framework> = {
         text: 'What is the goal you want to achieve in this situation?',
         type: 'textarea',
         required: true,
-        placeholder: 'Be specific about what you want to accomplish...'
+        placeholder: 'Be specific about what you want to accomplish...',
+        helpText: 'Make your goal SMART: Specific, Measurable, Achievable, Relevant, Time-bound. What would success look like? How will you know when you\'ve achieved it?'
       },
       {
         id: 'reality',
         text: 'What is the current reality?',
         type: 'textarea',
         required: true,
-        placeholder: 'Describe the current situation objectively...'
+        placeholder: 'Describe the current situation objectively...',
+        helpText: 'Be honest and objective. What resources do you have? What constraints exist? What\'s working well? What challenges are you facing? Avoid judgment - just describe facts.'
       },
       {
         id: 'options',
         text: 'What options are available to you?',
-        type: 'textarea',
+        type: 'enumeration',
         required: true,
-        placeholder: 'Brainstorm different approaches you could take...'
+        itemLabel: 'Option',
+        minItems: 3,
+        placeholder: 'Enter each possible approach...',
+        helpText: 'Brainstorm at least 3-5 different approaches. Include both obvious and creative options. Don\'t evaluate them yet - just generate possibilities.'
+      },
+      {
+        id: 'evaluation',
+        text: 'Evaluate each option: what are the pros and cons?',
+        type: 'itemized-analysis',
+        required: true,
+        referencedQuestion: 'options',
+        analysisPrompt: 'List the advantages and disadvantages of this option',
+        helpText: 'For each option, consider: feasibility, resource requirements, risks, timeline, and likelihood of success. Be realistic about what each approach would require.'
       },
       {
         id: 'will',
-        text: 'Which option will you choose and why?',
+        text: 'Which option will you choose and what are your next steps?',
         type: 'textarea',
         required: true,
-        placeholder: 'Decide on your approach and explain your reasoning...'
+        references: [
+          { questionId: 'options', label: 'Your options' },
+          { questionId: 'evaluation', label: 'Option evaluation' }
+        ],
+        placeholder: 'Decide on your approach and plan specific next steps...',
+        helpText: 'Choose your preferred option and break it down into specific, actionable steps. What will you do first? By when? What support do you need?'
       },
       {
         id: 'next_step',

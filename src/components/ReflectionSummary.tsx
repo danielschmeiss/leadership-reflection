@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import { Download, Edit, Trash2, Calendar, Tag, Star, CheckCircle, Target, Bot, Copy, AlertTriangle } from 'lucide-react';
-import { Situation } from '../types';
+import { Situation, QuestionResponse } from '../types';
 import { frameworks } from '../data/frameworks';
 import jsPDF from 'jspdf';
 
@@ -17,7 +17,69 @@ export function ReflectionSummary({ reflection, onEdit, onDelete, onExport, onVi
   const framework = frameworks[reflection.framework];
   const createdDate = new Date(reflection.createdAt).toLocaleDateString();
 
-  const getActionableInsights = (frameworkId: string, responses: Record<string, string>) => {
+  // Helper function to convert structured responses to text
+  const responseToText = (response: QuestionResponse): string => {
+    if (!response) return '';
+
+    switch (response.type) {
+      case 'text':
+      case 'textarea':
+      case 'multiple-choice':
+        return response.value || '';
+      
+      case 'enumeration':
+        return response.items
+          .filter(item => item.trim())
+          .map((item, index) => `${index + 1}. ${item}`)
+          .join('\n');
+      
+      case 'itemized-analysis':
+        return Object.entries(response.items)
+          .filter(([_, value]) => value.trim())
+          .map(([key, value]) => `${key}:\n${value}`)
+          .join('\n\n');
+      
+      case 'scoring-matrix':
+        const options = Object.keys(response.data);
+        const criteria = options.length > 0 ? Object.keys(response.data[options[0]] || {}) : [];
+        
+        if (!options.length || !criteria.length) return 'No scoring data';
+        
+        // Calculate totals and rankings
+        const optionsWithTotals = options.map(option => ({
+          option,
+          total: criteria.reduce((sum, criterion) => sum + (response.data[option]?.[criterion] || 0), 0),
+          scores: response.data[option] || {}
+        })).sort((a, b) => b.total - a.total);
+
+        let result = 'Decision Matrix Results:\n\n';
+        optionsWithTotals.forEach((item, index) => {
+          result += `${index + 1}. ${item.option} (${item.total} points)\n`;
+        });
+        
+        const topScore = optionsWithTotals[0].total;
+        const tiedOptions = optionsWithTotals.filter(item => item.total === topScore);
+        
+        if (tiedOptions.length > 1) {
+          result += `\nTied: ${tiedOptions.map(item => item.option).join(', ')}`;
+        } else {
+          result += `\nRecommended: ${optionsWithTotals[0].option}`;
+        }
+        
+        return result;
+      
+      case 'rating':
+        return `Rating: ${response.value}/${response.scale[1]}`;
+      
+      case 'matrix':
+        return JSON.stringify(response.data, null, 2);
+      
+      default:
+        return 'Unsupported response type';
+    }
+  };
+
+  const getActionableInsights = (frameworkId: string, responses: Record<string, QuestionResponse>) => {
     const insights: { title: string; actions: string[]; icon: React.ReactNode; color: string }[] = [];
 
     switch (frameworkId) {
@@ -306,7 +368,8 @@ export function ReflectionSummary({ reflection, onEdit, onDelete, onExport, onVi
 
     framework.questions.forEach((question, index) => {
       const response = reflection.responses[question.id];
-      if (!response?.trim()) return;
+      const responseText = responseToText(response);
+      if (!responseText.trim()) return;
       
       checkNewPage(40);
       
@@ -328,7 +391,7 @@ export function ReflectionSummary({ reflection, onEdit, onDelete, onExport, onVi
       // Response
       pdf.setFont('helvetica', 'normal');
       pdf.setFontSize(10);
-      yPosition = addWrappedText(response, margin + 15, yPosition, contentWidth - 15, 10, false);
+      yPosition = addWrappedText(responseText, margin + 15, yPosition, contentWidth - 15, 10, false);
       yPosition += 10;
     });
 
@@ -412,11 +475,12 @@ I've completed a leadership reflection using the "${framework.name}" framework a
 ## My Complete Reflection
 
 ${framework.questions.map((question, index) => {
-  const response = reflection.responses[question.id] || 'No response provided';
+  const response = reflection.responses[question.id];
+  const responseText = responseToText(response) || 'No response provided';
   return `### ${index + 1}. ${question.text}
 
 **My Response:**
-${response}
+${responseText}
 `;
 }).join('\n')}
 
@@ -467,11 +531,12 @@ I'm sharing a leadership reflection from my private development tool "Reflect & 
 ## My Reflection Responses
 
 ${framework.questions.map((question, index) => {
-  const response = reflection.responses[question.id] || 'No response provided';
+  const response = reflection.responses[question.id];
+  const responseText = responseToText(response) || 'No response provided';
   return `### ${index + 1}. ${question.text}
 
 **My Response:**
-${response}
+${responseText}
 `;
 }).join('\n')}
 
@@ -547,7 +612,6 @@ Please be constructive and specific in your feedback. This reflection represents
           <div className="flex items-center gap-2">
             {onEdit && (
               <button
-                onClick={onEdit}
                 onClick={(e) => {
                   e.stopPropagation();
                   onEdit?.();
@@ -608,7 +672,8 @@ Please be constructive and specific in your feedback. This reflection represents
       <div className="p-6 space-y-6">
         {framework.questions.map((question, index) => {
           const response = reflection.responses[question.id];
-          if (!response?.trim()) return null;
+          const responseText = responseToText(response);
+          if (!responseText.trim()) return null;
           
           return (
             <div key={question.id} className="bg-gray-50 p-6 rounded-xl border-l-4 border-blue-500">
@@ -621,7 +686,7 @@ Please be constructive and specific in your feedback. This reflection represents
                     {question.text}
                   </h3>
                   <p className="text-gray-700 whitespace-pre-wrap leading-relaxed">
-                    {response}
+                    {responseText}
                   </p>
                 </div>
               </div>

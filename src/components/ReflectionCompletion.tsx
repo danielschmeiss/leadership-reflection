@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { CheckCircle, Download, ArrowRight, Lightbulb, Target, Users, MessageSquare, Calendar, Bot, Copy, AlertTriangle, Star, Zap } from 'lucide-react';
-import { Framework, Situation } from '../types';
+import { Framework, Situation, QuestionResponse } from '../types';
 import jsPDF from 'jspdf';
 
 interface ReflectionCompletionProps {
   framework: Framework;
-  responses: Record<string, string>;
+  responses: Record<string, QuestionResponse>;
   problemDescription: string;
   onContinue: () => void;
   onStartNew: () => void;
@@ -20,7 +20,7 @@ export function ReflectionCompletion({
 }: ReflectionCompletionProps) {
   const [showCopyToast, setShowCopyToast] = useState(false);
 
-  const getActionableInsights = (frameworkId: string, responses: Record<string, string>) => {
+  const getActionableInsights = (frameworkId: string, responses: Record<string, QuestionResponse>) => {
     const insights: { title: string; actions: string[]; icon: React.ReactNode; color: string }[] = [];
 
     switch (frameworkId) {
@@ -196,6 +196,72 @@ export function ReflectionCompletion({
     generatePDF();
   };
 
+  // Helper function to convert structured responses to PDF text
+  const responseToText = (response: QuestionResponse): string => {
+    if (!response) return '';
+
+    switch (response.type) {
+      case 'text':
+      case 'textarea':
+      case 'multiple-choice':
+        return response.value || '';
+      
+      case 'enumeration':
+        return response.items
+          .filter(item => item.trim())
+          .map((item, index) => `${index + 1}. ${item}`)
+          .join('\n');
+      
+      case 'itemized-analysis':
+        return Object.entries(response.items)
+          .filter(([_, value]) => value.trim())
+          .map(([key, value]) => `${key}:\n${value}`)
+          .join('\n\n');
+      
+      case 'scoring-matrix':
+        const options = Object.keys(response.data);
+        const criteria = options.length > 0 ? Object.keys(response.data[options[0]] || {}) : [];
+        
+        if (!options.length || !criteria.length) return 'No scoring data';
+        
+        // Calculate totals and rankings
+        const optionsWithTotals = options.map(option => ({
+          option,
+          total: criteria.reduce((sum, criterion) => sum + (response.data[option]?.[criterion] || 0), 0),
+          scores: response.data[option] || {}
+        })).sort((a, b) => b.total - a.total);
+
+        let result = 'Decision Matrix Results (Ranked by Total Score):\n\n';
+        optionsWithTotals.forEach((item, index) => {
+          result += `${index + 1}. ${item.option} (Total: ${item.total} points)\n`;
+          criteria.forEach(criterion => {
+            result += `   ${criterion}: ${item.scores[criterion] || 0}\n`;
+          });
+          result += '\n';
+        });
+        
+        const topScore = optionsWithTotals[0].total;
+        const tiedOptions = optionsWithTotals.filter(item => item.total === topScore);
+        
+        if (tiedOptions.length > 1) {
+          result += `Recommendation: ${tiedOptions.map(item => item.option).join(', ')} are tied with ${topScore} points each. Consider reviewing criteria weights or adding additional factors.`;
+        } else {
+          result += `Recommendation: ${optionsWithTotals[0].option} scored highest with ${optionsWithTotals[0].total} points total.`;
+        }
+        
+        return result;
+      
+      case 'rating':
+        return `Rating: ${response.value}/${response.scale[1]}`;
+      
+      case 'matrix':
+        return JSON.stringify(response.data, null, 2);
+      
+      default:
+        return 'Unsupported response type';
+    }
+  };
+
   const generatePDF = () => {
     const pdf = new jsPDF('p', 'mm', 'a4');
     const pageWidth = pdf.internal.pageSize.getWidth();
@@ -285,7 +351,10 @@ export function ReflectionCompletion({
 
     framework.questions.forEach((question, index) => {
       const response = responses[question.id];
-      if (!response?.trim()) return;
+      if (!response) return;
+      
+      const responseText = responseToText(response);
+      if (!responseText.trim()) return;
       
       checkNewPage(40);
       
@@ -307,7 +376,7 @@ export function ReflectionCompletion({
       // Response
       pdf.setFont('helvetica', 'normal');
       pdf.setFontSize(10);
-      yPosition = addWrappedText(response, margin + 15, yPosition, contentWidth - 15, 10, false);
+      yPosition = addWrappedText(responseText, margin + 15, yPosition, contentWidth - 15, 10, false);
       yPosition += 10;
     });
 
@@ -443,11 +512,12 @@ I've completed a leadership reflection using the "${framework.name}" framework a
 ## My Complete Reflection
 
 ${framework.questions.map((question, index) => {
-  const response = responses[question.id] || 'No response provided';
+  const response = responses[question.id];
+  const responseText = response ? responseToText(response) : 'No response provided';
   return `### ${index + 1}. ${question.text}
 
 **My Response:**
-${response}
+${responseText}
 `;
 }).join('\n')}
 
@@ -473,6 +543,31 @@ Please provide specific, actionable advice based on my reflection responses. Foc
   };
 
   const insights = getActionableInsights(framework.id, responses);
+
+  // Function to render different response types with enhanced visualizations
+  const renderResponseVisualization = (questionId: string, response: QuestionResponse) => {
+    if (!response) return <div className="text-gray-500 italic">No response provided</div>;
+
+    switch (response.type) {
+      case 'text':
+      case 'textarea':
+        return <div className="whitespace-pre-wrap leading-relaxed">{response.value}</div>;
+      case 'enumeration':
+        return <CompletionEnumerationDisplay items={response.items} />;
+      case 'itemized-analysis':
+        return <CompletionItemizedAnalysisDisplay data={response.items} />;
+      case 'scoring-matrix':
+        return <CompletionScoringMatrixDisplay data={response.data} />;
+      case 'rating':
+        return <CompletionRatingDisplay value={response.value} scale={response.scale} />;
+      case 'multiple-choice':
+        return <div className="whitespace-pre-wrap leading-relaxed">{response.value}</div>;
+      case 'matrix':
+        return <div className="whitespace-pre-wrap leading-relaxed">{JSON.stringify(response.data, null, 2)}</div>;
+      default:
+        return <div className="text-gray-500 italic">Unsupported response type</div>;
+    }
+  };
 
   return (
     <div className="relative max-w-4xl mx-auto space-y-8">
@@ -540,7 +635,31 @@ Please provide specific, actionable advice based on my reflection responses. Foc
         <div className="space-y-6">
           {framework.questions.map((question, index) => {
             const response = responses[question.id];
-            if (!response?.trim()) return null;
+            if (!response) return null;
+            
+            // Check if response has meaningful content
+            const hasContent = (() => {
+              switch (response.type) {
+                case 'text':
+                case 'textarea':
+                case 'multiple-choice':
+                  return response.value && response.value.trim().length > 0;
+                case 'enumeration':
+                  return response.items && response.items.some(item => item.trim().length > 0);
+                case 'itemized-analysis':
+                  return response.items && Object.values(response.items).some(value => value.trim().length > 0);
+                case 'scoring-matrix':
+                  return response.data && Object.keys(response.data).length > 0;
+                case 'rating':
+                  return response.value !== undefined && response.value !== null;
+                case 'matrix':
+                  return response.data && Object.keys(response.data).length > 0;
+                default:
+                  return false;
+              }
+            })();
+            
+            if (!hasContent) return null;
             
             return (
               <div key={question.id} className="bg-gray-50 p-6 rounded-xl border-l-4 border-blue-500">
@@ -552,9 +671,9 @@ Please provide specific, actionable advice based on my reflection responses. Foc
                     <h3 className="font-semibold text-gray-900 mb-3">
                       {question.text}
                     </h3>
-                    <p className="text-gray-700 whitespace-pre-wrap leading-relaxed">
-                      {response}
-                    </p>
+                    <div className="text-gray-700">
+                      {renderResponseVisualization(question.id, response)}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -649,3 +768,203 @@ Please provide specific, actionable advice based on my reflection responses. Foc
     </div>
   );
 }
+
+// Completion visualization components
+function CompletionEnumerationDisplay({ items }: { items: string[] }) {
+  const validItems = items.filter(item => item.trim());
+  
+  return (
+    <div className="space-y-2">
+      {validItems.map((item, index) => (
+        <div key={index} className="flex items-center gap-3 p-3 bg-white rounded-lg border border-gray-200">
+          <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-white font-medium text-sm flex-shrink-0">
+            {index + 1}
+          </div>
+          <span className="text-gray-900">{item}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function CompletionItemizedAnalysisDisplay({ data }: { data: { [key: string]: string } }) {
+  const items = Object.entries(data).filter(([_, value]) => value.trim());
+  
+  return (
+    <div className="space-y-4">
+      {items.map(([key, value], index) => (
+        <div key={key} className="bg-white rounded-lg p-4 border border-gray-200">
+          <div className="flex items-start gap-3 mb-3">
+            <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-white font-medium text-sm flex-shrink-0">
+              {index + 1}
+            </div>
+            <div className="font-semibold text-gray-900 flex-1">{key}</div>
+          </div>
+          <div className="text-gray-700 pl-9 whitespace-pre-wrap">{value}</div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function CompletionScoringMatrixDisplay({ data }: { data: { [option: string]: { [criterion: string]: number } } }) {
+  const options = Object.keys(data);
+  const criteria = options.length > 0 ? Object.keys(data[options[0]] || {}) : [];
+  
+  if (!options.length || !criteria.length) {
+    return <div className="text-gray-500 italic">No scoring data available</div>;
+  }
+
+  // Calculate totals and rankings
+  const optionsWithTotals = options.map(option => ({
+    option,
+    total: criteria.reduce((sum, criterion) => sum + (data[option]?.[criterion] || 0), 0),
+    scores: data[option] || {}
+  })).sort((a, b) => b.total - a.total);
+
+  return (
+    <div className="space-y-6">
+      {/* Summary Cards */}
+      <div className="grid gap-3">
+        {optionsWithTotals.map((item, index) => (
+          <div key={item.option} className={`flex items-center justify-between p-4 rounded-lg border-2 ${
+            index === 0 ? 'border-green-400 bg-green-50' : 
+            index === 1 ? 'border-blue-400 bg-blue-50' : 
+            'border-gray-200 bg-gray-50'
+          }`}>
+            <div className="flex items-center gap-3">
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm ${
+                index === 0 ? 'bg-green-600 text-white' : 
+                index === 1 ? 'bg-blue-600 text-white' : 
+                'bg-gray-500 text-white'
+              }`}>
+                {index + 1}
+              </div>
+              <span className="font-semibold text-gray-900">{item.option}</span>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="text-sm text-gray-600 hidden sm:block">
+                {criteria.map(criterion => (
+                  <span key={criterion} className="inline-block mr-3">
+                    {criterion}: {item.scores[criterion] || 0}
+                  </span>
+                ))}
+              </div>
+              <div className={`px-3 py-1 rounded-full text-sm font-bold ${
+                index === 0 ? 'bg-green-600 text-white' : 
+                index === 1 ? 'bg-blue-600 text-white' : 
+                'bg-gray-500 text-white'
+              }`}>
+                {item.total} pts
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Detailed Matrix */}
+      <div className="overflow-x-auto">
+        <table className="w-full border-collapse bg-white rounded-lg overflow-hidden shadow-sm">
+          <thead>
+            <tr className="bg-gray-100">
+              <th className="p-3 text-left font-medium text-gray-900 border-b">Option</th>
+              {criteria.map(criterion => (
+                <th key={criterion} className="p-3 text-center font-medium text-gray-900 border-b border-l">
+                  {criterion}
+                </th>
+              ))}
+              <th className="p-3 text-center font-medium text-gray-900 border-b border-l">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {optionsWithTotals.map((item, index) => (
+              <tr key={item.option} className="border-b">
+                <td className="p-3 font-medium text-gray-900 bg-gray-50">{item.option}</td>
+                {criteria.map(criterion => (
+                  <td key={criterion} className="p-3 border-l text-center">
+                    <span className="inline-flex items-center justify-center w-8 h-8 bg-blue-100 text-blue-800 rounded-lg font-medium">
+                      {item.scores[criterion] || 0}
+                    </span>
+                  </td>
+                ))}
+                <td className="p-3 border-l text-center">
+                  <span className={`inline-flex items-center justify-center w-12 h-8 rounded-lg font-bold ${
+                    index === 0 ? 'bg-green-100 text-green-800' : 
+                    'bg-gray-100 text-gray-600'
+                  }`}>
+                    {item.total}
+                  </span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Recommendation */}
+      {optionsWithTotals.length > 0 && (
+        <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
+          <div className="flex items-center gap-2 mb-2">
+            <CheckCircle className="w-5 h-5 text-green-600" />
+            <span className="font-semibold text-green-900">
+              {(() => {
+                const topScore = optionsWithTotals[0].total;
+                const tiedOptions = optionsWithTotals.filter(item => item.total === topScore);
+                return tiedOptions.length > 1 ? 'Tied Options' : 'Recommended Choice';
+              })()}
+            </span>
+          </div>
+          <p className="text-green-800">
+            {(() => {
+              const topScore = optionsWithTotals[0].total;
+              const tiedOptions = optionsWithTotals.filter(item => item.total === topScore);
+              
+              if (tiedOptions.length > 1) {
+                return (
+                  <>
+                    <strong>{tiedOptions.map(item => item.option).join(', ')}</strong> are tied with <strong>{topScore} points</strong> each. 
+                    Consider reviewing the criteria weights or adding additional factors to break the tie.
+                  </>
+                );
+              } else {
+                return (
+                  <>
+                    <strong>{optionsWithTotals[0].option}</strong> scored highest with <strong>{optionsWithTotals[0].total} points</strong> total.
+                  </>
+                );
+              }
+            })()}
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function CompletionRatingDisplay({ value, scale }: { value: number; scale: [number, number] }) {
+  return (
+    <div className="flex items-center gap-4">
+      <div className="flex items-center gap-2">
+        {Array.from({ length: scale[1] - scale[0] + 1 }, (_, i) => {
+          const rating = scale[0] + i;
+          return (
+            <div
+              key={rating}
+              className={`w-8 h-8 rounded-lg flex items-center justify-center font-medium text-sm border-2 ${
+                value === rating 
+                  ? 'bg-blue-600 border-blue-600 text-white' 
+                  : 'border-gray-300 text-gray-400'
+              }`}
+            >
+              {rating}
+            </div>
+          );
+        })}
+      </div>
+      <div className="text-gray-600">
+        Rated: <span className="font-semibold text-gray-900">{value}/{scale[1]}</span>
+      </div>
+    </div>
+  );
+}
+
