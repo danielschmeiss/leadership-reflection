@@ -97,6 +97,9 @@ export function DecisionTree({ onFrameworkSelected, preselectedCategory }: Decis
   const [currentNode, setCurrentNode] = useState<DecisionTreeNode>(decisionTree);
   const [path, setPath] = useState<string[]>([]);
   const [showHelp, setShowHelp] = useState(false);
+  const [showQuickQuiz, setShowQuickQuiz] = useState(false);
+  const [quizStep, setQuizStep] = useState(0);
+  const [quizAnswers, setQuizAnswers] = useState<string[]>([]);
 
   // If a category is preselected, navigate directly to it
   React.useEffect(() => {
@@ -134,6 +137,67 @@ export function DecisionTree({ onFrameworkSelected, preselectedCategory }: Decis
 
   const isFirstLevel = path.length === 0;
 
+  // Quick quiz logic
+  const quickQuizQuestions = [
+    {
+      question: "What's the main challenge you're facing?",
+      options: [
+        { text: "Someone's behavior needs to change", value: "behavior" },
+        { text: "People aren't getting along", value: "interpersonal" },
+        { text: "I need to make a choice", value: "choice" },
+        { text: "Communication isn't working", value: "communication" }
+      ]
+    },
+    {
+      question: "Who is primarily involved?",
+      options: [
+        { text: "Just me and one person", value: "one-on-one" },
+        { text: "Multiple team members", value: "team" },
+        { text: "Different teams or departments", value: "cross-team" },
+        { text: "Leadership or stakeholders", value: "stakeholders" }
+      ]
+    }
+  ];
+
+  const getRecommendedCategory = (answers: string[]) => {
+    const [challenge, who] = answers;
+    
+    if (challenge === "behavior" && who === "one-on-one") return "feedback";
+    if (challenge === "interpersonal") return "conflict";
+    if (challenge === "choice") return "decision";
+    if (challenge === "communication" && who === "stakeholders") return "stakeholder";
+    if (who === "team" || who === "cross-team") return "team-dynamics";
+    
+    // Default fallback
+    return "feedback";
+  };
+
+  const handleQuizAnswer = (answer: string) => {
+    const newAnswers = [...quizAnswers, answer];
+    setQuizAnswers(newAnswers);
+    
+    if (quizStep === quickQuizQuestions.length - 1) {
+      // Quiz complete, recommend category
+      const recommendedCategory = getRecommendedCategory(newAnswers);
+      const nextNode = decisionTreeNodes[recommendedCategory];
+      if (nextNode) {
+        setCurrentNode(nextNode);
+        setPath([currentNode.question]);
+        setShowQuickQuiz(false);
+        setQuizStep(0);
+        setQuizAnswers([]);
+      }
+    } else {
+      setQuizStep(quizStep + 1);
+    }
+  };
+
+  const resetQuiz = () => {
+    setShowQuickQuiz(false);
+    setQuizStep(0);
+    setQuizAnswers([]);
+  };
+
   return (
     <div className="w-full space-y-4 sm:space-y-6">
       {/* Progress indicator */}
@@ -162,8 +226,83 @@ export function DecisionTree({ onFrameworkSelected, preselectedCategory }: Decis
         </div>
       </div>
 
+      {/* Smart Quiz Option - Only show on first level */}
+      {isFirstLevel && !showQuickQuiz && (
+        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 border border-blue-200">
+          <div className="text-center">
+            <div className="mb-4">
+              <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-600 rounded-xl text-white mb-3">
+                <Zap className="w-6 h-6" />
+              </div>
+              <h3 className="text-lg font-bold text-blue-900 mb-2">Not sure which category fits?</h3>
+              <p className="text-blue-700 text-sm mb-4">Answer 2 quick questions and we'll recommend the best approach</p>
+            </div>
+            <button
+              onClick={() => setShowQuickQuiz(true)}
+              className="bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-700 transition-all duration-200 shadow-sm hover:shadow-md"
+            >
+              Take 30-Second Quiz
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Quick Quiz Modal */}
+      {showQuickQuiz && (
+        <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-200">
+          <div className="mb-6">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-xl font-bold text-gray-900">Quick Quiz</h3>
+              <button
+                onClick={resetQuiz}
+                className="text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                ✕
+              </button>
+            </div>
+            <div className="w-full bg-gray-200 rounded-full h-2">
+              <div 
+                className="bg-blue-600 rounded-full h-2 transition-all duration-300"
+                style={{ width: `${((quizStep + 1) / quickQuizQuestions.length) * 100}%` }}
+              ></div>
+            </div>
+            <p className="text-sm text-gray-600 mt-2">Question {quizStep + 1} of {quickQuizQuestions.length}</p>
+          </div>
+
+          <div className="mb-6">
+            <h4 className="text-lg font-semibold text-gray-900 mb-4">
+              {quickQuizQuestions[quizStep].question}
+            </h4>
+            <div className="space-y-3">
+              {quickQuizQuestions[quizStep].options.map((option, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleQuizAnswer(option.value)}
+                  className="w-full text-left p-4 rounded-lg border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-all duration-200 group"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-4 h-4 rounded-full border-2 border-gray-300 group-hover:border-blue-600"></div>
+                    <span className="font-medium text-gray-900">{option.text}</span>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="text-center">
+            <button
+              onClick={resetQuiz}
+              className="text-gray-600 hover:text-gray-800 font-medium text-sm"
+            >
+              I'll choose manually instead
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Question */}
-      <div className="bg-white rounded-lg sm:rounded-xl p-4 sm:p-6 shadow-sm border border-gray-200">
+      {!showQuickQuiz && (
+        <div className="bg-white rounded-lg sm:rounded-xl p-4 sm:p-6 shadow-sm border border-gray-200">
         <div className="text-center mb-4 sm:mb-6">
           <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-2 sm:mb-3 leading-tight">
             {currentNode.question}
@@ -233,6 +372,7 @@ export function DecisionTree({ onFrameworkSelected, preselectedCategory }: Decis
           ))}
         </div>
       </div>
+      )}
 
       {/* Enhanced help section for first level */}
       {isFirstLevel && (
