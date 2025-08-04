@@ -96,6 +96,7 @@ const getCategoryBackgroundClass = (category: string) => {
 export function DecisionTree({ onFrameworkSelected, preselectedCategory }: DecisionTreeProps) {
   const [currentNode, setCurrentNode] = useState<DecisionTreeNode>(decisionTree);
   const [path, setPath] = useState<string[]>([]);
+  const [showHelp, setShowHelp] = useState(false);
 
   // If a category is preselected, navigate directly to it
   React.useEffect(() => {
@@ -134,7 +135,7 @@ export function DecisionTree({ onFrameworkSelected, preselectedCategory }: Decis
   const isFirstLevel = path.length === 0;
 
   return (
-    <div className="max-w-4xl mx-auto space-y-4 sm:space-y-6">
+    <div className="w-full space-y-4 sm:space-y-6">
       {/* Progress indicator */}
       <div className="bg-gray-100 rounded-lg p-3 border border-gray-200">
         <div className="flex items-center justify-between">
@@ -235,13 +236,27 @@ export function DecisionTree({ onFrameworkSelected, preselectedCategory }: Decis
 
       {/* Enhanced help section for first level */}
       {isFirstLevel && (
-        <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl p-6 border border-amber-200">
-          <div className="flex items-start gap-4">
-            <div className="p-3 bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl flex-shrink-0">
-              <Lightbulb className="w-6 h-6 text-white" />
+        <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl border border-amber-200">
+          {/* Help toggle button - always visible */}
+          <button
+            onClick={() => setShowHelp(!showHelp)}
+            className="w-full flex items-center justify-between p-4 text-left hover:bg-amber-100 transition-colors rounded-xl"
+          >
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-gradient-to-r from-amber-500 to-orange-500 rounded-lg flex-shrink-0">
+                <Lightbulb className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <h4 className="font-bold text-amber-900 text-base">{content.decisionTree.help.firstLevel.title}</h4>
+                <p className="text-sm text-amber-700">Need help choosing? Click to see examples</p>
+              </div>
             </div>
-            <div className="flex-1">
-              <h4 className="font-bold text-amber-900 mb-3 text-lg">{content.decisionTree.help.firstLevel.title}</h4>
+            <ChevronRight className={`w-5 h-5 text-amber-600 transition-transform ${showHelp ? 'rotate-90' : ''}`} />
+          </button>
+          
+          {/* Collapsible help content */}
+          {showHelp && (
+            <div className="px-4 pb-6">
               <p className="text-amber-800 mb-4">
                 {content.decisionTree.help.firstLevel.description}
               </p>
@@ -266,7 +281,7 @@ export function DecisionTree({ onFrameworkSelected, preselectedCategory }: Decis
                 </p>
               </div>
             </div>
-          </div>
+          )}
         </div>
       )}
 

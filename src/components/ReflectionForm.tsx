@@ -288,7 +288,7 @@ Please provide specific, actionable guidance to help me get the most value from 
 
   const referencedAnswers = getReferencedAnswers(currentQuestion.text);
   return (
-    <div className="relative max-w-4xl mx-auto space-y-8">
+    <div className="relative w-full space-y-8">
       {/* Copy Success Toast */}
       {showCopyToast && (
         <div className="fixed top-6 right-6 z-50 bg-emerald-600 text-white px-6 py-4 rounded-xl shadow-lg border border-emerald-500 animate-in slide-in-from-top-2 duration-500 max-w-md">

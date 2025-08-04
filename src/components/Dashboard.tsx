@@ -40,9 +40,9 @@ export function Dashboard({ onStartNewReflection, onStartCategoryReflection, onV
   };
 
   return (
-    <div className="space-y-8">
+    <div className="w-full space-y-8">
       {/* Welcome Hero */}
-      <div className="relative overflow-hidden bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-700 rounded-2xl p-8 text-white shadow-lg">
+      <div className="w-full relative overflow-hidden bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-700 rounded-2xl p-8 text-white shadow-lg">
         <div className="relative z-10">
           <div className="mb-8">
             <h1 className="text-4xl font-bold mb-3">{content.dashboard.hero.title}</h1>
@@ -73,7 +73,7 @@ export function Dashboard({ onStartNewReflection, onStartCategoryReflection, onV
       </div>
 
       {/* Challenge Types */}
-      <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-200">
+      <div className="w-full bg-white rounded-2xl p-8 shadow-sm border border-gray-200">
         <div className="text-center mb-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-3">{content.dashboard.challengeTypes.title}</h2>
         </div>
@@ -107,7 +107,7 @@ export function Dashboard({ onStartNewReflection, onStartCategoryReflection, onV
       {/* Frameworks Guide Section */}
       <div 
         onClick={onViewFrameworksGuide}
-        className="bg-white rounded-2xl p-8 shadow-sm border border-gray-200 hover:shadow-md transition-all duration-200 cursor-pointer group"
+        className="w-full bg-white rounded-2xl p-8 shadow-sm border border-gray-200 hover:shadow-md transition-all duration-200 cursor-pointer group"
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
@@ -129,7 +129,7 @@ export function Dashboard({ onStartNewReflection, onStartCategoryReflection, onV
         </div>
       </div>
       {/* Progress & Analytics - Consolidated */}
-      <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-200">
+      <div className="w-full bg-white rounded-2xl p-8 shadow-sm border border-gray-200">
         <div className="flex items-center gap-4 mb-8">
           <div className={`p-3 bg-gradient-to-r ${progressInfo.color} rounded-lg text-white`}>
             <TrendingUp className="w-6 h-6" />
@@ -262,7 +262,7 @@ export function Dashboard({ onStartNewReflection, onStartCategoryReflection, onV
       {/* History Section */}
       <div 
         onClick={onViewHistory}
-        className="bg-white rounded-2xl p-8 shadow-sm border border-gray-200 hover:shadow-md transition-all duration-200 cursor-pointer group"
+        className="w-full bg-white rounded-2xl p-8 shadow-sm border border-gray-200 hover:shadow-md transition-all duration-200 cursor-pointer group"
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">

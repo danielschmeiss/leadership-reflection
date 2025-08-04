@@ -248,7 +248,7 @@ export function EnhancedReflectionForm({
   };
 
   return (
-    <div className="relative max-w-4xl mx-auto space-y-8">
+    <div className="relative w-full space-y-8">
       {/* Progress Header */}
       <div className="bg-gray-100 rounded-lg p-3 border border-gray-200">
         <div className="flex items-center justify-between">
