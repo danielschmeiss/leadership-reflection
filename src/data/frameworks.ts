@@ -14,7 +14,7 @@ const newFrameworks: Record<string, Framework> = {
         required: true,
         itemLabel: 'Team',
         minItems: 2,
-        placeholder: 'Enter each team involved',
+        placeholder: 'Frontend Engineering Team',
         helpText: 'List all teams that are part of the conflict or affected by it'
       },
       {
@@ -23,7 +23,7 @@ const newFrameworks: Record<string, Framework> = {
         text: 'What are the main priorities and constraints for each team?',
         required: true,
         referencedQuestion: 'teams',
-        analysisPrompt: 'Describe this team\'s priorities, goals, and constraints',
+        analysisPrompt: 'Example: "Frontend team needs to deliver new user dashboard by Q1, constrained by limited designer availability, measured on user engagement metrics, facing pressure to support IE11 despite wanting to use modern frameworks"',
         helpText: 'For each team, think about: What are they trying to achieve? What deadlines are they facing? What resources do they need? What organizational pressures are they under? What metrics are they measured on? Understanding these underlying drivers helps identify where teams can collaborate vs. where they truly conflict.'
       },
       {
@@ -92,7 +92,7 @@ const newFrameworks: Record<string, Framework> = {
         required: true,
         itemLabel: 'Suggestion',
         minItems: 2,
-        placeholder: 'Enter each specific suggestion or strategy',
+        placeholder: 'Create a technical mentorship program',
         helpText: 'Provide concrete, actionable steps they can take. Focus on "next time, try..." rather than "you should stop..." Make each suggestion specific enough that they know exactly what to do.'
       },
       {
@@ -102,7 +102,7 @@ const newFrameworks: Record<string, Framework> = {
         required: true,
         itemLabel: 'Strength',
         minItems: 1,
-        placeholder: 'Enter each strength they can leverage',
+        placeholder: 'Strong analytical thinking skills',
         helpText: 'Identify their existing capabilities, natural talents, or past successes that can help them improve in this area. This makes the feedback more balanced and builds confidence.'
       },
       {
@@ -128,7 +128,7 @@ const newFrameworks: Record<string, Framework> = {
         required: true,
         itemLabel: 'Task/Process',
         minItems: 1,
-        placeholder: 'Enter each task or outcome with unclear ownership',
+        placeholder: 'API documentation maintenance',
         helpText: 'Be specific about the work that needs clear ownership. Examples: "Code review process", "Production incident response", "Feature prioritization decisions", "Customer escalation handling"'
       },
       {
@@ -138,7 +138,7 @@ const newFrameworks: Record<string, Framework> = {
         required: true,
         itemLabel: 'Person/Role',
         minItems: 2,
-        placeholder: 'Enter each person or role involved',
+        placeholder: 'Sarah (Senior Frontend Developer)',
         helpText: 'List everyone who currently does this work, should do this work, needs to be consulted, or needs to be informed. Include names or specific roles like "Product Manager", "Tech Lead", "Customer Success"'
       },
       {
@@ -174,7 +174,7 @@ const newFrameworks: Record<string, Framework> = {
         required: true,
         itemLabel: 'Mechanism',
         minItems: 2,
-        placeholder: 'Enter each mechanism to maintain clarity',
+        placeholder: 'Weekly ownership review meetings',
         helpText: 'Think about: regular RACI reviews, role clarity in job descriptions, onboarding process updates, decision logs, escalation paths, performance metrics tied to ownership'
       }
     ]
@@ -207,7 +207,7 @@ const newFrameworks: Record<string, Framework> = {
         required: true,
         itemLabel: 'Concern/Priority',
         minItems: 2,
-        placeholder: 'Enter each likely concern or priority',
+        placeholder: 'Worried about timeline impact on Q1 goals',
         helpText: 'Think from their perspective: budget impact, timeline concerns, risk to other initiatives, team capacity, customer impact, strategic alignment. What keeps them up at night?'
       },
       {
@@ -217,7 +217,7 @@ const newFrameworks: Record<string, Framework> = {
         required: true,
         itemLabel: 'Evidence',
         minItems: 2,
-        placeholder: 'Enter each piece of supporting evidence',
+        placeholder: 'User feedback shows 40% want mobile-first redesign',
         helpText: 'Include: data/metrics, customer feedback, team input, industry benchmarks, past successful examples, expert opinions, cost-benefit analysis. Make your case compelling with facts.'
       },
       {
@@ -263,7 +263,7 @@ const newFrameworks: Record<string, Framework> = {
         required: true,
         itemLabel: 'Task/Decision/Area',
         minItems: 2,
-        placeholder: 'Enter each item that can be delegated',
+        placeholder: 'Sprint planning facilitation',
         helpText: 'Consider: routine decisions, technical choices within your domain, process improvements, stakeholder communication, project planning, problem-solving that doesn\'t require your specific expertise'
       },
       {
@@ -300,7 +300,7 @@ const newFrameworks: Record<string, Framework> = {
         required: true,
         itemLabel: 'Success Indicator',
         minItems: 2,
-        placeholder: 'Enter each way to measure empowerment success',
+        placeholder: 'Reduced escalations to me by 50%',
         helpText: 'Think about: decision velocity, quality of outcomes, team confidence levels, reduced escalations to you, team satisfaction, individual growth, innovation/initiative from team members'
       }
     ]
@@ -331,7 +331,7 @@ const newFrameworks: Record<string, Framework> = {
         text: 'What specific examples support your trust rating?',
         required: true,
         references: [{ questionId: 'trust_level', label: 'Your trust rating' }],
-        placeholder: 'Provide specific examples of trust-building or trust-limiting behaviors'
+        placeholder: 'Example: "Last week, Sarah admitted she made an error in the database migration that caused the staging issue. Tom openly asked for help with the React components he\'s struggling with. However, I notice people still hesitate to voice unpopular opinions in meetings, and some team members avoid asking questions that might seem basic..."'
       },
       {
         type: 'rating',
@@ -397,7 +397,7 @@ const baseFrameworks: Record<string, Framework> = {
         text: 'What specific situation do you want to highlight?',
         type: 'textarea',
         required: true,
-        placeholder: 'Describe the specific context, time, and place...',
+        placeholder: 'Example: "During yesterday\'s sprint planning meeting when we were reviewing the user story estimates, Sarah presented her analysis of the payment integration complexity..."',
         helpText: 'Be specific about when and where this happened. Good: "In yesterday\'s team meeting when we were discussing the Q4 roadmap..." Bad: "You always interrupt people in meetings..."'
       },
       {
@@ -405,7 +405,7 @@ const baseFrameworks: Record<string, Framework> = {
         text: 'What behavior did you observe?',
         type: 'textarea',
         required: true,
-        placeholder: 'Focus on observable actions, not interpretations...',
+        placeholder: 'Example: "Sarah asked clarifying questions about edge cases, suggested three specific technical approaches, and offered to research the security implications over the weekend..."',
         helpText: 'Describe only what you saw or heard, like a video camera would record. Good: "You interrupted Sarah three times while she was presenting..." Bad: "You were being disrespectful to Sarah..."'
       },
       {
@@ -413,7 +413,7 @@ const baseFrameworks: Record<string, Framework> = {
         text: 'What positive impact did this behavior have?',
         type: 'textarea',
         required: true,
-        placeholder: 'Describe the effect on you, the team, or outcomes...',
+        placeholder: 'Example: "Her questions helped us identify two critical issues we hadn\'t considered, which prevented production bugs. The team felt more confident about the technical approach, and we reduced our risk estimate from high to medium..."',
         helpText: 'Focus on concrete results and specific effects. Good: "This helped us move quickly through the agenda and everyone felt heard..." Bad: "It was really good leadership..."'
       },
       {
@@ -421,7 +421,7 @@ const baseFrameworks: Record<string, Framework> = {
         text: 'How can you ensure this behavior is reinforced?',
         type: 'textarea',
         required: true,
-        placeholder: 'What steps will help continue this positive behavior?',
+        placeholder: 'Example: "I\'ll acknowledge Sarah\'s thorough analysis in our team retrospective, ask her to lead technical risk assessment for our next major feature, and encourage the team to adopt her approach of researching edge cases before finalizing estimates..."',
         helpText: 'Think about recognition, future opportunities, or environmental changes that will encourage more of this behavior. Be specific about what you\'ll do.'
       }
     ]
@@ -436,7 +436,7 @@ const baseFrameworks: Record<string, Framework> = {
         text: 'What event triggered the conflict?',
         type: 'textarea',
         required: true,
-        placeholder: 'Describe the specific event or ongoing issue that started this conflict. Include when and where it happened for context.',
+        placeholder: 'Example: "Last Tuesday during the code review, Alex suggested refactoring Mike\'s authentication module. Mike responded that Alex doesn\'t understand the security requirements and hasn\'t worked on this system before. Since then, they\'ve been avoiding each other and tensions are affecting team morale..."',
         helpText: 'Be factual and objective. Focus on what happened, not why you think it happened. Include specific timing and context that both parties would agree on.'
       },
       {
@@ -444,7 +444,7 @@ const baseFrameworks: Record<string, Framework> = {
         text: 'What are your needs in this situation?',
         type: 'textarea',
         required: true,
-        placeholder: 'Focus on what you really need or care about, not your position or preferred solution.',
+        placeholder: 'Example: "I need the team to collaborate effectively and maintain code quality standards. I want both engineers to feel respected and valued. I need to ensure our security requirements are met while also being open to improvements. Most importantly, I need to restore team cohesion before it affects our sprint goals..."',
         helpText: 'Go deeper than your initial position. Ask yourself: Why do I want this? What am I really trying to achieve? What would success look like? Focus on needs, not demands.'
       },
       {
@@ -452,7 +452,7 @@ const baseFrameworks: Record<string, Framework> = {
         text: 'What needs does the other person have?',
         type: 'textarea',
         required: true,
-        placeholder: 'Try to understand their underlying concerns and what they really need from this situation.',
+        placeholder: 'Example: "Mike needs to feel his expertise is respected and that security won\'t be compromised. Alex needs to contribute meaningfully and be seen as a valuable team member. Both likely want to do good work and avoid ongoing conflict..."',
         helpText: 'Put yourself in their shoes. What pressures are they facing? What are they trying to accomplish? What would make them feel successful? Avoid assuming negative motives.'
       },
       {
@@ -460,7 +460,7 @@ const baseFrameworks: Record<string, Framework> = {
         text: 'What solutions could work for both parties?',
         type: 'textarea',
         required: true,
-        placeholder: 'Brainstorm creative options that could address both your needs and theirs.',
+        placeholder: 'Example: "Pair Alex with Mike on a security review session, create a team knowledge-sharing session on authentication best practices, establish code review guidelines that separate technical suggestions from personal criticism, or have Mike mentor Alex on security while Alex helps Mike with refactoring techniques..."',
         helpText: 'Think beyond obvious compromises. Look for creative solutions that give both parties what they really need. Consider options like changing timing, scope, resources, or approach.'
       },
       {
@@ -468,7 +468,7 @@ const baseFrameworks: Record<string, Framework> = {
         text: 'How can you find common ground?',
         type: 'textarea',
         required: true,
-        placeholder: 'Identify shared goals, values, or concerns that you can build a solution around.',
+        placeholder: 'Example: "Both engineers want to build secure, maintainable code and be respected team members. We all care about product quality and team success. Both value learning and growth. We share a commitment to delivering great software for our users..."',
         helpText: 'Look for shared interests: team success, customer satisfaction, professional reputation, or project outcomes. These become the foundation for collaborative solutions.'
       }
     ]
@@ -485,7 +485,7 @@ const baseFrameworks: Record<string, Framework> = {
         required: true,
         itemLabel: 'Option',
         minItems: 2,
-        placeholder: 'Enter each option you are evaluating',
+        placeholder: 'React with TypeScript',
         helpText: 'List all viable alternatives you\'re considering. Each option should be a distinct choice.'
       },
       {
@@ -495,7 +495,7 @@ const baseFrameworks: Record<string, Framework> = {
         required: true,
         itemLabel: 'Criterion',
         minItems: 2,
-        placeholder: 'Enter evaluation criteria (e.g., cost, speed, team acceptance)',
+        placeholder: 'Development speed',
         helpText: 'Think about factors like cost, timeline, team impact, technical complexity, maintainability, etc.'
       },
       {
@@ -539,7 +539,7 @@ const baseFrameworks: Record<string, Framework> = {
         required: true,
         itemLabel: 'Strategic Option',
         minItems: 2,
-        placeholder: 'Enter each strategic alternative...',
+        placeholder: 'Build in-house analytics platform',
         helpText: 'List all viable strategic alternatives. Each should be a distinct choice with different implications for your organization or domain.'
       },
       {
@@ -548,7 +548,7 @@ const baseFrameworks: Record<string, Framework> = {
         type: 'itemized-analysis',
         required: true,
         referencedQuestion: 'options',
-        analysisPrompt: 'List the key advantages and benefits of this option',
+        analysisPrompt: 'Example for in-house platform: "Complete control over features, perfect fit for our needs, team learns new skills, no vendor lock-in, potential competitive advantage"',
         helpText: 'For each option, consider: strategic benefits, competitive advantages, resource gains, risk reduction, growth opportunities, and stakeholder benefits.'
       },
       {
@@ -557,7 +557,7 @@ const baseFrameworks: Record<string, Framework> = {
         type: 'itemized-analysis',
         required: true,
         referencedQuestion: 'options',
-        analysisPrompt: 'List the key disadvantages and risks of this option',
+        analysisPrompt: 'Example: "High development costs, 6-month delay to market, requires hiring specialized talent, ongoing maintenance burden, opportunity cost of other features"',
         helpText: 'For each option, consider: costs, risks, resource requirements, potential negative impacts, opportunity costs, and stakeholder concerns.'
       },
       {
@@ -588,7 +588,7 @@ const baseFrameworks: Record<string, Framework> = {
         text: 'Who are the key stakeholders involved?',
         type: 'textarea',
         required: true,
-        placeholder: 'List all relevant parties and their roles...'
+        placeholder: 'Example: "Product Manager (defines requirements), Frontend Team (implements UI), Backend Team (provides APIs), QA Team (tests integration), DevOps (handles deployment), Security Team (reviews compliance)..."'
       },
       {
         id: 'expectations',
@@ -602,7 +602,7 @@ const baseFrameworks: Record<string, Framework> = {
         text: 'Where do misunderstandings or conflicting goals exist?',
         type: 'textarea',
         required: true,
-        placeholder: 'Identify areas of confusion or conflicting interests...'
+        placeholder: 'Example: "Product wants more features while Engineering wants stability. QA expectations unclear on testing scope. DevOps unsure about deployment windows. Frontend assumes Backend APIs ready, but Backend team hasn\'t confirmed timeline. Security requirements communicated late in process..."'
       },
       {
         id: 'transparency',
@@ -630,7 +630,7 @@ const baseFrameworks: Record<string, Framework> = {
         text: 'What is the goal you want to achieve in this situation?',
         type: 'textarea',
         required: true,
-        placeholder: 'Be specific about what you want to accomplish...',
+        placeholder: 'Example: "Reduce our deployment time from 2 hours to 30 minutes within the next quarter, while maintaining zero-downtime deployments and improving our rollback capabilities to under 5 minutes..."',
         helpText: 'Make your goal SMART: Specific, Measurable, Achievable, Relevant, Time-bound. What would success look like? How will you know when you\'ve achieved it?'
       },
       {
@@ -638,7 +638,7 @@ const baseFrameworks: Record<string, Framework> = {
         text: 'What is the current reality?',
         type: 'textarea',
         required: true,
-        placeholder: 'Describe the current situation objectively...',
+        placeholder: 'Example: "Currently we have manual deployment scripts, no automated testing in production pipeline, deployments require 3 people and happen only during maintenance windows. We\'ve had 2 failed deployments this month requiring 4-hour rollbacks. Team spends 15% of time on deployment-related issues..."',
         helpText: 'Be honest and objective. What resources do you have? What constraints exist? What\'s working well? What challenges are you facing? Avoid judgment - just describe facts.'
       },
       {
@@ -648,7 +648,7 @@ const baseFrameworks: Record<string, Framework> = {
         required: true,
         itemLabel: 'Option',
         minItems: 3,
-        placeholder: 'Enter each possible approach...',
+        placeholder: 'Implement CI/CD pipeline with automated testing',
         helpText: 'Brainstorm at least 3-5 different approaches. Include both obvious and creative options. Don\'t evaluate them yet - just generate possibilities.'
       },
       {
@@ -669,7 +669,7 @@ const baseFrameworks: Record<string, Framework> = {
           { questionId: 'options', label: 'Your options' },
           { questionId: 'evaluation', label: 'Option evaluation' }
         ],
-        placeholder: 'Decide on your approach and plan specific next steps...',
+        placeholder: 'Example: "I\'ll implement the CI/CD pipeline approach because it addresses our core issues and has manageable risks. Next steps: 1) Research GitLab CI vs Jenkins (this week), 2) Present proposal to team (next Tuesday), 3) Start with staging environment (next sprint), 4) Train team on new process (ongoing)..."',
         helpText: 'Choose your preferred option and break it down into specific, actionable steps. What will you do first? By when? What support do you need?'
       },
       {
@@ -677,7 +677,7 @@ const baseFrameworks: Record<string, Framework> = {
         text: 'What is your next step?',
         type: 'textarea',
         required: true,
-        placeholder: 'Define the specific action you will take first...'
+        placeholder: 'Example: "Schedule 1-on-1 with Sarah this Thursday to discuss her interest in leading the mobile project. Prepare talking points about expectations, timeline, and support she\'ll need. Confirm she has bandwidth given her current commitments..."'
       }
     ]
   }
@@ -703,28 +703,28 @@ export function getCustomizedFramework(frameworkId: string, category: string, su
           text: 'What specific situation requires feedback?',
           type: 'textarea',
           required: true,
-          placeholder: 'Describe when and where the behavior occurred...'
+          placeholder: 'Example: "In Friday\'s team standup when discussing the production issue, Mike interrupted Sarah twice while she was explaining the timeline impact, then dismissed her concerns about user impact by saying \'users will understand\' without addressing her technical points..."'
         },
         {
           id: 'behavior',
           text: 'What behavior was problematic?',
           type: 'textarea',
           required: true,
-          placeholder: 'Focus on specific, observable actions...'
+          placeholder: 'Example: "Mike spoke over Sarah, used dismissive language, didn\'t ask follow-up questions about her concerns, showed impatient body language (sighing, looking at phone), and ended the discussion without allowing Sarah to finish her explanation..."'
         },
         {
           id: 'impact',
           text: 'What negative impact did it have on the team or outcomes?',
           type: 'textarea',
           required: true,
-          placeholder: 'Explain the consequences of this behavior...'
+          placeholder: 'Example: "Sarah looked frustrated and stopped contributing ideas for the rest of the meeting. The team missed important technical insights about the production issue. Other team members seemed uncomfortable with the dynamic, and I noticed less participation from everyone afterward..."'
         },
         {
           id: 'constructive',
           text: 'How can you phrase feedback constructively and solution-focused?',
           type: 'textarea',
           required: true,
-          placeholder: 'Frame the feedback in a way that encourages improvement...'
+          placeholder: 'Example: "I want to talk about communication patterns in our standups so we can make sure everyone\'s expertise gets heard. When team members get interrupted, we lose valuable insights that could prevent issues. I\'d like to discuss how we can create space for everyone to contribute fully..."'
         },
         {
           id: 'support',
@@ -743,14 +743,14 @@ export function getCustomizedFramework(frameworkId: string, category: string, su
           text: 'What is the root cause of the conflict between the parties?',
           type: 'textarea',
           required: true,
-          placeholder: 'Look beyond surface issues to underlying causes...'
+          placeholder: 'Example: "Surface issue is missed deadlines, but root cause might be unclear requirements from Product, insufficient technical discovery time, pressure to commit to unrealistic estimates, or lack of buffer for unexpected complexity. Need to examine our planning process, not just blame individuals..."'
         },
         {
           id: 'team_impact',
           text: 'How is this conflict impacting daily team dynamics?',
           type: 'textarea',
           required: true,
-          placeholder: 'Describe the effect on team collaboration and morale...'
+          placeholder: 'Example: "Team members avoid bringing up concerns in meetings, leading to issues discovered late. People seem less enthusiastic about brainstorming sessions. I notice more side conversations and less direct collaboration. Two team members mentioned feeling like their input doesn\'t matter..."'
         },
         {
           id: 'moderator_role',
@@ -790,7 +790,7 @@ export function getCustomizedFramework(frameworkId: string, category: string, su
           text: 'What decision or approval do you need?',
           type: 'textarea',
           required: true,
-          placeholder: 'Be specific about what you need from leadership...'
+          placeholder: 'Example: "I need approval for the mobile-first redesign project, allocation of 2 senior developers for Q2, budget of $50K for design tools and user research, and commitment to delay the legacy feature migration by one quarter to allow focus on this strategic initiative..."'
         },
         {
           id: 'information',
