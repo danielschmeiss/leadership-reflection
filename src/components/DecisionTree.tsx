@@ -100,6 +100,16 @@ export function DecisionTree({ onFrameworkSelected, preselectedCategory }: Decis
   const [showQuickQuiz, setShowQuickQuiz] = useState(false);
   const [quizStep, setQuizStep] = useState(0);
   const [quizAnswers, setQuizAnswers] = useState<string[]>([]);
+  const [showOnboarding, setShowOnboarding] = useState(false);
+
+  // Check if user is first-time visitor
+  React.useEffect(() => {
+    const isFirstTime = !localStorage.getItem('has_visited_decision_tree');
+    if (isFirstTime && !preselectedCategory) {
+      setShowOnboarding(true);
+      localStorage.setItem('has_visited_decision_tree', 'true');
+    }
+  }, [preselectedCategory]);
 
   // If a category is preselected, navigate directly to it
   React.useEffect(() => {
@@ -200,6 +210,79 @@ export function DecisionTree({ onFrameworkSelected, preselectedCategory }: Decis
 
   return (
     <div className="w-full space-y-4 sm:space-y-6">
+      {/* First-time user onboarding modal */}
+      {showOnboarding && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl max-w-lg w-full p-8 shadow-2xl">
+            <div className="text-center mb-6">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl text-white mb-4">
+                <Lightbulb className="w-8 h-8" />
+              </div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-3">Welcome to Leadership Reflection</h2>
+              <p className="text-gray-600 leading-relaxed">
+                This tool helps you tackle tough leadership challenges in just 5-10 minutes using proven frameworks.
+              </p>
+            </div>
+
+            <div className="space-y-4 mb-8">
+              <div className="bg-blue-50 rounded-xl p-4 border border-blue-200">
+                <div className="flex items-start gap-3">
+                  <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0 mt-0.5">1</div>
+                  <div>
+                    <h4 className="font-semibold text-blue-900 mb-1">Pick your challenge type</h4>
+                    <p className="text-sm text-blue-800">Choose from feedback, conflicts, decisions, and more</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-emerald-50 rounded-xl p-4 border border-emerald-200">
+                <div className="flex items-start gap-3">
+                  <div className="w-6 h-6 bg-emerald-600 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0 mt-0.5">2</div>
+                  <div>
+                    <h4 className="font-semibold text-emerald-900 mb-1">Answer guided questions</h4>
+                    <p className="text-sm text-emerald-800">Follow a proven framework with helpful examples</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-purple-50 rounded-xl p-4 border border-purple-200">
+                <div className="flex items-start gap-3">
+                  <div className="w-6 h-6 bg-purple-600 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0 mt-0.5">3</div>
+                  <div>
+                    <h4 className="font-semibold text-purple-900 mb-1">Get actionable insights</h4>
+                    <p className="text-sm text-purple-800">Receive specific next steps and save as PDF</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-3">
+              <button
+                onClick={() => setShowOnboarding(false)}
+                className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 shadow-sm hover:shadow-md"
+              >
+                Get Started
+              </button>
+              <button
+                onClick={() => {
+                  setShowOnboarding(false);
+                  setShowQuickQuiz(true);
+                }}
+                className="w-full text-blue-600 px-6 py-2 rounded-xl font-medium hover:bg-blue-50 transition-all duration-200"
+              >
+                Take Quick Quiz Instead
+              </button>
+            </div>
+
+            <div className="mt-6 pt-6 border-t border-gray-200">
+              <div className="flex items-center justify-center gap-2 text-sm text-gray-500">
+                <Shield className="w-4 h-4" />
+                <span>100% private - stored locally on your device</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       {/* Progress indicator */}
       <div className="bg-gray-100 rounded-lg p-3 border border-gray-200">
         <div className="flex items-center justify-between">
