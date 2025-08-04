@@ -170,7 +170,7 @@ export function DecisionTree({ onFrameworkSelected, preselectedCategory }: Decis
           </h2>
         </div>
 
-        <div className={`${isFirstLevel ? 'grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6' : 'grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6'}`}>
+        <div className={`${isFirstLevel ? 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6' : 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6'}`}>
           {currentNode.options.map((option, index) => (
             <div key={index} className={isFirstLevel ? '' : ''}>
               <button
