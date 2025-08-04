@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Save, ArrowRight, ArrowLeft, AlertCircle, HelpCircle, Lightbulb, CheckCircle, Target, Plus, X, Star } from 'lucide-react';
+import { Save, ArrowRight, ArrowLeft, AlertCircle, HelpCircle, Lightbulb, CheckCircle, Target, Plus, X, Star, Bot, Settings, Loader, Wifi, Sparkles } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
 import { Framework, Question, QuestionResponse } from '../types';
+import { useLocalLLM } from '../hooks/useLocalLLM';
+import { LocalLLMConfig } from './LocalLLMConfig';
 
 interface EnhancedReflectionFormProps {
   framework: Framework;
@@ -21,6 +24,11 @@ export function EnhancedReflectionForm({
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [hasAttemptedNext, setHasAttemptedNext] = useState(false);
   const [showQuestionHelp, setShowQuestionHelp] = useState(false);
+  const [showLLMConfig, setShowLLMConfig] = useState(false);
+  const [aiSuggestion, setAiSuggestion] = useState<string>('');
+  const [showAiSuggestion, setShowAiSuggestion] = useState(false);
+  
+  const { isConfigured, isConnected, isLoading, generateResponse } = useLocalLLM();
 
   const currentQuestion = framework.questions[currentQuestionIndex];
   const isLastQuestion = currentQuestionIndex === framework.questions.length - 1;
@@ -73,6 +81,71 @@ export function EnhancedReflectionForm({
         return response.data;
       default:
         return response.value;
+    }
+  };
+
+  const getLocalAIAssistance = async () => {
+    if (!isConfigured || !isConnected) {
+      setShowLLMConfig(true);
+      return;
+    }
+
+    const completedResponses = framework.questions.slice(0, currentQuestionIndex)
+      .filter(q => responses[q.id])
+      .map((q, index) => `${index + 1}. ${q.text}\nResponse: ${convertResponseToText(responses[q.id])}`)
+      .join('\n\n');
+
+    const systemPrompt = `You are a leadership coach. Give brief, actionable guidance. Be concise but helpful.`;
+
+    const userPrompt = `Leadership situation: ${problemDescription}
+
+Framework: ${framework.name}
+Current question: ${currentQuestion.text}
+
+${responses[currentQuestion.id] ? `My draft: ${convertResponseToText(responses[currentQuestion.id])}\n\n` : ''}Give me 2-3 specific, actionable tips to answer this question well. Keep it short and practical.`;
+
+    try {
+      const result = await generateResponse({
+        prompt: userPrompt,
+        systemPrompt,
+        maxTokens: 200,
+        temperature: 0.7
+      });
+
+      if (result.error) {
+        setAiSuggestion(`Error: ${result.error}`);
+      } else {
+        setAiSuggestion(result.text.trim());
+      }
+      setShowAiSuggestion(true);
+    } catch (error) {
+      setAiSuggestion(`Error: ${error instanceof Error ? error.message : 'Failed to get AI assistance'}`);
+      setShowAiSuggestion(true);
+    }
+  };
+
+  // Helper function to convert structured responses to readable text
+  const convertResponseToText = (response: QuestionResponse): string => {
+    if (!response) return '';
+    
+    switch (response.type) {
+      case 'text':
+      case 'textarea':
+        return response.value || '';
+      case 'rating':
+        return `Rating: ${response.value}`;
+      case 'enumeration':
+        return response.items.join(', ');
+      case 'itemized-analysis':
+        return Object.entries(response.items)
+          .map(([key, value]) => `${key}: ${value}`)
+          .join('. ');
+      case 'scoring-matrix':
+        return Object.entries(response.data)
+          .map(([option, scores]) => `${option}: ${Object.entries(scores).map(([criterion, score]) => `${criterion}=${score}`).join(', ')}`)
+          .join('. ');
+      default:
+        return JSON.stringify(response);
     }
   };
 
@@ -324,25 +397,115 @@ export function EnhancedReflectionForm({
             Cancel
           </button>
 
-          <button
-            onClick={handleNext}
-            disabled={!canProceed}
-            className="flex items-center justify-center gap-3 px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:from-blue-700 hover:to-indigo-700 disabled:from-gray-300 disabled:to-gray-400 disabled:cursor-not-allowed font-semibold shadow-sm hover:shadow-md transition-all duration-200 w-full sm:w-auto"
-          >
-            {isLastQuestion ? (
-              <>
-                <Save className="w-5 h-5" />
-                Complete Reflection
-              </>
-            ) : (
-              <>
-                Next Question
-                <ArrowRight className="w-5 h-5" />
-              </>
-            )}
-          </button>
+          {/* Right side: AI Assistance + Next/Complete Button */}
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center order-first sm:order-last">
+            <button
+              onClick={getLocalAIAssistance}
+              disabled={isLoading}
+              className={`flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all duration-200 shadow-sm hover:shadow-md w-full sm:w-auto ${
+                isConfigured && isConnected
+                  ? 'bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white'
+                  : 'bg-gradient-to-r from-gray-400 to-gray-500 hover:from-gray-500 hover:to-gray-600 text-white'
+              }`}
+              title={isConfigured && isConnected ? 'Get assistance from local AI' : 'Configure local AI assistant'}
+            >
+              {isLoading ? (
+                <Loader className="w-5 h-5 animate-spin" />
+              ) : isConfigured && isConnected ? (
+                <Sparkles className="w-5 h-5" />
+              ) : (
+                <Settings className="w-5 h-5" />
+              )}
+              <span className="hidden sm:inline">
+                {isLoading ? 'Thinking...' : isConfigured && isConnected ? 'AI Assistance' : 'Setup AI'}
+              </span>
+              <span className="sm:hidden">
+                {isLoading ? '...' : isConfigured && isConnected ? 'AI' : 'Setup'}
+              </span>
+            </button>
+            
+            <button
+              onClick={handleNext}
+              disabled={!canProceed}
+              className="flex items-center justify-center gap-3 px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:from-blue-700 hover:to-indigo-700 disabled:from-gray-300 disabled:to-gray-400 disabled:cursor-not-allowed font-semibold shadow-sm hover:shadow-md transition-all duration-200 w-full sm:w-auto"
+            >
+              {isLastQuestion ? (
+                <>
+                  <Save className="w-5 h-5" />
+                  Complete Reflection
+                </>
+              ) : (
+                <>
+                  Next Question
+                  <ArrowRight className="w-5 h-5" />
+                </>
+              )}
+            </button>
+          </div>
         </div>
       </div>
+      
+      {/* Local LLM Configuration Modal */}
+      <LocalLLMConfig 
+        isOpen={showLLMConfig} 
+        onClose={() => setShowLLMConfig(false)} 
+      />
+      
+      {/* AI Suggestion Modal */}
+      {showAiSuggestion && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[80vh] overflow-y-auto shadow-2xl">
+            <div className="p-6 border-b border-gray-200">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-gradient-to-r from-emerald-500 to-green-600 rounded-lg text-white">
+                    <Sparkles className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-gray-900">AI Assistance</h3>
+                    <p className="text-gray-600">Suggestions for your current question</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setShowAiSuggestion(false)}
+                  className="p-2 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-100 transition-colors"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
+            </div>
+            
+            <div className="p-6">
+              <div className="mb-4">
+                <h4 className="font-semibold text-gray-900 mb-2">For question: {currentQuestion.text}</h4>
+              </div>
+              
+              <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-4 mb-6">
+                <div className="text-gray-800 leading-relaxed prose prose-sm max-w-none prose-headings:text-emerald-900 prose-strong:text-emerald-900 prose-em:text-emerald-800 prose-code:bg-white prose-code:px-1 prose-code:rounded prose-ul:text-gray-800 prose-ol:text-gray-800">
+                  <ReactMarkdown>{aiSuggestion}</ReactMarkdown>
+                </div>
+              </div>
+              
+              <div className="flex justify-end gap-3">
+                <button
+                  onClick={() => setShowAiSuggestion(false)}
+                  className="px-6 py-3 text-gray-600 hover:text-gray-800 font-medium rounded-xl hover:bg-gray-100 transition-all"
+                >
+                  Close
+                </button>
+                <button
+                  onClick={getLocalAIAssistance}
+                  disabled={isLoading}
+                  className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-emerald-500 to-green-600 text-white rounded-xl font-semibold hover:from-emerald-600 hover:to-green-700 transition-all duration-200 disabled:opacity-50"
+                >
+                  {isLoading && <Loader className="w-4 h-4 animate-spin" />}
+                  Get New Suggestion
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
