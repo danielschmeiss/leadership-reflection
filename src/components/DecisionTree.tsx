@@ -320,12 +320,20 @@ export function DecisionTree({ onFrameworkSelected, preselectedCategory }: Decis
               <h3 className="text-lg font-bold text-blue-900 mb-2">Not sure which category fits?</h3>
               <p className="text-blue-700 text-sm mb-4">Answer 2 quick questions and we'll recommend the best approach</p>
             </div>
-            <button
-              onClick={() => setShowQuickQuiz(true)}
-              className="bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-700 transition-all duration-200 shadow-sm hover:shadow-md"
-            >
-              Take 30-Second Quiz
-            </button>
+            <div className="flex flex-col sm:flex-row gap-3 items-center justify-center">
+              <button
+                onClick={() => setShowQuickQuiz(true)}
+                className="bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-700 transition-all duration-200 shadow-sm hover:shadow-md"
+              >
+                Take 30-Second Quiz
+              </button>
+              <button
+                onClick={() => setShowOnboarding(true)}
+                className="text-blue-600 hover:text-blue-800 font-medium text-sm underline hover:no-underline transition-colors"
+              >
+                or see how this works
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -495,9 +503,17 @@ export function DecisionTree({ onFrameworkSelected, preselectedCategory }: Decis
                 ))}
               </div>
               <div className="mt-4 p-3 bg-blue-100 bg-opacity-50 rounded-lg">
-                <p className="text-sm text-blue-800 font-medium">
-                  💡 <strong>Pro tip:</strong> {content.decisionTree.help.firstLevel.proTip}
-                </p>
+                <div className="flex items-center justify-between">
+                  <p className="text-sm text-blue-800 font-medium">
+                    💡 <strong>Pro tip:</strong> {content.decisionTree.help.firstLevel.proTip}
+                  </p>
+                  <button
+                    onClick={() => setShowOnboarding(true)}
+                    className="text-xs text-blue-600 hover:text-blue-800 font-medium underline hover:no-underline transition-colors ml-4"
+                  >
+                    Show Tutorial
+                  </button>
+                </div>
               </div>
             </div>
           )}
