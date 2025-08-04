@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronRight, Target, Users, MessageSquare, GitBranch, Zap, ArrowLeft, CheckCircle, Lightbulb, User, UserCheck, Building2, ThumbsUp, AlertTriangle, BarChart3, TrendingUp, FileText, Shield, UserPlus, Heart, Compass } from 'lucide-react';
+import { ChevronRight, Target, Users, MessageSquare, GitBranch, Zap, ArrowLeft, CheckCircle, Lightbulb, User, UserCheck, Building2, ThumbsUp, AlertTriangle, BarChart3, TrendingUp, FileText, Shield, UserPlus, Heart, Compass, MessageCircle, UserX, Handshake, ClipboardCheck, Megaphone, Settings } from 'lucide-react';
 import { decisionTree, decisionTreeNodes } from '../data/frameworks';
 import { DecisionTreeNode, FrameworkType, SituationCategory } from '../types';
 import content from '../data/content.json';
@@ -11,13 +11,13 @@ interface DecisionTreeProps {
 
 const getCategoryIcon = (category: string) => {
   switch (category) {
-    case 'feedback': return <MessageSquare className="w-6 h-6" />;
-    case 'conflict': return <Users className="w-6 h-6" />;
-    case 'decision': return <Target className="w-6 h-6" />;
-    case 'stakeholder': return <GitBranch className="w-6 h-6" />;
-    case 'team-dynamics': return <Users className="w-6 h-6" />;
-    case 'other': return <Zap className="w-6 h-6" />;
-    default: return <Target className="w-6 h-6" />;
+    case 'feedback': return <MessageCircle className="w-6 h-6" />;
+    case 'conflict': return <UserX className="w-6 h-6" />;
+    case 'decision': return <ClipboardCheck className="w-6 h-6" />;
+    case 'stakeholder': return <Megaphone className="w-6 h-6" />;
+    case 'team-dynamics': return <Handshake className="w-6 h-6" />;
+    case 'other': return <Settings className="w-6 h-6" />;
+    default: return <ClipboardCheck className="w-6 h-6" />;
   }
 };
 
