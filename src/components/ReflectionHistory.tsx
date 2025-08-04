@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Search, Filter, Calendar, BookOpen, TrendingUp, Trophy, Target, Zap, Star } from 'lucide-react';
-import { Situation, SituationCategory } from '../types';
+import { Situation, SituationCategory, QuestionResponse } from '../types';
 import { ReflectionSummary } from './ReflectionSummary';
 
 interface ReflectionHistoryProps {
@@ -15,13 +15,43 @@ export function ReflectionHistory({ reflections, onEdit, onDelete, onViewComplet
   const [filterCategory, setFilterCategory] = useState<SituationCategory | 'all'>('all');
   const [sortBy, setSortBy] = useState<'date' | 'category'>('date');
 
+  // Helper function to convert structured responses to searchable text
+  const responseToText = (response: QuestionResponse): string => {
+    if (!response) return '';
+    
+    switch (response.type) {
+      case 'text':
+      case 'textarea':
+        return response.value || '';
+      case 'rating':
+        return `Rating: ${response.value}`;
+      case 'enumeration':
+        return response.items.join(', ');
+      case 'itemized-analysis':
+        return Object.entries(response.items)
+          .map(([key, value]) => `${key}: ${value}`)
+          .join('. ');
+      case 'scoring-matrix':
+        return Object.entries(response.data)
+          .map(([option, scores]) => `${option}: ${Object.entries(scores).map(([criterion, score]) => `${criterion}=${score}`).join(', ')}`)
+          .join('. ');
+      default:
+        return '';
+    }
+  };
+
   const filteredReflections = reflections
     .filter(r => {
       const matchesSearch = searchTerm === '' || 
         r.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        Object.values(r.responses).some(response => 
-          response.toLowerCase().includes(searchTerm.toLowerCase())
-        );
+        Object.values(r.responses).some(response => {
+          // Handle both old string responses and new structured responses
+          if (typeof response === 'string') {
+            return response.toLowerCase().includes(searchTerm.toLowerCase());
+          } else {
+            return responseToText(response).toLowerCase().includes(searchTerm.toLowerCase());
+          }
+        });
       
       const matchesCategory = filterCategory === 'all' || r.category === filterCategory;
       
