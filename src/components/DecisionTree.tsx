@@ -421,12 +421,8 @@ export function DecisionTree({ onFrameworkSelected, preselectedCategory }: Decis
                     <h3 className="text-lg font-bold text-gray-900 mb-2">
                       {(() => {
                         const parts = option.text.split(' - ');
-                        if (parts.length === 2) {
-                          return (
-                            <>
-                              <span>{parts[0]}</span>
-                            </>
-                          );
+                        if (parts.length >= 2) {
+                          return <span>{parts[0]}</span>;
                         }
                         return <span>{option.text}</span>;
                       })()}
@@ -434,8 +430,8 @@ export function DecisionTree({ onFrameworkSelected, preselectedCategory }: Decis
                     <p className="text-sm text-gray-700 leading-relaxed mb-3 flex-1">
                       {(() => {
                         const parts = option.text.split(' - ');
-                        if (parts.length === 2) {
-                          return parts[1];
+                        if (parts.length >= 2) {
+                          return parts.slice(1).join(' - ');
                         }
                         return option.framework ? getFrameworkDescription(option.framework) : '';
                       })()}

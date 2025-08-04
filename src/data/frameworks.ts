@@ -818,30 +818,30 @@ export const frameworks: Record<string, Framework> = baseFrameworks;
 
 export const decisionTree: DecisionTreeNode = {
   id: 'root',
-  question: 'What type of leadership challenge are you facing?',
+  question: 'What\'s your biggest leadership challenge right now?',
   options: [
     {
-      text: 'Conflict - Tensions or disagreements within the team or with individuals',
+      text: 'Handle Team Tensions - When team members aren\'t getting along or there\'s ongoing friction',
       next: 'conflict',
       category: 'conflict'
     },
     {
-      text: 'Feedback - Preparation for feedback or performance conversations',
+      text: 'Deliver Difficult Feedback - When someone\'s performance or behavior needs to change',
       next: 'feedback',
       category: 'feedback'
     },
     {
-      text: 'Decision - Making an important technical or organizational decision',
+      text: 'Make a Tough Decision - When you\'re weighing important options with real consequences',
       next: 'decision',
       category: 'decision'
     },
     {
-      text: 'Stakeholder - Managing communication and expectations with stakeholders or leadership',
+      text: 'Align with Leadership - When you need buy-in, resources, or support from above',
       next: 'stakeholder',
       category: 'stakeholder'
     },
     {
-      text: 'Team dynamics - Improving collaboration, engagement, or clarity within the team',
+      text: 'Improve Team Dynamics - When collaboration feels off or people seem disengaged',
       next: 'team-dynamics',
       category: 'team-dynamics'
     },
