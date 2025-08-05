@@ -3,7 +3,6 @@ import { useEffect } from 'react';
 import { Layout } from './components/Layout';
 import { Dashboard } from './components/Dashboard';
 import { DecisionTree } from './components/DecisionTree';
-import { ReflectionForm } from './components/ReflectionForm';
 import { EnhancedReflectionForm } from './components/EnhancedReflectionForm';
 import { ReflectionHistory } from './components/ReflectionHistory';
 import { ReflectionSummary } from './components/ReflectionSummary';
