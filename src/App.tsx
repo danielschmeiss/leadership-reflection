@@ -398,11 +398,9 @@ function App() {
     }
   };
 
-  const shouldShowBack = currentState !== 'dashboard';
-
-  const handleBack = () => {
-    // Use browser's built-in back functionality
-    window.history.back();
+  const handleNavigateToDashboard = () => {
+    setCurrentState('dashboard');
+    updateURL('dashboard');
   };
 
   const getFrameworkRationale = (frameworkId: string, category?: string, subcategory?: string) => {
@@ -704,12 +702,11 @@ function App() {
     <Layout
       title={getTitle()}
       helpText={getHelpText()}
-      showBack={shouldShowBack}
-      onBack={handleBack}
       onNavigateToImprint={() => {
         setCurrentState('imprint');
         updateURL('imprint');
       }}
+      onNavigateToDashboard={handleNavigateToDashboard}
       showFrameworkInfo={currentState === 'reflection' && session !== null}
       frameworkRationale={session ? getFrameworkRationale(session.framework, session.category, session.subcategory) : undefined}
     >

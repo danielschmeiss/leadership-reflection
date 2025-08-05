@@ -1,17 +1,16 @@
 import React from 'react';
 import { useEffect } from 'react';
-import { ArrowLeft, Shield, Info, Bot, Settings } from 'lucide-react';
+import { Shield, Info, Bot, Settings } from 'lucide-react';
 import { useLocalLLM } from '../hooks/useLocalLLM';
 import { LocalLLMConfig } from './LocalLLMConfig';
 
 interface LayoutProps {
   children: React.ReactNode;
   title: string;
-  showBack?: boolean;
-  onBack?: () => void;
   actions?: React.ReactNode;
   helpText?: string;
   onNavigateToImprint?: () => void;
+  onNavigateToDashboard?: () => void;
   showFrameworkInfo?: boolean;
   frameworkRationale?: {
     title: string;
@@ -24,11 +23,10 @@ interface LayoutProps {
 export function Layout({ 
   children, 
   title, 
-  showBack = false, 
-  onBack, 
   actions, 
   helpText,
   onNavigateToImprint,
+  onNavigateToDashboard,
   showFrameworkInfo = false,
   frameworkRationale
 }: LayoutProps) {
@@ -110,21 +108,19 @@ export function Layout({
             {/* Main header content */}
             <div className="flex sm:flex-row sm:items-center justify-between gap-4 sm:gap-0">
               <div className="flex items-center gap-3 sm:gap-4">
-                {showBack && (
-                  <button
-                    onClick={onBack}
-                    className="p-2 sm:p-3 bg-white hover:bg-gray-50 rounded-lg sm:rounded-xl shadow-sm hover:shadow-md transition-all duration-200 border border-gray-200 flex-shrink-0"
-                    aria-label="Go back"
-                  >
-                    <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600" />
-                  </button>
-                )}
                 <div className="flex items-center gap-3 sm:gap-4 min-w-0">
-                  <img 
-                    src="/logo.png" 
-                    alt="Reflect & Act Logo" 
-                    className="w-12 h-12 sm:w-16 sm:h-16 object-contain flex-shrink-0"
-                  />
+                  <button
+                    onClick={onNavigateToDashboard}
+                    className="p-1 hover:bg-gray-100 rounded-lg transition-all duration-200 flex-shrink-0"
+                    aria-label="Go to dashboard"
+                    title="Go to dashboard"
+                  >
+                    <img 
+                      src="/logo.png" 
+                      alt="Reflect & Act Logo" 
+                      className="w-12 h-12 sm:w-16 sm:h-16 object-contain"
+                    />
+                  </button>
                   <div className="min-w-0">
                     <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 leading-tight">{title}</h1>
                     {helpText && (

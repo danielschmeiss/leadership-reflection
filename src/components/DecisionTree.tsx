@@ -342,15 +342,6 @@ export function DecisionTree({ onFrameworkSelected, preselectedCategory }: Decis
       {!showQuickQuiz && (
         <div className="bg-white rounded-lg sm:rounded-xl p-4 sm:p-6 shadow-sm border border-gray-200">
         <div className="text-center mb-4 sm:mb-6">
-          {!isFirstLevel && path.length > 0 && (
-            <button
-              onClick={goBack}
-              className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium text-sm mb-4 hover:bg-blue-50 px-3 py-1.5 rounded-lg transition-all"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              Back to categories
-            </button>
-          )}
           <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-2 sm:mb-3 leading-tight">
             {currentNode.question}
           </h2>
@@ -414,6 +405,19 @@ export function DecisionTree({ onFrameworkSelected, preselectedCategory }: Decis
             </div>
           ))}
         </div>
+        
+        {/* Back to categories button - Below options grid */}
+        {!isFirstLevel && path.length > 0 && (
+          <div className="flex justify-center pt-6">
+            <button
+              onClick={goBack}
+              className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium text-sm hover:bg-blue-50 px-4 py-2 rounded-lg transition-all border border-blue-200 hover:border-blue-300"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Back to categories
+            </button>
+          </div>
+        )}
       </div>
       )}
 
@@ -528,6 +532,7 @@ export function DecisionTree({ onFrameworkSelected, preselectedCategory }: Decis
           </div>
         </div>
       )}
+
     </div>
   );
 }
