@@ -859,19 +859,19 @@ export const decisionTreeNodes: Record<string, DecisionTreeNode> = {
     question: 'What type of conflict situation?',
     options: [
       {
-        text: 'With team member',
+        text: 'With team member - You have tension or disagreement with someone on the team',
         framework: 'mediation',
         category: 'conflict',
         subcategory: 'with-team-member'
       },
       {
-        text: 'Between team members',
+        text: 'Between team members - Two team members are in conflict with each other',
         framework: 'mediation',
         category: 'conflict',
         subcategory: 'between-team-members'
       },
       {
-        text: 'Cross-team conflict',
+        text: 'Cross-team conflict - Different teams have competing priorities or disagreements',
         framework: 'interest-based-negotiation',
         category: 'conflict',
         subcategory: 'cross-team-conflict'

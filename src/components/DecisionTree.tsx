@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronRight, Target, Users, MessageSquare, GitBranch, Zap, ArrowLeft, CheckCircle, Lightbulb, User, UserCheck, Building2, ThumbsUp, AlertTriangle, BarChart3, TrendingUp, FileText, Shield, UserPlus, Heart, Compass, MessageCircle, UserX, Handshake, ClipboardCheck, Megaphone, Settings } from 'lucide-react';
+import { ChevronRight, Target, Users, MessageSquare, GitBranch, Zap, ArrowLeft, ArrowRight, CheckCircle, Lightbulb, User, UserCheck, Building2, ThumbsUp, AlertTriangle, BarChart3, TrendingUp, FileText, Shield, UserPlus, Heart, Compass, MessageCircle, UserX, Handshake, ClipboardCheck, Megaphone, Settings } from 'lucide-react';
 import { decisionTree, decisionTreeNodes } from '../data/frameworks';
 import { DecisionTreeNode, FrameworkType, SituationCategory } from '../types';
 import content from '../data/content.json';
@@ -68,9 +68,9 @@ const getFrameworkDescription = (framework: FrameworkType) => {
   switch (framework) {
     case 'sbi': return 'Structured feedback framework';
     case 'grow': return 'Goal-oriented coaching approach';
-    case 'mediation': return 'Step-by-step conflict resolution';
+    case 'mediation': return 'Resolve interpersonal tensions and misunderstandings';
     case 'decision-matrix': return 'Compare options with clear criteria';
-    case 'interest-based-negotiation': return 'Find win-win solutions for teams';
+    case 'interest-based-negotiation': return 'Navigate conflicts involving multiple teams';
     case 'feedforward-coaching': return 'Future-focused feedback approach';
     case 'responsibility-mapping': return 'Clarify who does what (RACI)';
     case 'alignment-canvas': return 'Leadership alignment framework';
@@ -352,7 +352,7 @@ export function DecisionTree({ onFrameworkSelected, preselectedCategory }: Decis
             <div key={index} className={isFirstLevel ? '' : ''}>
               <button
                 onClick={() => handleOptionSelect(option)}
-                className={`w-full text-left rounded-xl hover:shadow-lg transition-all duration-200 group border-2 ${
+                className={`w-full text-left rounded-xl hover:shadow-lg hover:shadow-blue-200/50 transition-all duration-200 group border-2 ${
                   isFirstLevel 
                     ? 'p-4 h-full flex flex-col hover:scale-105 transform' 
                     : 'p-4 h-full flex flex-col hover:scale-105 transform'
@@ -392,13 +392,6 @@ export function DecisionTree({ onFrameworkSelected, preselectedCategory }: Decis
                       })()}
                     </p>
                     
-                    {option.framework && (
-                      <div className="mt-auto">
-                        <div className="px-3 py-1.5 bg-white bg-opacity-80 text-gray-800 rounded-full text-xs font-medium inline-block shadow-sm">
-                          Start Reflection
-                        </div>
-                      </div>
-                    )}
                   </div>
                 </div>
               </button>
@@ -511,22 +504,40 @@ export function DecisionTree({ onFrameworkSelected, preselectedCategory }: Decis
 
       {/* Simple help section for second level */}
       {!isFirstLevel && (
-        <div className="bg-amber-50 rounded-lg sm:rounded-xl p-4 sm:p-5 border border-amber-200">
+        <div className="bg-gray-50 rounded-lg sm:rounded-xl p-4 sm:p-5 border border-gray-200">
           <div className="flex items-start gap-3 sm:gap-4">
-            <div className="p-2 sm:p-2.5 bg-amber-500 rounded-lg flex-shrink-0">
+            <div className="p-2 sm:p-2.5 bg-gray-500 rounded-lg flex-shrink-0">
               <Lightbulb className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
             </div>
             <div>
-              <h4 className="font-semibold text-amber-900 mb-2 text-sm sm:text-base">{content.decisionTree.help.secondLevel.title}</h4>
-              <p className="text-xs sm:text-sm text-amber-800 mb-3 sm:mb-4">
+              <h4 className="font-semibold text-gray-900 mb-2 text-sm sm:text-base">{content.decisionTree.help.secondLevel.title}</h4>
+              <p className="text-xs sm:text-sm text-gray-700 mb-3 sm:mb-4 whitespace-pre-line">
                 {content.decisionTree.help.secondLevel.description}
               </p>
               <div className="grid sm:grid-cols-2 gap-2 sm:gap-3 text-xs sm:text-sm">
-                {content.decisionTree.help.secondLevel.benefits.map((benefit, index) => (
-                  <div key={index} className="bg-white bg-opacity-60 p-2 sm:p-3 rounded-lg">
-                    <strong className={`text-${index === 0 ? 'blue' : 'emerald'}-700`}>{benefit.title}:</strong> {benefit.description}
-                  </div>
-                ))}
+                {content.decisionTree.help.secondLevel.benefits.map((benefit, index) => {
+                  const getHelpIcon = (index: number) => {
+                    switch(index) {
+                      case 0: return <User className="w-5 h-5 text-gray-500" />;
+                      case 1: return <Users className="w-5 h-5 text-gray-500" />;
+                      case 2: return <Building2 className="w-5 h-5 text-gray-500" />;
+                      default: return null;
+                    }
+                  };
+                  
+                  return (
+                    <div key={index} className="bg-white bg-opacity-60 p-2 sm:p-3 rounded-lg">
+                      <div className="flex items-start gap-2">
+                        <div className="flex-shrink-0 mt-0.5">
+                          {getHelpIcon(index)}
+                        </div>
+                        <div>
+                          <strong className="text-gray-800">{benefit.title}:</strong> <span className="text-gray-600">{benefit.description}</span>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>

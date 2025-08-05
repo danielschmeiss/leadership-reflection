@@ -164,16 +164,20 @@
         "proTip": "Pro tip: Choose the category that represents your biggest pain point right now. You can always come back for other challenges later!"
       },
       "secondLevel": {
-        "title": "Choose your specific situation",
-        "description": "Select the option that most closely matches your current challenge. Each will guide you through a proven framework.",
+        "title": "Conflict is normal - let's work through it together",
+        "description": "Conflict isn't a failure of leadership; it's a natural part of working with people who care about different things. The key is approaching it thoughtfully rather than avoiding it or reacting emotionally.\n\n🤔 Structured reflection helps you step back, understand the dynamics, and find a path forward that preserves relationships.",
         "benefits": [
           {
-            "title": "Structured approach",
-            "description": "Each option uses research-backed frameworks"
+            "title": "One-on-one conflicts (You & Someone)",
+            "description": "When you have tension with a colleague, team member, or stakeholder"
           },
           {
-            "title": "Quick results", 
-            "description": "Get actionable insights in 5-10 minutes"
+            "title": "Team member conflicts (Person A & Person B)", 
+            "description": "When two people you work with are in disagreement and you need to help"
+          },
+          {
+            "title": "Multi-team conflicts (Team vs Team)",
+            "description": "When different groups have competing priorities or conflicting approaches"
           }
         ]
       }
