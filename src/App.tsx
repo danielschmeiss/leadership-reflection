@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Layout } from './components/Layout';
 import { Dashboard } from './components/Dashboard';
 import { DecisionTree } from './components/DecisionTree';
@@ -32,12 +31,202 @@ interface ReflectionSession {
   viewingReflection?: Situation;
 }
 
+// URL utilities for routing
+const parseURL = (): { route: AppState; params: URLSearchParams } => {
+  const url = new URL(window.location.href);
+  const pathname = url.pathname;
+  const params = url.searchParams;
+  
+  // Map URL paths to app states
+  if (pathname === '/' || pathname === '/dashboard') {
+    return { route: 'dashboard', params };
+  } else if (pathname === '/decide' || pathname === '/decision-tree') {
+    return { route: 'decision-tree', params };
+  } else if (pathname === '/reflect') {
+    return { route: 'reflection', params };
+  } else if (pathname === '/complete') {
+    return { route: 'reflection-complete', params };
+  } else if (pathname === '/history') {
+    return { route: 'history', params };
+  } else if (pathname === '/view') {
+    return { route: 'view-reflection', params };
+  } else if (pathname === '/frameworks') {
+    return { route: 'frameworks-guide', params };
+  } else if (pathname === '/imprint') {
+    return { route: 'imprint', params };
+  }
+  
+  // Default to dashboard for unknown routes
+  return { route: 'dashboard', params };
+};
+
+const updateURL = (route: AppState, params?: Record<string, string>) => {
+  const url = new URL(window.location.href);
+  
+  // Map app states to URL paths
+  switch (route) {
+    case 'dashboard':
+      url.pathname = '/';
+      break;
+    case 'decision-tree':
+      url.pathname = '/decide';
+      break;
+    case 'reflection':
+      url.pathname = '/reflect';
+      break;
+    case 'reflection-complete':
+      url.pathname = '/complete';
+      break;
+    case 'history':
+      url.pathname = '/history';
+      break;
+    case 'view-reflection':
+      url.pathname = '/view';
+      break;
+    case 'frameworks-guide':
+      url.pathname = '/frameworks';
+      break;
+    case 'imprint':
+      url.pathname = '/imprint';
+      break;
+  }
+  
+  // Clear existing search params and add new ones
+  url.search = '';
+  if (params) {
+    Object.entries(params).forEach(([key, value]) => {
+      if (value) url.searchParams.set(key, value);
+    });
+  }
+  
+  window.history.pushState(null, '', url.toString());
+};
+
 function App() {
-  const [currentState, setCurrentState] = useState<AppState>('dashboard');
-  const [session, setSession] = useState<ReflectionSession | null>(null);
-  const [viewingReflection, setViewingReflection] = useState<Situation | null>(null);
+  const [currentState, setCurrentState] = useState<AppState>(() => {
+    const { route } = parseURL();
+    return route;
+  });
+  const [session, setSession] = useState<ReflectionSession | null>(() => {
+    const saved = sessionStorage.getItem('reflection-session');
+    return saved ? JSON.parse(saved) : null;
+  });
+  const [viewingReflection, setViewingReflection] = useState<Situation | null>(() => {
+    const saved = sessionStorage.getItem('viewing-reflection');
+    return saved ? JSON.parse(saved) : null;
+  });
   
   const { reflections, addReflection, updateReflection, deleteReflection } = useReflections();
+
+  // Initialize state from URL on page load
+  useEffect(() => {
+    const { route, params } = parseURL();
+    setCurrentState(route);
+    
+    // Restore session data from URL params
+    const framework = params.get('framework') as FrameworkType;
+    const category = params.get('category') as SituationCategory;
+    const subcategory = params.get('subcategory');
+    const reflectionId = params.get('id');
+    
+    if (route === 'reflection' && framework && category && subcategory) {
+      const editingReflection = reflectionId ? reflections.find(r => r.id === reflectionId) : undefined;
+      setSession({ framework, category, subcategory, editingReflection });
+    } else if (route === 'view-reflection' && reflectionId) {
+      const reflection = reflections.find(r => r.id === reflectionId);
+      if (reflection) {
+        setViewingReflection(reflection);
+      } else {
+        // Redirect to history if reflection not found
+        setCurrentState('history');
+        updateURL('history');
+      }
+    } else if (route === 'reflection-complete' && framework && category && subcategory) {
+      const viewingReflection = reflectionId ? reflections.find(r => r.id === reflectionId) : undefined;
+      const completedResponses = sessionStorage.getItem('completed-responses');
+      setSession({ 
+        framework, 
+        category, 
+        subcategory, 
+        viewingReflection,
+        completedResponses: completedResponses ? JSON.parse(completedResponses) : undefined
+      });
+    } else if (route === 'decision-tree' && category) {
+      setSession({ category } as Partial<ReflectionSession>);
+    } else if (route === 'reflection' || route === 'reflection-complete') {
+      // If missing required params, redirect to decision tree
+      setCurrentState('decision-tree');
+      updateURL('decision-tree');
+    }
+  }, [reflections]);
+
+  // Sync with URL changes (browser back/forward buttons)
+  useEffect(() => {
+    const handlePopState = () => {
+      const { route, params } = parseURL();
+      setCurrentState(route);
+      
+      // Restore session data from URL params
+      const framework = params.get('framework') as FrameworkType;
+      const category = params.get('category') as SituationCategory;
+      const subcategory = params.get('subcategory');
+      const reflectionId = params.get('id');
+      
+      if (route === 'reflection' && framework && category && subcategory) {
+        const editingReflection = reflectionId ? reflections.find(r => r.id === reflectionId) : undefined;
+        setSession({ framework, category, subcategory, editingReflection });
+      } else if (route === 'view-reflection' && reflectionId) {
+        const reflection = reflections.find(r => r.id === reflectionId);
+        if (reflection) {
+          setViewingReflection(reflection);
+        } else {
+          // Redirect to history if reflection not found
+          setCurrentState('history');
+          updateURL('history');
+        }
+      } else if (route === 'reflection-complete' && framework && category && subcategory) {
+        const viewingReflection = reflectionId ? reflections.find(r => r.id === reflectionId) : undefined;
+        const completedResponses = sessionStorage.getItem('completed-responses');
+        setSession({ 
+          framework, 
+          category, 
+          subcategory, 
+          viewingReflection,
+          completedResponses: completedResponses ? JSON.parse(completedResponses) : undefined
+        });
+      } else if (route === 'decision-tree' && category) {
+        setSession({ category } as Partial<ReflectionSession>);
+      } else if (route === 'reflection' || route === 'reflection-complete') {
+        // If missing required params, redirect to decision tree
+        setCurrentState('decision-tree');
+        updateURL('decision-tree');
+      } else {
+        // Clear session if no URL params needed
+        setSession(null);
+        setViewingReflection(null);
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [reflections]);
+
+  // Persist session data
+  useEffect(() => {
+    if (session) {
+      sessionStorage.setItem('reflection-session', JSON.stringify(session));
+    } else {
+      sessionStorage.removeItem('reflection-session');
+    }
+  }, [session]);
+
+  useEffect(() => {
+    if (viewingReflection) {
+      sessionStorage.setItem('viewing-reflection', JSON.stringify(viewingReflection));
+    } else {
+      sessionStorage.removeItem('viewing-reflection');
+    }
+  }, [viewingReflection]);
 
   // Scroll to top whenever the current state changes
   useEffect(() => {
@@ -47,17 +236,19 @@ function App() {
   const handleStartNewReflection = () => {
     setSession(null);
     setCurrentState('decision-tree');
+    updateURL('decision-tree');
   };
 
   const handleStartCategoryReflection = (category: string) => {
-    setSession(null);
+    setSession({ category } as Partial<ReflectionSession>);
     setCurrentState('decision-tree');
-    // We'll pass the category to DecisionTree component
-    setSession({ category } as any);
+    updateURL('decision-tree', { category });
   };
+  
   const handleFrameworkSelected = (framework: FrameworkType, category: SituationCategory, subcategory: string) => {
     setSession({ framework, category, subcategory });
     setCurrentState('reflection');
+    updateURL('reflection', { framework, category, subcategory });
   };
 
   const handleSaveReflection = (responses: Record<string, QuestionResponse>) => {
@@ -80,9 +271,17 @@ function App() {
       addReflection(reflectionData);
     }
 
+    // Store completed responses for the completion screen
+    sessionStorage.setItem('completed-responses', JSON.stringify(responses));
+    
     // Store the responses in session for the completion screen
     setSession(prev => prev ? { ...prev, completedResponses: responses } : null);
     setCurrentState('reflection-complete');
+    updateURL('reflection-complete', { 
+      framework: session.framework, 
+      category: session.category, 
+      subcategory: session.subcategory 
+    });
   };
 
   const handleEditReflection = (reflection: Situation) => {
@@ -93,11 +292,12 @@ function App() {
       editingReflection: reflection
     });
     setCurrentState('reflection');
-  };
-
-  const handleViewReflection = (reflection: Situation) => {
-    setViewingReflection(reflection);
-    setCurrentState('view-reflection');
+    updateURL('reflection', { 
+      framework: reflection.framework, 
+      category: reflection.category, 
+      subcategory: reflection.subcategory,
+      id: reflection.id
+    });
   };
 
   const handleViewCompletion = (reflection: Situation) => {
@@ -109,6 +309,12 @@ function App() {
       completedResponses: reflection.responses
     });
     setCurrentState('reflection-complete');
+    updateURL('reflection-complete', { 
+      framework: reflection.framework, 
+      category: reflection.category, 
+      subcategory: reflection.subcategory,
+      id: reflection.id
+    });
   };
 
   const handleDeleteReflection = (id: string) => {
@@ -195,32 +401,8 @@ function App() {
   const shouldShowBack = currentState !== 'dashboard';
 
   const handleBack = () => {
-    switch (currentState) {
-      case 'decision-tree':
-      case 'history':
-      case 'frameworks-guide':
-      case 'imprint':
-        setCurrentState('dashboard');
-        break;
-      case 'reflection':
-        setCurrentState('decision-tree');
-        setSession(null);
-        break;
-      case 'reflection-complete':
-        if (session?.viewingReflection) {
-          setCurrentState('history');
-        } else {
-          setCurrentState('dashboard');
-        }
-        setSession(null);
-        break;
-      case 'view-reflection':
-        setCurrentState('history');
-        setViewingReflection(null);
-        break;
-      default:
-        setCurrentState('dashboard');
-    }
+    // Use browser's built-in back functionality
+    window.history.back();
   };
 
   const getFrameworkRationale = (frameworkId: string) => {
@@ -363,8 +545,14 @@ function App() {
           <Dashboard
             onStartNewReflection={handleStartNewReflection}
             onStartCategoryReflection={handleStartCategoryReflection}
-            onViewHistory={() => setCurrentState('history')}
-            onViewFrameworksGuide={() => setCurrentState('frameworks-guide')}
+            onViewHistory={() => {
+              setCurrentState('history');
+              updateURL('history');
+            }}
+            onViewFrameworksGuide={() => {
+              setCurrentState('frameworks-guide');
+              updateURL('frameworks-guide');
+            }}
             reflectionCount={reflections.length}
           />
         );
@@ -377,7 +565,7 @@ function App() {
           />
         );
 
-      case 'reflection':
+      case 'reflection': {
         if (!session) return null;
         const framework = getCustomizedFramework(session.framework, session.category, session.subcategory);
         
@@ -390,12 +578,16 @@ function App() {
               // Store structured responses directly
               handleSaveReflection(responses);
             }}
-            onCancel={() => setCurrentState('dashboard')}
+            onCancel={() => {
+              setCurrentState('dashboard');
+              updateURL('dashboard');
+            }}
             initialResponses={{}} // TODO: Convert old responses back to new format
             category={session.category}
             subcategory={session.subcategory}
           />
         );
+      }
 
       case 'reflection-complete':
         if (!session) return null;
@@ -407,10 +599,12 @@ function App() {
             onContinue={() => {
               setCurrentState('history');
               setSession(null);
+              updateURL('history');
             }}
             onStartNew={() => {
               setSession(null);
               setCurrentState('decision-tree');
+              updateURL('decision-tree');
             }}
           />
         );
@@ -490,7 +684,10 @@ function App() {
       helpText={getHelpText()}
       showBack={shouldShowBack}
       onBack={handleBack}
-      onNavigateToImprint={() => setCurrentState('imprint')}
+      onNavigateToImprint={() => {
+        setCurrentState('imprint');
+        updateURL('imprint');
+      }}
       showFrameworkInfo={currentState === 'reflection' && session !== null}
       frameworkRationale={session ? getFrameworkRationale(session.framework) : undefined}
     >
