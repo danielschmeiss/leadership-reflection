@@ -74,12 +74,16 @@ export function EnhancedReflectionForm({
 
   const canProceed = isQuestionValid(currentQuestion);
   
-  // Check if this is any conflict reflection type that should use accordion layout
-  const isConflictReflection = category === 'conflict' && (
+  // Check if this should use accordion layout (conflict and feedback reflections)
+  const useAccordionLayout = (category === 'conflict' && (
     subcategory === 'with-team-member' || 
     subcategory === 'between-team-members' || 
     subcategory === 'cross-team-conflict'
-  );
+  )) || (category === 'feedback' && (
+    subcategory === 'positive' || 
+    subcategory === 'developmental' || 
+    subcategory === 'peer-to-peer-feedback-facilitation'
+  ));
   
   // Update AI suggestion display when current question changes
   useEffect(() => {
@@ -315,14 +319,14 @@ ${responses[currentQuestion.id] ? `My draft: ${convertResponseToText(responses[c
                   }))}
                   placeholder={currentQuestion.placeholder}
                   className={`w-full p-4 border-2 border-gray-300 rounded-xl focus:ring-4 focus:ring-blue-200 focus:border-blue-500 resize-none text-gray-900 placeholder-gray-500 shadow-sm hover:border-gray-400 transition-all duration-200 ${
-                    isConflictReflection ? 'h-60' : 'h-40'
+                    useAccordionLayout ? 'h-60' : 'h-40'
                   }`}
                   autoFocus
                 />
               </div>
               {showAiSuggestion && (
                 <div className={`bg-emerald-50 border border-emerald-200 rounded-xl p-4 overflow-y-auto animate-in slide-in-from-right-4 fade-in duration-1000 ${
-                  isConflictReflection ? 'h-60' : 'h-40'
+                  useAccordionLayout ? 'h-60' : 'h-40'
                 }`}>
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-2">
@@ -456,8 +460,8 @@ ${responses[currentQuestion.id] ? `My draft: ${convertResponseToText(responses[c
     );
   };
 
-  // Render the accordion layout for all conflict reflections
-  if (isConflictReflection) {
+  // Render the accordion layout for conflict and feedback reflections
+  if (useAccordionLayout) {
     return (
       <div className="relative w-full space-y-4">
         <div className="space-y-2">
