@@ -405,7 +405,7 @@ function App() {
     window.history.back();
   };
 
-  const getFrameworkRationale = (frameworkId: string) => {
+  const getFrameworkRationale = (frameworkId: string, category?: string, subcategory?: string) => {
     const rationales: Record<string, { title: string; description: string; whenToUse: string; keyBenefits: string[] }> = {
       'sbi': {
         title: 'SBI Framework',
@@ -420,14 +420,36 @@ function App() {
       },
       'mediation': {
         title: 'Mediation Framework',
-        description: 'Most feedback fails because it\'s vague ("be more collaborative") or feels like an attack ("you\'re not a team player"). SBI gives you a script that focuses on facts, not personality.',
-        whenToUse: 'Use when someone did something specific that had a clear impact - either positive (to reinforce) or problematic (to change). Works for any feedback conversation.',
-        keyBenefits: [
-          'Person can\'t argue with facts - reduces the "that\'s not what I meant" defensiveness',
-          'Shows clear cause-and-effect so they understand why it matters',
-          'Gives them something specific to repeat (positive) or change (developmental)',
-          'Takes the emotion out of difficult conversations'
-        ]
+        description: category === 'conflict' && subcategory === 'with-team-member' 
+          ? 'When you\'re caught in a conflict with a team member, emotions run high and positions get entrenched. This framework helps you step back, understand both sides\' real needs, and find solutions that work for everyone.'
+          : category === 'conflict' && subcategory === 'between-team-members'
+          ? 'When two team members are in conflict, you need to help them move past blame and defensiveness to find workable solutions. This framework guides you through structured mediation to resolve their dispute while preserving team relationships.'
+          : 'A structured approach to resolving conflicts by focusing on underlying interests rather than surface positions.',
+        whenToUse: category === 'conflict' && subcategory === 'with-team-member'
+          ? 'Use when you have a direct conflict with a team member where you need to preserve the working relationship. Essential when tension is affecting team dynamics or project progress.'
+          : category === 'conflict' && subcategory === 'between-team-members'
+          ? 'Use when two team members are stuck in conflict, avoiding each other, or when their dispute is affecting team productivity. Essential when you need to act as a neutral mediator to help them resolve their differences.'
+          : 'Use when conflicts arise and you need to facilitate resolution between parties.',
+        keyBenefits: category === 'conflict' && subcategory === 'with-team-member'
+          ? [
+              'Gets past surface positions to understand underlying needs and concerns',
+              'Reduces defensiveness by focusing on interests rather than blame',
+              'Preserves working relationships while resolving the actual problem', 
+              'Creates collaborative solutions both parties can commit to'
+            ]
+          : category === 'conflict' && subcategory === 'between-team-members'
+          ? [
+              'Helps you stay neutral while guiding both parties toward resolution',
+              'Reduces team disruption by addressing conflict directly rather than letting it fester',
+              'Teaches team members conflict resolution skills for future disputes',
+              'Creates solutions both parties help develop and therefore commit to implementing'
+            ]
+          : [
+              'Focuses on interests rather than positions',
+              'Preserves relationships while solving problems',
+              'Creates mutually acceptable solutions',
+              'Reduces future conflicts through better understanding'
+            ]
       },
       'interest-based-negotiation': {
         title: 'Interest-Based Negotiation',
@@ -689,7 +711,7 @@ function App() {
         updateURL('imprint');
       }}
       showFrameworkInfo={currentState === 'reflection' && session !== null}
-      frameworkRationale={session ? getFrameworkRationale(session.framework) : undefined}
+      frameworkRationale={session ? getFrameworkRationale(session.framework, session.category, session.subcategory) : undefined}
     >
       {renderContent()}
     </Layout>

@@ -283,33 +283,6 @@ export function DecisionTree({ onFrameworkSelected, preselectedCategory }: Decis
           </div>
         </div>
       )}
-      {/* Progress indicator - Only show on second level */}
-      {!isFirstLevel && (
-        <div className="bg-gray-100 rounded-lg p-3 border border-gray-200">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="text-sm font-medium text-gray-600">{path.length + 1}/2</div>
-              <div className="text-xs text-gray-500">{content.decisionTree.progress.steps}</div>
-              {path.length > 0 && (
-                <button
-                  onClick={goBack}
-                  className="ml-4 flex items-center gap-1 text-blue-600 hover:text-blue-700 font-medium text-xs"
-                >
-                  <ArrowLeft className="w-3 h-3" />
-                  {content.decisionTree.progress.backButton}
-                </button>
-              )}
-            </div>
-            <div className="text-xs text-gray-500">{Math.round(((path.length + 1) / 2) * 100)}% {content.decisionTree.progress.complete}</div>
-          </div>
-          <div className="w-full bg-gray-200 rounded-full h-1.5 mt-2">
-            <div 
-              className="bg-blue-400 rounded-full h-1.5 transition-all duration-500"
-              style={{ width: `${((path.length + 1) / 2) * 100}%` }}
-            ></div>
-          </div>
-        </div>
-      )}
 
 
       {/* Quick Quiz Modal */}
@@ -369,6 +342,15 @@ export function DecisionTree({ onFrameworkSelected, preselectedCategory }: Decis
       {!showQuickQuiz && (
         <div className="bg-white rounded-lg sm:rounded-xl p-4 sm:p-6 shadow-sm border border-gray-200">
         <div className="text-center mb-4 sm:mb-6">
+          {!isFirstLevel && path.length > 0 && (
+            <button
+              onClick={goBack}
+              className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium text-sm mb-4 hover:bg-blue-50 px-3 py-1.5 rounded-lg transition-all"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Back to categories
+            </button>
+          )}
           <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-2 sm:mb-3 leading-tight">
             {currentNode.question}
           </h2>
