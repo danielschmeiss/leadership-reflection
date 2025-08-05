@@ -74,8 +74,12 @@ export function EnhancedReflectionForm({
 
   const canProceed = isQuestionValid(currentQuestion);
   
-  // Check if this is the specific mediation framework for "with team member" conflicts
-  const isConflictWithTeamMember = framework.id === 'mediation' && category === 'conflict' && subcategory === 'with-team-member';
+  // Check if this is any conflict reflection type that should use accordion layout
+  const isConflictReflection = category === 'conflict' && (
+    subcategory === 'with-team-member' || 
+    subcategory === 'between-team-members' || 
+    subcategory === 'cross-team-conflict'
+  );
   
   // Update AI suggestion display when current question changes
   useEffect(() => {
@@ -262,6 +266,43 @@ ${responses[currentQuestion.id] ? `My draft: ${convertResponseToText(responses[c
                 </div>
               </div>
             )}
+            
+            {/* Show referenced data if question has references */}
+            {currentQuestion.references && currentQuestion.references.length > 0 && (
+              <div className="mb-6 space-y-4">
+                <h4 className="text-lg font-semibold text-gray-900">Reference from previous answers:</h4>
+                {currentQuestion.references.map((ref, index) => {
+                  const referencedData = getReferencedData(ref.questionId);
+                  if (!referencedData) return null;
+
+                  return (
+                    <div key={`${ref.questionId}-${index}-${JSON.stringify(referencedData)}`} className="bg-blue-50 border border-blue-200 rounded-xl p-4">
+                      <h5 className="font-medium text-blue-900 mb-2">{ref.label}</h5>
+                      <div className="text-sm text-blue-800">
+                        {Array.isArray(referencedData) ? (
+                          <ul className="list-disc list-inside space-y-1">
+                            {referencedData.map((item, i) => (
+                              <li key={i}>{item}</li>
+                            ))}
+                          </ul>
+                        ) : typeof referencedData === 'object' ? (
+                          <div className="space-y-2">
+                            {Object.entries(referencedData).map(([key, value]) => (
+                              <div key={key} className="border-l-2 border-blue-300 pl-3">
+                                <strong>{key}:</strong> {value}
+                              </div>
+                            ))}
+                          </div>
+                        ) : (
+                          <div>{referencedData}</div>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+
             <div className={`grid gap-4 transition-all duration-1000 ease-in-out ${
               showAiSuggestion ? 'grid-cols-1 lg:grid-cols-2' : 'grid-cols-1'
             }`}>
@@ -274,14 +315,14 @@ ${responses[currentQuestion.id] ? `My draft: ${convertResponseToText(responses[c
                   }))}
                   placeholder={currentQuestion.placeholder}
                   className={`w-full p-4 border-2 border-gray-300 rounded-xl focus:ring-4 focus:ring-blue-200 focus:border-blue-500 resize-none text-gray-900 placeholder-gray-500 shadow-sm hover:border-gray-400 transition-all duration-200 ${
-                    isConflictWithTeamMember ? 'h-60' : 'h-40'
+                    isConflictReflection ? 'h-60' : 'h-40'
                   }`}
                   autoFocus
                 />
               </div>
               {showAiSuggestion && (
                 <div className={`bg-emerald-50 border border-emerald-200 rounded-xl p-4 overflow-y-auto animate-in slide-in-from-right-4 fade-in duration-1000 ${
-                  isConflictWithTeamMember ? 'h-60' : 'h-40'
+                  isConflictReflection ? 'h-60' : 'h-40'
                 }`}>
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-2">
@@ -339,6 +380,21 @@ ${responses[currentQuestion.id] ? `My draft: ${convertResponseToText(responses[c
               ...prev,
               [currentQuestion.id]: { type: 'itemized-analysis', items }
             }))}
+            onItemsChange={(newItems) => {
+              // When referenced items change, update the response to match
+              const currentResponses = (responses[currentQuestion.id] as { type: 'itemized-analysis'; items: { [key: string]: string } })?.items || {};
+              const updatedResponses: { [key: string]: string } = {};
+              
+              // Keep existing responses for items that still exist
+              newItems.forEach(item => {
+                updatedResponses[item] = currentResponses[item] || '';
+              });
+              
+              setResponses(prev => ({
+                ...prev,
+                [currentQuestion.id]: { type: 'itemized-analysis', items: updatedResponses }
+              }));
+            }}
           />
         );
 
@@ -400,8 +456,8 @@ ${responses[currentQuestion.id] ? `My draft: ${convertResponseToText(responses[c
     );
   };
 
-  // Render the accordion layout for conflict with team member mediation
-  if (isConflictWithTeamMember) {
+  // Render the accordion layout for all conflict reflections
+  if (isConflictReflection) {
     return (
       <div className="relative w-full space-y-4">
         <div className="space-y-2">
@@ -486,7 +542,34 @@ ${responses[currentQuestion.id] ? `My draft: ${convertResponseToText(responses[c
                       {!isActive && isAnswered && questionResponse && (
                         <div className="mt-3 p-3 bg-white bg-opacity-60 border border-gray-200 rounded-lg">
                           {(() => {
-                            const answerText = questionResponse.value;
+                            // Get text representation based on response type
+                            let answerText = '';
+                            if (questionResponse.type === 'text' || questionResponse.type === 'textarea' || questionResponse.type === 'multiple-choice') {
+                              answerText = questionResponse.value || '';
+                            } else if (questionResponse.type === 'rating') {
+                              answerText = `${questionResponse.value}/${questionResponse.scale[1]}`;
+                            } else if (questionResponse.type === 'enumeration') {
+                              answerText = questionResponse.items.join(', ');
+                            } else if (questionResponse.type === 'itemized-analysis') {
+                              // Show each item and its analysis
+                              const entries = Object.entries(questionResponse.items).filter(([_, value]) => value.trim());
+                              answerText = entries.map(([key, value]) => `${key}: ${value}`).join('\n\n');
+                            } else if (questionResponse.type === 'matrix') {
+                              // Show matrix data summary
+                              const entries = Object.entries(questionResponse.data);
+                              answerText = entries.map(([row, cols]) => 
+                                `${row}: ${Object.entries(cols).map(([col, val]) => `${col}=${val}`).join(', ')}`
+                              ).join('\n');
+                            } else if (questionResponse.type === 'scoring-matrix') {
+                              // Show scoring summary
+                              const entries = Object.entries(questionResponse.data);
+                              answerText = entries.map(([option, scores]) => 
+                                `${option}: ${Object.entries(scores).map(([criterion, score]) => `${criterion}=${score}`).join(', ')}`
+                              ).join('\n');
+                            } else {
+                              answerText = 'Response provided';
+                            }
+                            
                             const lines = answerText.split('\n');
                             const isMultiLine = lines.length > 1 || answerText.length > 100;
                             const isExpanded = expandedAnswers.has(question.id);
@@ -892,12 +975,20 @@ function EnumerationInput({ question, items, onChange }: {
   );
 }
 
-function ItemizedAnalysisInput({ question, items, responses, onChange }: {
+function ItemizedAnalysisInput({ question, items, responses, onChange, onItemsChange }: {
   question: any;
   items: string[];
   responses: { [key: string]: string };
   onChange: (items: { [key: string]: string }) => void;
+  onItemsChange?: (items: string[]) => void;
 }) {
+  // Track when items change and notify parent component
+  React.useEffect(() => {
+    if (onItemsChange && items.length > 0) {
+      onItemsChange(items);
+    }
+  }, [items, onItemsChange]);
+
   if (!items.length) {
     return (
       <div className="p-6 bg-amber-50 border border-amber-200 rounded-xl">
