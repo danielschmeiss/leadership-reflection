@@ -90,6 +90,15 @@ export function Layout({
     }
   }, []);
 
+  // Check connection status on initial mount
+  useEffect(() => {
+    const configStr = localStorage.getItem('local_llm_config');
+    if (configStr) {
+      // There's a saved config, check if it's actually connected
+      refreshButtonState();
+    }
+  }, [refreshButtonState]);
+
   // Only update when modal closes
   useEffect(() => {
     if (!showLLMConfig && refreshKey > 0) {
