@@ -79,34 +79,25 @@ export function Dashboard({ onStartNewReflection, onStartCategoryReflection, onV
         <div className="text-center mb-8">
           <h2 className="text-3xl font-bold text-gray-900 mb-4">Why pause to reflect?</h2>
           <p className="text-lg text-gray-700 max-w-4xl mx-auto leading-relaxed">
-            Leaders often move fast, but quick decisions under pressure can amplify bias or strain relationships. 
-            Reflection is a way to slow down just enough to think clearly and act intentionally.
+            Leaders move fast, but quick decisions under pressure can strain relationships or miss what really matters. 
+            Reflection creates a brief pause to think clearly and lead with intention.
           </p>
         </div>
         
         <div className="mb-8">
-          <div className="flex items-start gap-3 mb-6">
-            <div className="p-2 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg text-white">
-              <BarChart3 className="w-5 h-5" />
-            </div>
-            <div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">Research in leadership and cognitive science shows that reflection helps you:</h3>
-            </div>
-          </div>
-          
           <div className="grid md:grid-cols-3 gap-6">
-            <div className="bg-gradient-to-br from-red-50 to-pink-50 p-6 rounded-xl border border-red-200">
+            <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-xl border border-blue-200">
               <div className="flex items-start gap-3 mb-3">
-                <div className="p-2 bg-red-500 rounded-lg text-white">
-                  <Zap className="w-5 h-5" />
+                <div className="p-2 bg-blue-500 rounded-lg text-white">
+                  <Users className="w-5 h-5" />
                 </div>
-                <h4 className="font-semibold text-red-900">Regulate emotion</h4>
+                <h4 className="font-semibold text-blue-900">Build trust in your team</h4>
               </div>
-              <p className="text-sm text-red-800 mb-3">
-                Pausing reduces stress-driven or reactive decisions
+              <p className="text-sm text-blue-800 mb-3">
+                Reflection helps you respond calmly instead of reacting impulsively—essential for keeping trust intact.
               </p>
-              <p className="text-xs text-red-600 italic">
-                (Neuroscience of Emotional Regulation, Ochsner & Gross, 2005)
+              <p className="text-xs text-blue-600 italic">
+                (Ochsner & Gross, 2005 – Emotional Regulation)
               </p>
             </div>
             
@@ -115,13 +106,13 @@ export function Dashboard({ onStartNewReflection, onStartCategoryReflection, onV
                 <div className="p-2 bg-amber-500 rounded-lg text-white">
                   <Target className="w-5 h-5" />
                 </div>
-                <h4 className="font-semibold text-amber-900">Reduce bias</h4>
+                <h4 className="font-semibold text-amber-900">Make fairer, clearer calls</h4>
               </div>
               <p className="text-sm text-amber-800 mb-3">
-                Reflective thinking counteracts snap judgments
+                Slowing down to reflect reduces bias and helps you consider different perspectives before deciding.
               </p>
               <p className="text-xs text-amber-600 italic">
-                (Kahneman's "System 2" thinking)
+                (Kahneman – System 2 Thinking)
               </p>
             </div>
             
@@ -130,13 +121,13 @@ export function Dashboard({ onStartNewReflection, onStartCategoryReflection, onV
                 <div className="p-2 bg-emerald-500 rounded-lg text-white">
                   <TrendingUp className="w-5 h-5" />
                 </div>
-                <h4 className="font-semibold text-emerald-900">Improve judgment</h4>
+                <h4 className="font-semibold text-emerald-900">Navigate tough choices with confidence</h4>
               </div>
               <p className="text-sm text-emerald-800 mb-3">
-                Leaders who regularly reflect are rated as more effective and make sounder decisions
+                Leaders who regularly reflect report improved judgment and are rated as more effective by their teams.
               </p>
               <p className="text-xs text-emerald-600 italic">
-                (Center for Creative Leadership, 2019)
+                (Center for Creative Leadership program data)
               </p>
             </div>
           </div>
@@ -150,10 +141,11 @@ export function Dashboard({ onStartNewReflection, onStartCategoryReflection, onV
               </div>
             </div>
             <p className="text-blue-900 font-medium mb-2">
-              Even brief guided reflection—5–10 minutes—has been linked to better self-awareness and decision-making quality.
+              <strong>Quick and practical</strong>
             </p>
             <p className="text-blue-800">
-              This tool is designed to make that pause practical: <strong>short, private, and focused on helping you take your next step.</strong>
+              Even 5–10 minutes of guided reflection can sharpen your thinking and prepare you for your next move. 
+              This tool keeps it <strong>short, private, and actionable.</strong>
             </p>
           </div>
         </div>
