@@ -14,29 +14,11 @@
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
   - [Building for Production](#building-for-production)
-- [How to Use](#-how-to-use)
-  - [Start a New Reflection](#1-start-a-new-reflection--30-seconds)
-  - [Work Through Your Challenge](#2-work-through-your-challenge-5-10-minutes)
-  - [Review and Apply](#3-review-and-apply)
-- [Available Frameworks](#-available-frameworks)
-  - [SBI Framework](#sbi-framework)
-  - [GROW Model](#grow-model)
-  - [Mediation Framework](#mediation-framework)
-  - [Interest-Based Negotiation](#interest-based-negotiation)
-  - [Decision Matrix](#decision-matrix)
-  - [Pros/Cons Analysis](#proscons-analysis)
-  - [RACI/Responsibility Mapping](#raciresponsibility-mapping)
-  - [Alignment Canvas](#alignment-canvas)
-  - [Delegation/Empowerment](#delegationempowerment)
-  - [5 Dysfunctions of a Team](#5-dysfunctions-of-a-team)
-  - [Feedforward Coaching](#feedforward-coaching)
 - [Privacy & Security](#-privacy--security)
 - [Technical Architecture](#-technical-architecture)
   - [Built With](#built-with)
   - [Project Structure](#project-structure)
   - [Content Management Architecture](#content-management-architecture)
-- [Design Principles](#-design-principles)
-- [Mobile Experience](#-mobile-experience)
 - [Development](#-development)
   - [Available Scripts](#available-scripts)
   - [Contributing](#contributing)
@@ -128,95 +110,6 @@ npm run build
 npm run preview
 ```
 
-## 🎮 How to Use
-
-### 1. Start a New Reflection (< 30 seconds)
-1. Click "Begin Your Reflection Now" on the dashboard
-2. Answer 2 quick questions about your challenge type
-3. The system automatically selects and customizes the best framework
-
-### 2. Work Through Your Challenge (5-10 minutes)
-1. Follow the structured questions tailored to your specific situation
-2. Use built-in help, examples, and guidance for each question
-3. Optionally copy your progress for AI analysis (privacy-conscious)
-4. Complete the reflection step-by-step with smart navigation
-
-### 3. Review and Apply
-1. Get actionable insights and specific next steps
-2. Export your reflection as a comprehensive PDF report
-3. Copy formatted content for AI analysis and additional insights
-4. Track patterns in your reflection history
-
-## 🧠 Available Frameworks
-
-### SBI Framework
-**Best for**: Giving feedback (constructive or positive)
-- **Situation**: When and where did this happen?
-- **Behavior**: What specific actions did you observe?
-- **Impact**: What was the effect on you, the team, or work?
-- **Reinforcement/Support**: How to continue or improve the behavior
-
-### GROW Model  
-**Best for**: Coaching conversations and structured problem-solving
-- **Goal**: What do you want to achieve?
-- **Reality**: What's the current situation?
-- **Options**: What alternatives do you have?
-- **Way Forward**: What specific actions will you take?
-
-### Mediation Framework
-**Best for**: Resolving interpersonal conflicts
-- Focus on underlying interests, not positions
-- Find common ground and win-win solutions
-- Structure difficult conversations effectively
-
-### Interest-Based Negotiation
-**Best for**: Cross-team conflicts and alignment
-- Identify team priorities and constraints
-- Find shared problems and mutual benefits
-- Create collaborative solutions
-
-### Decision Matrix
-**Best for**: Complex operational decisions with multiple factors
-- Define clear evaluation criteria
-- Systematically compare options
-- Consider risks and stakeholder impact
-
-### Pros/Cons Analysis
-**Best for**: Strategic decisions with long-term implications
-- Comprehensive advantage/disadvantage analysis
-- Strategic alignment assessment
-- Stakeholder engagement planning
-
-### RACI/Responsibility Mapping
-**Best for**: Clarifying ownership and accountability
-- Define who is Responsible, Accountable, Consulted, Informed
-- Eliminate confusion and gaps in ownership
-- Establish clear decision-making authority
-
-### Alignment Canvas
-**Best for**: Preparing for leadership alignment conversations
-- Structure your case with evidence and clear argumentation
-- Define what approval or decision you need
-- Prepare for stakeholder engagement
-
-### Delegation/Empowerment
-**Best for**: Distributing ownership and developing team members
-- Identify delegatable decisions and tasks
-- Match responsibilities to team member strengths
-- Create accountability without micromanagement
-
-### 5 Dysfunctions of a Team
-**Best for**: Comprehensive team health assessment
-- Evaluate trust, conflict, commitment, accountability, and results
-- Identify root causes of team dysfunction
-- Create targeted improvement plans
-
-### Feedforward Coaching
-**Best for**: Facilitating constructive peer feedback
-- Focus on future improvement rather than past mistakes
-- Frame feedback positively and solution-oriented
-- Support ongoing development and relationships
-
 ## 🛡️ Privacy & Security
 
 - **Local-First**: All reflections stored in your browser's local storage
@@ -277,31 +170,6 @@ src/data/
 └── content.fr.json      # French content (future)
 ```
 
-#### **✅ Benefits**
-- **Easy Updates**: Change text without touching component code
-- **Consistent Messaging**: Centralized content management
-- **Translation Ready**: Simple to add multiple languages
-- **Type Safety**: Full TypeScript support for content references
-- **Maintainable**: Clear separation of concerns
-
-## 🎨 Design Principles
-
-- **Apple-level aesthetics**: Clean, sophisticated, attention to detail
-- **Mobile-first responsive**: Optimized for all screen sizes
-- **Accessibility-first**: High contrast, keyboard navigation, screen reader support
-- **Progressive disclosure**: Reveal complexity gradually
-- **Micro-interactions**: Subtle animations and feedback
-- **Privacy-focused UX**: Clear privacy indicators and controls
-- **Content-Code Separation**: Maintainable architecture with externalized content
-
-## 📱 Mobile Experience
-
-- **Touch-optimized**: Large touch targets and gesture-friendly navigation
-- **Responsive layouts**: Adapts seamlessly to different screen sizes
-- **Smart scrolling**: Automatic scroll to relevant content on navigation
-- **Offline capable**: Full functionality without internet connection
-- **Fast loading**: Optimized for mobile networks
-
 ## 🔧 Development
 
 ### Available Scripts
@@ -309,22 +177,6 @@ src/data/
 - `npm run build` - Build optimized production bundle
 - `npm run preview` - Preview production build locally
 - `npm run lint` - Run ESLint for code quality
-
-### Contributing
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Make your changes:
-   - **Content changes**: Update JSON files in `src/data/`
-   - **Feature changes**: Update TypeScript components with proper types
-4. Test thoroughly across devices and browsers
-5. Submit a pull request with detailed description
-
-### Content Updates
-To update text, labels, or messaging:
-1. Locate the appropriate JSON file in `src/data/`
-2. Update the content while maintaining the JSON structure
-3. Test the changes in the application
-4. No component code changes required!
 
 ## 📈 Roadmap
 
@@ -352,13 +204,6 @@ To update text, labels, or messaging:
 ## 🤝 Support & Usage
 
 This tool is designed for engineering leaders, managers, and anyone who wants to improve their leadership skills through structured reflection. It's not a replacement for professional coaching but provides a solid foundation for leadership development and situational problem-solving.
-
-### Best Practices
-- **Regular use**: Aim for 1-2 reflections per week for maximum benefit
-- **Honest responses**: The tool is most effective with candid self-reflection
-- **Action-oriented**: Focus on implementing the suggested next steps
-- **Pattern recognition**: Review your history regularly to identify growth areas
-- **Content feedback**: Report any unclear or confusing text for improvement
 
 ## 📄 License
 
