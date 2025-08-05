@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Save, ArrowRight, ArrowLeft, AlertCircle, HelpCircle, Lightbulb, CheckCircle, Target, Plus, X, Star, Bot, Settings, Loader, Wifi, Sparkles } from 'lucide-react';
+import { Save, ArrowRight, ArrowLeft, AlertCircle, HelpCircle, Lightbulb, CheckCircle, Target, Plus, X, Star, Bot, Settings, Loader, Wifi, Sparkles, ChevronRight, ChevronDown } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { Framework, Question, QuestionResponse } from '../types';
 import { useLocalLLM } from '../hooks/useLocalLLM';
@@ -11,6 +11,8 @@ interface EnhancedReflectionFormProps {
   onSave: (responses: Record<string, QuestionResponse>) => void;
   onCancel: () => void;
   initialResponses?: Record<string, QuestionResponse>;
+  category?: string;
+  subcategory?: string;
 }
 
 export function EnhancedReflectionForm({ 
@@ -18,19 +20,26 @@ export function EnhancedReflectionForm({
   problemDescription, 
   onSave, 
   onCancel, 
-  initialResponses = {} 
+  initialResponses = {},
+  category,
+  subcategory
 }: EnhancedReflectionFormProps) {
   const [responses, setResponses] = useState<Record<string, QuestionResponse>>(initialResponses);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [hasAttemptedNext, setHasAttemptedNext] = useState(false);
   const [showQuestionHelp, setShowQuestionHelp] = useState(false);
   const [showLLMConfig, setShowLLMConfig] = useState(false);
-  const [aiSuggestion, setAiSuggestion] = useState<string>('');
+  const [aiSuggestions, setAiSuggestions] = useState<Record<string, string>>({});
   const [showAiSuggestion, setShowAiSuggestion] = useState(false);
+  const [expandedAnswers, setExpandedAnswers] = useState<Set<string>>(new Set());
   
   const { isConfigured, isConnected, isLoading, generateResponse } = useLocalLLM();
 
   const currentQuestion = framework.questions[currentQuestionIndex];
+  
+  // Get current AI suggestion for active question (after currentQuestion is defined)
+  const currentAiSuggestion = aiSuggestions[currentQuestion.id] || '';
+  const hasCurrentAiSuggestion = currentAiSuggestion.length > 0;
   const isLastQuestion = currentQuestionIndex === framework.questions.length - 1;
   const progress = ((currentQuestionIndex + 1) / framework.questions.length) * 100;
 
@@ -64,6 +73,14 @@ export function EnhancedReflectionForm({
   };
 
   const canProceed = isQuestionValid(currentQuestion);
+  
+  // Check if this is the specific mediation framework for "with team member" conflicts
+  const isConflictWithTeamMember = framework.id === 'mediation' && category === 'conflict' && subcategory === 'with-team-member';
+  
+  // Update AI suggestion display when current question changes
+  useEffect(() => {
+    setShowAiSuggestion(hasCurrentAiSuggestion);
+  }, [currentQuestionIndex, hasCurrentAiSuggestion]);
 
   // Get referenced data from previous responses
   const getReferencedData = (questionId: string): any => {
@@ -113,13 +130,22 @@ ${responses[currentQuestion.id] ? `My draft: ${convertResponseToText(responses[c
       });
 
       if (result.error) {
-        setAiSuggestion(`Error: ${result.error}`);
+        setAiSuggestions(prev => ({
+          ...prev,
+          [currentQuestion.id]: `Error: ${result.error}`
+        }));
       } else {
-        setAiSuggestion(result.text.trim());
+        setAiSuggestions(prev => ({
+          ...prev,
+          [currentQuestion.id]: result.text.trim()
+        }));
       }
       setShowAiSuggestion(true);
     } catch (error) {
-      setAiSuggestion(`Error: ${error instanceof Error ? error.message : 'Failed to get AI assistance'}`);
+      setAiSuggestions(prev => ({
+        ...prev,
+        [currentQuestion.id]: `Error: ${error instanceof Error ? error.message : 'Failed to get AI assistance'}`
+      }));
       setShowAiSuggestion(true);
     }
   };
@@ -217,7 +243,7 @@ ${responses[currentQuestion.id] ? `My draft: ${convertResponseToText(responses[c
                     </button>
                   </div>
                   <div className="text-gray-800 leading-relaxed prose prose-sm max-w-none prose-headings:text-emerald-900 prose-strong:text-emerald-900 prose-em:text-emerald-800 prose-code:bg-white prose-code:px-1 prose-code:rounded prose-ul:text-gray-800 prose-ol:text-gray-800">
-                    <ReactMarkdown>{aiSuggestion}</ReactMarkdown>
+                    <ReactMarkdown>{currentAiSuggestion}</ReactMarkdown>
                   </div>
                 </div>
               )}
@@ -247,12 +273,16 @@ ${responses[currentQuestion.id] ? `My draft: ${convertResponseToText(responses[c
                     [currentQuestion.id]: { type: 'textarea', value: e.target.value }
                   }))}
                   placeholder={currentQuestion.placeholder}
-                  className="w-full h-40 p-4 border-2 border-gray-300 rounded-xl focus:ring-4 focus:ring-blue-200 focus:border-blue-500 resize-none text-gray-900 placeholder-gray-500 shadow-sm hover:border-gray-400 transition-all duration-200"
+                  className={`w-full p-4 border-2 border-gray-300 rounded-xl focus:ring-4 focus:ring-blue-200 focus:border-blue-500 resize-none text-gray-900 placeholder-gray-500 shadow-sm hover:border-gray-400 transition-all duration-200 ${
+                    isConflictWithTeamMember ? 'h-60' : 'h-40'
+                  }`}
                   autoFocus
                 />
               </div>
               {showAiSuggestion && (
-                <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-4 h-40 overflow-y-auto animate-in slide-in-from-right-4 fade-in duration-1000">
+                <div className={`bg-emerald-50 border border-emerald-200 rounded-xl p-4 overflow-y-auto animate-in slide-in-from-right-4 fade-in duration-1000 ${
+                  isConflictWithTeamMember ? 'h-60' : 'h-40'
+                }`}>
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-2">
                       <Sparkles className="w-4 h-4 text-emerald-600" />
@@ -266,7 +296,7 @@ ${responses[currentQuestion.id] ? `My draft: ${convertResponseToText(responses[c
                     </button>
                   </div>
                   <div className="text-gray-800 leading-relaxed prose prose-sm max-w-none prose-headings:text-emerald-900 prose-strong:text-emerald-900 prose-em:text-emerald-800 prose-code:bg-white prose-code:px-1 prose-code:rounded prose-ul:text-gray-800 prose-ol:text-gray-800">
-                    <ReactMarkdown>{aiSuggestion}</ReactMarkdown>
+                    <ReactMarkdown>{currentAiSuggestion}</ReactMarkdown>
                   </div>
                 </div>
               )}
@@ -370,6 +400,220 @@ ${responses[currentQuestion.id] ? `My draft: ${convertResponseToText(responses[c
     );
   };
 
+  // Render the accordion layout for conflict with team member mediation
+  if (isConflictWithTeamMember) {
+    return (
+      <div className="relative w-full space-y-4">
+        <div className="space-y-2">
+          {framework.questions.map((question, index) => {
+            const isActive = index === currentQuestionIndex;
+            const isCompleted = index < currentQuestionIndex;
+            const questionResponse = responses[question.id];
+            const isAnswered = questionResponse && (questionResponse.type === 'textarea' ? questionResponse.value.trim().length > 0 : true);
+            
+            return (
+              <div key={question.id} className={`border rounded-xl transition-all duration-300 ${
+                isActive 
+                  ? 'border-blue-500 bg-blue-50 shadow-md' 
+                  : isCompleted 
+                    ? 'border-green-300 bg-green-50' 
+                    : 'border-gray-300 bg-gray-100'
+              }`}>
+                <div className={`transition-all duration-300 ${
+                  isActive ? 'p-6' : 'p-4'
+                }`}>
+                  <div className="flex items-start gap-4">
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 transition-colors ${
+                      isActive 
+                        ? 'bg-blue-600 text-white' 
+                        : isCompleted 
+                          ? 'bg-green-600 text-white' 
+                          : 'bg-gray-300 text-gray-600'
+                    }`}>
+                      {isCompleted ? <CheckCircle className="w-4 h-4" /> : index + 1}
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between mb-2">
+                        <h3 className={`font-semibold transition-all duration-300 ${
+                          isActive 
+                            ? 'text-xl text-blue-900' 
+                            : isCompleted 
+                              ? 'text-base text-green-800' 
+                              : 'text-sm text-gray-500'
+                        }`}>
+                          {question.text}
+                        </h3>
+                        
+                        {!isActive && (
+                          <div className="flex items-center gap-2">
+                            <span className={`px-2 py-1 text-xs font-medium rounded-full ${
+                              isCompleted 
+                                ? 'bg-green-100 text-green-700 border border-green-200' 
+                                : 'bg-gray-100 text-gray-600 border border-gray-200'
+                            }`}>
+                              {isAnswered 
+                                ? isCompleted 
+                                  ? '✓ Completed' 
+                                  : 'Ready to complete'
+                                : 'Not started'
+                              }
+                            </span>
+                            {isCompleted && (
+                              <button
+                                onClick={() => {
+                                  setCurrentQuestionIndex(index);
+                                  setHasAttemptedNext(false);
+                                }}
+                                className="px-3 py-1.5 text-xs text-green-700 hover:text-green-800 font-medium border border-green-300 hover:border-green-400 rounded-lg hover:bg-green-50 transition-all duration-200"
+                              >
+                                Edit
+                              </button>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                      
+                      {/* Show answer preview for completed questions */}
+                      {!isActive && isAnswered && questionResponse && (
+                        <div className="mt-3 p-3 bg-white bg-opacity-60 border border-gray-200 rounded-lg">
+                          {(() => {
+                            const answerText = questionResponse.value;
+                            const lines = answerText.split('\n');
+                            const isMultiLine = lines.length > 1 || answerText.length > 100;
+                            const isExpanded = expandedAnswers.has(question.id);
+                            const shouldTruncate = isMultiLine && !isExpanded;
+                            
+                            return (
+                              <div className="flex items-start gap-2">
+                                {isMultiLine && (
+                                  <button
+                                    onClick={() => {
+                                      const newExpanded = new Set(expandedAnswers);
+                                      if (isExpanded) {
+                                        newExpanded.delete(question.id);
+                                      } else {
+                                        newExpanded.add(question.id);
+                                      }
+                                      setExpandedAnswers(newExpanded);
+                                    }}
+                                    className="text-gray-400 hover:text-gray-600 transition-colors mt-0.5 flex-shrink-0"
+                                    title={isExpanded ? 'Collapse' : 'Expand'}
+                                  >
+                                    {isExpanded ? (
+                                      <ChevronDown className="w-4 h-4" />
+                                    ) : (
+                                      <ChevronRight className="w-4 h-4" />
+                                    )}
+                                  </button>
+                                )}
+                                <div className={`text-sm text-gray-700 whitespace-pre-wrap flex-1 ${
+                                  shouldTruncate ? 'line-clamp-1' : ''
+                                }`}>
+                                  {shouldTruncate ? lines[0] + (lines[0].length > 100 ? '...' : '') : answerText}
+                                </div>
+                              </div>
+                            );
+                          })()}
+                        </div>
+                      )}
+                      
+                      {isActive && (
+                        <div className="space-y-4">
+                          <div className="overflow-hidden">
+                            {renderQuestionInput()}
+                          </div>
+                          
+                          {!canProceed && question.required && hasAttemptedNext && (
+                            <div className="flex items-center gap-2 text-amber-600">
+                              <AlertCircle className="w-4 h-4" />
+                              <span className="text-sm font-medium">This field is required</span>
+                            </div>
+                          )}
+                          
+                          <div className="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
+                            <button
+                              onClick={onCancel}
+                              className="px-6 py-3 text-gray-600 hover:text-gray-800 font-medium rounded-xl hover:bg-gray-100 transition-all w-full sm:w-auto text-center"
+                            >
+                              Cancel
+                            </button>
+                            
+                            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                              {currentQuestionIndex > 0 && (
+                                <button
+                                  onClick={handlePrevious}
+                                  className="flex items-center justify-center gap-2 px-6 py-3 text-blue-600 hover:text-blue-700 font-medium rounded-xl hover:bg-blue-50 transition-all w-full sm:w-auto"
+                                >
+                                  <ArrowLeft className="w-4 h-4" />
+                                  Previous
+                                </button>
+                              )}
+                              
+                              <button
+                                onClick={getLocalAIAssistance}
+                                disabled={isLoading}
+                                className={`flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all duration-200 shadow-sm hover:shadow-md w-full sm:w-auto ${
+                                  isConfigured && isConnected
+                                    ? 'bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white'
+                                    : 'bg-gradient-to-r from-gray-400 to-gray-500 hover:from-gray-500 hover:to-gray-600 text-white'
+                                }`}
+                                title={isConfigured && isConnected ? 'Get assistance from local AI' : 'Configure local AI assistant'}
+                              >
+                                {isLoading ? (
+                                  <Loader className="w-5 h-5 animate-spin" />
+                                ) : isConfigured && isConnected ? (
+                                  <Sparkles className="w-5 h-5" />
+                                ) : (
+                                  <Settings className="w-5 h-5" />
+                                )}
+                                <span className="hidden sm:inline">
+                                  {isLoading ? 'Thinking...' : isConfigured && isConnected ? 'AI Assistance' : 'Setup AI'}
+                                </span>
+                                <span className="sm:hidden">
+                                  {isLoading ? '...' : isConfigured && isConnected ? 'AI' : 'Setup'}
+                                </span>
+                              </button>
+                              
+                              <button
+                                onClick={handleNext}
+                                disabled={!canProceed}
+                                className="flex items-center justify-center gap-3 px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:from-blue-700 hover:to-indigo-700 disabled:from-gray-300 disabled:to-gray-400 disabled:cursor-not-allowed font-semibold shadow-sm hover:shadow-md transition-all duration-200 w-full sm:w-auto"
+                              >
+                                {isLastQuestion ? (
+                                  <>
+                                    <Save className="w-5 h-5" />
+                                    Complete Reflection
+                                  </>
+                                ) : (
+                                  <>
+                                    Next Question
+                                    <ArrowRight className="w-5 h-5" />
+                                  </>
+                                )}
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        
+        {/* Local LLM Configuration Modal */}
+        <LocalLLMConfig 
+          isOpen={showLLMConfig} 
+          onClose={() => setShowLLMConfig(false)} 
+        />
+      </div>
+    );
+  }
+  
+  // Original layout for other frameworks
   return (
     <div className="relative w-full space-y-8">
       {/* Progress Header */}

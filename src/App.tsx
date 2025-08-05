@@ -392,6 +392,8 @@ function App() {
             }}
             onCancel={() => setCurrentState('dashboard')}
             initialResponses={{}} // TODO: Convert old responses back to new format
+            category={session.category}
+            subcategory={session.subcategory}
           />
         );
 
