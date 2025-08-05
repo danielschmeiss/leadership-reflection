@@ -74,35 +74,88 @@ export function Dashboard({ onStartNewReflection, onStartCategoryReflection, onV
         <div className="absolute bottom-8 right-16 w-16 h-16 bg-white bg-opacity-5 rounded-full"></div>
       </div>
 
-      {/* Challenge Types */}
+      {/* Why Pause to Reflect */}
       <div className="w-full bg-white rounded-2xl p-8 shadow-sm border border-gray-200">
         <div className="text-center mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-3">{content.dashboard.challengeTypes.title}</h2>
+          <h2 className="text-3xl font-bold text-gray-900 mb-4">Why pause to reflect?</h2>
+          <p className="text-lg text-gray-700 max-w-4xl mx-auto leading-relaxed">
+            Leaders often move fast, but quick decisions under pressure can amplify bias or strain relationships. 
+            Reflection is a way to slow down just enough to think clearly and act intentionally.
+          </p>
         </div>
         
-        <div className="grid md:grid-cols-2 gap-6">
-          {content.dashboard.challengeTypes.types.map((challenge, index) => (
-            <div
-              key={index}
-              className={`${challenge.bgColor} p-6 rounded-xl border ${challenge.borderColor} hover:shadow-md transition-all duration-200 cursor-pointer group`}
-              onClick={() => onStartCategoryReflection(challenge.category)}
-            >
-              <div className="flex items-start gap-4">
-                <div className={`p-3 bg-gradient-to-r ${challenge.color} rounded-lg text-white shadow-sm`}>
-                  {getIconForCategory(challenge.category)}
+        <div className="mb-8">
+          <div className="flex items-start gap-3 mb-6">
+            <div className="p-2 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg text-white">
+              <BarChart3 className="w-5 h-5" />
+            </div>
+            <div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">Research in leadership and cognitive science shows that reflection helps you:</h3>
+            </div>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-6">
+            <div className="bg-gradient-to-br from-red-50 to-pink-50 p-6 rounded-xl border border-red-200">
+              <div className="flex items-start gap-3 mb-3">
+                <div className="p-2 bg-red-500 rounded-lg text-white">
+                  <Zap className="w-5 h-5" />
                 </div>
-                <div className="flex-1">
-                  <h3 className={`font-semibold text-lg ${challenge.textColor} mb-2 group-hover:text-gray-900 transition-colors`}>
-                    {challenge.title}
-                  </h3>
-                  <p className="text-gray-600 text-sm">
-                    {challenge.description}
-                  </p>
+                <h4 className="font-semibold text-red-900">Regulate emotion</h4>
+              </div>
+              <p className="text-sm text-red-800 mb-3">
+                Pausing reduces stress-driven or reactive decisions
+              </p>
+              <p className="text-xs text-red-600 italic">
+                (Neuroscience of Emotional Regulation, Ochsner & Gross, 2005)
+              </p>
+            </div>
+            
+            <div className="bg-gradient-to-br from-amber-50 to-orange-50 p-6 rounded-xl border border-amber-200">
+              <div className="flex items-start gap-3 mb-3">
+                <div className="p-2 bg-amber-500 rounded-lg text-white">
+                  <Target className="w-5 h-5" />
                 </div>
-                <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-gray-600 group-hover:translate-x-1 transition-all" />
+                <h4 className="font-semibold text-amber-900">Reduce bias</h4>
+              </div>
+              <p className="text-sm text-amber-800 mb-3">
+                Reflective thinking counteracts snap judgments
+              </p>
+              <p className="text-xs text-amber-600 italic">
+                (Kahneman's "System 2" thinking)
+              </p>
+            </div>
+            
+            <div className="bg-gradient-to-br from-emerald-50 to-teal-50 p-6 rounded-xl border border-emerald-200">
+              <div className="flex items-start gap-3 mb-3">
+                <div className="p-2 bg-emerald-500 rounded-lg text-white">
+                  <TrendingUp className="w-5 h-5" />
+                </div>
+                <h4 className="font-semibold text-emerald-900">Improve judgment</h4>
+              </div>
+              <p className="text-sm text-emerald-800 mb-3">
+                Leaders who regularly reflect are rated as more effective and make sounder decisions
+              </p>
+              <p className="text-xs text-emerald-600 italic">
+                (Center for Creative Leadership, 2019)
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        <div className="bg-blue-50 p-6 rounded-xl border border-blue-200">
+          <div className="text-center">
+            <div className="flex justify-center mb-4">
+              <div className="p-3 bg-blue-500 rounded-lg text-white">
+                <Lightbulb className="w-6 h-6" />
               </div>
             </div>
-          ))}
+            <p className="text-blue-900 font-medium mb-2">
+              Even brief guided reflection—5–10 minutes—has been linked to better self-awareness and decision-making quality.
+            </p>
+            <p className="text-blue-800">
+              This tool is designed to make that pause practical: <strong>short, private, and focused on helping you take your next step.</strong>
+            </p>
+          </div>
         </div>
       </div>
 

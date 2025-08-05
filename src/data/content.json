@@ -164,22 +164,88 @@
         "proTip": "Pro tip: Choose the category that represents your biggest pain point right now. You can always come back for other challenges later!"
       },
       "secondLevel": {
-        "title": "Conflict is normal - let's work through it together",
-        "description": "Conflict isn't a failure of leadership; it's a natural part of working with people who care about different things. The key is approaching it thoughtfully rather than avoiding it or reacting emotionally.\n\n🤔 Structured reflection helps you step back, understand the dynamics, and find a path forward that preserves relationships.",
-        "benefits": [
-          {
-            "title": "One-on-one conflicts (You & Someone)",
-            "description": "When you have tension with a colleague, team member, or stakeholder"
-          },
-          {
-            "title": "Team member conflicts (Person A & Person B)", 
-            "description": "When two people you work with are in disagreement and you need to help"
-          },
-          {
-            "title": "Multi-team conflicts (Team vs Team)",
-            "description": "When different groups have competing priorities or conflicting approaches"
-          }
-        ]
+        "conflict": {
+          "title": "Conflict is normal - let's work through it together",
+          "description": "Conflict isn't a failure of leadership; it's a natural part of working with people who care about different things. The key is approaching it thoughtfully rather than avoiding it or reacting emotionally.\n\n🤔 Structured reflection helps you step back, understand the dynamics, and find a path forward that preserves relationships.",
+          "benefits": [
+            {
+              "title": "One-on-one conflicts (You & Someone)",
+              "description": "When you have tension with a colleague, team member, or stakeholder"
+            },
+            {
+              "title": "Team member conflicts (Person A & Person B)", 
+              "description": "When two people you work with are in disagreement and you need to help"
+            },
+            {
+              "title": "Multi-team conflicts (Team vs Team)",
+              "description": "When different groups have competing priorities or conflicting approaches"
+            }
+          ]
+        },
+        "feedback": {
+          "title": "Good feedback transforms teams - you've got this",
+          "description": "Giving feedback feels scary because it matters so much. Whether you're recognizing great work or addressing something that needs to change, your words have real impact on people's growth and motivation.\n\n💬 The best feedback is specific, timely, and focused on behavior rather than personality. It's a skill that gets easier with practice.",
+          "benefits": [
+            {
+              "title": "Positive feedback (Recognition & Reinforcement)",
+              "description": "When you want to acknowledge great work and encourage more of it"
+            },
+            {
+              "title": "Developmental feedback (Growth & Improvement)",
+              "description": "When someone's performance needs adjustment or skill development"
+            },
+            {
+              "title": "Peer feedback facilitation (Helping Others)",
+              "description": "When you're helping team members give feedback to each other"
+            }
+          ]
+        },
+        "decision": {
+          "title": "Every leader makes tough calls - let's make yours strategic",
+          "description": "Decision fatigue is real, and important choices can feel overwhelming when you're weighing multiple good options or navigating uncertainty. The pressure to get it 'right' can be paralyzing.\n\n⚖️ Great decisions aren't about being perfect - they're about being systematic, considering stakeholders, and moving forward with confidence.",
+          "benefits": [
+            {
+              "title": "Operational decisions (Team & Process)",
+              "description": "Day-to-day choices about tools, workflows, and team operations"
+            },
+            {
+              "title": "Strategic decisions (Direction & Investment)",
+              "description": "High-impact choices about product direction, resource allocation, or major changes"
+            },
+            {
+              "title": "Ownership/Accountability gaps (Who Does What)",
+              "description": "When roles and responsibilities are unclear or decisions fall through cracks"
+            }
+          ]
+        },
+        "stakeholder": {
+          "title": "Managing up and across is an art - master it step by step",
+          "description": "Stakeholder management often feels like herding cats - everyone has different priorities, timelines, and communication styles. It's exhausting trying to keep everyone aligned and happy.\n\n🎯 Success comes from clear communication, setting realistic expectations, and building relationships before you need them.",
+          "benefits": [
+            {
+              "title": "Expectation management (Setting Boundaries)",
+              "description": "When stakeholders have unrealistic timelines or scope expectations"
+            },
+            {
+              "title": "Alignment with leadership (Getting Buy-in)",
+              "description": "When you need support, resources, or approval from senior leadership"
+            }
+          ]
+        },
+        "team-dynamics": {
+          "title": "Building great teams takes intention - start where you are",
+          "description": "Team dynamics issues can feel like whack-a-mole - fix one problem and another pops up. Whether it's unclear ownership, low trust, or lack of collaboration, these challenges drain everyone's energy.\n\n👥 Healthy teams aren't built overnight, but small, consistent improvements in structure and communication compound over time.",
+          "benefits": [
+            {
+              "title": "Ownership clarity (Who Does What)",
+              "description": "When roles and responsibilities are unclear or overlapping"
+            },
+            {
+              "title": "Team health assessment (Building Trust)",
+              "description": "When you need to diagnose and improve overall team dynamics"
+            }
+          ]
+        }
       }
     },
     "progress": {

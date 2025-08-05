@@ -29,20 +29,20 @@ const getSpecificIcon = (framework: string, subcategory: string) => {
   
   // Feedback situations
   if (subcategory === 'positive') return <ThumbsUp className="w-6 h-6" />;
-  if (subcategory === 'developmental') return <AlertTriangle className="w-6 h-6" />;
-  if (subcategory === 'peer-to-peer-feedback-facilitation') return <UserCheck className="w-6 h-6" />;
+  if (subcategory === 'developmental') return <TrendingUp className="w-6 h-6" />;
+  if (subcategory === 'peer-to-peer-feedback-facilitation') return <MessageCircle className="w-6 h-6" />;
   
   // Decision situations
-  if (subcategory === 'operational') return <BarChart3 className="w-6 h-6" />;
-  if (subcategory === 'strategic') return <TrendingUp className="w-6 h-6" />;
-  if (subcategory === 'ownership-accountability-gaps') return <FileText className="w-6 h-6" />;
+  if (subcategory === 'operational') return <Settings className="w-6 h-6" />;
+  if (subcategory === 'strategic') return <Target className="w-6 h-6" />;
+  if (subcategory === 'ownership-accountability-gaps') return <UserCheck className="w-6 h-6" />;
   
   // Stakeholder situations
   if (subcategory === 'expectation-management') return <Shield className="w-6 h-6" />;
-  if (subcategory === 'alignment-with-leadership') return <Target className="w-6 h-6" />;
+  if (subcategory === 'alignment-with-leadership') return <Compass className="w-6 h-6" />;
   
   // Team dynamics situations
-  if (subcategory === 'ownership-clarity') return <UserPlus className="w-6 h-6" />;
+  if (subcategory === 'ownership-clarity') return <UserCheck className="w-6 h-6" />;
   if (subcategory === 'team-health-check') return <Heart className="w-6 h-6" />;
   
   // Other situations
@@ -502,7 +502,7 @@ export function DecisionTree({ onFrameworkSelected, preselectedCategory }: Decis
         </div>
       )}
 
-      {/* Simple help section for second level */}
+      {/* Category-specific help section for second level */}
       {!isFirstLevel && (
         <div className="bg-gray-50 rounded-lg sm:rounded-xl p-4 sm:p-5 border border-gray-200">
           <div className="flex items-start gap-3 sm:gap-4">
@@ -510,35 +510,72 @@ export function DecisionTree({ onFrameworkSelected, preselectedCategory }: Decis
               <Lightbulb className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
             </div>
             <div>
-              <h4 className="font-semibold text-gray-900 mb-2 text-sm sm:text-base">{content.decisionTree.help.secondLevel.title}</h4>
-              <p className="text-xs sm:text-sm text-gray-700 mb-3 sm:mb-4 whitespace-pre-line">
-                {content.decisionTree.help.secondLevel.description}
-              </p>
-              <div className="grid sm:grid-cols-2 gap-2 sm:gap-3 text-xs sm:text-sm">
-                {content.decisionTree.help.secondLevel.benefits.map((benefit, index) => {
-                  const getHelpIcon = (index: number) => {
-                    switch(index) {
-                      case 0: return <User className="w-5 h-5 text-gray-500" />;
-                      case 1: return <Users className="w-5 h-5 text-gray-500" />;
-                      case 2: return <Building2 className="w-5 h-5 text-gray-500" />;
-                      default: return null;
-                    }
-                  };
-                  
-                  return (
-                    <div key={index} className="bg-white bg-opacity-60 p-2 sm:p-3 rounded-lg">
-                      <div className="flex items-start gap-2">
-                        <div className="flex-shrink-0 mt-0.5">
-                          {getHelpIcon(index)}
-                        </div>
-                        <div>
-                          <strong className="text-gray-800">{benefit.title}:</strong> <span className="text-gray-600">{benefit.description}</span>
-                        </div>
-                      </div>
+              {(() => {
+                const categoryHelp = content.decisionTree.help.secondLevel[currentNode.id as keyof typeof content.decisionTree.help.secondLevel];
+                return categoryHelp ? (
+                  <>
+                    <h4 className="font-semibold text-gray-900 mb-2 text-sm sm:text-base">{categoryHelp.title}</h4>
+                    <p className="text-xs sm:text-sm text-gray-700 mb-3 sm:mb-4 whitespace-pre-line">
+                      {categoryHelp.description}
+                    </p>
+                    <div className="grid sm:grid-cols-2 gap-2 sm:gap-3 text-xs sm:text-sm">
+                      {categoryHelp.benefits.map((benefit, index) => {
+                        const getHelpIcon = (categoryId: string, index: number) => {
+                          switch(categoryId) {
+                            case 'conflict':
+                              switch(index) {
+                                case 0: return <User className="w-5 h-5 text-gray-500" />;
+                                case 1: return <Users className="w-5 h-5 text-gray-500" />;
+                                case 2: return <Building2 className="w-5 h-5 text-gray-500" />;
+                                default: return null;
+                              }
+                            case 'feedback':
+                              switch(index) {
+                                case 0: return <ThumbsUp className="w-5 h-5 text-gray-500" />;
+                                case 1: return <TrendingUp className="w-5 h-5 text-gray-500" />;
+                                case 2: return <MessageCircle className="w-5 h-5 text-gray-500" />;
+                                default: return null;
+                              }
+                            case 'decision':
+                              switch(index) {
+                                case 0: return <Settings className="w-5 h-5 text-gray-500" />;
+                                case 1: return <Target className="w-5 h-5 text-gray-500" />;
+                                case 2: return <UserCheck className="w-5 h-5 text-gray-500" />;
+                                default: return null;
+                              }
+                            case 'stakeholder':
+                              switch(index) {
+                                case 0: return <Shield className="w-5 h-5 text-gray-500" />;
+                                case 1: return <Compass className="w-5 h-5 text-gray-500" />;
+                                default: return null;
+                              }
+                            case 'team-dynamics':
+                              switch(index) {
+                                case 0: return <UserCheck className="w-5 h-5 text-gray-500" />;
+                                case 1: return <Heart className="w-5 h-5 text-gray-500" />;
+                                default: return null;
+                              }
+                            default: return null;
+                          }
+                        };
+                        
+                        return (
+                          <div key={index} className="bg-white bg-opacity-60 p-2 sm:p-3 rounded-lg">
+                            <div className="flex items-start gap-2">
+                              <div className="flex-shrink-0 mt-0.5">
+                                {getHelpIcon(currentNode.id, index)}
+                              </div>
+                              <div>
+                                <strong className="text-gray-800">{benefit.title}:</strong> <span className="text-gray-600">{benefit.description}</span>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
                     </div>
-                  );
-                })}
-              </div>
+                  </>
+                ) : null;
+              })()}
             </div>
           </div>
         </div>
