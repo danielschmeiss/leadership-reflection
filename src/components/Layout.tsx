@@ -138,7 +138,7 @@ export function Layout({
                           
                           {/* Framework Info Panel */}
                           {showInfo && (
-                            <div className="absolute top-full mt-2 left-0 right-0 sm:right-auto sm:w-96 bg-white rounded-xl shadow-lg border border-gray-200 p-4 sm:p-6 z-50 max-w-sm sm:max-w-none animate-in slide-in-from-top-2 duration-200">
+                            <div className="absolute top-full mt-2 left-0 right-0 sm:right-auto sm:w-[28rem] bg-white rounded-xl shadow-lg border border-gray-200 p-4 sm:p-6 z-50 max-w-sm sm:max-w-none animate-in slide-in-from-top-2 duration-200">
                               <div className="flex items-start gap-4">
                                 <div className="p-2 sm:p-3 bg-indigo-600 rounded-lg text-white flex-shrink-0">
                                   <Shield className="w-4 h-4 sm:w-6 sm:h-6" />

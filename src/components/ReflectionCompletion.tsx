@@ -9,6 +9,7 @@ interface ReflectionCompletionProps {
   problemDescription: string;
   onContinue: () => void;
   onStartNew: () => void;
+  onEdit?: () => void;
 }
 
 export function ReflectionCompletion({ 
@@ -16,7 +17,8 @@ export function ReflectionCompletion({
   responses, 
   problemDescription, 
   onContinue, 
-  onStartNew 
+  onStartNew,
+  onEdit
 }: ReflectionCompletionProps) {
   const [showCopyToast, setShowCopyToast] = useState(false);
 
@@ -757,13 +759,24 @@ Please provide specific, actionable advice based on my reflection responses. Foc
           Start New Reflection
         </button>
 
-        <button
-          onClick={onContinue}
-          className="flex items-center gap-3 px-8 py-3 bg-gradient-to-r from-emerald-600 to-green-600 text-white rounded-xl hover:from-emerald-700 hover:to-green-700 font-semibold shadow-sm hover:shadow-md transition-all duration-200"
-        >
-          Continue to Dashboard
-          <ArrowRight className="w-5 h-5" />
-        </button>
+        <div className="flex items-center gap-3">
+          {onEdit && (
+            <button
+              onClick={onEdit}
+              className="flex items-center gap-2 px-6 py-3 text-gray-600 hover:text-gray-700 font-medium rounded-xl hover:bg-gray-50 border border-gray-300 hover:border-gray-400 transition-all"
+            >
+              Edit Reflection
+            </button>
+          )}
+          
+          <button
+            onClick={onContinue}
+            className="flex items-center gap-3 px-8 py-3 bg-gradient-to-r from-emerald-600 to-green-600 text-white rounded-xl hover:from-emerald-700 hover:to-green-700 font-semibold shadow-sm hover:shadow-md transition-all duration-200"
+          >
+            Continue to Dashboard
+            <ArrowRight className="w-5 h-5" />
+          </button>
+        </div>
       </div>
     </div>
   );

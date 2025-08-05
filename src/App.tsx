@@ -602,7 +602,7 @@ function App() {
               setCurrentState('dashboard');
               updateURL('dashboard');
             }}
-            initialResponses={{}} // TODO: Convert old responses back to new format
+            initialResponses={session.editingReflection?.responses || {}}
             category={session.category}
             subcategory={session.subcategory}
           />
@@ -611,6 +611,7 @@ function App() {
 
       case 'reflection-complete':
         if (!session) return null;
+        const reflectionToEdit = session.editingReflection || session.viewingReflection;
         return (
           <ReflectionCompletion
             framework={getCustomizedFramework(session.framework, session.category, session.subcategory)}
@@ -626,6 +627,7 @@ function App() {
               setCurrentState('decision-tree');
               updateURL('decision-tree');
             }}
+            onEdit={reflectionToEdit ? () => handleEditReflection(reflectionToEdit) : undefined}
           />
         );
 

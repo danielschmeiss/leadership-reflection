@@ -407,8 +407,17 @@ ${responses[currentQuestion.id] ? `My draft: ${convertResponseToText(responses[c
         <div className="space-y-2">
           {framework.questions.map((question, index) => {
             const isActive = index === currentQuestionIndex;
-            const isCompleted = index < currentQuestionIndex;
             const questionResponse = responses[question.id];
+            const isCompleted = index < currentQuestionIndex || (questionResponse && (
+              (questionResponse.type === 'textarea' && questionResponse.value.trim().length > 0) ||
+              (questionResponse.type === 'text' && questionResponse.value.trim().length > 0) ||
+              (questionResponse.type === 'multiple-choice' && questionResponse.value) ||
+              (questionResponse.type === 'rating' && questionResponse.value > 0) ||
+              (questionResponse.type === 'enumeration' && questionResponse.items.length > 0) ||
+              (questionResponse.type === 'itemized-analysis' && Object.keys(questionResponse.items).length > 0) ||
+              (questionResponse.type === 'matrix' && Object.keys(questionResponse.data).length > 0) ||
+              (questionResponse.type === 'scoring-matrix' && Object.keys(questionResponse.data).length > 0)
+            ));
             const isAnswered = questionResponse && (questionResponse.type === 'textarea' ? questionResponse.value.trim().length > 0 : true);
             
             return (
