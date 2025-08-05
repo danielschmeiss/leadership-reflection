@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
-import { Play, BookOpen, TrendingUp, Target, Users, MessageSquare, GitBranch, BarChart3, ArrowRight, CheckCircle, Award, HelpCircle, Zap, Lightbulb, Bot, Settings, Wifi, WifiOff } from 'lucide-react';
+import React from 'react';
+import { Play, BookOpen, TrendingUp, Target, Users, MessageSquare, GitBranch, BarChart3, ArrowRight, CheckCircle, Award, HelpCircle, Zap, Lightbulb } from 'lucide-react';
 import { Logo } from './Logo';
 import content from '../data/content.json';
-import { useLocalLLM } from '../hooks/useLocalLLM';
-import { LocalLLMConfig } from './LocalLLMConfig';
 
 interface DashboardProps {
   onStartNewReflection: () => void;
@@ -14,8 +12,6 @@ interface DashboardProps {
 }
 
 export function Dashboard({ onStartNewReflection, onStartCategoryReflection, onViewHistory, onViewFrameworksGuide, reflectionCount }: DashboardProps) {
-  const [showLLMConfig, setShowLLMConfig] = useState(false);
-  const { isConfigured, isConnected } = useLocalLLM();
   const getIconForCategory = (category: string) => {
     switch (category) {
       case 'feedback': return <MessageSquare className="w-6 h-6" />;
@@ -66,50 +62,10 @@ export function Dashboard({ onStartNewReflection, onStartCategoryReflection, onV
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </button>
           
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mt-4">
+          <div className="mt-4">
             <p className="text-sm text-blue-200">
               {content.dashboard.hero.privacyText}
             </p>
-            
-            {/* Local AI Setup Button - Prominent */}
-            <button
-              onClick={() => setShowLLMConfig(true)}
-              className={`flex items-center gap-3 px-4 py-2 rounded-xl font-medium transition-all duration-200 shadow-lg hover:shadow-xl flex-shrink-0 ${
-                isConfigured && isConnected
-                  ? 'bg-emerald-500 hover:bg-emerald-600 text-white'
-                  : 'bg-white text-gray-700 hover:bg-gray-50'
-              }`}
-            >
-              <div className={`p-1.5 rounded-lg ${
-                isConfigured && isConnected 
-                  ? 'bg-emerald-400' 
-                  : 'bg-gradient-to-r from-purple-500 to-indigo-600'
-              }`}>
-                {isConfigured && isConnected ? (
-                  <Wifi className="w-4 h-4 text-white" />
-                ) : (
-                  <Bot className="w-4 h-4 text-white" />
-                )}
-              </div>
-              <div className="text-left">
-                <div className="text-sm font-medium">
-                  {isConfigured && isConnected ? 'AI Assistant Ready' : 'Setup Local AI'}
-                </div>
-                <div className={`text-xs ${
-                  isConfigured && isConnected ? 'text-emerald-100' : 'text-gray-500'
-                }`}>
-                  {isConfigured && isConnected 
-                    ? 'Get personalized guidance' 
-                    : 'Private AI assistance'
-                  }
-                </div>
-              </div>
-              {!isConfigured || !isConnected ? (
-                <Settings className="w-4 h-4" />
-              ) : (
-                <CheckCircle className="w-4 h-4 text-emerald-200" />
-              )}
-            </button>
           </div>
         </div>
         
@@ -334,12 +290,6 @@ export function Dashboard({ onStartNewReflection, onStartCategoryReflection, onV
           </div>
         </div>
       </div>
-      
-      {/* Local LLM Configuration Modal */}
-      <LocalLLMConfig 
-        isOpen={showLLMConfig} 
-        onClose={() => setShowLLMConfig(false)} 
-      />
     </div>
   );
 }

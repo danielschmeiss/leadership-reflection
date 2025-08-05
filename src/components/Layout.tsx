@@ -1,6 +1,8 @@
 import React from 'react';
 import { useEffect } from 'react';
-import { ArrowLeft, Shield, Info } from 'lucide-react';
+import { ArrowLeft, Shield, Info, Bot, Settings } from 'lucide-react';
+import { useLocalLLM } from '../hooks/useLocalLLM';
+import { LocalLLMConfig } from './LocalLLMConfig';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -32,6 +34,8 @@ export function Layout({
 }: LayoutProps) {
   const [showInfo, setShowInfo] = React.useState(false);
   const [showPrivacy, setShowPrivacy] = React.useState(false);
+  const [showLLMConfig, setShowLLMConfig] = React.useState(false);
+  const { isConfigured, isConnected } = useLocalLLM();
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -130,16 +134,17 @@ export function Layout({
                 </div>
               </div>
               
-              {/* Privacy badge - aligned to the right */}
-              <div className="flex items-center gap-3 sm:gap-4 flex-shrink-0">
-                <div className="relative">
-                  <button
-                    onClick={() => setShowPrivacy(!showPrivacy)}
-                    className="flex items-center gap-1 sm:gap-2 text-xs text-emerald-700 bg-emerald-50 p-2 sm:px-4 sm:py-2 rounded-full border border-emerald-200 hover:bg-emerald-100 transition-all cursor-pointer"
-                  >
-                    <Shield className="w-3 h-3 sm:w-4 sm:h-4" />
-                    <span className="font-medium text-xs hidden sm:inline">Private</span>
-                  </button>
+              {/* Privacy and AI badges - aligned to the right */}
+              <div className="flex flex-col items-end gap-2 flex-shrink-0">
+                <div className="flex items-center gap-3 sm:gap-4">
+                  <div className="relative">
+                    <button
+                      onClick={() => setShowPrivacy(!showPrivacy)}
+                      className="flex items-center gap-1 sm:gap-2 text-xs text-emerald-700 bg-emerald-50 p-2 sm:px-4 sm:py-2 rounded-full border border-emerald-200 hover:bg-emerald-100 transition-all cursor-pointer"
+                    >
+                      <Shield className="w-3 h-3 sm:w-4 sm:h-4" />
+                      <span className="font-medium text-xs hidden sm:inline">Private</span>
+                    </button>
                   
                   {/* Privacy panel */}
                   {showPrivacy && (
@@ -175,6 +180,29 @@ export function Layout({
                 </div>
                 {actions}
               </div>
+              
+              {/* AI Assistant Setup Badge */}
+              <div className="relative">
+                <button
+                  onClick={() => setShowLLMConfig(true)}
+                  className={`flex items-center gap-1 sm:gap-2 text-xs p-2 sm:px-4 sm:py-2 rounded-full border transition-all cursor-pointer ${
+                    isConfigured && isConnected
+                      ? 'text-emerald-700 bg-emerald-50 border-emerald-200 hover:bg-emerald-100'
+                      : 'text-blue-700 bg-blue-50 border-blue-200 hover:bg-blue-100'
+                  }`}
+                  title={isConfigured && isConnected ? 'Local AI Connected' : 'Setup Local AI Assistant'}
+                >
+                  {isConfigured && isConnected ? (
+                    <Bot className="w-3 h-3 sm:w-4 sm:h-4" />
+                  ) : (
+                    <Settings className="w-3 h-3 sm:w-4 sm:h-4" />
+                  )}
+                  <span className="font-medium text-xs hidden sm:inline">
+                    {isConfigured && isConnected ? 'AI Ready' : 'Setup AI'}
+                  </span>
+                </button>
+              </div>
+            </div>
             </div>
           </div>
         </header>
@@ -183,6 +211,12 @@ export function Layout({
         <main className="space-y-6 sm:space-y-8">
           {children}
         </main>
+        
+        {/* Local LLM Configuration Modal */}
+        <LocalLLMConfig 
+          isOpen={showLLMConfig} 
+          onClose={() => setShowLLMConfig(false)} 
+        />
 
         {/* Footer */}
         <footer className="mt-12 sm:mt-16 text-center">

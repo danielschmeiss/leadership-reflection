@@ -283,60 +283,34 @@ export function DecisionTree({ onFrameworkSelected, preselectedCategory }: Decis
           </div>
         </div>
       )}
-      {/* Progress indicator */}
-      <div className="bg-gray-100 rounded-lg p-3 border border-gray-200">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="text-sm font-medium text-gray-600">{path.length + 1}/2</div>
-            <div className="text-xs text-gray-500">{content.decisionTree.progress.steps}</div>
-            {path.length > 0 && (
-              <button
-                onClick={goBack}
-                className="ml-4 flex items-center gap-1 text-blue-600 hover:text-blue-700 font-medium text-xs"
-              >
-                <ArrowLeft className="w-3 h-3" />
-                {content.decisionTree.progress.backButton}
-              </button>
-            )}
+      {/* Progress indicator - Only show on second level */}
+      {!isFirstLevel && (
+        <div className="bg-gray-100 rounded-lg p-3 border border-gray-200">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div className="text-sm font-medium text-gray-600">{path.length + 1}/2</div>
+              <div className="text-xs text-gray-500">{content.decisionTree.progress.steps}</div>
+              {path.length > 0 && (
+                <button
+                  onClick={goBack}
+                  className="ml-4 flex items-center gap-1 text-blue-600 hover:text-blue-700 font-medium text-xs"
+                >
+                  <ArrowLeft className="w-3 h-3" />
+                  {content.decisionTree.progress.backButton}
+                </button>
+              )}
+            </div>
+            <div className="text-xs text-gray-500">{Math.round(((path.length + 1) / 2) * 100)}% {content.decisionTree.progress.complete}</div>
           </div>
-          <div className="text-xs text-gray-500">{Math.round(((path.length + 1) / 2) * 100)}% {content.decisionTree.progress.complete}</div>
-        </div>
-        <div className="w-full bg-gray-200 rounded-full h-1.5 mt-2">
-          <div 
-            className="bg-blue-400 rounded-full h-1.5 transition-all duration-500"
-            style={{ width: `${((path.length + 1) / 2) * 100}%` }}
-          ></div>
-        </div>
-      </div>
-
-      {/* Smart Quiz Option - Only show on first level */}
-      {isFirstLevel && !showQuickQuiz && (
-        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 border border-blue-200">
-          <div className="text-center">
-            <div className="mb-4">
-              <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-600 rounded-xl text-white mb-3">
-                <Zap className="w-6 h-6" />
-              </div>
-              <h3 className="text-lg font-bold text-blue-900 mb-2">Not sure which category fits?</h3>
-              <p className="text-blue-700 text-sm mb-4">Answer 2 quick questions and we'll recommend the best approach</p>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-3 items-center justify-center">
-              <button
-                onClick={() => setShowQuickQuiz(true)}
-                className="bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-700 transition-all duration-200 shadow-sm hover:shadow-md"
-              >
-                Take 30-Second Quiz
-              </button>
-              <button
-                onClick={() => setShowOnboarding(true)}
-                className="text-blue-600 hover:text-blue-800 font-medium text-sm underline hover:no-underline transition-colors"
-              >
-                or see how this works
-              </button>
-            </div>
+          <div className="w-full bg-gray-200 rounded-full h-1.5 mt-2">
+            <div 
+              className="bg-blue-400 rounded-full h-1.5 transition-all duration-500"
+              style={{ width: `${((path.length + 1) / 2) * 100}%` }}
+            ></div>
           </div>
         </div>
       )}
+
 
       {/* Quick Quiz Modal */}
       {showQuickQuiz && (
@@ -459,6 +433,35 @@ export function DecisionTree({ onFrameworkSelected, preselectedCategory }: Decis
           ))}
         </div>
       </div>
+      )}
+
+      {/* Smart Quiz Option - Only show on first level */}
+      {isFirstLevel && !showQuickQuiz && (
+        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 border border-blue-200">
+          <div className="text-center">
+            <div className="mb-4">
+              <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-600 rounded-xl text-white mb-3">
+                <Zap className="w-6 h-6" />
+              </div>
+              <h3 className="text-lg font-bold text-blue-900 mb-2">Not sure which category fits?</h3>
+              <p className="text-blue-700 text-sm mb-4">Answer 2 quick questions and we'll recommend the best approach</p>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-3 items-center justify-center">
+              <button
+                onClick={() => setShowQuickQuiz(true)}
+                className="bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-700 transition-all duration-200 shadow-sm hover:shadow-md"
+              >
+                Take 30-Second Quiz
+              </button>
+              <button
+                onClick={() => setShowOnboarding(true)}
+                className="text-blue-600 hover:text-blue-800 font-medium text-sm underline hover:no-underline transition-colors"
+              >
+                or see how this works
+              </button>
+            </div>
+          </div>
+        </div>
       )}
 
       {/* Enhanced help section for first level */}
