@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import LocalLLMService, { LocalLLMConfig, LocalLLMRequest, LocalLLMResponse, DEFAULT_CONFIGS } from '../services/localLLM';
 
 interface UseLocalLLMState {
@@ -96,7 +96,8 @@ export function useLocalLLM(): UseLocalLLMState & UseLocalLLMActions {
       service,
       error: null,
       isConnected: false,
-      hasAttemptedAutoTest: false
+      hasAttemptedAutoTest: false,
+      isLoading: false
     }));
     
     // Save to localStorage
@@ -190,7 +191,7 @@ export function useLocalLLM(): UseLocalLLMState & UseLocalLLMActions {
     };
   }, []);
 
-  // Auto-test connection when service is first configured (only once)
+  // Auto-test connection when service is configured or reconfigured
   useEffect(() => {
     if (state.service && state.isConfigured && !state.hasAttemptedAutoTest && !state.isLoading) {
       testConnection();
