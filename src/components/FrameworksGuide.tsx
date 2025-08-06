@@ -1,12 +1,14 @@
 import React from 'react';
-import { Shield, MessageSquare, Users, Target, GitBranch, BarChart3, TrendingUp, FileText, UserPlus, Heart, Compass, Lightbulb, CheckCircle, List, ArrowRight } from 'lucide-react';
+import { Shield, MessageSquare, Users, Target, GitBranch, BarChart3, TrendingUp, FileText, UserPlus, Heart, Compass, Lightbulb, CheckCircle, List, ArrowRight, Play } from 'lucide-react';
 
 interface FrameworksGuideProps {
   onStartReflection?: (category: string, subcategory: string) => void;
+  onStartNewReflection?: () => void;
 }
 
-export function FrameworksGuide({ onStartReflection }: FrameworksGuideProps) {
+export function FrameworksGuide({ onStartReflection, onStartNewReflection }: FrameworksGuideProps) {
   const frameworks = [
+    // FEEDBACK FRAMEWORKS
     {
       id: 'sbi',
       title: 'SBI Framework (Situation-Behavior-Impact)',
@@ -26,6 +28,24 @@ export function FrameworksGuide({ onStartReflection }: FrameworksGuideProps) {
         'Takes the emotion out of difficult conversations'
       ]
     },
+    {
+      id: 'feedforward-coaching',
+      title: 'Feedforward Coaching',
+      icon: <Compass className="w-6 h-6" />,
+      color: 'from-blue-500 to-blue-600',
+      usedFor: [
+        { category: 'feedback', subcategory: 'peer-to-peer-feedback-facilitation', label: 'Feedback → Peer-to-peer feedback facilitation' }
+      ],
+      description: 'Peer feedback often turns into blame sessions about past mistakes. Feedforward flips this: instead of "here\'s what you did wrong," it\'s "here\'s what would work better next time."',
+      whenToUse: 'Use when facilitating feedback between team members, especially when there\'s tension or when previous feedback conversations went poorly.',
+      keyBenefits: [
+        'Eliminates defensiveness because you\'re not relitigating past mistakes',
+        'Creates specific actions people can take instead of vague "be better" advice',
+        'Actually improves relationships instead of creating resentment',
+        'People get excited about improving instead of defensive about criticism'
+      ]
+    },
+    // CONFLICT FRAMEWORKS
     {
       id: 'mediation',
       title: 'Mediation Framework',
@@ -48,7 +68,7 @@ export function FrameworksGuide({ onStartReflection }: FrameworksGuideProps) {
       id: 'interest-based-negotiation',
       title: 'Interest-Based Negotiation',
       icon: <GitBranch className="w-6 h-6" />,
-      color: 'from-purple-500 to-purple-600',
+      color: 'from-amber-500 to-orange-600',
       usedFor: [
         { category: 'conflict', subcategory: 'cross-team-conflict', label: 'Conflict → Cross-team conflict' }
       ],
@@ -61,11 +81,12 @@ export function FrameworksGuide({ onStartReflection }: FrameworksGuideProps) {
         'Builds relationships that prevent future conflicts'
       ]
     },
+    // DECISION FRAMEWORKS
     {
       id: 'decision-matrix',
       title: 'Decision Matrix',
       icon: <BarChart3 className="w-6 h-6" />,
-      color: 'from-emerald-500 to-emerald-600',
+      color: 'from-purple-500 to-purple-600',
       usedFor: [
         { category: 'decision', subcategory: 'operational', label: 'Decision → Operational (Team)' }
       ],
@@ -82,7 +103,7 @@ export function FrameworksGuide({ onStartReflection }: FrameworksGuideProps) {
       id: 'pros-cons',
       title: 'Pros/Cons Analysis',
       icon: <TrendingUp className="w-6 h-6" />,
-      color: 'from-indigo-500 to-purple-600',
+      color: 'from-purple-500 to-purple-600',
       usedFor: [
         { category: 'decision', subcategory: 'strategic', label: 'Decision → Strategic (Domain/Organization)' }
       ],
@@ -96,28 +117,10 @@ export function FrameworksGuide({ onStartReflection }: FrameworksGuideProps) {
       ]
     },
     {
-      id: 'grow',
-      title: 'GROW Model (Goal-Reality-Options-Way Forward)',
-      icon: <Target className="w-6 h-6" />,
-      color: 'from-green-500 to-emerald-600',
-      usedFor: [
-        { category: 'other', subcategory: 'free-reflection', label: 'Other → Free reflection' }
-      ],
-      abbreviationExplanation: 'GROW stands for Goal-Reality-Options-Way Forward, a four-step coaching model for structured problem-solving.',
-      description: 'Most people jump straight to solutions without understanding the real goal or current reality. GROW forces you to get clear on what success looks like before brainstorming how to get there.',
-      whenToUse: 'Use when you\'re stuck on a complex problem, when you keep going in circles, or when coaching someone who says "I don\'t know what to do."',
-      keyBenefits: [
-        'Prevents you from solving the wrong problem by getting clear on the real goal first',
-        'Uncovers options you missed because you were focused on obvious solutions',
-        'Turns vague intentions ("I should improve X") into specific next steps',
-        'Works whether you\'re coaching yourself or helping someone else think through a problem'
-      ]
-    },
-    {
       id: 'responsibility-mapping',
       title: 'RACI/Responsibility Mapping (Responsible-Accountable-Consulted-Informed)',
       icon: <FileText className="w-6 h-6" />,
-      color: 'from-blue-500 to-indigo-600',
+      color: 'from-purple-500 to-purple-600',
       usedFor: [
         { category: 'decision', subcategory: 'ownership-accountability-gaps', label: 'Decision → Ownership/Accountability gaps' }
       ],
@@ -131,11 +134,12 @@ export function FrameworksGuide({ onStartReflection }: FrameworksGuideProps) {
         'New team members know exactly who to ask about what'
       ]
     },
+    // STAKEHOLDER FRAMEWORKS
     {
       id: 'alignment-canvas',
       title: 'Alignment Canvas',
       icon: <Target className="w-6 h-6" />,
-      color: 'from-purple-500 to-pink-600',
+      color: 'from-emerald-500 to-emerald-600',
       usedFor: [
         { category: 'stakeholder', subcategory: 'alignment-with-leadership', label: 'Stakeholder → Alignment with leadership' }
       ],
@@ -148,11 +152,12 @@ export function FrameworksGuide({ onStartReflection }: FrameworksGuideProps) {
         'Shows leadership you think like they do (strategic, evidence-based)'
       ]
     },
+    // TEAM DYNAMICS FRAMEWORKS
     {
       id: 'delegation-empowerment',
       title: 'Delegation/Empowerment',
       icon: <UserPlus className="w-6 h-6" />,
-      color: 'from-emerald-500 to-teal-600',
+      color: 'from-rose-500 to-pink-600',
       usedFor: [
         { category: 'team-dynamics', subcategory: 'ownership-clarity', label: 'Team dynamics → Ownership clarity' }
       ],
@@ -182,21 +187,23 @@ export function FrameworksGuide({ onStartReflection }: FrameworksGuideProps) {
         'Gives you specific actions to take at each level of team development'
       ]
     },
+    // GENERAL PROBLEM-SOLVING FRAMEWORKS
     {
-      id: 'feedforward-coaching',
-      title: 'Feedforward Coaching',
-      icon: <Compass className="w-6 h-6" />,
-      color: 'from-indigo-500 to-purple-600',
+      id: 'grow',
+      title: 'GROW Model (Goal-Reality-Options-Way Forward)',
+      icon: <Target className="w-6 h-6" />,
+      color: 'from-slate-500 to-gray-600',
       usedFor: [
-        { category: 'feedback', subcategory: 'peer-to-peer-feedback-facilitation', label: 'Feedback → Peer-to-peer feedback facilitation' }
+        { category: 'other', subcategory: 'free-reflection', label: 'Other → Free reflection' }
       ],
-      description: 'Peer feedback often turns into blame sessions about past mistakes. Feedforward flips this: instead of "here\'s what you did wrong," it\'s "here\'s what would work better next time."',
-      whenToUse: 'Use when facilitating feedback between team members, especially when there\'s tension or when previous feedback conversations went poorly.',
+      abbreviationExplanation: 'GROW stands for Goal-Reality-Options-Way Forward, a four-step coaching model for structured problem-solving.',
+      description: 'Most people jump straight to solutions without understanding the real goal or current reality. GROW forces you to get clear on what success looks like before brainstorming how to get there.',
+      whenToUse: 'Use when you\'re stuck on a complex problem, when you keep going in circles, or when coaching someone who says "I don\'t know what to do."',
       keyBenefits: [
-        'Eliminates defensiveness because you\'re not relitigating past mistakes',
-        'Creates specific actions people can take instead of vague "be better" advice',
-        'Actually improves relationships instead of creating resentment',
-        'People get excited about improving instead of defensive about criticism'
+        'Prevents you from solving the wrong problem by getting clear on the real goal first',
+        'Uncovers options you missed because you were focused on obvious solutions',
+        'Turns vague intentions ("I should improve X") into specific next steps',
+        'Works whether you\'re coaching yourself or helping someone else think through a problem'
       ]
     }
   ];
@@ -594,6 +601,99 @@ export function FrameworksGuide({ onStartReflection }: FrameworksGuideProps) {
                   ))}
                 </ul>
               </div>
+
+              {/* External Resources */}
+              <div className="pt-6 border-t border-gray-200">
+                <h3 className="text-lg font-semibold text-gray-900 mb-3">Learn More</h3>
+                <p className="text-gray-600 text-sm mb-4">
+                  Explore these trusted resources to deepen your understanding of {framework.title}:
+                </p>
+                <div className="grid sm:grid-cols-2 gap-3 mb-6">
+                  {(() => {
+                    const getExternalLinks = (frameworkId: string) => {
+                      switch(frameworkId) {
+                        case 'sbi':
+                          return [
+                            { title: "Center for Creative Leadership - SBI Model", url: "https://www.ccl.org/articles/leading-effectively-articles/closing-the-gap-between-intent-vs-impact-sbii/", description: "Official guide from CCL on using SBI for feedback" },
+                            { title: "Harvard Business Review - The Right Way to Give Feedback", url: "https://hbr.org/2016/01/the-right-way-to-hold-people-accountable", description: "Research-backed approach to effective feedback conversations" }
+                          ];
+                        case 'mediation':
+                          return [
+                            { title: "Harvard Negotiation Project - Getting to Yes", url: "https://www.pon.harvard.edu/daily/negotiation-skills-daily/what-is-the-getting-to-yes-negotiation-method/", description: "Harvard's foundational work on interest-based negotiation" },
+                            { title: "Conflict Resolution Network", url: "https://www.crnhq.org/conflict-resolution-skills/", description: "Practical mediation and conflict resolution techniques" }
+                          ];
+                        case 'interest-based-negotiation':
+                          return [
+                            { title: "Harvard Business School - Negotiation", url: "https://www.pon.harvard.edu/daily/negotiation-skills-daily/principled-negotiation-the-basics/", description: "Principled negotiation framework from Harvard" },
+                            { title: "MIT Sloan - Systems Thinking for Negotiation", url: "https://mitsloan.mit.edu/ideas-made-to-matter/how-to-negotiate-when-stakes-are-high", description: "Advanced negotiation strategies for complex situations" }
+                          ];
+                        case 'decision-matrix':
+                          return [
+                            { title: "McKinsey - Decision Making Framework", url: "https://www.mckinsey.com/capabilities/strategy-and-corporate-finance/our-insights/the-case-for-better-decision-making", description: "Strategic decision-making best practices" },
+                            { title: "MIT Technology Review - Decision Science", url: "https://www.technologyreview.com/2022/04/06/1048981/decision-making-frameworks-business/", description: "Research on systematic decision-making approaches" }
+                          ];
+                        case 'pros-cons':
+                          return [
+                            { title: "Stanford Graduate School of Business", url: "https://www.gsb.stanford.edu/insights/how-make-better-decisions", description: "Research on structured decision analysis" },
+                            { title: "Kahneman & Tversky - Decision Theory", url: "https://www.nobelprize.org/uploads/2018/06/kahneman-lecture.pdf", description: "Nobel Prize-winning research on decision psychology" }
+                          ];
+                        case 'grow':
+                          return [
+                            { title: "International Coach Federation - GROW Model", url: "https://coachingfederation.org/blog/grow-coaching-model", description: "Official ICF resource on the GROW coaching framework" },
+                            { title: "Sir John Whitmore - Performance Coaching", url: "https://www.performanceconsultants.com/grow-model", description: "Original creator's guide to the GROW model" }
+                          ];
+                        case 'responsibility-mapping':
+                          return [
+                            { title: "Project Management Institute - RACI", url: "https://www.pmi.org/learning/library/raci-matrix-responsibility-assignment-9020", description: "PMI's comprehensive guide to RACI matrices" },
+                            { title: "Harvard Business Review - Who Has the D?", url: "https://hbr.org/2006/01/who-has-the-d-how-clear-decision-roles-enhance-organizational-performance", description: "Research on decision roles and accountability" }
+                          ];
+                        case 'alignment-canvas':
+                          return [
+                            { title: "McKinsey - Stakeholder Alignment", url: "https://www.mckinsey.com/capabilities/strategy-and-corporate-finance/our-insights/getting-organizational-alignment-right", description: "Strategic alignment best practices" },
+                            { title: "MIT Sloan - Executive Communication", url: "https://mitsloan.mit.edu/ideas-made-to-matter/how-to-communicate-up-organization", description: "Research on upward communication strategies" }
+                          ];
+                        case 'delegation-empowerment':
+                          return [
+                            { title: "Center for Creative Leadership - Delegation", url: "https://www.ccl.org/articles/leading-effectively-articles/delegation-how-to-delegate-effectively/", description: "Research-backed delegation strategies" },
+                            { title: "Harvard Business Review - Empowerment", url: "https://hbr.org/1995/07/empowerment-the-emperors-new-clothes", description: "Seminal HBR article on effective empowerment" }
+                          ];
+                        case 'five-dysfunctions':
+                          return [
+                            { title: "Patrick Lencioni - Official Resources", url: "https://www.tablegroup.com/topics-and-resources/teamwork/", description: "Original author's resources on team dysfunction" },
+                            { title: "Jossey-Bass Leadership Research", url: "https://www.wiley.com/en-us/The+Five+Dysfunctions+of+a+Team%3A+A+Leadership+Fable-p-9780787960759", description: "Academic research on team effectiveness models" }
+                          ];
+                        case 'feedforward-coaching':
+                          return [
+                            { title: "Marshall Goldsmith - Feedforward", url: "https://www.marshallgoldsmith.com/articles/try-feedforward-instead-feedback/", description: "Original creator's explanation of the feedforward concept" },
+                            { title: "Center for Creative Leadership - Future-Focused Feedback", url: "https://www.ccl.org/articles/leading-effectively-articles/hr-pipeline-future-focused-feedback/", description: "Research on forward-looking feedback approaches" }
+                          ];
+                        default:
+                          return [];
+                      }
+                    };
+
+                    return getExternalLinks(framework.id).map((link, index) => (
+                      <a
+                        key={index}
+                        href={link.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group flex items-start gap-3 p-3 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 hover:border-gray-300 transition-all duration-200"
+                      >
+                        <Shield className="w-4 h-4 text-gray-500 mt-0.5 flex-shrink-0" />
+                        <div>
+                          <h4 className="font-medium text-gray-900 group-hover:text-blue-600 text-sm">
+                            {link.title}
+                          </h4>
+                          <p className="text-xs text-gray-600 mt-1">
+                            {link.description}
+                          </p>
+                        </div>
+                      </a>
+                    ));
+                  })()}
+                </div>
+              </div>
             </div>
           </div>
         ))}
@@ -601,7 +701,7 @@ export function FrameworksGuide({ onStartReflection }: FrameworksGuideProps) {
 
       {/* Footer */}
       <div className="bg-blue-50 rounded-2xl p-6 border border-blue-200">
-        <div className="flex items-start gap-3">
+        <div className="flex items-start gap-3 mb-4">
           <div className="p-2 bg-blue-600 rounded-lg text-white">
             <Lightbulb className="w-5 h-5" />
           </div>
@@ -611,6 +711,21 @@ export function FrameworksGuide({ onStartReflection }: FrameworksGuideProps) {
               Each framework is designed to be practical and immediately actionable. Choose the one that matches your current challenge, or start with a new reflection to get a personalized recommendation.
             </p>
           </div>
+        </div>
+        
+        <div className="flex justify-center">
+          <button
+            onClick={() => {
+              window.location.href = '/decide';
+            }}
+            className="group flex items-center gap-3 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-200 shadow-sm hover:shadow-md"
+          >
+            <div className="p-1 bg-white bg-opacity-20 rounded-lg">
+              <Play className="w-4 h-4" />
+            </div>
+            Begin Your Reflection Now
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </button>
         </div>
       </div>
     </div>
