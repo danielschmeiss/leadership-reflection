@@ -161,6 +161,24 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
     },
     // STAKEHOLDER FRAMEWORKS
     {
+      id: 'bound',
+      title: 'BOUND Framework (Baseline-Objectivity-Understand-Negotiate-Document)',
+      icon: <Shield className="w-6 h-6" />,
+      color: 'from-emerald-500 to-emerald-600',
+      usedFor: [
+        { category: 'stakeholder', subcategory: 'expectation-management', label: 'Stakeholder → Expectation management' }
+      ],
+      abbreviationExplanation: 'BOUND stands for Baseline-Objectivity-Understand-Negotiate-Document, a five-step framework for resetting unrealistic stakeholder expectations.',
+      description: 'When stakeholders have unrealistic expectations, most people either cave in or push back defensively. BOUND helps you reset expectations using facts and collaborative problem-solving instead of conflict.',
+      whenToUse: 'Use when facing impossible deadlines, unrealistic scope demands, or when stakeholders don\'t understand technical constraints. Essential when you need to preserve relationships while setting realistic boundaries.',
+      keyBenefits: [
+        'Uses objective evidence instead of opinions to ground discussions in reality',
+        'Uncovers the real business drivers behind unrealistic requests',
+        'Creates collaborative solutions that stakeholders help develop and own',
+        'Documents agreements to prevent future scope creep and misunderstandings'
+      ]
+    },
+    {
       id: 'alignment-canvas',
       title: 'Stakeholder Alignment Framework',
       icon: <Target className="w-6 h-6" />,
@@ -446,6 +464,13 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
                       {framework.title}
                     </h4>
                     <ul className="text-sm text-gray-700 space-y-1">
+                      {framework.id === 'bound' && (
+                        <>
+                          <li>• Reset unrealistic expectations</li>
+                          <li>• Evidence-based negotiation</li>
+                          <li>• Preserve relationships</li>
+                        </>
+                      )}
                       {framework.id === 'alignment-canvas' && (
                         <>
                           <li>• Leadership buy-in meetings</li>
@@ -710,6 +735,11 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
                           return [
                             { title: "Small Improvements - The Feedforward Approach", url: "https://www.small-improvements.com/blog/feedback-too-critical-try-the-feedforward-approach/", description: "Practical guide to implementing feedforward instead of traditional feedback" },
                             { title: "Global Coach Group - What is Feedforward?", url: "https://globalcoachgroup.com/what-is-feedforward/", description: "Comprehensive explanation of feedforward principles and applications" }
+                          ];
+                        case 'bound':
+                          return [
+                            { title: "Spec Innovations - 8 Ways to Manage Unrealistic Stakeholder Expectations", url: "https://specinnovations.com/blog/8-ways-to-manage-unrealistic-stakeholder-expectations", description: "Practical strategies for handling unrealistic expectations and maintaining stakeholder relationships" },
+                            { title: "Simply Stakeholders - How to Deal with Difficult Stakeholders", url: "https://simplystakeholders.com/how-to-deal-with-difficult-stakeholders", description: "Comprehensive guide to managing challenging stakeholder situations and communication strategies" }
                           ];
                         default:
                           return [];
