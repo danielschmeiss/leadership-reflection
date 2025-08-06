@@ -1,5 +1,5 @@
-import React from 'react';
-import { Shield, MessageSquare, Users, Target, GitBranch, BarChart3, TrendingUp, FileText, UserPlus, Heart, Compass, Lightbulb, CheckCircle, List, ArrowRight, Play, ExternalLink } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Shield, MessageSquare, Users, Target, GitBranch, BarChart3, TrendingUp, FileText, UserPlus, Heart, Compass, Lightbulb, CheckCircle, List, ArrowRight, Play, ExternalLink, Copy, Link } from 'lucide-react';
 
 interface FrameworksGuideProps {
   onStartReflection?: (category: string, subcategory: string) => void;
@@ -7,6 +7,31 @@ interface FrameworksGuideProps {
 }
 
 export function FrameworksGuide({ onStartReflection, onStartNewReflection }: FrameworksGuideProps) {
+  const [copiedFramework, setCopiedFramework] = useState<string | null>(null);
+
+  const copyFrameworkLink = async (frameworkId: string) => {
+    const url = `${window.location.origin}/frameworks#${frameworkId}`;
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopiedFramework(frameworkId);
+      setTimeout(() => setCopiedFramework(null), 2000);
+    } catch (err) {
+      console.error('Failed to copy link:', err);
+    }
+  };
+
+  // Handle hash navigation on page load
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash) {
+      const element = document.getElementById(hash.substring(1));
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+      }
+    }
+  }, []);
   const frameworks = [
     // FEEDBACK FRAMEWORKS
     {
@@ -526,13 +551,32 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
           <div key={framework.id} id={framework.id} className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden scroll-mt-8">
             {/* Framework Header */}
             <div className={`bg-gradient-to-r ${framework.color} text-white p-6`}>
-              <div className="flex items-center gap-4">
-                <div className="p-3 bg-white bg-opacity-20 backdrop-blur-sm rounded-xl">
-                  {framework.icon}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <div className="p-3 bg-white bg-opacity-20 backdrop-blur-sm rounded-xl">
+                    {framework.icon}
+                  </div>
+                  <div>
+                    <h2 className="text-2xl font-bold">{framework.title}</h2>
+                  </div>
                 </div>
-                <div>
-                  <h2 className="text-2xl font-bold">{framework.title}</h2>
-                </div>
+                <button
+                  onClick={() => copyFrameworkLink(framework.id)}
+                  className="flex items-center gap-2 px-3 py-2 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-lg transition-all duration-200 group"
+                  title="Copy link to this framework"
+                >
+                  {copiedFramework === framework.id ? (
+                    <>
+                      <CheckCircle className="w-4 h-4" />
+                      <span className="text-sm font-medium">Copied!</span>
+                    </>
+                  ) : (
+                    <>
+                      <Link className="w-4 h-4" />
+                      <span className="text-sm font-medium hidden sm:inline">Copy Link</span>
+                    </>
+                  )}
+                </button>
               </div>
             </div>
 
