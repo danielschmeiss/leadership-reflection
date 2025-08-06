@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import { Layout } from './components/Layout';
 import { Dashboard } from './components/Dashboard';
 import { DecisionTree } from './components/DecisionTree';
@@ -701,19 +702,22 @@ function App() {
   };
 
   return (
-    <Layout
-      title={getTitle()}
-      helpText={getHelpText()}
-      onNavigateToImprint={() => {
-        setCurrentState('imprint');
-        updateURL('imprint');
-      }}
-      onNavigateToDashboard={handleNavigateToDashboard}
-      showFrameworkInfo={currentState === 'reflection' && session !== null}
-      frameworkRationale={session ? getFrameworkRationale(session.framework, session.category, session.subcategory) : undefined}
-    >
-      {renderContent()}
-    </Layout>
+    <>
+      <Layout
+        title={getTitle()}
+        helpText={getHelpText()}
+        onNavigateToImprint={() => {
+          setCurrentState('imprint');
+          updateURL('imprint');
+        }}
+        onNavigateToDashboard={handleNavigateToDashboard}
+        showFrameworkInfo={currentState === 'reflection' && session !== null}
+        frameworkRationale={session ? getFrameworkRationale(session.framework, session.category, session.subcategory) : undefined}
+      >
+        {renderContent()}
+      </Layout>
+      <SpeedInsights />
+    </>
   );
 }
 
