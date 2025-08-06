@@ -639,6 +639,55 @@ const baseFrameworks: Record<string, Framework> = {
       }
     ]
   },
+  bound: {
+    id: 'bound',
+    name: 'BOUND Framework',
+    description: 'Baseline, Objectivity, Understand, Negotiate, Document - Framework for resetting stakeholder expectations',
+    questions: [
+      {
+        id: 'baseline',
+        text: 'B – Baseline: What is the realistic situation based on facts, constraints, and what I know right now?',
+        type: 'textarea',
+        required: true,
+        placeholder: 'Our team capacity: 15 story points/sprint. Technical constraints: API rate limits. Dependencies: Security review (2 weeks)...',
+        helpText: 'Define realistic delivery scope, effort, and dependencies. Identify hard constraints like capacity, technical limits, regulatory requirements. Prepare data points like velocity, resource availability, historical benchmarks.'
+      },
+      {
+        id: 'objectivity',
+        text: 'O – Objectivity: What evidence or reasoning can I use to ground this discussion in reality rather than assumptions?',
+        type: 'textarea',
+        required: true,
+        placeholder: 'Last 3 sprints averaged 12 story points. Similar features took 6 weeks historically. Current team: 3 engineers, 1 on vacation next month...',
+        helpText: 'Use facts over opinions: timelines, burn-down rates, resource estimates. Reference past delivery data or benchmarks. Position it as a shared problem to solve, not a personal conflict.'
+      },
+      {
+        id: 'understand',
+        text: 'U – Understand: What underlying needs, concerns, or pressures might be shaping this stakeholder\'s expectations?',
+        type: 'textarea',
+        required: true,
+        placeholder: 'Marketing launch planned for conference. CEO committed to board. Client contract has penalty clause. Competitor announced similar feature...',
+        helpText: 'Ask why the timeline or scope is critical. Is it market-driven, executive optics, or misunderstanding? This often reveals flexibility in either scope or deadline.'
+      },
+      {
+        id: 'negotiate',
+        text: 'N – Negotiate: How can I frame balanced options or trade-offs that lead to a constructive decision?',
+        type: 'enumeration',
+        required: true,
+        itemLabel: 'Option',
+        minItems: 2,
+        placeholder: 'Deliver MVP by target date, drop advanced analytics',
+        helpText: 'Present clear choices: 1) Deliver smaller scope by target date, 2) Extend timeline for full scope, 3) Add resources if possible. Frame as mutually exclusive trade-offs.'
+      },
+      {
+        id: 'document',
+        text: 'D – Document: How will I capture and share what we\'ve agreed on so it stays clear and aligned over time?',
+        type: 'textarea',
+        required: true,
+        placeholder: 'Email summary of agreed scope. JIRA epic with locked requirements. Weekly checkpoint meetings. Change request process for additions...',
+        helpText: 'Summarize agreed scope/timelines in writing (email, meeting notes, JIRA). Use as reference to prevent scope creep. Revisit regularly to manage scope changes formally.'
+      }
+    ]
+  },
   grow: {
     id: 'grow',
     name: 'GROW Model',
@@ -951,7 +1000,7 @@ export const decisionTreeNodes: Record<string, DecisionTreeNode> = {
     options: [
       {
         text: 'Expectation management',
-        framework: 'raci',
+        framework: 'bound',
         category: 'stakeholder',
         subcategory: 'expectation-management'
       },

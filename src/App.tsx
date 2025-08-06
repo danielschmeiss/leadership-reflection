@@ -707,7 +707,8 @@ function App() {
                   'ownership-accountability-gaps': 'responsibility-mapping'
                 },
                 'stakeholder': {
-                  'alignment-with-leadership': 'alignment-canvas'
+                  'alignment-with-leadership': 'alignment-canvas',
+                  'expectation-management': 'bound'
                 },
                 'team-dynamics': {
                   'ownership-clarity': 'delegation-empowerment',
