@@ -1,5 +1,5 @@
 import React from 'react';
-import { Shield, MessageSquare, Users, Target, GitBranch, BarChart3, TrendingUp, FileText, UserPlus, Heart, Compass, Lightbulb, CheckCircle, List, ArrowRight, Play } from 'lucide-react';
+import { Shield, MessageSquare, Users, Target, GitBranch, BarChart3, TrendingUp, FileText, UserPlus, Heart, Compass, Lightbulb, CheckCircle, List, ArrowRight, Play, ExternalLink } from 'lucide-react';
 
 interface FrameworksGuideProps {
   onStartReflection?: (category: string, subcategory: string) => void;
@@ -619,23 +619,23 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
                           ];
                         case 'mediation':
                           return [
-                            { title: "Harvard Business School - Getting to Yes Method", url: "https://www.pon.harvard.edu/shop/getting-to-yes/", description: "Harvard's foundational work on principled negotiation" },
-                            { title: "Beyond Intractability - Mediation", url: "https://www.beyondintractability.org/essay/mediation", description: "Comprehensive guide to mediation processes and techniques" }
+                            { title: "Mediators Beyond Borders - Mediation Framework", url: "https://mediatorsbeyondborders.org/what-we-do/conflict-literacy-framework/mediation", description: "Professional mediation framework and conflict literacy approach" },
+                            { title: "The Workplace Mediator - Project Team Conflicts", url: "https://theworkplacemediator.co.uk/using-mediation-to-resolve-conflicts-in-project-based-teams", description: "Using mediation to resolve conflicts in project-based teams and workplace settings" }
                           ];
                         case 'interest-based-negotiation':
                           return [
-                            { title: "Harvard Program on Negotiation - Core Concepts", url: "https://www.pon.harvard.edu/category/daily-blog/", description: "Harvard's research on principled negotiation techniques" },
-                            { title: "Stanford Graduate School of Business - Negotiation", url: "https://www.gsb.stanford.edu/executive-education/programs/negotiation-strategies", description: "Advanced negotiation strategies and frameworks" }
+                            { title: "Wikipedia - Getting to Yes", url: "https://en.wikipedia.org/wiki/Getting_to_Yes", description: "Overview of the foundational book on principled negotiation and interest-based methods" },
+                            { title: "Technical Leaders - Harvard Negotiation Framework", url: "https://www.technical-leaders.com/post/harvard-negotiation-framework-engineering-case-studies", description: "Engineering case studies applying Harvard's negotiation framework in technical leadership" }
                           ];
                         case 'decision-matrix':
                           return [
-                            { title: "Harvard Business Review - Making Better Decisions", url: "https://hbr.org/2013/11/making-better-decisions", description: "Research-backed approaches to strategic decision-making" },
-                            { title: "Decision Science News - Matrix Methods", url: "https://www.decisionsciencenews.com/", description: "Latest research on systematic decision-making frameworks" }
+                            { title: "Shopify - How to Use a Decision Matrix", url: "https://www.shopify.com/blog/decision-matrix", description: "Practical guide to creating and using decision matrices for business decisions" },
+                            { title: "Simplilearn - What is Decision Matrix and How to Use", url: "https://www.simplilearn.com/what-is-decision-matrix-how-to-use-article", description: "Comprehensive tutorial on decision matrix methodology and applications" }
                           ];
                         case 'pros-cons':
                           return [
-                            { title: "Stanford Graduate School of Business", url: "https://www.gsb.stanford.edu/insights/how-make-better-decisions", description: "Research on structured decision analysis" },
-                            { title: "Kahneman & Tversky - Decision Theory", url: "https://www.nobelprize.org/uploads/2018/06/kahneman-lecture.pdf", description: "Nobel Prize-winning research on decision psychology" }
+                            { title: "BrainApps - Pros and Cons Lists Essential Guide", url: "https://brainapps.io/blog/2024/12/pros-and-cons-lists-essential/", description: "Comprehensive guide to creating effective pros and cons lists for better decision-making" },
+                            { title: "The Geeky Leader - Second Order Thinking", url: "https://thegeekyleader.com/2025/04/13/second-order-thinking-the-key-to-making-better-decisions/", description: "Advanced decision-making strategies using second-order thinking principles" }
                           ];
                         case 'grow':
                           return [
@@ -644,8 +644,8 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
                           ];
                         case 'responsibility-mapping':
                           return [
-                            { title: "Project Management Institute - RACI", url: "https://www.pmi.org/learning/library/raci-matrix-responsibility-assignment-9020", description: "PMI's comprehensive guide to RACI matrices" },
-                            { title: "Harvard Business Review - Who Has the D?", url: "https://hbr.org/2006/01/who-has-the-d-how-clear-decision-roles-enhance-organizational-performance", description: "Research on decision roles and accountability" }
+                            { title: "Wikipedia - Responsibility Assignment Matrix", url: "https://en.wikipedia.org/wiki/Responsibility_assignment_matrix", description: "Comprehensive overview of RACI matrices and responsibility assignment frameworks" },
+                            { title: "CIO - How to Design a Successful RACI Project Plan", url: "https://www.cio.com/article/287088/project-management-how-to-design-a-successful-raci-project-plan.html", description: "Practical guide to implementing RACI matrices in project management" }
                           ];
                         case 'alignment-canvas':
                           return [
@@ -680,7 +680,7 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
                         rel="noopener noreferrer"
                         className="group flex items-start gap-3 p-3 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 hover:border-gray-300 transition-all duration-200"
                       >
-                        <Shield className="w-4 h-4 text-gray-500 mt-0.5 flex-shrink-0" />
+                        <ExternalLink className="w-4 h-4 text-gray-500 mt-0.5 flex-shrink-0" />
                         <div>
                           <h4 className="font-medium text-gray-900 group-hover:text-blue-600 text-sm">
                             {link.title}
