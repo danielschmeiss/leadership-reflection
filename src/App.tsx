@@ -43,6 +43,13 @@ const parseURL = (): { route: AppState; params: URLSearchParams } => {
     return { route: 'dashboard', params };
   } else if (pathname === '/decide' || pathname === '/decision-tree') {
     return { route: 'decision-tree', params };
+  } else if (pathname.startsWith('/decide/')) {
+    // Handle category-specific decision tree routes like /decide/conflict
+    const category = pathname.split('/decide/')[1];
+    if (category) {
+      params.set('category', category);
+    }
+    return { route: 'decision-tree', params };
   } else if (pathname === '/reflect') {
     return { route: 'reflection', params };
   } else if (pathname === '/complete') {
@@ -70,7 +77,15 @@ const updateURL = (route: AppState, params?: Record<string, string>) => {
       url.pathname = '/';
       break;
     case 'decision-tree':
-      url.pathname = '/decide';
+      // Use cleaner URLs for category-specific decision trees
+      if (params?.category) {
+        url.pathname = `/decide/${params.category}`;
+        // Remove category from search params since it's in the path
+        const { category, ...otherParams } = params;
+        params = otherParams;
+      } else {
+        url.pathname = '/decide';
+      }
       break;
     case 'reflection':
       url.pathname = '/reflect';
@@ -582,6 +597,14 @@ function App() {
         return (
           <DecisionTree
             onFrameworkSelected={handleFrameworkSelected}
+            onNavigationChange={(category) => {
+              // Update URL when navigating within decision tree
+              if (category) {
+                updateURL('decision-tree', { category });
+              } else {
+                updateURL('decision-tree');
+              }
+            }}
             preselectedCategory={session?.category}
           />
         );

@@ -6,6 +6,7 @@ import content from '../data/content.json';
 
 interface DecisionTreeProps {
   onFrameworkSelected: (framework: FrameworkType, category: SituationCategory, subcategory: string) => void;
+  onNavigationChange?: (category?: string) => void;
   preselectedCategory?: string;
 }
 
@@ -93,7 +94,7 @@ const getCategoryBackgroundClass = (category: string) => {
   }
 };
 
-export function DecisionTree({ onFrameworkSelected, preselectedCategory }: DecisionTreeProps) {
+export function DecisionTree({ onFrameworkSelected, onNavigationChange, preselectedCategory }: DecisionTreeProps) {
   const [currentNode, setCurrentNode] = useState<DecisionTreeNode>(decisionTree);
   const [path, setPath] = useState<string[]>([]);
   const [showHelp, setShowHelp] = useState(false);
@@ -127,6 +128,11 @@ export function DecisionTree({ onFrameworkSelected, preselectedCategory }: Decis
       if (nextNode) {
         setCurrentNode(nextNode);
         setPath(prev => [...prev, currentNode.question]);
+        
+        // Update URL to reflect navigation to category-specific page
+        if (onNavigationChange && option.next) {
+          onNavigationChange(option.next);
+        }
       }
     }
   };
@@ -139,6 +145,10 @@ export function DecisionTree({ onFrameworkSelected, preselectedCategory }: Decis
       
       if (newPath.length === 0) {
         setCurrentNode(decisionTree);
+        // Back to main decision tree, clear category from URL
+        if (onNavigationChange) {
+          onNavigationChange();
+        }
       } else {
         setCurrentNode(decisionTree);
       }
