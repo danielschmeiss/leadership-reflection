@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import { Download, Edit, Trash2, Calendar, Tag, Star, CheckCircle, Target, Bot, Copy, AlertTriangle } from 'lucide-react';
+import { Download, Edit, Trash2, Calendar, Tag, Star, CheckCircle, Target, Bot, Copy, AlertTriangle } from './icons';
 import { Situation, QuestionResponse } from '../types';
 import { frameworks } from '../data/frameworks';
 import jsPDF from 'jspdf';

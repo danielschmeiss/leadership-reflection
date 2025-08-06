@@ -1,5 +1,5 @@
 import React from 'react';
-import { Play, BookOpen, TrendingUp, Target, Users, MessageSquare, GitBranch, BarChart3, ArrowRight, CheckCircle, Award, HelpCircle, Zap, Lightbulb } from 'lucide-react';
+import { Play, BookOpen, TrendingUp, Target, Users, MessageSquare, GitBranch, BarChart3, ArrowRight, CheckCircle, Award, HelpCircle, Zap, Lightbulb } from './icons';
 import { Logo } from './Logo';
 import content from '../data/content.json';
 

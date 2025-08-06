@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEffect } from 'react';
-import { Shield, Info, Bot, Settings } from 'lucide-react';
+import { Shield, Info, Bot, Settings } from './icons';
 import { useLocalLLM } from '../hooks/useLocalLLM';
 import { LocalLLMConfig } from './LocalLLMConfig';
 

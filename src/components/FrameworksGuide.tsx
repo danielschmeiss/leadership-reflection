@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Shield, MessageSquare, Users, Target, GitBranch, BarChart3, TrendingUp, FileText, UserPlus, Heart, Compass, Lightbulb, CheckCircle, List, ArrowRight, Play, ExternalLink, Copy, Link } from 'lucide-react';
+import { Shield, MessageSquare, Users, Target, GitBranch, BarChart3, TrendingUp, FileText, UserPlus, Heart, Compass, Lightbulb, CheckCircle, List, ArrowRight, Play, ExternalLink, Copy, Link } from './icons';
 
 interface FrameworksGuideProps {
   onStartReflection?: (category: string, subcategory: string) => void;

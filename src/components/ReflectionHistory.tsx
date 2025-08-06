@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Filter, Calendar, BookOpen, TrendingUp, Trophy, Target, Zap, Star } from 'lucide-react';
+import { Search, Filter, Calendar, BookOpen, TrendingUp, Trophy, Target, Zap, Star } from './icons';
 import { Situation, SituationCategory, QuestionResponse } from '../types';
 import { ReflectionSummary } from './ReflectionSummary';
 

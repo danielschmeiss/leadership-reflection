@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CheckCircle, Download, ArrowRight, Lightbulb, Target, Users, MessageSquare, Calendar, Bot, Copy, AlertTriangle, Star, Zap } from 'lucide-react';
+import { CheckCircle, Download, ArrowRight, Lightbulb, Target, Users, MessageSquare, Calendar, Bot, Copy, AlertTriangle, Star, Zap } from './icons';
 import { Framework, Situation, QuestionResponse } from '../types';
 import jsPDF from 'jspdf';
 

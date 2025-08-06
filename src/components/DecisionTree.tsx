@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
-import { ChevronRight, Target, Users, MessageSquare, GitBranch, Zap, ArrowLeft, ArrowRight, CheckCircle, Lightbulb, User, UserCheck, Building2, ThumbsUp, AlertTriangle, BarChart3, TrendingUp, FileText, Shield, UserPlus, Heart, Compass, MessageCircle, UserX, Handshake, ClipboardCheck, Megaphone, Settings } from 'lucide-react';
+import { 
+  ChevronRight, Target, Users, MessageSquare, GitBranch, Zap, ArrowLeft, ArrowRight, 
+  CheckCircle, Lightbulb, User, UserCheck, Building2, ThumbsUp, AlertTriangle, BarChart3, 
+  TrendingUp, FileText, Shield, UserPlus, Heart, Compass, MessageCircle, UserX, 
+  Handshake, ClipboardCheck, Megaphone, Settings 
+} from './icons';
 import { decisionTree, decisionTreeNodes } from '../data/frameworks';
 import { DecisionTreeNode, FrameworkType, SituationCategory } from '../types';
 import content from '../data/content.json';

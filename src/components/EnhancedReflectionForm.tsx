@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Save, ArrowRight, ArrowLeft, AlertCircle, HelpCircle, Lightbulb, CheckCircle, Target, Plus, X, Star, Bot, Settings, Loader, Wifi, Sparkles, ChevronRight, ChevronDown } from 'lucide-react';
+import { Save, ArrowRight, ArrowLeft, AlertCircle, HelpCircle, Lightbulb, CheckCircle, Target, Plus, X, Star, Bot, Settings, Loader, Wifi, Sparkles, ChevronRight, ChevronDown } from './icons';
 import ReactMarkdown from 'react-markdown';
 import { Framework, Question, QuestionResponse } from '../types';
 import { useLocalLLM } from '../hooks/useLocalLLM';

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Settings, Zap, CheckCircle, AlertCircle, X, Bot, Wifi, WifiOff, Loader, ChevronDown, ChevronRight, Shield, Link } from 'lucide-react';
+import { Settings, Zap, CheckCircle, AlertCircle, X, Bot, Wifi, WifiOff, Loader, ChevronDown, ChevronRight, Shield, Link } from './icons';
 import { useLocalLLM } from '../hooks/useLocalLLM';
 import { LocalLLMConfig as LLMConfig, DEFAULT_CONFIGS } from '../services/localLLM';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mail, Building, User, Shield } from 'lucide-react';
+import { Mail, Building, User, Shield } from './icons';
 
 export function Imprint() {
   return (
