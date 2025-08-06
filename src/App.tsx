@@ -570,6 +570,17 @@ function App() {
           'Actually improves relationships instead of creating resentment',
           'People get excited about improving instead of defensive about criticism'
         ]
+      },
+      'bound': {
+        title: 'BOUND Framework',
+        description: 'When stakeholders have unrealistic expectations, most people either cave in or push back defensively. BOUND helps you reset expectations using facts and collaborative problem-solving instead of conflict.',
+        whenToUse: 'Use when facing impossible deadlines, unrealistic scope demands, or when stakeholders don\'t understand technical constraints. Essential when you need to preserve relationships while setting realistic boundaries.',
+        keyBenefits: [
+          'Uses objective evidence instead of opinions to ground discussions in reality',
+          'Uncovers the real business drivers behind unrealistic requests',
+          'Creates collaborative solutions that stakeholders help develop and own',
+          'Documents agreements to prevent future scope creep and misunderstandings'
+        ]
       }
     };
 

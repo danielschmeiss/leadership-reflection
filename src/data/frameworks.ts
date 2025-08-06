@@ -642,7 +642,7 @@ const baseFrameworks: Record<string, Framework> = {
   bound: {
     id: 'bound',
     name: 'BOUND Framework',
-    description: 'Baseline, Objectivity, Understand, Negotiate, Document - Framework for resetting stakeholder expectations',
+    description: 'Framework for resetting stakeholder expectations',
     questions: [
       {
         id: 'baseline',
@@ -999,13 +999,13 @@ export const decisionTreeNodes: Record<string, DecisionTreeNode> = {
     question: 'What stakeholder challenge?',
     options: [
       {
-        text: 'Expectation management',
+        text: 'Expectation management - Reset unrealistic stakeholder demands using evidence-based negotiation',
         framework: 'bound',
         category: 'stakeholder',
         subcategory: 'expectation-management'
       },
       {
-        text: 'Alignment with leadership',
+        text: 'Alignment with leadership - Prepare for high-stakes conversations with strategic decision-makers',
         framework: 'alignment-canvas',
         category: 'stakeholder',
         subcategory: 'alignment-with-leadership'
