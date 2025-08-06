@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mail, Building, User } from 'lucide-react';
+import { Mail, Building, User, Shield } from 'lucide-react';
 
 export function Imprint() {
   return (
@@ -52,6 +52,41 @@ export function Imprint() {
         </div>
       </div>
 
+      {/* Privacy Information */}
+      <div className="bg-emerald-50 rounded-2xl p-6 border border-emerald-200">
+        <div className="flex items-start gap-3">
+          <div className="p-2 bg-emerald-600 rounded-lg text-white">
+            <Shield className="w-5 h-5" />
+          </div>
+          <div>
+            <h4 className="font-semibold text-emerald-900 mb-3">Privacy & Data Collection</h4>
+            <div className="space-y-3">
+              <p className="text-emerald-800 text-sm">
+                <strong>Your reflection data:</strong> All personal reflections and responses are stored locally on your 
+                device using browser localStorage. No personal information or reflection content is transmitted to external servers.
+              </p>
+              <p className="text-emerald-800 text-sm">
+                <strong>Analytics:</strong> We use Vercel Analytics and SpeedInsights to understand how users interact with 
+                the tool (page views, navigation patterns, performance metrics). These services collect anonymous usage data 
+                to help us improve the user experience. No personal identifiers or reflection content is included.
+              </p>
+              <p className="text-emerald-800 text-sm">
+                For more information about Vercel's data handling, please see{' '}
+                <a 
+                  href="https://vercel.com/legal/privacy-policy" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-emerald-600 hover:text-emerald-700 underline hover:no-underline transition-all"
+                >
+                  Vercel's Privacy Policy
+                </a>
+                .
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Additional Information */}
       <div className="bg-blue-50 rounded-2xl p-6 border border-blue-200">
         <div className="flex items-start gap-3">
@@ -62,8 +97,7 @@ export function Imprint() {
             <h4 className="font-semibold text-blue-900 mb-2">About This Service</h4>
             <p className="text-blue-800 text-sm">
               Reflect & Act is a privacy-focused leadership reflection tool designed to help engineering leaders 
-              navigate situational challenges through structured frameworks. All data is stored locally on your 
-              device and no personal information is collected or transmitted.
+              navigate situational challenges through structured frameworks.
             </p>
           </div>
         </div>
