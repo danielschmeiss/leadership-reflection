@@ -169,6 +169,9 @@ function App() {
       });
     } else if (route === 'decision-tree' && category) {
       setSession({ category } as Partial<ReflectionSession>);
+    } else if (route === 'decision-tree' && !category) {
+      // Main decision tree, clear any category-specific session
+      setSession(null);
     } else if (route === 'reflection' || route === 'reflection-complete') {
       // If missing required params, redirect to decision tree
       setCurrentState('decision-tree');
@@ -212,6 +215,10 @@ function App() {
         });
       } else if (route === 'decision-tree' && category) {
         setSession({ category } as Partial<ReflectionSession>);
+      } else if (route === 'decision-tree' && !category) {
+        // Back to main decision tree, clear any category-specific session
+        setSession(null);
+        setViewingReflection(null);
       } else if (route === 'reflection' || route === 'reflection-complete') {
         // If missing required params, redirect to decision tree
         setCurrentState('decision-tree');

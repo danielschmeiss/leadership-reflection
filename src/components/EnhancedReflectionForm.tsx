@@ -74,7 +74,7 @@ export function EnhancedReflectionForm({
 
   const canProceed = isQuestionValid(currentQuestion);
   
-  // Check if this should use accordion layout (conflict and feedback reflections)
+  // Check if this should use accordion layout (conflict, feedback, decision, and stakeholder reflections)
   const useAccordionLayout = (category === 'conflict' && (
     subcategory === 'with-team-member' || 
     subcategory === 'between-team-members' || 
@@ -83,6 +83,13 @@ export function EnhancedReflectionForm({
     subcategory === 'positive' || 
     subcategory === 'developmental' || 
     subcategory === 'peer-to-peer-feedback-facilitation'
+  )) || (category === 'decision' && (
+    subcategory === 'operational' || 
+    subcategory === 'strategic' || 
+    subcategory === 'ownership-accountability-gaps'
+  )) || (category === 'stakeholder' && (
+    subcategory === 'alignment-with-leadership' ||
+    subcategory === 'expectation-management'
   ));
   
   // Update AI suggestion display when current question changes
@@ -283,23 +290,63 @@ ${responses[currentQuestion.id] ? `My draft: ${convertResponseToText(responses[c
                     <div key={`${ref.questionId}-${index}-${JSON.stringify(referencedData)}`} className="bg-blue-50 border border-blue-200 rounded-xl p-4">
                       <h5 className="font-medium text-blue-900 mb-2">{ref.label}</h5>
                       <div className="text-sm text-blue-800">
-                        {Array.isArray(referencedData) ? (
-                          <ul className="list-disc list-inside space-y-1">
-                            {referencedData.map((item, i) => (
-                              <li key={i}>{item}</li>
-                            ))}
-                          </ul>
-                        ) : typeof referencedData === 'object' ? (
-                          <div className="space-y-2">
-                            {Object.entries(referencedData).map(([key, value]) => (
-                              <div key={key} className="border-l-2 border-blue-300 pl-3">
-                                <strong>{key}:</strong> {value}
-                              </div>
-                            ))}
-                          </div>
-                        ) : (
-                          <div>{referencedData}</div>
-                        )}
+{(() => {
+                          const response = responses[ref.questionId];
+                          if (!response) return <div>{String(referencedData)}</div>;
+
+                          switch (response.type) {
+                            case 'scoring-matrix':
+                              return <ScoringMatrixVisualization data={referencedData} />;
+                            case 'itemized-analysis':
+                              return <ItemizedAnalysisVisualization data={referencedData} />;
+                            case 'enumeration':
+                              return (
+                                <ul className="list-disc list-inside space-y-1">
+                                  {Array.isArray(referencedData) ? referencedData.map((item, i) => (
+                                    <li key={i}>{item}</li>
+                                  )) : null}
+                                </ul>
+                              );
+                            case 'matrix':
+                              return Array.isArray(referencedData) ? (
+                                <ul className="list-disc list-inside space-y-1">
+                                  {referencedData.map((item, i) => (
+                                    <li key={i}>{item}</li>
+                                  ))}
+                                </ul>
+                              ) : (
+                                <div className="space-y-2">
+                                  {typeof referencedData === 'object' ? Object.entries(referencedData).map(([key, value]) => (
+                                    <div key={key} className="border-l-2 border-blue-300 pl-3">
+                                      <strong>{key}:</strong> {typeof value === 'object' ? JSON.stringify(value) : String(value)}
+                                    </div>
+                                  )) : null}
+                                </div>
+                              );
+                            default:
+                              if (Array.isArray(referencedData)) {
+                                return (
+                                  <ul className="list-disc list-inside space-y-1">
+                                    {referencedData.map((item, i) => (
+                                      <li key={i}>{item}</li>
+                                    ))}
+                                  </ul>
+                                );
+                              } else if (typeof referencedData === 'object') {
+                                return (
+                                  <div className="space-y-2">
+                                    {Object.entries(referencedData).map(([key, value]) => (
+                                      <div key={key} className="border-l-2 border-blue-300 pl-3">
+                                        <strong>{key}:</strong> {typeof value === 'object' ? JSON.stringify(value) : String(value)}
+                                      </div>
+                                    ))}
+                                  </div>
+                                );
+                              } else {
+                                return <div>{String(referencedData)}</div>;
+                              }
+                          }
+                        })()}
                       </div>
                     </div>
                   );
@@ -376,30 +423,65 @@ ${responses[currentQuestion.id] ? `My draft: ${convertResponseToText(responses[c
       case 'itemized-analysis':
         const referencedItems = getReferencedData(currentQuestion.referencedQuestion) as string[];
         return (
-          <ItemizedAnalysisInput
-            question={currentQuestion}
-            items={referencedItems || []}
-            responses={(responses[currentQuestion.id] as { type: 'itemized-analysis'; items: { [key: string]: string } })?.items || {}}
-            onChange={(items) => setResponses(prev => ({
-              ...prev,
-              [currentQuestion.id]: { type: 'itemized-analysis', items }
-            }))}
-            onItemsChange={(newItems) => {
-              // When referenced items change, update the response to match
-              const currentResponses = (responses[currentQuestion.id] as { type: 'itemized-analysis'; items: { [key: string]: string } })?.items || {};
-              const updatedResponses: { [key: string]: string } = {};
-              
-              // Keep existing responses for items that still exist
-              newItems.forEach(item => {
-                updatedResponses[item] = currentResponses[item] || '';
-              });
-              
-              setResponses(prev => ({
-                ...prev,
-                [currentQuestion.id]: { type: 'itemized-analysis', items: updatedResponses }
-              }));
-            }}
-          />
+          <div className="space-y-4">
+            {currentQuestion.helpText && (
+              <div className="bg-amber-50 p-4 rounded-lg border border-amber-200">
+                <div className="flex items-start gap-3">
+                  <Lightbulb className="w-5 h-5 text-amber-600 mt-0.5 flex-shrink-0" />
+                  <div className="text-sm text-amber-800">{currentQuestion.helpText}</div>
+                </div>
+              </div>
+            )}
+            <div className={`grid gap-4 transition-all duration-1000 ease-in-out ${
+              showAiSuggestion ? 'grid-cols-1 lg:grid-cols-2' : 'grid-cols-1'
+            }`}>
+              <div className="space-y-2">
+                <ItemizedAnalysisInput
+                  question={currentQuestion}
+                  items={referencedItems || []}
+                  responses={(responses[currentQuestion.id] as { type: 'itemized-analysis'; items: { [key: string]: string } })?.items || {}}
+                  onChange={(items) => setResponses(prev => ({
+                    ...prev,
+                    [currentQuestion.id]: { type: 'itemized-analysis', items }
+                  }))}
+                  onItemsChange={(newItems) => {
+                    // When referenced items change, update the response to match
+                    const currentResponses = (responses[currentQuestion.id] as { type: 'itemized-analysis'; items: { [key: string]: string } })?.items || {};
+                    const updatedResponses: { [key: string]: string } = {};
+                    
+                    // Keep existing responses for items that still exist
+                    newItems.forEach(item => {
+                      updatedResponses[item] = currentResponses[item] || '';
+                    });
+                    
+                    setResponses(prev => ({
+                      ...prev,
+                      [currentQuestion.id]: { type: 'itemized-analysis', items: updatedResponses }
+                    }));
+                  }}
+                />
+              </div>
+              {showAiSuggestion && (
+                <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-4 overflow-y-auto animate-in slide-in-from-right-4 fade-in duration-1000 h-full min-h-[400px]">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-2">
+                      <Sparkles className="w-4 h-4 text-emerald-600" />
+                      <span className="text-sm font-medium text-emerald-900">AI Suggestions</span>
+                    </div>
+                    <button
+                      onClick={() => setShowAiSuggestion(false)}
+                      className="text-emerald-400 hover:text-emerald-600 transition-colors"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                  <div className="text-gray-800 leading-relaxed prose prose-sm max-w-none prose-headings:text-emerald-900 prose-strong:text-emerald-900 prose-em:text-emerald-800 prose-code:bg-white prose-code:px-1 prose-code:rounded prose-ul:text-gray-800 prose-ol:text-gray-800">
+                    <ReactMarkdown>{currentAiSuggestion}</ReactMarkdown>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
         );
 
       case 'scoring-matrix':
@@ -1153,90 +1235,45 @@ function ScoringMatrixVisualization({ data }: { data: { [option: string]: { [cri
     return <div className="text-gray-500 italic">No scoring data available</div>;
   }
 
-  // Calculate totals and rankings
-  const optionsWithTotals = options.map(option => ({
-    option,
-    total: criteria.reduce((sum, criterion) => sum + (data[option]?.[criterion] || 0), 0),
-    scores: data[option] || {}
-  })).sort((a, b) => b.total - a.total);
-
   return (
-    <div className="space-y-4">
-      <div className="text-sm font-medium text-blue-900 mb-2">Decision Matrix Results (Ranked by Total Score)</div>
-      
-      {/* Ranking Summary */}
-      <div className="grid gap-2 mb-4">
-        {optionsWithTotals.map((item, index) => (
-          <div key={item.option} className={`flex items-center justify-between p-3 rounded-lg border-2 ${
-            index === 0 ? 'border-green-400 bg-green-50' : 
-            index === 1 ? 'border-blue-400 bg-blue-50' : 
-            'border-gray-200 bg-gray-50'
-          }`}>
-            <div className="flex items-center gap-3">
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm ${
-                index === 0 ? 'bg-green-600 text-white' : 
-                index === 1 ? 'bg-blue-600 text-white' : 
-                'bg-gray-500 text-white'
-              }`}>
-                {index + 1}
-              </div>
-              <span className="font-medium text-gray-900">{item.option}</span>
-            </div>
-            <div className="flex items-center gap-4">
-              <div className="text-sm text-gray-600">
+    <div className="overflow-x-auto">
+      <table className="w-full border-collapse bg-white rounded-lg overflow-hidden shadow-sm">
+        <thead>
+          <tr className="bg-gray-50">
+            <th className="p-3 text-left font-semibold text-gray-900 border-b">Option</th>
+            {criteria.map(criterion => (
+              <th key={criterion} className="p-3 text-center font-semibold text-gray-900 border-b border-l">
+                {criterion}
+              </th>
+            ))}
+            <th className="p-3 text-center font-semibold text-gray-900 border-b border-l">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          {options.map((option, index) => {
+            const optionTotal = criteria.reduce((sum, criterion) => sum + (data[option]?.[criterion] || 0), 0);
+            return (
+              <tr key={option} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                <td className="p-3 font-medium text-gray-900 border-b">
+                  {option}
+                </td>
                 {criteria.map(criterion => (
-                  <span key={criterion} className="inline-block mr-2">
-                    {criterion}: {item.scores[criterion] || 0}
-                  </span>
+                  <td key={criterion} className="p-3 text-center border-b border-l">
+                    <div className="inline-flex items-center justify-center w-8 h-8 bg-blue-100 text-blue-800 rounded-lg font-medium">
+                      {data[option]?.[criterion] || 0}
+                    </div>
+                  </td>
                 ))}
-              </div>
-              <div className={`px-3 py-1 rounded-full text-sm font-bold ${
-                index === 0 ? 'bg-green-600 text-white' : 
-                index === 1 ? 'bg-blue-600 text-white' : 
-                'bg-gray-500 text-white'
-              }`}>
-                Total: {item.total}
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {optionsWithTotals.length > 0 && (
-        <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
-          <div className="flex items-center gap-2 mb-2">
-            <CheckCircle className="w-5 h-5 text-green-600" />
-            <span className="font-semibold text-green-900">
-              {(() => {
-                const topScore = optionsWithTotals[0].total;
-                const tiedOptions = optionsWithTotals.filter(item => item.total === topScore);
-                return tiedOptions.length > 1 ? 'Tied Options' : 'Recommended Choice';
-              })()}
-            </span>
-          </div>
-          <p className="text-green-800">
-            {(() => {
-              const topScore = optionsWithTotals[0].total;
-              const tiedOptions = optionsWithTotals.filter(item => item.total === topScore);
-              
-              if (tiedOptions.length > 1) {
-                return (
-                  <>
-                    <strong>{tiedOptions.map(item => item.option).join(', ')}</strong> are tied with <strong>{topScore} points</strong> each. 
-                    Consider reviewing the criteria weights or adding additional factors to break the tie.
-                  </>
-                );
-              } else {
-                return (
-                  <>
-                    <strong>{optionsWithTotals[0].option}</strong> scored highest with <strong>{optionsWithTotals[0].total} points</strong> total.
-                  </>
-                );
-              }
-            })()}
-          </p>
-        </div>
-      )}
+                <td className="p-3 text-center border-b border-l">
+                  <div className="inline-flex items-center justify-center w-12 h-8 bg-green-100 text-green-800 rounded-lg font-bold">
+                    {optionTotal}
+                  </div>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
     </div>
   );
 }

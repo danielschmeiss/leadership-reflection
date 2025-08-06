@@ -112,11 +112,16 @@ export function DecisionTree({ onFrameworkSelected, onNavigationChange, preselec
     }
   }, [preselectedCategory]);
 
-  // If a category is preselected, navigate directly to it
+  // Handle preselected category changes
   React.useEffect(() => {
     if (preselectedCategory && decisionTreeNodes[preselectedCategory]) {
+      // Navigate to specific category
       setCurrentNode(decisionTreeNodes[preselectedCategory]);
       setPath([decisionTree.question]);
+    } else if (!preselectedCategory) {
+      // Reset to main decision tree when no category is preselected
+      setCurrentNode(decisionTree);
+      setPath([]);
     }
   }, [preselectedCategory]);
 

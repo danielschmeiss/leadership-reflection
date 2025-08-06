@@ -580,43 +580,62 @@ const baseFrameworks: Record<string, Framework> = {
   },
   raci: {
     id: 'raci',
-    name: 'RACI/Alignment',
-    description: 'Framework for stakeholder alignment and role clarity',
+    name: 'RACI Matrix',
+    description: 'Clarify roles and responsibilities using the RACI framework',
     questions: [
       {
-        id: 'stakeholders',
-        text: 'Who are the key stakeholders involved?',
+        id: 'decision_or_task',
+        text: 'What specific decision or task needs role clarity?',
         type: 'textarea',
         required: true,
-        placeholder: 'Product Manager, Frontend Team, Backend Team, QA Team, DevOps, Security Team...'
+        placeholder: 'Launch of new payment integration feature',
+        helpText: 'Be specific about the decision, project, or task that needs clear roles and responsibilities defined.'
       },
       {
-        id: 'expectations',
-        text: 'What are their expectations?',
-        type: 'textarea',
+        id: 'people_roles',
+        text: 'Who are all the people/roles that should be considered?',
+        type: 'enumeration',
         required: true,
-        placeholder: 'Product wants features, Engineering needs stability, QA needs time'
+        itemLabel: 'Person/Role',
+        minItems: 3,
+        placeholder: 'Product Manager',
+        helpText: 'List all individuals, teams, or roles that might be involved. Include both obvious and potential stakeholders.'
       },
       {
-        id: 'misunderstandings',
-        text: 'Where do misunderstandings or conflicting goals exist?',
-        type: 'textarea',
+        id: 'responsible',
+        text: 'Who is RESPONSIBLE for doing the work?',
+        type: 'itemized-analysis',
         required: true,
-        placeholder: 'Product wants features vs Engineering stability, unclear QA scope, unsure deployment windows, API timeline assumptions...'
+        referencedQuestion: 'people_roles',
+        analysisPrompt: 'What specific work is this person/role responsible for doing?',
+        helpText: 'Responsible = who actually does the work. Each person should have clear, specific tasks they will execute.'
       },
       {
-        id: 'transparency',
-        text: 'How will you create transparency around status and decisions?',
+        id: 'accountable',
+        text: 'Who is ACCOUNTABLE for the final outcome?',
         type: 'textarea',
         required: true,
-        placeholder: 'Weekly status updates, decision log, stakeholder review meetings'
+        references: [{ questionId: 'people_roles', label: 'People/Roles to consider' }],
+        placeholder: 'Product Manager is ultimately accountable for successful launch and user adoption metrics',
+        helpText: 'Accountable = who is ultimately answerable for the success or failure. Usually one person who has final decision authority.'
       },
       {
-        id: 'roles',
-        text: 'How do you ensure everyone understands their role?',
-        type: 'textarea',
+        id: 'consulted',
+        text: 'Who needs to be CONSULTED for input before decisions?',
+        type: 'itemized-analysis',
         required: true,
-        placeholder: 'RACI matrix, documented decision authority, clear escalation paths'
+        referencedQuestion: 'people_roles',
+        analysisPrompt: 'What input or expertise does this person/role need to provide?',
+        helpText: 'Consulted = who provides expertise, input, or approval before work happens. Two-way communication.'
+      },
+      {
+        id: 'informed',
+        text: 'Who needs to be INFORMED about progress and decisions?',
+        type: 'itemized-analysis',
+        required: true,
+        referencedQuestion: 'people_roles',
+        analysisPrompt: 'What information does this person/role need and when?',
+        helpText: 'Informed = who needs to know about decisions and progress but does not provide input. One-way communication.'
       }
     ]
   },
