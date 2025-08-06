@@ -521,7 +521,7 @@ function App() {
         ]
       },
       'alignment-canvas': {
-        title: 'Alignment Canvas',
+        title: 'Stakeholder Alignment Framework',
         description: 'Most people go into leadership meetings hoping to "wing it" or with a vague sense of what they need. This framework forces you to organize your evidence and anticipate the questions you\'ll get.',
         whenToUse: 'Use before any meeting where you need leadership buy-in, budget approval, or strategic decisions. Essential when the stakes are high and you only get one shot.',
         keyBenefits: [

@@ -137,7 +137,7 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
     // STAKEHOLDER FRAMEWORKS
     {
       id: 'alignment-canvas',
-      title: 'Alignment Canvas',
+      title: 'Stakeholder Alignment Framework',
       icon: <Target className="w-6 h-6" />,
       color: 'from-emerald-500 to-emerald-600',
       usedFor: [
@@ -614,23 +614,23 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
                       switch(frameworkId) {
                         case 'sbi':
                           return [
-                            { title: "Center for Creative Leadership - SBI Model", url: "https://www.ccl.org/articles/leading-effectively-articles/closing-the-gap-between-intent-vs-impact-sbii/", description: "Official guide from CCL on using SBI for feedback" },
-                            { title: "Harvard Business Review - The Right Way to Give Feedback", url: "https://hbr.org/2016/01/the-right-way-to-hold-people-accountable", description: "Research-backed approach to effective feedback conversations" }
+                            { title: "PM101 - The SBI Feedback Framework", url: "https://medium.com/pm101/the-situation-behavior-impact-feedback-framework-e20ce52c9357", description: "Comprehensive guide to using the Situation-Behavior-Impact model" },
+                            { title: "CareerMinds - SBI Model Guide", url: "https://careerminds.com/blog/sbi-model-situation-behavior-impact", description: "Practical examples and implementation of the SBI feedback framework" }
                           ];
                         case 'mediation':
                           return [
-                            { title: "Harvard Negotiation Project - Getting to Yes", url: "https://www.pon.harvard.edu/daily/negotiation-skills-daily/what-is-the-getting-to-yes-negotiation-method/", description: "Harvard's foundational work on interest-based negotiation" },
-                            { title: "Conflict Resolution Network", url: "https://www.crnhq.org/conflict-resolution-skills/", description: "Practical mediation and conflict resolution techniques" }
+                            { title: "Harvard Business School - Getting to Yes Method", url: "https://www.pon.harvard.edu/shop/getting-to-yes/", description: "Harvard's foundational work on principled negotiation" },
+                            { title: "Beyond Intractability - Mediation", url: "https://www.beyondintractability.org/essay/mediation", description: "Comprehensive guide to mediation processes and techniques" }
                           ];
                         case 'interest-based-negotiation':
                           return [
-                            { title: "Harvard Business School - Negotiation", url: "https://www.pon.harvard.edu/daily/negotiation-skills-daily/principled-negotiation-the-basics/", description: "Principled negotiation framework from Harvard" },
-                            { title: "MIT Sloan - Systems Thinking for Negotiation", url: "https://mitsloan.mit.edu/ideas-made-to-matter/how-to-negotiate-when-stakes-are-high", description: "Advanced negotiation strategies for complex situations" }
+                            { title: "Harvard Program on Negotiation - Core Concepts", url: "https://www.pon.harvard.edu/category/daily-blog/", description: "Harvard's research on principled negotiation techniques" },
+                            { title: "Stanford Graduate School of Business - Negotiation", url: "https://www.gsb.stanford.edu/executive-education/programs/negotiation-strategies", description: "Advanced negotiation strategies and frameworks" }
                           ];
                         case 'decision-matrix':
                           return [
-                            { title: "McKinsey - Decision Making Framework", url: "https://www.mckinsey.com/capabilities/strategy-and-corporate-finance/our-insights/the-case-for-better-decision-making", description: "Strategic decision-making best practices" },
-                            { title: "MIT Technology Review - Decision Science", url: "https://www.technologyreview.com/2022/04/06/1048981/decision-making-frameworks-business/", description: "Research on systematic decision-making approaches" }
+                            { title: "Harvard Business Review - Making Better Decisions", url: "https://hbr.org/2013/11/making-better-decisions", description: "Research-backed approaches to strategic decision-making" },
+                            { title: "Decision Science News - Matrix Methods", url: "https://www.decisionsciencenews.com/", description: "Latest research on systematic decision-making frameworks" }
                           ];
                         case 'pros-cons':
                           return [
@@ -639,8 +639,8 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
                           ];
                         case 'grow':
                           return [
-                            { title: "International Coach Federation - GROW Model", url: "https://coachingfederation.org/blog/grow-coaching-model", description: "Official ICF resource on the GROW coaching framework" },
-                            { title: "Sir John Whitmore - Performance Coaching", url: "https://www.performanceconsultants.com/grow-model", description: "Original creator's guide to the GROW model" }
+                            { title: "Positive Psychology - GROW Coaching Model", url: "https://positivepsychology.com/grow-coaching-model/", description: "Comprehensive guide to the GROW model with practical examples and applications" },
+                            { title: "Wikipedia - GROW Model", url: "https://en.wikipedia.org/wiki/GROW_model", description: "Detailed overview of the GROW model's history, methodology, and variations" }
                           ];
                         case 'responsibility-mapping':
                           return [
@@ -649,23 +649,23 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
                           ];
                         case 'alignment-canvas':
                           return [
-                            { title: "McKinsey - Stakeholder Alignment", url: "https://www.mckinsey.com/capabilities/strategy-and-corporate-finance/our-insights/getting-organizational-alignment-right", description: "Strategic alignment best practices" },
-                            { title: "MIT Sloan - Executive Communication", url: "https://mitsloan.mit.edu/ideas-made-to-matter/how-to-communicate-up-organization", description: "Research on upward communication strategies" }
+                            { title: "LaunchNotes - Stakeholder Alignment Framework", url: "https://www.launchnotes.com/glossary/stakeholder-alignment-framework-in-product-management-and-operations", description: "Comprehensive guide to stakeholder alignment in product management and operations" },
+                            { title: "Simply Stakeholders - Stakeholder Alignment", url: "https://simplystakeholders.com/stakeholder-alignment", description: "Practical strategies and tools for achieving effective stakeholder alignment" }
                           ];
                         case 'delegation-empowerment':
                           return [
-                            { title: "Center for Creative Leadership - Delegation", url: "https://www.ccl.org/articles/leading-effectively-articles/delegation-how-to-delegate-effectively/", description: "Research-backed delegation strategies" },
-                            { title: "Harvard Business Review - Empowerment", url: "https://hbr.org/1995/07/empowerment-the-emperors-new-clothes", description: "Seminal HBR article on effective empowerment" }
+                            { title: "Your Thought Partner - Benefits of Delegation", url: "https://www.yourthoughtpartner.com/blog/the-benefits-of-delegation-and-why-most-leaders-under-delegate", description: "Comprehensive guide on delegation benefits and why leaders struggle with it" },
+                            { title: "PMC - Empowerment Research Study", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC9806223", description: "Peer-reviewed research on empowerment strategies and organizational effectiveness" }
                           ];
                         case 'five-dysfunctions':
                           return [
-                            { title: "Patrick Lencioni - Official Resources", url: "https://www.tablegroup.com/topics-and-resources/teamwork/", description: "Original author's resources on team dysfunction" },
-                            { title: "Jossey-Bass Leadership Research", url: "https://www.wiley.com/en-us/The+Five+Dysfunctions+of+a+Team%3A+A+Leadership+Fable-p-9780787960759", description: "Academic research on team effectiveness models" }
+                            { title: "Patrick Lencioni - The Table Group Official Guide", url: "https://www.tablegroup.com/topics-and-resources/teamwork-5-dysfunctions", description: "Original author's comprehensive resource on the 5 dysfunctions framework" },
+                            { title: "Kaizenko - 5 Dysfunctions Guide for Leaders", url: "https://www.kaizenko.com/lencionis-5-dysfunctions-of-a-team-a-guide-for-product-leaders", description: "Practical application guide for implementing the 5 dysfunctions model in leadership" }
                           ];
                         case 'feedforward-coaching':
                           return [
-                            { title: "Marshall Goldsmith - Feedforward", url: "https://www.marshallgoldsmith.com/articles/try-feedforward-instead-feedback/", description: "Original creator's explanation of the feedforward concept" },
-                            { title: "Center for Creative Leadership - Future-Focused Feedback", url: "https://www.ccl.org/articles/leading-effectively-articles/hr-pipeline-future-focused-feedback/", description: "Research on forward-looking feedback approaches" }
+                            { title: "Small Improvements - The Feedforward Approach", url: "https://www.small-improvements.com/blog/feedback-too-critical-try-the-feedforward-approach/", description: "Practical guide to implementing feedforward instead of traditional feedback" },
+                            { title: "Global Coach Group - What is Feedforward?", url: "https://globalcoachgroup.com/what-is-feedforward/", description: "Comprehensive explanation of feedforward principles and applications" }
                           ];
                         default:
                           return [];
