@@ -268,12 +268,25 @@ export function FrameworksGuide({ onStartReflection }: FrameworksGuideProps) {
                     {framework.icon}
                   </div>
                   <div className="flex-1">
-                    <h4 className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors mb-1">
+                    <h4 className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors mb-2">
                       {framework.title}
                     </h4>
-                    <p className="text-sm text-gray-700 leading-relaxed">
-                      {framework.whenToUse.substring(0, 100)}...
-                    </p>
+                    <ul className="text-sm text-gray-700 space-y-1">
+                      {framework.id === 'sbi' && (
+                        <>
+                          <li>• Specific behavior feedback</li>
+                          <li>• Clear impact explanation</li>
+                          <li>• Reduces defensiveness</li>
+                        </>
+                      )}
+                      {framework.id === 'feedforward-coaching' && (
+                        <>
+                          <li>• Future-focused feedback</li>
+                          <li>• Eliminates defensiveness</li>
+                          <li>• Builds team relationships</li>
+                        </>
+                      )}
+                    </ul>
                   </div>
                 </button>
               ))}
@@ -300,12 +313,25 @@ export function FrameworksGuide({ onStartReflection }: FrameworksGuideProps) {
                     {framework.icon}
                   </div>
                   <div className="flex-1">
-                    <h4 className="font-semibold text-gray-900 group-hover:text-amber-600 transition-colors mb-1">
+                    <h4 className="font-semibold text-gray-900 group-hover:text-amber-600 transition-colors mb-2">
                       {framework.title}
                     </h4>
-                    <p className="text-sm text-gray-700 leading-relaxed">
-                      {framework.whenToUse.substring(0, 100)}...
-                    </p>
+                    <ul className="text-sm text-gray-700 space-y-1">
+                      {framework.id === 'mediation' && (
+                        <>
+                          <li>• Two people arguing/avoiding</li>
+                          <li>• Find common interests</li>
+                          <li>• Preserve relationships</li>
+                        </>
+                      )}
+                      {framework.id === 'interest-based-negotiation' && (
+                        <>
+                          <li>• Cross-team conflicts</li>
+                          <li>• Competing priorities</li>
+                          <li>• "How do we both win?"</li>
+                        </>
+                      )}
+                    </ul>
                   </div>
                 </button>
               ))}
@@ -332,12 +358,32 @@ export function FrameworksGuide({ onStartReflection }: FrameworksGuideProps) {
                     {framework.icon}
                   </div>
                   <div className="flex-1">
-                    <h4 className="font-semibold text-gray-900 group-hover:text-purple-600 transition-colors mb-1">
+                    <h4 className="font-semibold text-gray-900 group-hover:text-purple-600 transition-colors mb-2">
                       {framework.title}
                     </h4>
-                    <p className="text-sm text-gray-700 leading-relaxed">
-                      {framework.whenToUse.substring(0, 100)}...
-                    </p>
+                    <ul className="text-sm text-gray-700 space-y-1">
+                      {framework.id === 'decision-matrix' && (
+                        <>
+                          <li>• 3+ viable options</li>
+                          <li>• Objective scoring</li>
+                          <li>• Clear reasoning</li>
+                        </>
+                      )}
+                      {framework.id === 'pros-cons' && (
+                        <>
+                          <li>• Strategic decisions</li>
+                          <li>• Long-term impact</li>
+                          <li>• Second-order effects</li>
+                        </>
+                      )}
+                      {framework.id === 'responsibility-mapping' && (
+                        <>
+                          <li>• Who does what (RACI)</li>
+                          <li>• Eliminate dropped tasks</li>
+                          <li>• Clear decision authority</li>
+                        </>
+                      )}
+                    </ul>
                   </div>
                 </button>
               ))}
@@ -364,12 +410,18 @@ export function FrameworksGuide({ onStartReflection }: FrameworksGuideProps) {
                     {framework.icon}
                   </div>
                   <div className="flex-1">
-                    <h4 className="font-semibold text-gray-900 group-hover:text-emerald-600 transition-colors mb-1">
+                    <h4 className="font-semibold text-gray-900 group-hover:text-emerald-600 transition-colors mb-2">
                       {framework.title}
                     </h4>
-                    <p className="text-sm text-gray-700 leading-relaxed">
-                      {framework.whenToUse.substring(0, 100)}...
-                    </p>
+                    <ul className="text-sm text-gray-700 space-y-1">
+                      {framework.id === 'alignment-canvas' && (
+                        <>
+                          <li>• Leadership buy-in meetings</li>
+                          <li>• Organize evidence</li>
+                          <li>• Anticipate questions</li>
+                        </>
+                      )}
+                    </ul>
                   </div>
                 </button>
               ))}
@@ -396,12 +448,25 @@ export function FrameworksGuide({ onStartReflection }: FrameworksGuideProps) {
                     {framework.icon}
                   </div>
                   <div className="flex-1">
-                    <h4 className="font-semibold text-gray-900 group-hover:text-rose-600 transition-colors mb-1">
+                    <h4 className="font-semibold text-gray-900 group-hover:text-rose-600 transition-colors mb-2">
                       {framework.title}
                     </h4>
-                    <p className="text-sm text-gray-700 leading-relaxed">
-                      {framework.whenToUse.substring(0, 100)}...
-                    </p>
+                    <ul className="text-sm text-gray-700 space-y-1">
+                      {framework.id === 'delegation-empowerment' && (
+                        <>
+                          <li>• You're the bottleneck</li>
+                          <li>• Develop judgment</li>
+                          <li>• Clear boundaries</li>
+                        </>
+                      )}
+                      {framework.id === 'five-dysfunctions' && (
+                        <>
+                          <li>• Team feels "off"</li>
+                          <li>• Polite but unproductive</li>
+                          <li>• Trust foundation</li>
+                        </>
+                      )}
+                    </ul>
                   </div>
                 </button>
               ))}
@@ -428,12 +493,18 @@ export function FrameworksGuide({ onStartReflection }: FrameworksGuideProps) {
                     {framework.icon}
                   </div>
                   <div className="flex-1">
-                    <h4 className="font-semibold text-gray-900 group-hover:text-gray-600 transition-colors mb-1">
+                    <h4 className="font-semibold text-gray-900 group-hover:text-gray-600 transition-colors mb-2">
                       {framework.title}
                     </h4>
-                    <p className="text-sm text-gray-700 leading-relaxed">
-                      {framework.whenToUse.substring(0, 100)}...
-                    </p>
+                    <ul className="text-sm text-gray-700 space-y-1">
+                      {framework.id === 'grow' && (
+                        <>
+                          <li>• Stuck on complex problem</li>
+                          <li>• Goal-Reality-Options-Way</li>
+                          <li>• Clear next steps</li>
+                        </>
+                      )}
+                    </ul>
                   </div>
                 </button>
               ))}
