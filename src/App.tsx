@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { SpeedInsights } from '@vercel/speed-insights/react';
-import { Analytics } from '@vercel/analytics/react';
+import React, { useState, useEffect, Suspense } from 'react';
+
+// Lazy load analytics components to prevent blocking initial render
+const SpeedInsights = React.lazy(() => import('@vercel/speed-insights/react').then(module => ({ default: module.SpeedInsights })));
+const Analytics = React.lazy(() => import('@vercel/analytics/react').then(module => ({ default: module.Analytics })));
 import { Layout } from './components/Layout';
 import { Dashboard } from './components/Dashboard';
 import { DecisionTree } from './components/DecisionTree';
@@ -759,8 +761,12 @@ function App() {
       >
         {renderContent()}
       </Layout>
-      <SpeedInsights />
-      <Analytics />
+      
+      {/* Load analytics asynchronously after main content */}
+      <Suspense fallback={null}>
+        <SpeedInsights />
+        <Analytics />
+      </Suspense>
     </>
   );
 }
