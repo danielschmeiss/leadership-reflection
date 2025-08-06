@@ -39,21 +39,18 @@ class LocalLLMService {
       try {
         return await this.tryOpenAIFormat(prompt, systemPrompt, maxTokens, temperature);
       } catch (error) {
-        console.debug('LM Studio OpenAI format failed:', error instanceof Error ? error.message : error);
       }
     } else {
       // For Ollama and others, try Ollama format first
       try {
         return await this.tryOllamaFormat(prompt, systemPrompt, maxTokens, temperature);
       } catch (error) {
-        console.debug('Ollama format failed:', error instanceof Error ? error.message : error);
       }
 
       // Then try OpenAI-compatible format (LM Studio, etc.)
       try {
         return await this.tryOpenAIFormat(prompt, systemPrompt, maxTokens, temperature);
       } catch (error) {
-        console.debug('OpenAI format failed:', error instanceof Error ? error.message : error);
       }
     }
 
@@ -61,7 +58,6 @@ class LocalLLMService {
     try {
       return await this.tryBasicChatFormat(prompt, systemPrompt, maxTokens, temperature);
     } catch (error) {
-      console.debug('Basic chat format failed:', error instanceof Error ? error.message : error);
     }
 
     return {
@@ -135,11 +131,6 @@ class LocalLLMService {
       throw new Error('Model name is required');
     }
 
-    console.log('LM Studio request:', {
-      url: `${this.config.baseUrl}/v1/chat/completions`,
-      messages: requestBody.messages,
-      model: requestBody.model
-    });
 
     const response = await fetch(`${this.config.baseUrl}/v1/chat/completions`, {
       method: 'POST',
@@ -164,12 +155,10 @@ class LocalLLMService {
     }
 
     const data = await response.json();
-    console.log('LM Studio success response:', data);
     
     const responseText = data.choices?.[0]?.message?.content || data.choices?.[0]?.text || '';
     
     if (!responseText) {
-      console.warn('No response text found in:', data);
     }
     
     return {
@@ -209,7 +198,6 @@ class LocalLLMService {
   // Test connection to local LLM with LM Studio compatible approach
   async testConnection(): Promise<{ success: boolean; error?: string }> {
     try {
-      console.log('Testing connection to:', this.config.baseUrl, 'with model:', this.config.model);
       
       // For LM Studio, go directly to OpenAI-compatible format
       // Send a simple test message
@@ -221,10 +209,8 @@ class LocalLLMService {
       );
 
       if (result.text && result.text.trim()) {
-        console.log('Connection test successful, got response:', result.text);
         return { success: true };
       } else {
-        console.warn('Connection test failed, no text in response:', result);
         return { success: false, error: result.error || 'No response from local LLM' };
       }
     } catch (error) {

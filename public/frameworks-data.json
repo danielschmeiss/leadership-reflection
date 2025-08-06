@@ -1,0 +1,333 @@
+{
+  "meta": {
+    "title": "Leadership Frameworks Database",
+    "description": "Comprehensive collection of leadership frameworks available in Reflect & Act",
+    "version": "1.0",
+    "lastUpdated": "2025-01-08",
+    "totalFrameworks": 11,
+    "categories": ["feedback", "conflict", "decision", "stakeholder", "team-dynamics", "other"]
+  },
+  "frameworks": {
+    "sbi": {
+      "id": "sbi",
+      "name": "SBI Framework",
+      "fullName": "Situation-Behavior-Impact Framework",
+      "category": "feedback",
+      "subcategories": ["positive", "developmental"],
+      "description": "A three-step structure for giving effective feedback by focusing on observable facts rather than personality traits",
+      "purpose": "Eliminate defensiveness and provide specific, actionable feedback",
+      "whenToUse": "When someone did something specific that had a clear impact - either positive (to reinforce) or problematic (to change)",
+      "structure": {
+        "S": "Situation - Describe the specific context when the behavior occurred",
+        "B": "Behavior - Explain the observable actions or behaviors (facts, not interpretations)",
+        "I": "Impact - Describe the effect or consequences of the behavior"
+      },
+      "keyBenefits": [
+        "Reduces defensiveness by focusing on facts, not personality",
+        "Creates clear cause-and-effect understanding",
+        "Makes feedback specific and actionable",
+        "Works for both positive reinforcement and developmental feedback"
+      ],
+      "targetAudience": "Engineering leaders giving feedback to team members",
+      "complexity": "Low",
+      "timeToComplete": "5-10 minutes"
+    },
+    "grow": {
+      "id": "grow",
+      "name": "GROW Model",
+      "fullName": "Goal-Reality-Options-Will Framework",
+      "category": "other",
+      "subcategories": ["free-reflection"],
+      "description": "A four-step coaching model for structured problem-solving and goal achievement",
+      "purpose": "Guide systematic thinking from current reality to actionable next steps",
+      "whenToUse": "When stuck on complex problems, going in circles, or coaching someone who says 'I don't know what to do'",
+      "structure": {
+        "G": "Goal - Define what success looks like and desired outcomes",
+        "R": "Reality - Assess the current situation objectively",
+        "O": "Options - Generate multiple possible solutions and approaches",
+        "W": "Will/Way Forward - Commit to specific actions with timelines"
+      },
+      "keyBenefits": [
+        "Prevents solving the wrong problem by clarifying goals first",
+        "Uncovers options missed due to narrow focus",
+        "Transforms vague intentions into specific action steps",
+        "Effective for both self-reflection and coaching others"
+      ],
+      "targetAudience": "Leaders coaching team members or self-reflecting on complex challenges",
+      "complexity": "Medium",
+      "timeToComplete": "10-15 minutes"
+    },
+    "mediation": {
+      "id": "mediation",
+      "name": "Mediation Framework",
+      "fullName": "Conflict Resolution Mediation",
+      "category": "conflict",
+      "subcategories": ["with-team-member", "between-team-members"],
+      "description": "Structured approach to resolving interpersonal conflicts by focusing on underlying interests rather than positions",
+      "purpose": "Transform conflicts from adversarial positions to collaborative problem-solving",
+      "whenToUse": "When people are stuck arguing, avoiding each other, or when conflict affects team dynamics",
+      "structure": {
+        "positions": "Identify what each party is demanding or insisting upon",
+        "interests": "Uncover the real needs, concerns, and motivations behind positions",
+        "options": "Generate solutions that address underlying interests",
+        "agreement": "Create mutually acceptable resolution both parties help develop"
+      },
+      "keyBenefits": [
+        "Gets past surface arguments to real underlying problems",
+        "Preserves working relationships instead of creating winners/losers",
+        "Both parties own the solution because they helped create it",
+        "Addresses root causes to prevent recurring conflicts"
+      ],
+      "targetAudience": "Leaders mediating conflicts between team members or resolving personal conflicts",
+      "complexity": "High",
+      "timeToComplete": "15-20 minutes"
+    },
+    "decision-matrix": {
+      "id": "decision-matrix",
+      "name": "Decision Matrix",
+      "fullName": "Weighted Decision Matrix Analysis",
+      "category": "decision", 
+      "subcategories": ["operational"],
+      "description": "Systematic evaluation of multiple options against weighted criteria to make objective decisions",
+      "purpose": "Remove emotional bias and provide clear rationale for complex decisions",
+      "whenToUse": "When facing 3+ viable options, need to justify decisions to others, or experiencing decision paralysis",
+      "structure": {
+        "criteria": "Define what factors matter most for this decision",
+        "weights": "Assign importance scores to each criteria",
+        "options": "List all viable alternatives being considered", 
+        "scoring": "Rate each option against each criteria",
+        "calculation": "Multiply scores by weights to determine optimal choice"
+      },
+      "keyBenefits": [
+        "Breaks decision paralysis with clear winner based on priorities",
+        "Shows transparent reasoning process to stakeholders",
+        "Forces consideration of all relevant factors",
+        "Creates reusable template for similar future decisions"
+      ],
+      "targetAudience": "Leaders making operational team decisions with multiple stakeholders",
+      "complexity": "Medium",
+      "timeToComplete": "10-15 minutes"
+    },
+    "interest-based-negotiation": {
+      "id": "interest-based-negotiation", 
+      "name": "Interest-Based Negotiation",
+      "fullName": "Principled Negotiation Framework",
+      "category": "conflict",
+      "subcategories": ["cross-team-conflict"],
+      "description": "Harvard-developed approach to resolve conflicts by focusing on mutual interests rather than opposing positions",
+      "purpose": "Transform cross-team conflicts from zero-sum competition to collaborative problem-solving",
+      "whenToUse": "When teams are blocking each other, have competing priorities, or need solutions both will actually implement",
+      "structure": {
+        "separate": "Separate people from the problem - focus on issues not personalities",
+        "interests": "Focus on underlying interests, not stated positions",
+        "options": "Generate multiple options for mutual gain",
+        "criteria": "Use objective criteria to evaluate solutions"
+      },
+      "keyBenefits": [
+        "Stops destructive 'us vs them' dynamics",
+        "Identifies real constraints each team faces",
+        "Creates solutions making both teams more successful",
+        "Builds relationships preventing future conflicts"
+      ],
+      "targetAudience": "Leaders resolving conflicts between different teams or departments",
+      "complexity": "High",
+      "timeToComplete": "15-25 minutes"
+    },
+    "pros-cons": {
+      "id": "pros-cons",
+      "name": "Pros/Cons Analysis",
+      "fullName": "Strategic Pros and Cons Analysis",
+      "category": "decision",
+      "subcategories": ["strategic"],
+      "description": "Enhanced pros/cons evaluation considering second-order effects and long-term implications",
+      "purpose": "Make strategic decisions by analyzing comprehensive advantages and disadvantages",
+      "whenToUse": "For decisions with significant long-term impact, when justifying choices to leadership, or when obvious choice feels wrong",
+      "structure": {
+        "immediate": "List direct pros and cons of each option",
+        "secondary": "Consider second-order effects and unintended consequences", 
+        "stakeholders": "Identify who is affected and how",
+        "timeline": "Evaluate short-term vs long-term implications",
+        "alignment": "Assess fit with strategic goals and values"
+      },
+      "keyBenefits": [
+        "Uncovers hidden costs and unexpected benefits",
+        "Forces consideration of long-term strategic alignment",
+        "Identifies stakeholder impact and consultation needs",
+        "Creates clear record of reasoning for future reference"
+      ],
+      "targetAudience": "Senior leaders making strategic organizational decisions",
+      "complexity": "Medium",
+      "timeToComplete": "15-20 minutes"
+    },
+    "responsibility-mapping": {
+      "id": "responsibility-mapping",
+      "name": "RACI Matrix",
+      "fullName": "Responsible-Accountable-Consulted-Informed Matrix",
+      "category": "decision",
+      "subcategories": ["ownership-accountability-gaps"],
+      "description": "Framework for clarifying roles and responsibilities in complex projects or decisions",
+      "purpose": "Eliminate confusion about who does what and prevent tasks from falling through cracks",
+      "whenToUse": "When tasks are dropped, people duplicate work, decisions are slow, or onboarding new team members",
+      "structure": {
+        "R": "Responsible - Who does the actual work to complete the task",
+        "A": "Accountable - Who is ultimately answerable for completion and has decision authority", 
+        "C": "Consulted - Who provides input and expertise before decisions are made",
+        "I": "Informed - Who needs to know about decisions and progress but doesn't provide input"
+      },
+      "keyBenefits": [
+        "Eliminates 'I thought someone else was doing that' problems",
+        "Speeds decisions by clarifying who has authority",
+        "Prevents work duplication and territorial conflicts",
+        "New team members immediately know who to ask about what"
+      ],
+      "targetAudience": "Leaders organizing complex projects with multiple stakeholders",
+      "complexity": "Medium",
+      "timeToComplete": "10-15 minutes"
+    },
+    "bound": {
+      "id": "bound",
+      "name": "BOUND Framework", 
+      "fullName": "Baseline-Objectivity-Understand-Negotiate-Document Framework",
+      "category": "stakeholder",
+      "subcategories": ["expectation-management"],
+      "description": "Five-step process for resetting unrealistic stakeholder expectations using evidence-based negotiation",
+      "purpose": "Reset unrealistic expectations while preserving relationships and achieving realistic outcomes",
+      "whenToUse": "When facing impossible deadlines, unrealistic scope demands, or stakeholders who don't understand technical constraints",
+      "structure": {
+        "B": "Baseline - Establish realistic situation based on facts, constraints, and current knowledge",
+        "O": "Objectivity - Use evidence and reasoning to ground discussions in reality rather than assumptions",
+        "U": "Understand - Discover underlying needs, concerns, and pressures shaping stakeholder expectations",
+        "N": "Negotiate - Frame balanced options and trade-offs leading to constructive decisions",
+        "D": "Document - Capture and share agreements to maintain clarity and alignment over time"
+      },
+      "keyBenefits": [
+        "Uses objective evidence instead of opinions for credibility",
+        "Uncovers real business drivers behind unrealistic requests",
+        "Creates collaborative solutions stakeholders help develop",
+        "Documents agreements preventing future scope creep"
+      ],
+      "targetAudience": "Technical leaders managing stakeholder expectations and project constraints",
+      "complexity": "High",
+      "timeToComplete": "15-25 minutes"
+    },
+    "alignment-canvas": {
+      "id": "alignment-canvas",
+      "name": "Stakeholder Alignment Framework",
+      "fullName": "Strategic Stakeholder Alignment Canvas",
+      "category": "stakeholder",
+      "subcategories": ["alignment-with-leadership"],
+      "description": "Comprehensive preparation framework for high-stakes leadership conversations requiring buy-in",
+      "purpose": "Organize evidence and anticipate questions for successful leadership engagement",
+      "whenToUse": "Before meetings requiring leadership buy-in, budget approval, or strategic decisions",
+      "structure": {
+        "context": "Situational background and why this matters now",
+        "proposal": "Clear recommendation with supporting rationale",
+        "evidence": "Data, metrics, and proof points supporting the proposal",
+        "objections": "Anticipated questions and concerns with prepared responses",
+        "alternatives": "Other options considered and why they were rejected",
+        "next-steps": "Specific actions and timelines if approved"
+      },
+      "keyBenefits": [
+        "Prevents awkward 'I hadn't thought of that' moments",
+        "Organizes arguments logically instead of jumping around",
+        "Dramatically increases success rate in high-stakes conversations", 
+        "Demonstrates strategic thinking matching leadership expectations"
+      ],
+      "targetAudience": "Leaders preparing for executive presentations and strategic decision meetings",
+      "complexity": "High",
+      "timeToComplete": "20-30 minutes"
+    },
+    "delegation-empowerment": {
+      "id": "delegation-empowerment",
+      "name": "Delegation/Empowerment Framework",
+      "fullName": "Strategic Delegation and Empowerment Model",
+      "category": "team-dynamics",
+      "subcategories": ["ownership-clarity"],
+      "description": "Framework for effective delegation that develops people's judgment while maintaining appropriate oversight",
+      "purpose": "Empower team members with context and authority to make decisions within clear boundaries",
+      "whenToUse": "When you're the bottleneck for decisions, want to develop someone's judgment, or need things to happen without constant involvement",
+      "structure": {
+        "context": "Provide background on why this matters and how it fits bigger picture",
+        "authority": "Define decision-making authority and boundaries clearly", 
+        "resources": "Ensure access to necessary information, tools, and support",
+        "checkpoints": "Establish regular touchpoints for guidance and course correction",
+        "outcomes": "Define success criteria and how results will be measured"
+      },
+      "keyBenefits": [
+        "Develops people's judgment for better long-term decision making",
+        "Frees leaders from daily operational bottlenecks",
+        "Creates teams that function independently",
+        "Increases ownership and engagement through meaningful authority"
+      ],
+      "targetAudience": "Leaders developing team members and scaling organizational capacity",
+      "complexity": "Medium",
+      "timeToComplete": "10-15 minutes"
+    },
+    "five-dysfunctions": {
+      "id": "five-dysfunctions", 
+      "name": "Five Dysfunctions of a Team",
+      "fullName": "Lencioni's Five Dysfunctions Assessment",
+      "category": "team-dynamics",
+      "subcategories": ["team-health-check"],
+      "description": "Hierarchical model identifying root causes of team dysfunction starting with trust as the foundation",
+      "purpose": "Diagnose team health issues and identify which dysfunction to address first for maximum impact",
+      "whenToUse": "When teams feel 'off' but you can't pinpoint why, meetings are polite but unproductive, or people seem disengaged",
+      "structure": {
+        "trust": "Absence of trust - team members don't feel safe being vulnerable with each other",
+        "conflict": "Fear of conflict - artificial harmony prevents productive disagreement", 
+        "commitment": "Lack of commitment - without healthy conflict, there's no real buy-in to decisions",
+        "accountability": "Avoidance of accountability - team members don't hold each other accountable",
+        "results": "Inattention to results - focus on individual goals over collective team success"
+      },
+      "keyBenefits": [
+        "Identifies root problems instead of treating symptoms",
+        "Shows which dysfunction to fix first since they build hierarchically",
+        "Based on research with thousands of teams across industries",
+        "Provides specific interventions for each level of team development"
+      ],
+      "targetAudience": "Team leaders diagnosing and improving team dynamics and performance",
+      "complexity": "High", 
+      "timeToComplete": "20-25 minutes"
+    },
+    "feedforward-coaching": {
+      "id": "feedforward-coaching",
+      "name": "Feedforward Coaching",
+      "fullName": "Future-Focused Coaching Methodology",
+      "category": "feedback", 
+      "subcategories": ["peer-to-peer-feedback-facilitation"],
+      "description": "Coaching approach focused on future improvement rather than past mistakes to eliminate defensiveness",
+      "purpose": "Facilitate productive peer feedback conversations that build relationships rather than create resentment",
+      "whenToUse": "When facilitating feedback between team members, especially with existing tension or past feedback failures",
+      "structure": {
+        "future-focus": "Focus conversation on 'what would work better next time' instead of 'what went wrong'",
+        "specific-actions": "Generate concrete, actionable suggestions people can implement",
+        "strengths-based": "Build on existing strengths rather than just fixing weaknesses",
+        "ownership": "Let people choose which suggestions resonate and commit to trying",
+        "follow-up": "Establish check-ins to support implementation and recognize progress"
+      },
+      "keyBenefits": [
+        "Eliminates defensiveness by avoiding re-litigation of past mistakes",
+        "Creates specific actionable improvements instead of vague advice",
+        "Actually strengthens relationships through collaborative problem-solving",
+        "People get excited about growth instead of defensive about criticism"
+      ],
+      "targetAudience": "Leaders facilitating peer feedback and team member development conversations",
+      "complexity": "Medium",
+      "timeToComplete": "10-15 minutes"
+    }
+  },
+  "usagePatterns": {
+    "mostCommon": ["sbi", "grow", "decision-matrix"],
+    "beginnerFriendly": ["sbi", "pros-cons", "delegation-empowerment"],
+    "advanced": ["mediation", "interest-based-negotiation", "bound", "five-dysfunctions"],
+    "quickWins": ["sbi", "grow", "responsibility-mapping"],
+    "strategicImpact": ["alignment-canvas", "five-dysfunctions", "interest-based-negotiation"]
+  },
+  "integrations": {
+    "pdfExport": true,
+    "offlineCapable": true,
+    "mobileOptimized": true,
+    "aiAssistance": "Optional local LLM integration for suggestions",
+    "dataStorage": "100% local browser localStorage"
+  }
+}

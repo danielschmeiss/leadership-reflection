@@ -1,0 +1,99 @@
+{
+  "name": "Reflect & Act - Leadership Reflection Tool",
+  "short_name": "Reflect & Act",
+  "description": "Privacy-focused leadership reflection tool for engineering leaders. Navigate situational challenges through proven frameworks like SBI, GROW, RACI, mediation, and decision-making models. 100% local storage, offline capable.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3B82F6",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en-US",
+  "dir": "ltr",
+  "categories": ["productivity", "business", "education", "utilities"],
+  "screenshots": [
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "platform": "wide",
+      "label": "Reflect & Act dashboard showing leadership framework selection"
+    }
+  ],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/logo.png", 
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "512x512", 
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "features": [
+    "SBI Framework for structured feedback",
+    "GROW Model for goal-oriented coaching", 
+    "Mediation framework for conflict resolution",
+    "Decision matrices and pros/cons analysis",
+    "RACI responsibility mapping",
+    "BOUND framework for expectation management",
+    "Stakeholder alignment tools",
+    "Team dynamics assessment",
+    "100% local data storage",
+    "Offline functionality",
+    "PDF export capabilities"
+  ],
+  "shortcuts": [
+    {
+      "name": "Start New Reflection",
+      "short_name": "Reflect",
+      "description": "Begin a new leadership reflection using proven frameworks",
+      "url": "/decide",
+      "icons": [{"src": "/logo.png", "sizes": "96x96"}]
+    },
+    {
+      "name": "View Frameworks",
+      "short_name": "Frameworks", 
+      "description": "Browse all available leadership frameworks and their applications",
+      "url": "/frameworks",
+      "icons": [{"src": "/logo.png", "sizes": "96x96"}]
+    },
+    {
+      "name": "Reflection History",
+      "short_name": "History",
+      "description": "Review past reflections and track leadership development",
+      "url": "/history", 
+      "icons": [{"src": "/logo.png", "sizes": "96x96"}]
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "launch_handler": {
+    "client_mode": "navigate-new"
+  },
+  "handle_links": "preferred",
+  "capture_links": "new-client",
+  "protocol_handlers": [],
+  "file_handlers": [
+    {
+      "action": "/",
+      "accept": {
+        "application/pdf": [".pdf"]
+      },
+      "name": "Leadership Reflection PDF",
+      "launch_type": "single-client"
+    }
+  ]
+}
