@@ -247,26 +247,198 @@ export function FrameworksGuide({ onStartReflection }: FrameworksGuideProps) {
           </div>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {frameworks.map((framework) => (
-            <button
-              key={framework.id}
-              onClick={() => scrollToFramework(framework.id)}
-              className="flex items-center gap-3 p-4 bg-gray-50 hover:bg-gray-100 rounded-xl border border-gray-200 hover:border-gray-300 transition-all duration-200 text-left group"
-            >
-              <div className={`p-2 bg-gradient-to-r ${framework.color} rounded-lg text-white group-hover:scale-105 transition-transform`}>
-                {framework.icon}
+        <div className="space-y-8">
+          {/* Feedback Frameworks */}
+          <div>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-2 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg text-white">
+                <MessageSquare className="w-5 h-5" />
               </div>
-              <div className="flex-1 min-w-0">
-                <h3 className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
-                  {framework.title}
-                </h3>
-                <p className="text-sm text-gray-600 truncate">
-                  {framework.description.split('.')[0]}...
-                </p>
+              <h3 className="text-xl font-bold text-gray-900">Feedback</h3>
+              <div className="h-px bg-blue-200 flex-1"></div>
+            </div>
+            <div className="grid md:grid-cols-2 gap-4">
+              {frameworks.filter(f => f.usedFor.some(u => u.category === 'feedback')).map((framework) => (
+                <button
+                  key={framework.id}
+                  onClick={() => scrollToFramework(framework.id)}
+                  className="flex items-start gap-4 p-4 bg-blue-50 hover:bg-blue-100 rounded-xl border border-blue-200 hover:border-blue-300 transition-all duration-200 text-left group"
+                >
+                  <div className={`p-2 bg-gradient-to-r ${framework.color} rounded-lg text-white group-hover:scale-105 transition-transform flex-shrink-0`}>
+                    {framework.icon}
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors mb-1">
+                      {framework.title}
+                    </h4>
+                    <p className="text-sm text-gray-700 leading-relaxed">
+                      {framework.whenToUse.substring(0, 100)}...
+                    </p>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Conflict Frameworks */}
+          <div>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-2 bg-gradient-to-r from-amber-500 to-orange-600 rounded-lg text-white">
+                <Users className="w-5 h-5" />
               </div>
-            </button>
-          ))}
+              <h3 className="text-xl font-bold text-gray-900">Conflict</h3>
+              <div className="h-px bg-amber-200 flex-1"></div>
+            </div>
+            <div className="grid md:grid-cols-2 gap-4">
+              {frameworks.filter(f => f.usedFor.some(u => u.category === 'conflict')).map((framework) => (
+                <button
+                  key={framework.id}
+                  onClick={() => scrollToFramework(framework.id)}
+                  className="flex items-start gap-4 p-4 bg-amber-50 hover:bg-amber-100 rounded-xl border border-amber-200 hover:border-amber-300 transition-all duration-200 text-left group"
+                >
+                  <div className={`p-2 bg-gradient-to-r ${framework.color} rounded-lg text-white group-hover:scale-105 transition-transform flex-shrink-0`}>
+                    {framework.icon}
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="font-semibold text-gray-900 group-hover:text-amber-600 transition-colors mb-1">
+                      {framework.title}
+                    </h4>
+                    <p className="text-sm text-gray-700 leading-relaxed">
+                      {framework.whenToUse.substring(0, 100)}...
+                    </p>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Decision Frameworks */}
+          <div>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-2 bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg text-white">
+                <Target className="w-5 h-5" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900">Decision</h3>
+              <div className="h-px bg-purple-200 flex-1"></div>
+            </div>
+            <div className="grid md:grid-cols-2 gap-4">
+              {frameworks.filter(f => f.usedFor.some(u => u.category === 'decision')).map((framework) => (
+                <button
+                  key={framework.id}
+                  onClick={() => scrollToFramework(framework.id)}
+                  className="flex items-start gap-4 p-4 bg-purple-50 hover:bg-purple-100 rounded-xl border border-purple-200 hover:border-purple-300 transition-all duration-200 text-left group"
+                >
+                  <div className={`p-2 bg-gradient-to-r ${framework.color} rounded-lg text-white group-hover:scale-105 transition-transform flex-shrink-0`}>
+                    {framework.icon}
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="font-semibold text-gray-900 group-hover:text-purple-600 transition-colors mb-1">
+                      {framework.title}
+                    </h4>
+                    <p className="text-sm text-gray-700 leading-relaxed">
+                      {framework.whenToUse.substring(0, 100)}...
+                    </p>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Stakeholder Frameworks */}
+          <div>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-2 bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-lg text-white">
+                <GitBranch className="w-5 h-5" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900">Stakeholder</h3>
+              <div className="h-px bg-emerald-200 flex-1"></div>
+            </div>
+            <div className="grid md:grid-cols-2 gap-4">
+              {frameworks.filter(f => f.usedFor.some(u => u.category === 'stakeholder')).map((framework) => (
+                <button
+                  key={framework.id}
+                  onClick={() => scrollToFramework(framework.id)}
+                  className="flex items-start gap-4 p-4 bg-emerald-50 hover:bg-emerald-100 rounded-xl border border-emerald-200 hover:border-emerald-300 transition-all duration-200 text-left group"
+                >
+                  <div className={`p-2 bg-gradient-to-r ${framework.color} rounded-lg text-white group-hover:scale-105 transition-transform flex-shrink-0`}>
+                    {framework.icon}
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="font-semibold text-gray-900 group-hover:text-emerald-600 transition-colors mb-1">
+                      {framework.title}
+                    </h4>
+                    <p className="text-sm text-gray-700 leading-relaxed">
+                      {framework.whenToUse.substring(0, 100)}...
+                    </p>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Team Dynamics Frameworks */}
+          <div>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-2 bg-gradient-to-r from-rose-500 to-pink-600 rounded-lg text-white">
+                <Heart className="w-5 h-5" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900">Team Dynamics</h3>
+              <div className="h-px bg-rose-200 flex-1"></div>
+            </div>
+            <div className="grid md:grid-cols-2 gap-4">
+              {frameworks.filter(f => f.usedFor.some(u => u.category === 'team-dynamics')).map((framework) => (
+                <button
+                  key={framework.id}
+                  onClick={() => scrollToFramework(framework.id)}
+                  className="flex items-start gap-4 p-4 bg-rose-50 hover:bg-rose-100 rounded-xl border border-rose-200 hover:border-rose-300 transition-all duration-200 text-left group"
+                >
+                  <div className={`p-2 bg-gradient-to-r ${framework.color} rounded-lg text-white group-hover:scale-105 transition-transform flex-shrink-0`}>
+                    {framework.icon}
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="font-semibold text-gray-900 group-hover:text-rose-600 transition-colors mb-1">
+                      {framework.title}
+                    </h4>
+                    <p className="text-sm text-gray-700 leading-relaxed">
+                      {framework.whenToUse.substring(0, 100)}...
+                    </p>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Other Frameworks */}
+          <div>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-2 bg-gradient-to-r from-slate-500 to-gray-600 rounded-lg text-white">
+                <Compass className="w-5 h-5" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900">General Problem-Solving</h3>
+              <div className="h-px bg-gray-200 flex-1"></div>
+            </div>
+            <div className="grid md:grid-cols-2 gap-4">
+              {frameworks.filter(f => f.usedFor.some(u => u.category === 'other')).map((framework) => (
+                <button
+                  key={framework.id}
+                  onClick={() => scrollToFramework(framework.id)}
+                  className="flex items-start gap-4 p-4 bg-gray-50 hover:bg-gray-100 rounded-xl border border-gray-200 hover:border-gray-300 transition-all duration-200 text-left group"
+                >
+                  <div className={`p-2 bg-gradient-to-r ${framework.color} rounded-lg text-white group-hover:scale-105 transition-transform flex-shrink-0`}>
+                    {framework.icon}
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="font-semibold text-gray-900 group-hover:text-gray-600 transition-colors mb-1">
+                      {framework.title}
+                    </h4>
+                    <p className="text-sm text-gray-700 leading-relaxed">
+                      {framework.whenToUse.substring(0, 100)}...
+                    </p>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 

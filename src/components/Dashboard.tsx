@@ -96,9 +96,20 @@ export function Dashboard({ onStartNewReflection, onStartCategoryReflection, onV
               <p className="text-sm text-blue-800 mb-3">
                 Reflection helps you respond calmly instead of reacting impulsively—essential for keeping trust intact.
               </p>
-              <p className="text-xs text-blue-600 italic">
-                (Ochsner & Gross, 2005 – Emotional Regulation)
-              </p>
+              <div className="relative group">
+                <p className="text-xs text-blue-600 italic cursor-help">
+                  (Ochsner & Gross, 2005 – Emotional Regulation)
+                </p>
+                <div className="absolute bottom-6 left-0 w-72 bg-white rounded-lg shadow-lg border border-gray-200 p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
+                  <h5 className="font-semibold text-gray-900 mb-2">Ochsner & Gross (2005)</h5>
+                  <p className="text-sm text-gray-700 mb-2">
+                    Research on emotional regulation shows that leaders who pause to reflect before responding make better decisions and maintain stronger relationships.
+                  </p>
+                  <p className="text-xs text-gray-600">
+                    Published in <em>Psychological Science</em> - foundational work on cognitive emotion regulation strategies.
+                  </p>
+                </div>
+              </div>
             </div>
             
             <div className="bg-gradient-to-br from-amber-50 to-orange-50 p-6 rounded-xl border border-amber-200">
@@ -111,9 +122,20 @@ export function Dashboard({ onStartNewReflection, onStartCategoryReflection, onV
               <p className="text-sm text-amber-800 mb-3">
                 Slowing down to reflect reduces bias and helps you consider different perspectives before deciding.
               </p>
-              <p className="text-xs text-amber-600 italic">
-                (Kahneman – System 2 Thinking)
-              </p>
+              <div className="relative group">
+                <p className="text-xs text-amber-600 italic cursor-help">
+                  (Kahneman – System 2 Thinking)
+                </p>
+                <div className="absolute bottom-6 left-0 w-72 bg-white rounded-lg shadow-lg border border-gray-200 p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
+                  <h5 className="font-semibold text-gray-900 mb-2">Daniel Kahneman</h5>
+                  <p className="text-sm text-gray-700 mb-2">
+                    Nobel laureate's research shows that "System 2" deliberate thinking reduces cognitive bias and leads to more rational decision-making compared to fast, intuitive responses.
+                  </p>
+                  <p className="text-xs text-gray-600">
+                    From <em>Thinking, Fast and Slow</em> - seminal work on cognitive psychology and decision-making.
+                  </p>
+                </div>
+              </div>
             </div>
             
             <div className="bg-gradient-to-br from-emerald-50 to-teal-50 p-6 rounded-xl border border-emerald-200">
@@ -126,9 +148,20 @@ export function Dashboard({ onStartNewReflection, onStartCategoryReflection, onV
               <p className="text-sm text-emerald-800 mb-3">
                 Leaders who regularly reflect report improved judgment and are rated as more effective by their teams.
               </p>
-              <p className="text-xs text-emerald-600 italic">
-                (Center for Creative Leadership program data)
-              </p>
+              <div className="relative group">
+                <p className="text-xs text-emerald-600 italic cursor-help">
+                  (Center for Creative Leadership program data)
+                </p>
+                <div className="absolute bottom-6 right-0 w-72 bg-white rounded-lg shadow-lg border border-gray-200 p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
+                  <h5 className="font-semibold text-gray-900 mb-2">Center for Creative Leadership</h5>
+                  <p className="text-sm text-gray-700 mb-2">
+                    Longitudinal studies of leadership effectiveness show that leaders who engage in regular reflective practices receive higher performance ratings from their teams and peers.
+                  </p>
+                  <p className="text-xs text-gray-600">
+                    Based on 25+ years of leadership development research with Fortune 500 companies.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
