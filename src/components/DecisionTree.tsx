@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { 
-  ChevronRight, Target, Users, MessageSquare, GitBranch, Zap, ArrowLeft, ArrowRight, 
-  CheckCircle, Lightbulb, User, UserCheck, Building2, ThumbsUp, AlertTriangle, BarChart3, 
+  Target, Users, MessageSquare, GitBranch, Zap, ArrowLeft, ArrowRight, 
+  CheckCircle, User, UserCheck, Building2, ThumbsUp, AlertTriangle, BarChart3, 
   TrendingUp, FileText, Shield, UserPlus, Heart, Compass, MessageCircle, UserX, 
   Handshake, ClipboardCheck, Megaphone, Settings 
 } from './icons';
@@ -102,7 +102,6 @@ const getCategoryBackgroundClass = (category: string) => {
 export function DecisionTree({ onFrameworkSelected, onNavigationChange, preselectedCategory }: DecisionTreeProps) {
   const [currentNode, setCurrentNode] = useState<DecisionTreeNode>(decisionTree);
   const [path, setPath] = useState<string[]>([]);
-  const [showHelp, setShowHelp] = useState(false);
   const [showQuickQuiz, setShowQuickQuiz] = useState(false);
   const [quizStep, setQuizStep] = useState(0);
   const [quizAnswers, setQuizAnswers] = useState<string[]>([]);
@@ -463,64 +462,6 @@ export function DecisionTree({ onFrameworkSelected, onNavigationChange, preselec
         </div>
       )}
 
-      {/* Enhanced help section for first level */}
-      {isFirstLevel && (
-        <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl border border-amber-200">
-          {/* Help toggle button - always visible */}
-          <button
-            onClick={() => setShowHelp(!showHelp)}
-            className="w-full flex items-center justify-between p-4 text-left hover:bg-amber-100 transition-colors rounded-xl"
-          >
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-gradient-to-r from-amber-500 to-orange-500 rounded-lg flex-shrink-0">
-                <Lightbulb className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <h4 className="font-bold text-amber-900 text-base">{content.decisionTree.help.firstLevel.title}</h4>
-                <p className="text-sm text-amber-700">Need help choosing? Click to see examples</p>
-              </div>
-            </div>
-            <ChevronRight className={`w-5 h-5 text-amber-600 transition-transform ${showHelp ? 'rotate-90' : ''}`} />
-          </button>
-          
-          {/* Collapsible help content */}
-          {showHelp && (
-            <div className="px-4 pb-6">
-              <p className="text-amber-800 mb-4">
-                {content.decisionTree.help.firstLevel.description}
-              </p>
-              <div className="grid sm:grid-cols-2 gap-4">
-                {content.decisionTree.help.firstLevel.examples.map((example, index) => (
-                  <div key={index} className="bg-white bg-opacity-70 p-4 rounded-xl border border-amber-200">
-                    <div className="flex items-center gap-3 mb-2">
-                      <div className={`w-8 h-8 bg-gradient-to-r ${example.color} rounded-lg flex items-center justify-center text-white`}>
-                        {getCategoryIcon(example.category)}
-                      </div>
-                      <strong className={`text-${example.category === 'feedback' ? 'blue' : example.category === 'conflict' ? 'amber' : example.category === 'decision' ? 'purple' : 'emerald'}-700`}>
-                        {example.title}
-                      </strong>
-                    </div>
-                    <p className="text-sm text-amber-800">{example.description}</p>
-                  </div>
-                ))}
-              </div>
-              <div className="mt-4 p-3 bg-blue-100 bg-opacity-50 rounded-lg">
-                <div className="flex items-center justify-between">
-                  <p className="text-sm text-blue-800 font-medium">
-                    💡 <strong>Pro tip:</strong> {content.decisionTree.help.firstLevel.proTip}
-                  </p>
-                  <button
-                    onClick={() => setShowOnboarding(true)}
-                    className="text-xs text-blue-600 hover:text-blue-800 font-medium underline hover:no-underline transition-colors ml-4"
-                  >
-                    Show Tutorial
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-      )}
 
       {/* Category-specific help section for second level */}
       {!isFirstLevel && (
