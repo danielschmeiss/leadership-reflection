@@ -2,7 +2,13 @@
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        'sora': ['Sora', 'sans-serif'],
+        'roboto': ['Roboto', 'sans-serif'],
+        'sans': ['Roboto', 'sans-serif'],
+      },
+    },
   },
   plugins: [
     require('@tailwindcss/typography'),

@@ -284,7 +284,7 @@ ${responses[currentQuestion.id] ? `My draft: ${convertResponseToText(responses[c
             {/* Show referenced data if question has references */}
             {currentQuestion.references && currentQuestion.references.length > 0 && (
               <div className="mb-6 space-y-4">
-                <h4 className="text-lg font-semibold text-gray-900">Reference from previous answers:</h4>
+                <h4 className="text-lg font-semibold text-gray-900 font-sora">Reference from previous answers:</h4>
                 {currentQuestion.references.map((ref, index) => {
                   const referencedData = getReferencedData(ref.questionId);
                   if (!referencedData) return null;

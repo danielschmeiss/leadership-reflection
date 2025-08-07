@@ -13,7 +13,7 @@ export function Imprint() {
               <Building className="w-6 h-6 text-blue-600" />
             </div>
             <div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Service Provider</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3 font-sora">Service Provider</h3>
               <p className="text-lg font-medium text-gray-800">Reflacto</p>
             </div>
           </div>
@@ -24,7 +24,7 @@ export function Imprint() {
               <User className="w-6 h-6 text-emerald-600" />
             </div>
             <div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Represented by</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3 font-sora">Represented by</h3>
               <p className="text-lg text-gray-800">Daniel Schmeiß</p>
             </div>
           </div>
@@ -35,7 +35,7 @@ export function Imprint() {
               <Mail className="w-6 h-6 text-purple-600" />
             </div>
             <div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Contact</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3 font-sora">Contact</h3>
               <div className="space-y-2">
                 <div className="flex items-center gap-2">
                   <span className="font-medium text-gray-700">E-Mail:</span>

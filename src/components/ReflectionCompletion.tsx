@@ -604,7 +604,7 @@ Please provide specific, actionable advice based on my reflection responses. Foc
             <CheckCircle className="w-12 h-12" />
           </div>
           <div className="flex-1">
-            <h1 className="text-3xl font-bold mb-3">Reflection Complete! 🎉</h1>
+            <h1 className="text-3xl font-bold mb-3 font-sora">Reflection Complete! 🎉</h1>
             <p className="text-xl text-green-100 mb-4">
               You've successfully worked through: <strong>{problemDescription}</strong>
             </p>
@@ -629,7 +629,7 @@ Please provide specific, actionable advice based on my reflection responses. Foc
             <MessageSquare className="w-6 h-6" />
           </div>
           <div>
-            <h2 className="text-2xl font-semibold text-gray-900">Your Complete Reflection</h2>
+            <h2 className="text-2xl font-semibold text-gray-900 font-sora">Your Complete Reflection</h2>
             <p className="text-gray-600">Review your responses and insights</p>
           </div>
         </div>
@@ -692,7 +692,7 @@ Please provide specific, actionable advice based on my reflection responses. Foc
               {insight.icon}
             </div>
             <div>
-              <h2 className="text-2xl font-semibold text-gray-900">{insight.title}</h2>
+              <h2 className="text-2xl font-semibold text-gray-900 font-sora">{insight.title}</h2>
               <p className="text-gray-600">Specific actions you can take right now</p>
             </div>
           </div>
@@ -725,7 +725,7 @@ Please provide specific, actionable advice based on my reflection responses. Foc
       <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
         <div className="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
           <div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">Ready to take action?</h3>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2 font-sora">Ready to take action?</h3>
             <p className="text-gray-600">Export your reflection or get additional AI insights</p>
           </div>
           

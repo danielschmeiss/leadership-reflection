@@ -238,7 +238,7 @@ export function DecisionTree({ onFrameworkSelected, onNavigationChange, preselec
               <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl text-white mb-4">
                 <Lightbulb className="w-8 h-8" />
               </div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-3">Welcome to Leadership Reflection</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-3 font-sora">Welcome to Leadership Reflection</h2>
               <p className="text-gray-600 leading-relaxed">
                 This tool helps you tackle tough leadership challenges in just 5-10 minutes using proven frameworks.
               </p>
@@ -310,7 +310,7 @@ export function DecisionTree({ onFrameworkSelected, onNavigationChange, preselec
         <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-200">
           <div className="mb-6">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-xl font-bold text-gray-900">Quick Quiz</h3>
+              <h3 className="text-xl font-bold text-gray-900 font-sora">Quick Quiz</h3>
               <button
                 onClick={resetQuiz}
                 className="text-gray-400 hover:text-gray-600 transition-colors"
@@ -328,7 +328,7 @@ export function DecisionTree({ onFrameworkSelected, onNavigationChange, preselec
           </div>
 
           <div className="mb-6">
-            <h4 className="text-lg font-semibold text-gray-900 mb-4">
+            <h4 className="text-lg font-semibold text-gray-900 mb-4 font-sora">
               {quickQuizQuestions[quizStep].question}
             </h4>
             <div className="space-y-3">
@@ -362,7 +362,7 @@ export function DecisionTree({ onFrameworkSelected, onNavigationChange, preselec
       {!showQuickQuiz && (
         <div className="bg-white rounded-lg sm:rounded-xl p-4 sm:p-6 shadow-sm border border-gray-200">
         <div className="text-center mb-4 sm:mb-6">
-          <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-2 sm:mb-3 leading-tight">
+          <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-2 sm:mb-3 leading-tight font-sora">
             {currentNode.question}
           </h2>
         </div>
@@ -442,7 +442,7 @@ export function DecisionTree({ onFrameworkSelected, onNavigationChange, preselec
               <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-600 rounded-xl text-white mb-3">
                 <Zap className="w-6 h-6" />
               </div>
-              <h3 className="text-lg font-bold text-blue-900 mb-2">Not sure which category fits?</h3>
+              <h3 className="text-lg font-bold text-blue-900 mb-2 font-sora">Not sure which category fits?</h3>
               <p className="text-blue-700 text-sm mb-4">Answer 2 quick questions and we'll recommend the best approach</p>
             </div>
             <div className="flex flex-col sm:flex-row gap-3 items-center justify-center">

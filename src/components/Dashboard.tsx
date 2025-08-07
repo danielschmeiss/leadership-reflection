@@ -45,7 +45,7 @@ export function Dashboard({ onStartNewReflection, onStartCategoryReflection, onV
       <div className="w-full relative overflow-hidden bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-700 rounded-2xl p-8 text-white shadow-lg">
         <div className="relative z-10">
           <div className="mb-8">
-            <h1 className="text-4xl font-bold mb-3">{content.dashboard.hero.title}</h1>
+            <h1 className="text-4xl font-bold mb-3 font-sora">{content.dashboard.hero.title}</h1>
             <p className="text-xl text-blue-100">
               {content.dashboard.hero.subtitle}
             </p>
@@ -77,7 +77,7 @@ export function Dashboard({ onStartNewReflection, onStartCategoryReflection, onV
       {/* Why Pause to Reflect */}
       <div className="w-full bg-white rounded-2xl p-8 shadow-sm border border-gray-200">
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">Why pause to reflect?</h2>
+          <h2 className="text-3xl font-bold text-gray-900 mb-4 font-sora">Why pause to reflect?</h2>
           <p className="text-lg text-gray-700 max-w-4xl mx-auto leading-relaxed">
             Leaders move fast, but quick decisions under pressure can strain relationships or miss what really matters. 
             Reflection creates a brief pause to think clearly and lead with intention.
@@ -91,7 +91,7 @@ export function Dashboard({ onStartNewReflection, onStartCategoryReflection, onV
                 <div className="p-2 bg-blue-500 rounded-lg text-white">
                   <Users className="w-5 h-5" />
                 </div>
-                <h4 className="font-semibold text-blue-900">Build trust in your team</h4>
+                <h4 className="font-semibold text-blue-900 font-sora">Build trust in your team</h4>
               </div>
               <p className="text-sm text-blue-800 mb-3">
                 Reflection helps you respond calmly instead of reacting impulsively—essential for keeping trust intact.
@@ -117,7 +117,7 @@ export function Dashboard({ onStartNewReflection, onStartCategoryReflection, onV
                 <div className="p-2 bg-amber-500 rounded-lg text-white">
                   <Target className="w-5 h-5" />
                 </div>
-                <h4 className="font-semibold text-amber-900">Make fairer, clearer calls</h4>
+                <h4 className="font-semibold text-amber-900 font-sora">Make fairer, clearer calls</h4>
               </div>
               <p className="text-sm text-amber-800 mb-3">
                 Slowing down to reflect reduces bias and helps you consider different perspectives before deciding.
@@ -143,7 +143,7 @@ export function Dashboard({ onStartNewReflection, onStartCategoryReflection, onV
                 <div className="p-2 bg-emerald-500 rounded-lg text-white">
                   <TrendingUp className="w-5 h-5" />
                 </div>
-                <h4 className="font-semibold text-emerald-900">Navigate tough choices with confidence</h4>
+                <h4 className="font-semibold text-emerald-900 font-sora">Navigate tough choices with confidence</h4>
               </div>
               <p className="text-sm text-emerald-800 mb-3">
                 Leaders who regularly reflect report improved judgment and are rated as more effective by their teams.
@@ -179,7 +179,7 @@ export function Dashboard({ onStartNewReflection, onStartCategoryReflection, onV
               <Lightbulb className="w-6 h-6" />
             </div>
             <div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-1">{content.dashboard.frameworksGuide.title}</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-1 font-sora">{content.dashboard.frameworksGuide.title}</h3>
               <p className="text-gray-600">
                 {content.dashboard.frameworksGuide.description}
               </p>
@@ -199,7 +199,7 @@ export function Dashboard({ onStartNewReflection, onStartCategoryReflection, onV
             <TrendingUp className="w-6 h-6" />
           </div>
           <div>
-            <h3 className="text-2xl font-semibold text-gray-900">{content.dashboard.progress.title}</h3>
+            <h3 className="text-2xl font-semibold text-gray-900 font-sora">{content.dashboard.progress.title}</h3>
             <p className="text-gray-600">{content.dashboard.progress.description}</p>
           </div>
         </div>
@@ -334,7 +334,7 @@ export function Dashboard({ onStartNewReflection, onStartCategoryReflection, onV
               <BookOpen className="w-6 h-6" />
             </div>
             <div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-1">{content.dashboard.history.title}</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-1 font-sora">{content.dashboard.history.title}</h3>
               <p className="text-gray-600">
                 {reflectionCount === 0 
                   ? content.dashboard.history.descriptions.empty

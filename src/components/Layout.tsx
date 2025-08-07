@@ -127,11 +127,11 @@ export function Layout({
                     <img 
                       src="/logo.png" 
                       alt="Reflacto Logo" 
-                      className="w-12 h-12 sm:w-16 sm:h-16 object-contain"
+                      className="w-14 h-14 sm:w-18 sm:h-18 lg:w-20 lg:h-20 object-contain"
                     />
                   </button>
                   <div className="min-w-0">
-                    <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 leading-tight">{title}</h1>
+                    <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight font-sora" style={{color: '#17494D'}}>{title}</h1>
                     {helpText && (
                       <div>
                         {showFrameworkInfo && frameworkRationale && (
@@ -183,7 +183,7 @@ export function Layout({
                       </div>
                     )}
                     {!helpText && !showFrameworkInfo && (
-                      <p className="text-sm sm:text-base text-gray-600 mt-1">Pause, reflect and act with purpose.</p>
+                      <p className="text-sm sm:text-base text-gray-600 mt-1" style={{letterSpacing: '0.5px'}}>Pause, reflect and act with purpose.</p>
                     )}
                   </div>
                 </div>

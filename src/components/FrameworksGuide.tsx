@@ -273,7 +273,7 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
             <Lightbulb className="w-12 h-12" />
           </div>
           <div className="flex-1">
-            <h1 className="text-3xl font-bold mb-3">Leadership Frameworks Guide</h1>
+            <h1 className="text-3xl font-bold mb-3 font-sora">Leadership Frameworks Guide</h1>
             <p className="text-xl text-blue-100 mb-4">
               Comprehensive explanations of all available frameworks to help you choose the right approach for your leadership challenges.
             </p>
@@ -292,7 +292,7 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
             <List className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h2 className="text-2xl font-bold text-gray-900">Table of Contents</h2>
+            <h2 className="text-2xl font-bold text-gray-900 font-sora">Table of Contents</h2>
             <p className="text-gray-600">Jump to any framework for detailed information</p>
           </div>
         </div>
@@ -304,7 +304,7 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
               <div className="p-2 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg text-white">
                 <MessageSquare className="w-5 h-5" />
               </div>
-              <h3 className="text-xl font-bold text-gray-900">Feedback</h3>
+              <h3 className="text-xl font-bold text-gray-900 font-sora">Feedback</h3>
               <div className="h-px bg-blue-200 flex-1"></div>
             </div>
             <div className="grid md:grid-cols-2 gap-4">
@@ -349,7 +349,7 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
               <div className="p-2 bg-gradient-to-r from-amber-500 to-orange-600 rounded-lg text-white">
                 <Users className="w-5 h-5" />
               </div>
-              <h3 className="text-xl font-bold text-gray-900">Conflict</h3>
+              <h3 className="text-xl font-bold text-gray-900 font-sora">Conflict</h3>
               <div className="h-px bg-amber-200 flex-1"></div>
             </div>
             <div className="grid md:grid-cols-2 gap-4">
@@ -394,7 +394,7 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
               <div className="p-2 bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg text-white">
                 <Target className="w-5 h-5" />
               </div>
-              <h3 className="text-xl font-bold text-gray-900">Decision</h3>
+              <h3 className="text-xl font-bold text-gray-900 font-sora">Decision</h3>
               <div className="h-px bg-purple-200 flex-1"></div>
             </div>
             <div className="grid md:grid-cols-2 gap-4">
@@ -446,7 +446,7 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
               <div className="p-2 bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-lg text-white">
                 <GitBranch className="w-5 h-5" />
               </div>
-              <h3 className="text-xl font-bold text-gray-900">Stakeholder</h3>
+              <h3 className="text-xl font-bold text-gray-900 font-sora">Stakeholder</h3>
               <div className="h-px bg-emerald-200 flex-1"></div>
             </div>
             <div className="grid md:grid-cols-2 gap-4">
