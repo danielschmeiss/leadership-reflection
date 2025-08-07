@@ -77,6 +77,13 @@ export function LocalLLMConfig({ isOpen, onClose }: LocalLLMConfigProps) {
               <div>
                 <h2 className="text-2xl font-bold text-gray-900">Local AI Assistant</h2>
                 <p className="text-gray-600">Connect to your locally deployed LLM</p>
+                <button
+                  onClick={() => window.location.pathname = '/local-llm-guide'}
+                  className="inline-flex items-center gap-1 text-xs text-blue-600 hover:text-blue-700 mt-1 transition-colors"
+                >
+                  <Link className="w-3 h-3" />
+                  <span>Read the complete setup guide</span>
+                </button>
               </div>
             </div>
             <button

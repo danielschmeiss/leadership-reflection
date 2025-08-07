@@ -305,7 +305,14 @@ export function Layout({
 
         {/* Footer */}
         <footer className="mt-12 sm:mt-16 text-center">
-          <div className="text-sm text-gray-500">
+          <div className="text-sm text-gray-500 space-x-4">
+            <button
+              onClick={() => window.location.pathname = '/local-llm-guide'}
+              className="text-gray-500 hover:text-gray-700 underline hover:no-underline transition-all cursor-pointer"
+            >
+              Local LLM Integration
+            </button>
+            <span className="text-gray-300">•</span>
             <button
               onClick={() => window.location.hash = 'imprint'}
               className="text-gray-500 hover:text-gray-700 underline hover:no-underline transition-all cursor-pointer"
