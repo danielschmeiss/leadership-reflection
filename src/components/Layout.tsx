@@ -123,7 +123,9 @@ export function Layout({
                   </button>
                   <div className="min-w-0">
                     <div style={{textAlign: 'left'}}>
-                      <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-space-grotesk" style={{color: '#17494D', margin: 0, padding: 0}}>Reflacto</h1>
+                      <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-quicksand" style={{color: '#17494D', margin: 0, padding: 0}}>
+                        Refl<span className="font-normal">act</span>o
+                      </h1>
                       <p className="text-sm sm:text-base text-gray-600 font-manrope font-light" style={{letterSpacing: '0.5px', margin: '4px 0 0 0', padding: 0}}>Pause, reflect and act with purpose.</p>
                     </div>
                   </div>

@@ -7,6 +7,7 @@ export default {
         'space-grotesk': ['Space Grotesk', 'sans-serif'],
         'manrope': ['Manrope', 'sans-serif'],
         'roboto': ['Roboto', 'sans-serif'],
+        'quicksand': ['Quicksand', 'sans-serif'],
         'sans': ['Roboto', 'sans-serif'],
       },
     },
