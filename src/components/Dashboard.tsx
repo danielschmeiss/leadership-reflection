@@ -166,22 +166,6 @@ export function Dashboard({ onStartNewReflection, onStartCategoryReflection, onV
           </div>
         </div>
         
-        <div className="bg-blue-50 p-6 rounded-xl border border-blue-200">
-          <div className="text-center">
-            <div className="flex justify-center mb-4">
-              <div className="p-3 bg-blue-500 rounded-lg text-white">
-                <Lightbulb className="w-6 h-6" />
-              </div>
-            </div>
-            <p className="text-blue-900 font-medium mb-2">
-              <strong>Quick and practical</strong>
-            </p>
-            <p className="text-blue-800">
-              Even 5–10 minutes of guided reflection can sharpen your thinking and prepare you for your next move. 
-              This tool keeps it <strong>short, private, and actionable.</strong>
-            </p>
-          </div>
-        </div>
       </div>
 
       {/* Frameworks Guide Section */}

@@ -90,6 +90,9 @@ export function EnhancedReflectionForm({
   )) || (category === 'stakeholder' && (
     subcategory === 'alignment-with-leadership' ||
     subcategory === 'expectation-management'
+  )) || (category === 'team-dynamics' && (
+    subcategory === 'ownership-clarity' ||
+    subcategory === 'team-health-check'
   ));
   
   // Update AI suggestion display when current question changes
