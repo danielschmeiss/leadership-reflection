@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Save, ArrowRight, ArrowLeft, AlertCircle, HelpCircle, Lightbulb, CheckCircle, Target, Plus, X, Star, Bot, Settings, Loader, Wifi, Sparkles, ChevronRight, ChevronDown } from './icons';
+import { Save, ArrowRight, ArrowLeft, AlertCircle, HelpCircle, Lightbulb, CheckCircle, Target, Plus, X, Star, Bot, Settings, Loader, Wifi, Sparkles, ChevronRight, ChevronDown, BookOpen } from './icons';
 import ReactMarkdown from 'react-markdown';
 import { Framework, Question, QuestionResponse } from '../types';
 import { useLocalLLM } from '../hooks/useLocalLLM';
@@ -81,6 +81,12 @@ export function EnhancedReflectionForm({
   };
 
   const canProceed = isQuestionValid(currentQuestion);
+  
+  // Get the specific framework guide URL with anchor
+  const getFrameworkGuideUrl = (frameworkId: string): string => {
+    // The framework IDs in FrameworksGuide match the framework IDs directly
+    return `/frameworks#${frameworkId}`;
+  };
   
   // Get a contextual, human-friendly introduction sentence
   const getContextualIntro = (category?: string, subcategory?: string, frameworkName?: string): string => {
@@ -603,10 +609,21 @@ ${responses[currentQuestion.id] ? `My draft: ${convertResponseToText(responses[c
                   <h3 className="text-base font-semibold text-slate-800">
                     {framework.name}
                   </h3>
+                  <button
+                    onClick={() => window.location.href = getFrameworkGuideUrl(framework.id)}
+                    className="flex items-center gap-1 text-xs text-slate-500 hover:text-slate-600 font-medium transition-colors"
+                    title="View detailed framework guide"
+                  >
+                    <BookOpen className="w-3 h-3" />
+                    <span>View full guide</span>
+                  </button>
+                </div>
+                <p className="text-sm text-slate-700 leading-relaxed">
+                  {getContextualIntro(category, subcategory, framework.name)}
                   {frameworkRationale && (
                     <button
                       onClick={() => setShowFrameworkDetails(!showFrameworkDetails)}
-                      className="flex items-center gap-1 text-sm text-slate-600 hover:text-slate-700 font-medium transition-colors"
+                      className="inline-flex items-center gap-1 ml-2 text-sm text-slate-600 hover:text-slate-700 font-medium transition-colors"
                     >
                       <span>Learn more</span>
                       {showFrameworkDetails ? (
@@ -616,9 +633,6 @@ ${responses[currentQuestion.id] ? `My draft: ${convertResponseToText(responses[c
                       )}
                     </button>
                   )}
-                </div>
-                <p className="text-sm text-slate-700 leading-relaxed">
-                  {getContextualIntro(category, subcategory, framework.name)}
                 </p>
               </div>
             </div>
