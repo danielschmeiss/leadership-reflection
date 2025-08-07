@@ -280,7 +280,7 @@ export function ReflectionSummary({ reflection, onEdit, onDelete, onExport, onVi
     generatePDF();
   };
 
-  const generatePDF = () => {
+  const generatePDF = async () => {
     const pdf = new jsPDF('p', 'mm', 'a4');
     const pageWidth = pdf.internal.pageSize.getWidth();
     const pageHeight = pdf.internal.pageSize.getHeight();
@@ -288,6 +288,28 @@ export function ReflectionSummary({ reflection, onEdit, onDelete, onExport, onVi
     const contentWidth = pageWidth - 2 * margin;
     let yPosition = margin;
     const insights = getActionableInsights(framework.id, reflection.responses);
+
+    // Load logo image
+    let logoDataUrl = null;
+    try {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const img = new Image();
+      
+      await new Promise((resolve, reject) => {
+        img.onload = () => {
+          canvas.width = img.width;
+          canvas.height = img.height;
+          ctx?.drawImage(img, 0, 0);
+          logoDataUrl = canvas.toDataURL('image/png');
+          resolve(logoDataUrl);
+        };
+        img.onerror = reject;
+        img.src = '/logo.png';
+      });
+    } catch (error) {
+      console.log('Could not load logo for PDF:', error);
+    }
 
     // Helper function to add text with word wrapping
     const addWrappedText = (text: string, x: number, y: number, maxWidth: number, fontSize: number = 10, isBold: boolean = false) => {
@@ -310,14 +332,29 @@ export function ReflectionSummary({ reflection, onEdit, onDelete, onExport, onVi
     pdf.setFillColor(59, 130, 246); // Blue
     pdf.rect(0, 0, pageWidth, 40, 'F');
     
-    // Logo area (simulated with text)
+    // Logo and branding
     pdf.setTextColor(255, 255, 255);
-    pdf.setFontSize(16);
-    pdf.setFont('helvetica', 'bold');
-    pdf.text('REFLECT & ACT', margin, 15);
-    pdf.setFontSize(8);
-    pdf.setFont('helvetica', 'normal');
-    pdf.text('Professional Leadership Development Tool', margin, 22);
+    
+    if (logoDataUrl) {
+      // Add logo image
+      pdf.addImage(logoDataUrl, 'PNG', margin, 8, 12, 12);
+      
+      // Brand text next to logo
+      pdf.setFontSize(20);
+      pdf.setFont('helvetica', 'bold');
+      pdf.text('Reflacto', margin + 16, 15);
+      pdf.setFontSize(8);
+      pdf.setFont('helvetica', 'normal');
+      pdf.text('Pause, reflect and act with purpose.', margin + 16, 20);
+    } else {
+      // Fallback text-only branding
+      pdf.setFontSize(20);
+      pdf.setFont('helvetica', 'bold');
+      pdf.text('Reflacto', margin, 15);
+      pdf.setFontSize(8);
+      pdf.setFont('helvetica', 'normal');
+      pdf.text('Pause, reflect and act with purpose.', margin, 22);
+    }
     
     // Title
     pdf.setFontSize(24);
@@ -513,7 +550,7 @@ Please provide specific, actionable advice based on my reflection responses. Foc
     }
 
     // Save the PDF
-    const fileName = `leadership-reflection-${framework.id}-${createdDate.replace(/\//g, '-')}.pdf`;
+    const fileName = `reflacto-leadership-reflection-${framework.id}-${createdDate.replace(/\//g, '-')}.pdf`;
     pdf.save(fileName);
   };
 
