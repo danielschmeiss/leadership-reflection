@@ -131,7 +131,8 @@ export function Layout({
                     />
                   </button>
                   <div className="min-w-0">
-                    <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight font-sora" style={{color: '#17494D'}}>{title}</h1>
+                    <div style={{textAlign: 'left'}}>
+                      <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-space-grotesk" style={{color: '#17494D', margin: 0, padding: 0}}>{title}</h1>
                     {helpText && (
                       <div>
                         {showFrameworkInfo && frameworkRationale && (
@@ -183,8 +184,9 @@ export function Layout({
                       </div>
                     )}
                     {!helpText && !showFrameworkInfo && (
-                      <p className="text-sm sm:text-base text-gray-600 mt-1" style={{letterSpacing: '0.5px'}}>Pause, reflect and act with purpose.</p>
+                      <p className="text-sm sm:text-base text-gray-600 font-manrope font-light" style={{letterSpacing: '0.5px', margin: '4px 0 0 0', padding: 0}}>Pause, reflect and act with purpose.</p>
                     )}
+                    </div>
                   </div>
                 </div>
               </div>

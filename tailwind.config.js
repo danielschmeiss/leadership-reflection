@@ -4,7 +4,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        'sora': ['Sora', 'sans-serif'],
+        'space-grotesk': ['Space Grotesk', 'sans-serif'],
+        'manrope': ['Manrope', 'sans-serif'],
         'roboto': ['Roboto', 'sans-serif'],
         'sans': ['Roboto', 'sans-serif'],
       },
