@@ -77,9 +77,23 @@ export function LocalLLMConfig({ isOpen, onClose }: LocalLLMConfigProps) {
               <div>
                 <h2 className="text-2xl font-bold text-gray-900">Local AI Assistant</h2>
                 <p className="text-gray-600">Connect to your locally deployed LLM</p>
+                
+                {/* Mobile-only warning */}
+                <div className="md:hidden mt-3 p-3 bg-amber-50 border border-amber-200 rounded-lg">
+                  <div className="flex items-start gap-2">
+                    <AlertCircle className="w-4 h-4 text-amber-600 mt-0.5 flex-shrink-0" />
+                    <div>
+                      <p className="text-xs text-amber-800 font-medium">Desktop Required</p>
+                      <p className="text-xs text-amber-700 mt-1">
+                        Local LLMs currently work on desktop computers only. Mobile support is not yet available.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                
                 <button
                   onClick={() => window.location.pathname = '/local-llm-guide'}
-                  className="inline-flex items-center gap-1 text-xs text-blue-600 hover:text-blue-700 mt-1 transition-colors"
+                  className="inline-flex items-center gap-1 text-xs text-blue-600 hover:text-blue-700 mt-2 transition-colors"
                 >
                   <Link className="w-3 h-3" />
                   <span>Read the complete setup guide</span>

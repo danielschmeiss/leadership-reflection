@@ -15,6 +15,11 @@ export function LocalLLMGuide() {
             <p className="text-xl text-blue-100 mt-2">
               AI assistance that runs on your own computer, not in the cloud
             </p>
+            <div className="mt-4 p-3 bg-amber-500 bg-opacity-20 rounded-lg border border-amber-400 border-opacity-30">
+              <p className="text-amber-100 text-sm">
+                <strong>Desktop Only:</strong> Local LLMs currently work on desktop computers only. Mobile device support is not yet available due to hardware and software limitations.
+              </p>
+            </div>
           </div>
         </div>
         
@@ -215,10 +220,15 @@ export function LocalLLMGuide() {
                 <span className="font-mono">11434</span>
               </div>
             </div>
-            <button className="mt-4 inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 transition-colors">
+            <a 
+              href="https://ollama.ai" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="mt-4 inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 transition-colors"
+            >
               <span className="text-sm font-medium">Visit Ollama.ai</span>
               <ExternalLink className="w-3 h-3" />
-            </button>
+            </a>
           </div>
           
           <div className="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
@@ -236,10 +246,15 @@ export function LocalLLMGuide() {
                 <span className="font-mono">1234</span>
               </div>
             </div>
-            <button className="mt-4 inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 transition-colors">
+            <a 
+              href="https://lmstudio.ai" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="mt-4 inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 transition-colors"
+            >
               <span className="text-sm font-medium">Visit LM Studio</span>
               <ExternalLink className="w-3 h-3" />
-            </button>
+            </a>
           </div>
           
           <div className="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
@@ -257,10 +272,15 @@ export function LocalLLMGuide() {
                 <span className="font-mono">5000</span>
               </div>
             </div>
-            <button className="mt-4 inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 transition-colors">
+            <a 
+              href="https://github.com/oobabooga/text-generation-webui" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="mt-4 inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 transition-colors"
+            >
               <span className="text-sm font-medium">View on GitHub</span>
               <ExternalLink className="w-3 h-3" />
-            </button>
+            </a>
           </div>
         </div>
       </div>

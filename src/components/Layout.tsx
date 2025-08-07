@@ -245,28 +245,79 @@ export function Layout({
         />
 
         {/* Footer */}
-        <footer className="mt-12 sm:mt-16 text-center">
-          <div className="text-sm text-gray-500 space-x-4">
-            <button
-              onClick={() => window.location.pathname = '/local-llm-guide'}
-              className="text-gray-500 hover:text-gray-700 underline hover:no-underline transition-all cursor-pointer"
-            >
-              Local LLM Integration
-            </button>
-            <span className="text-gray-300">•</span>
-            <a
-              href="mailto:reflacto-contact@proton.me"
-              className="text-gray-500 hover:text-gray-700 underline hover:no-underline transition-all cursor-pointer"
-            >
-              Contact
-            </a>
-            <span className="text-gray-300">•</span>
-            <button
-              onClick={() => window.location.hash = 'imprint'}
-              className="text-gray-500 hover:text-gray-700 underline hover:no-underline transition-all cursor-pointer"
-            >
-              Imprint
-            </button>
+        <footer className="mt-16 bg-slate-50 border-t border-slate-200">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+              {/* Brand Section */}
+              <div className="md:col-span-2">
+                <div className="flex items-center gap-3 mb-4">
+                  <img src="/logo.png" alt="Reflacto Logo" className="w-8 h-8" />
+                  <h3 className="text-xl font-bold font-quicksand" style={{color: '#17494D'}}>
+                    Refl<span className="font-normal">act</span>o
+                  </h3>
+                </div>
+                <p className="text-gray-600 text-sm leading-relaxed mb-4 max-w-md">
+                  A privacy-focused leadership reflection tool for engineering leaders. Navigate situational challenges through proven frameworks with complete data privacy.
+                </p>
+                <div className="text-sm text-gray-500">
+                  © {new Date().getFullYear()} Reflacto. All rights reserved.
+                </div>
+              </div>
+
+              {/* Resources */}
+              <div>
+                <h4 className="font-semibold text-gray-900 mb-4">Resources</h4>
+                <ul className="space-y-2 text-sm">
+                  <li>
+                    <button
+                      onClick={() => window.location.pathname = '/local-llm-guide'}
+                      className="text-gray-600 hover:text-gray-900 underline hover:no-underline transition-colors cursor-pointer"
+                    >
+                      Local LLM Integration
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => window.location.pathname = '/frameworks'}
+                      className="text-gray-600 hover:text-gray-900 underline hover:no-underline transition-colors cursor-pointer"
+                    >
+                      Leadership Frameworks
+                    </button>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Contact & Legal */}
+              <div>
+                <h4 className="font-semibold text-gray-900 mb-4">Support</h4>
+                <ul className="space-y-2 text-sm">
+                  <li>
+                    <a
+                      href="mailto:reflacto-contact@proton.me"
+                      className="text-gray-600 hover:text-gray-900 underline hover:no-underline transition-colors"
+                    >
+                      Contact Us
+                    </a>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => window.location.pathname = '/privacy'}
+                      className="text-gray-600 hover:text-gray-900 underline hover:no-underline transition-colors cursor-pointer"
+                    >
+                      Privacy Policy
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => window.location.hash = 'imprint'}
+                      className="text-gray-600 hover:text-gray-900 underline hover:no-underline transition-colors cursor-pointer"
+                    >
+                      Imprint
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
         </footer>
       </div>

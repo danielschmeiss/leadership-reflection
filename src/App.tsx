@@ -13,6 +13,7 @@ import { ReflectionCompletion } from './components/ReflectionCompletion';
 import { FrameworksGuide } from './components/FrameworksGuide';
 import { Imprint } from './components/Imprint';
 import { LocalLLMGuide } from './components/LocalLLMGuide';
+import { Privacy } from './components/Privacy';
 import { useReflections } from './hooks/useLocalStorage';
 import { frameworks, getCustomizedFramework } from './data/frameworks';
 import { FrameworkType, SituationCategory, Situation, QuestionResponse } from './types';
@@ -26,7 +27,8 @@ type AppState =
   | 'view-reflection'
   | 'frameworks-guide'
   | 'imprint'
-  | 'local-llm-guide';
+  | 'local-llm-guide'
+  | 'privacy';
 
 interface ReflectionSession {
   framework: FrameworkType;
@@ -69,6 +71,8 @@ const parseURL = (): { route: AppState; params: URLSearchParams } => {
     return { route: 'imprint', params };
   } else if (pathname === '/local-llm-guide') {
     return { route: 'local-llm-guide', params };
+  } else if (pathname === '/privacy') {
+    return { route: 'privacy', params };
   }
   
   // Default to dashboard for unknown routes
@@ -114,6 +118,9 @@ const updateURL = (route: AppState, params?: Record<string, string>) => {
       break;
     case 'local-llm-guide':
       url.pathname = '/local-llm-guide';
+      break;
+    case 'privacy':
+      url.pathname = '/privacy';
       break;
   }
   
@@ -405,6 +412,7 @@ function App() {
       case 'frameworks-guide': return 'Leadership Frameworks Guide';
       case 'imprint': return 'Legal Information';
       case 'local-llm-guide': return 'Local LLM Integration';
+      case 'privacy': return 'Privacy & Data Collection';
       default: return 'Reflect & Lead';
     }
   };
@@ -429,6 +437,8 @@ function App() {
         return 'Legal information and contact details according to § 5 TMG.';
       case 'local-llm-guide':
         return 'Learn how to integrate local AI models for enhanced privacy and performance in your leadership reflections.';
+      case 'privacy':
+        return 'Understand how we protect your data and what information we collect to provide this service.';
       default: 
         return '';
     }
@@ -690,6 +700,16 @@ function App() {
 
       case 'local-llm-guide':
         return <LocalLLMGuide />;
+
+      case 'privacy':
+        return (
+          <Privacy 
+            onBack={() => {
+              setCurrentState('dashboard');
+              updateURL('dashboard');
+            }}
+          />
+        );
 
       case 'frameworks-guide':
         return (

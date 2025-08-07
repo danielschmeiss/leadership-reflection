@@ -32,6 +32,7 @@ export {
   Building2,
   Target,
   Shield,
+  Lock,
   Heart,
   Compass,
   Lightbulb,
@@ -58,6 +59,8 @@ export {
   FileText,
   PieChart,
   Activity,
+  Database,
+  Eye,
   
   // Tools & Categories
   GitBranch,
