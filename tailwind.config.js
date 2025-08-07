@@ -4,11 +4,9 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        'space-grotesk': ['Space Grotesk', 'sans-serif'],
-        'manrope': ['Manrope', 'sans-serif'],
-        'roboto': ['Roboto', 'sans-serif'],
         'quicksand': ['Quicksand', 'sans-serif'],
-        'sans': ['Roboto', 'sans-serif'],
+        'roboto': ['Roboto', 'sans-serif'],
+        'sans': ['Roboto', 'system-ui', 'sans-serif'],
       },
     },
   },

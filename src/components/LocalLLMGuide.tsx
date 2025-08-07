@@ -11,7 +11,7 @@ export function LocalLLMGuide() {
             <Bot className="w-8 h-8" />
           </div>
           <div>
-            <h1 className="text-3xl font-bold font-space-grotesk">What Are Local LLMs?</h1>
+            <h1 className="text-3xl font-bold ">What Are Local LLMs?</h1>
             <p className="text-xl text-blue-100 mt-2">
               AI assistance that runs on your own computer, not in the cloud
             </p>
@@ -55,12 +55,12 @@ export function LocalLLMGuide() {
           <div className="p-2 bg-indigo-600 rounded-lg text-white">
             <HelpCircle className="w-6 h-6" />
           </div>
-          <h2 className="text-2xl font-bold text-gray-900 font-space-grotesk">Why Use Local LLMs?</h2>
+          <h2 className="text-2xl font-bold text-gray-900 ">Why Use Local LLMs?</h2>
         </div>
         
         <div className="grid md:grid-cols-2 gap-6">
           <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-3 font-space-grotesk">Privacy & Security</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-3 ">Privacy & Security</h3>
             <ul className="space-y-2 text-gray-700">
               <li className="flex items-start gap-2">
                 <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
@@ -82,7 +82,7 @@ export function LocalLLMGuide() {
           </div>
           
           <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-3 font-space-grotesk">Performance & Control</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-3 ">Performance & Control</h3>
             <ul className="space-y-2 text-gray-700">
               <li className="flex items-start gap-2">
                 <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
@@ -112,7 +112,7 @@ export function LocalLLMGuide() {
             <Activity className="w-6 h-6" />
           </div>
           <div>
-            <h2 className="text-xl font-bold text-amber-900 mb-3 font-space-grotesk">Google Chrome Required</h2>
+            <h2 className="text-xl font-bold text-amber-900 mb-3 ">Google Chrome Required</h2>
             <p className="text-amber-800 mb-4">
               Local LLM integration currently only works in <strong>Google Chrome</strong> due to browser security policies 
               regarding localhost API calls from web applications.
@@ -144,7 +144,7 @@ export function LocalLLMGuide() {
           <div className="p-2 bg-purple-600 rounded-lg text-white">
             <Activity className="w-6 h-6" />
           </div>
-          <h2 className="text-2xl font-bold text-gray-900 font-space-grotesk">How It Works</h2>
+          <h2 className="text-2xl font-bold text-gray-900 ">How It Works</h2>
         </div>
         
         <div className="space-y-6">
@@ -196,12 +196,12 @@ export function LocalLLMGuide() {
           <div className="p-2 bg-green-600 rounded-lg text-white">
             <Bot className="w-6 h-6" />
           </div>
-          <h2 className="text-2xl font-bold text-gray-900 font-space-grotesk">Popular Local LLM Tools</h2>
+          <h2 className="text-2xl font-bold text-gray-900 ">Popular Local LLM Tools</h2>
         </div>
         
         <div className="grid md:grid-cols-3 gap-6">
           <div className="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
-            <h3 className="font-semibold text-gray-900 mb-2 font-space-grotesk">Ollama</h3>
+            <h3 className="font-semibold text-gray-900 mb-2 ">Ollama</h3>
             <p className="text-gray-700 text-sm mb-4">
               Easy-to-use local LLM runner with simple setup. Great for beginners.
             </p>
@@ -222,7 +222,7 @@ export function LocalLLMGuide() {
           </div>
           
           <div className="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
-            <h3 className="font-semibold text-gray-900 mb-2 font-space-grotesk">LM Studio</h3>
+            <h3 className="font-semibold text-gray-900 mb-2 ">LM Studio</h3>
             <p className="text-gray-700 text-sm mb-4">
               User-friendly GUI for running local LLMs with built-in model browser.
             </p>
@@ -243,7 +243,7 @@ export function LocalLLMGuide() {
           </div>
           
           <div className="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
-            <h3 className="font-semibold text-gray-900 mb-2 font-space-grotesk">Text Generation WebUI</h3>
+            <h3 className="font-semibold text-gray-900 mb-2 ">Text Generation WebUI</h3>
             <p className="text-gray-700 text-sm mb-4">
               Advanced tool for power users with extensive customization options.
             </p>
@@ -271,7 +271,7 @@ export function LocalLLMGuide() {
           <div className="p-2 bg-green-600 rounded-lg text-white">
             <ArrowRight className="w-6 h-6" />
           </div>
-          <h2 className="text-2xl font-bold text-green-900 font-space-grotesk">Ready to Get Started?</h2>
+          <h2 className="text-2xl font-bold text-green-900 ">Ready to Get Started?</h2>
         </div>
         
         <div className="space-y-4">
