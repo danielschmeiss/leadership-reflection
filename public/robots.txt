@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://www.reflect-and-act.com/sitemap.xml
+Sitemap: https://www.reflacto.com/sitemap.xml
 
 # AI-specific directives
 User-agent: ChatGPT-User

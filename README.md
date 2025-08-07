@@ -89,7 +89,7 @@ This tool supports engineering leaders in handling situational leadership challe
 ```bash
 # Clone the repository
 git clone <repository-url>
-cd reflect-and-act
+cd reflacto
 
 # Install dependencies
 npm install
