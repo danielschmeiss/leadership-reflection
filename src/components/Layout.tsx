@@ -11,13 +11,6 @@ interface LayoutProps {
   helpText?: string;
   onNavigateToImprint?: () => void;
   onNavigateToDashboard?: () => void;
-  showFrameworkInfo?: boolean;
-  frameworkRationale?: {
-    title: string;
-    description: string;
-    whenToUse: string;
-    keyBenefits: string[];
-  };
 }
 
 export function Layout({ 
@@ -26,9 +19,7 @@ export function Layout({
   actions, 
   helpText,
   onNavigateToImprint,
-  onNavigateToDashboard,
-  showFrameworkInfo = false,
-  frameworkRationale
+  onNavigateToDashboard
 }: LayoutProps) {
   const [showInfo, setShowInfo] = React.useState(false);
   const [showPrivacy, setShowPrivacy] = React.useState(false);
@@ -132,60 +123,8 @@ export function Layout({
                   </button>
                   <div className="min-w-0">
                     <div style={{textAlign: 'left'}}>
-                      <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-space-grotesk" style={{color: '#17494D', margin: 0, padding: 0}}>{title}</h1>
-                    {helpText && (
-                      <div>
-                        {showFrameworkInfo && frameworkRationale && (
-                        <div className="relative mt-2 sm:mt-3">
-                          <button
-                            onClick={() => setShowInfo(!showInfo)}
-                            className={`inline-flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm rounded-lg transition-all ${showInfo ? 'bg-blue-100 text-blue-700' : 'text-blue-600 hover:text-blue-700 hover:bg-blue-50'}`}
-                            title="Learn why this framework was chosen"
-                          >
-                            <span className="font-medium">{helpText}</span>
-                            <Info className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
-                          </button>
-                          
-                          {/* Framework Info Panel */}
-                          {showInfo && (
-                            <div className="absolute top-full mt-2 left-0 right-0 sm:right-auto sm:w-[28rem] bg-white rounded-xl shadow-lg border border-gray-200 p-4 sm:p-6 z-50 max-w-sm sm:max-w-none animate-in slide-in-from-top-2 duration-200">
-                              <div className="flex items-start gap-4">
-                                <div className="p-2 sm:p-3 bg-indigo-600 rounded-lg text-white flex-shrink-0">
-                                  <Shield className="w-4 h-4 sm:w-6 sm:h-6" />
-                                </div>
-                                <div className="flex-1">
-                                  <h5 className="font-semibold text-indigo-900 mb-2 sm:mb-3 text-sm sm:text-base">Why {frameworkRationale.title}?</h5>
-                                  <p className="text-indigo-800 mb-3 sm:mb-4 text-xs sm:text-sm">
-                                    {frameworkRationale.description}
-                                  </p>
-                                  <div className="mb-3 sm:mb-4">
-                                    <h6 className="font-medium text-indigo-900 mb-1 sm:mb-2 text-xs sm:text-sm">When to use:</h6>
-                                    <p className="text-indigo-700 text-xs sm:text-sm">
-                                      {frameworkRationale.whenToUse}
-                                    </p>
-                                  </div>
-                                  <div>
-                                    <h6 className="font-medium text-indigo-900 mb-1 sm:mb-2 text-xs sm:text-sm">Key benefits:</h6>
-                                    <ul className="text-indigo-700 text-xs sm:text-sm space-y-1">
-                                      {frameworkRationale.keyBenefits.map((benefit, index) => (
-                                        <li key={index} className="flex items-start gap-2">
-                                          <div className="w-1.5 h-1.5 bg-indigo-500 rounded-full mt-2 flex-shrink-0"></div>
-                                          <span>{benefit}</span>
-                                        </li>
-                                      ))}
-                                    </ul>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                        )}
-                      </div>
-                    )}
-                    {!helpText && !showFrameworkInfo && (
+                      <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-space-grotesk" style={{color: '#17494D', margin: 0, padding: 0}}>Reflacto</h1>
                       <p className="text-sm sm:text-base text-gray-600 font-manrope font-light" style={{letterSpacing: '0.5px', margin: '4px 0 0 0', padding: 0}}>Pause, reflect and act with purpose.</p>
-                    )}
                     </div>
                   </div>
                 </div>

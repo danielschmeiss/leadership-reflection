@@ -454,36 +454,14 @@ function App() {
       },
       'mediation': {
         title: 'Mediation Framework',
-        description: category === 'conflict' && subcategory === 'with-team-member' 
-          ? 'When you\'re caught in a conflict with a team member, emotions run high and positions get entrenched. This framework helps you step back, understand both sides\' real needs, and find solutions that work for everyone.'
-          : category === 'conflict' && subcategory === 'between-team-members'
-          ? 'When two team members are in conflict, you need to help them move past blame and defensiveness to find workable solutions. This framework guides you through structured mediation to resolve their dispute while preserving team relationships.'
-          : 'A structured approach to resolving conflicts by focusing on underlying interests rather than surface positions.',
-        whenToUse: category === 'conflict' && subcategory === 'with-team-member'
-          ? 'Use when you have a direct conflict with a team member where you need to preserve the working relationship. Essential when tension is affecting team dynamics or project progress.'
-          : category === 'conflict' && subcategory === 'between-team-members'
-          ? 'Use when two team members are stuck in conflict, avoiding each other, or when their dispute is affecting team productivity. Essential when you need to act as a neutral mediator to help them resolve their differences.'
-          : 'Use when conflicts arise and you need to facilitate resolution between parties.',
-        keyBenefits: category === 'conflict' && subcategory === 'with-team-member'
-          ? [
-              'Gets past surface positions to understand underlying needs and concerns',
-              'Reduces defensiveness by focusing on interests rather than blame',
-              'Preserves working relationships while resolving the actual problem', 
-              'Creates collaborative solutions both parties can commit to'
-            ]
-          : category === 'conflict' && subcategory === 'between-team-members'
-          ? [
-              'Helps you stay neutral while guiding both parties toward resolution',
-              'Reduces team disruption by addressing conflict directly rather than letting it fester',
-              'Teaches team members conflict resolution skills for future disputes',
-              'Creates solutions both parties help develop and therefore commit to implementing'
-            ]
-          : [
-              'Focuses on interests rather than positions',
-              'Preserves relationships while solving problems',
-              'Creates mutually acceptable solutions',
-              'Reduces future conflicts through better understanding'
-            ]
+        description: 'Tensions and disagreements are a natural part of working closely with others. This framework supports open, respectful conversations when a conflict arises—helping you and others better understand what\'s really at stake and find a way forward together.',
+        whenToUse: 'Use this when you\'re in a conflict with a team member—or helping two colleagues in conflict—and you want to maintain trust, psychological safety, and a healthy working relationship. Especially helpful when tension is disrupting collaboration or team morale.',
+        keyBenefits: [
+          'Moves beyond fixed positions to explore what really matters to each person',
+          'Shifts the focus from blame to shared understanding',
+          'Builds empathy and preserves trust',
+          'Leads to agreements that feel fair and workable for everyone involved'
+        ]
       },
       'interest-based-negotiation': {
         title: 'Interest-Based Negotiation',
@@ -660,6 +638,7 @@ function App() {
             initialResponses={session.editingReflection?.responses || {}}
             category={session.category}
             subcategory={session.subcategory}
+            frameworkRationale={getFrameworkRationale(session.framework, session.category, session.subcategory)}
           />
         );
       }
@@ -769,8 +748,6 @@ function App() {
           updateURL('imprint');
         }}
         onNavigateToDashboard={handleNavigateToDashboard}
-        showFrameworkInfo={currentState === 'reflection' && session !== null}
-        frameworkRationale={session ? getFrameworkRationale(session.framework, session.category, session.subcategory) : undefined}
       >
         {renderContent()}
       </Layout>

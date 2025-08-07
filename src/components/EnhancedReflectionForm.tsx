@@ -13,6 +13,12 @@ interface EnhancedReflectionFormProps {
   initialResponses?: Record<string, QuestionResponse>;
   category?: string;
   subcategory?: string;
+  frameworkRationale?: {
+    title: string;
+    description: string;
+    whenToUse: string;
+    keyBenefits: string[];
+  };
 }
 
 export function EnhancedReflectionForm({ 
@@ -22,7 +28,8 @@ export function EnhancedReflectionForm({
   onCancel, 
   initialResponses = {},
   category,
-  subcategory
+  subcategory,
+  frameworkRationale
 }: EnhancedReflectionFormProps) {
   const [responses, setResponses] = useState<Record<string, QuestionResponse>>(initialResponses);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -32,6 +39,7 @@ export function EnhancedReflectionForm({
   const [aiSuggestions, setAiSuggestions] = useState<Record<string, string>>({});
   const [showAiSuggestion, setShowAiSuggestion] = useState(false);
   const [expandedAnswers, setExpandedAnswers] = useState<Set<string>>(new Set());
+  const [showFrameworkDetails, setShowFrameworkDetails] = useState(false);
   
   const { isConfigured, isConnected, isLoading, generateResponse } = useLocalLLM();
 
@@ -73,6 +81,40 @@ export function EnhancedReflectionForm({
   };
 
   const canProceed = isQuestionValid(currentQuestion);
+  
+  // Get a contextual, human-friendly introduction sentence
+  const getContextualIntro = (category?: string, subcategory?: string, frameworkName?: string): string => {
+    const scenarios: Record<string, Record<string, string>> = {
+      'conflict': {
+        'with-team-member': `When tension arises with a team member, the ${frameworkName} helps you pause, listen with curiosity, and work toward a shared understanding—so you can move forward together while maintaining trust and collaboration.`,
+        'between-team-members': `When two team members are stuck in conflict, you need to guide them past blame toward solutions they can both commit to implementing.`,
+        'cross-team-conflict': `Cross-team conflicts usually stem from competing priorities. This framework helps you reframe the situation as "how do we both win?" instead of choosing sides.`
+      },
+      'feedback': {
+        'positive': `Effective praise goes beyond "good job" – it connects specific behaviors to their impact so people know exactly what to repeat.`,
+        'developmental': `Developmental feedback works best when it focuses on observable actions and their effects, removing emotion and defensiveness from the conversation.`,
+        'peer-to-peer-feedback-facilitation': `Helping peers give each other feedback can be tricky. This approach focuses on future improvements rather than rehashing past mistakes.`
+      },
+      'decision': {
+        'operational': `Team decisions can get stuck when everyone has opinions but no clear criteria. This framework helps you weigh options systematically.`,
+        'strategic': `Strategic decisions affect multiple people and have long-term consequences. Taking time to analyze pros and cons prevents costly mistakes.`,
+        'ownership-accountability-gaps': `When tasks fall through the cracks, it's usually because roles weren't clearly defined. This framework eliminates the "I thought you were handling that" problem.`
+      },
+      'stakeholder': {
+        'alignment-with-leadership': `Getting leadership buy-in requires more than good ideas – you need to present your case in terms they care about, with evidence they trust.`,
+        'expectation-management': `When stakeholders have unrealistic expectations, pushing back defensively rarely works. This approach uses facts and collaboration to reset expectations constructively.`
+      },
+      'team-dynamics': {
+        'ownership-clarity': `Teams perform better when people know exactly what they own and what authority they have to make decisions within those areas.`,
+        'team-health-check': `Team problems often have a root cause: lack of trust. When people don't trust each other, everything else breaks down – communication, accountability, and results.`
+      },
+      'other': {
+        'free-reflection': `Sometimes you need space to think through a complex situation systematically, exploring what success looks like and what options you have.`
+      }
+    };
+    
+    return scenarios[category || '']?.[subcategory || ''] || `The ${frameworkName} provides a structured approach to work through your leadership challenge step by step.`;
+  };
   
   // Check if this should use accordion layout (conflict, feedback, decision, and stakeholder reflections)
   const useAccordionLayout = (category === 'conflict' && (
@@ -549,6 +591,65 @@ ${responses[currentQuestion.id] ? `My draft: ${convertResponseToText(responses[c
   if (useAccordionLayout) {
     return (
       <div className="relative w-full space-y-4">
+        {/* Framework Information Panel */}
+        <div className="border border-slate-200 bg-slate-50 rounded-lg shadow-sm">
+          <div className="p-4">
+            <div className="flex items-start gap-3">
+              <div className="p-1.5 bg-slate-100 rounded-lg text-slate-600 flex-shrink-0">
+                <Target className="w-4 h-4" />
+              </div>
+              <div className="flex-1">
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="text-base font-semibold text-slate-800">
+                    {framework.name}
+                  </h3>
+                  {frameworkRationale && (
+                    <button
+                      onClick={() => setShowFrameworkDetails(!showFrameworkDetails)}
+                      className="flex items-center gap-1 text-sm text-slate-600 hover:text-slate-700 font-medium transition-colors"
+                    >
+                      <span>Learn more</span>
+                      {showFrameworkDetails ? (
+                        <ChevronDown className="w-3 h-3" />
+                      ) : (
+                        <ChevronRight className="w-3 h-3" />
+                      )}
+                    </button>
+                  )}
+                </div>
+                <p className="text-sm text-slate-700 leading-relaxed">
+                  {getContextualIntro(category, subcategory, framework.name)}
+                </p>
+              </div>
+            </div>
+            
+            {/* Expandable detailed information */}
+            {showFrameworkDetails && frameworkRationale && (
+              <div className="mt-3 pt-3 border-t border-slate-200">
+                <div className="bg-white bg-opacity-80 rounded-lg p-3 border border-slate-100">
+                  <div className="mb-3">
+                    <h6 className="font-semibold text-slate-800 mb-2 text-base">When to use:</h6>
+                    <p className="text-sm text-slate-600">
+                      {frameworkRationale.whenToUse}
+                    </p>
+                  </div>
+                  <div>
+                    <h6 className="font-semibold text-slate-800 mb-2 text-base">What it helps with:</h6>
+                    <ul className="text-sm text-slate-600 space-y-1">
+                      {frameworkRationale.keyBenefits.map((benefit, index) => (
+                        <li key={index} className="flex items-start gap-2">
+                          <div className="w-1 h-1 bg-slate-400 rounded-full mt-2 flex-shrink-0"></div>
+                          <span>{benefit}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+        
         <div className="space-y-2">
           {framework.questions.map((question, index) => {
             const isActive = index === currentQuestionIndex;
