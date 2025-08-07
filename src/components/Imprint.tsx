@@ -40,10 +40,10 @@ export function Imprint() {
                 <div className="flex items-center gap-2">
                   <span className="font-medium text-gray-700">E-Mail:</span>
                   <a 
-                    href="mailto:zoomen.zweimal.7f@icloud.com" 
+                    href="mailto:reflacto-contact@proton.me" 
                     className="text-blue-600 hover:text-blue-700 underline hover:no-underline transition-all"
                   >
-                    zoomen.zweimal.7f@icloud.com
+                    reflacto-contact@proton.me
                   </a>
                 </div>
               </div>
