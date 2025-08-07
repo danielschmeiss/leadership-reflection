@@ -1,6 +1,6 @@
-# Reflect & Act
+# Reflacto
 
-*Pause, reflect, and move forward with purpose.*
+*Pause, reflect and act with purpose.*
 
 ## Table of Contents
 
@@ -211,6 +211,6 @@ MIT License - see LICENSE file for details
 
 ---
 
-**Reflect & Act - Built for engineering leaders, by engineering leaders** 🚀
+**Reflacto - Built for engineering leaders, by engineering leaders** 🚀
 
 *Transform leadership challenges into growth opportunities through structured reflection.*

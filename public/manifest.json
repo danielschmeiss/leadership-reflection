@@ -1,6 +1,6 @@
 {
-  "name": "Reflect & Act - Leadership Reflection Tool",
-  "short_name": "Reflect & Act",
+  "name": "Reflacto - Leadership Reflection Tool",
+  "short_name": "Reflacto",
   "description": "Privacy-focused leadership reflection tool for engineering leaders. Navigate situational challenges through proven frameworks like SBI, GROW, RACI, mediation, and decision-making models. 100% local storage, offline capable.",
   "start_url": "/",
   "display": "standalone",

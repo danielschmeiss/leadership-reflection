@@ -16,7 +16,7 @@ export function Logo({ className = '', size = 'md' }: LogoProps) {
     <div className={`${sizeClasses[size]} ${className}`}>
       <img
         src="/logo.png"
-        alt="Reflect & Act Logo"
+        alt="Reflacto Logo"
         className="w-full h-full"
       />
     </div>

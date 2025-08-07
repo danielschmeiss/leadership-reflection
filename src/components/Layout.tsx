@@ -126,7 +126,7 @@ export function Layout({
                   >
                     <img 
                       src="/logo.png" 
-                      alt="Reflect & Act Logo" 
+                      alt="Reflacto Logo" 
                       className="w-12 h-12 sm:w-16 sm:h-16 object-contain"
                     />
                   </button>
@@ -183,7 +183,7 @@ export function Layout({
                       </div>
                     )}
                     {!helpText && !showFrameworkInfo && (
-                      <p className="text-sm sm:text-base text-gray-600 mt-1">Pause, reflect, and move forward with purpose.</p>
+                      <p className="text-sm sm:text-base text-gray-600 mt-1">Pause, reflect and act with purpose.</p>
                     )}
                   </div>
                 </div>

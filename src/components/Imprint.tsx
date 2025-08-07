@@ -14,7 +14,7 @@ export function Imprint() {
             </div>
             <div>
               <h3 className="text-xl font-semibold text-gray-900 mb-3">Service Provider</h3>
-              <p className="text-lg font-medium text-gray-800">Reflect & Act</p>
+              <p className="text-lg font-medium text-gray-800">Reflacto</p>
             </div>
           </div>
 
@@ -96,7 +96,7 @@ export function Imprint() {
           <div>
             <h4 className="font-semibold text-blue-900 mb-2">About This Service</h4>
             <p className="text-blue-800 text-sm">
-              Reflect & Act is a privacy-focused leadership reflection tool designed to help engineering leaders 
+              Reflacto is a privacy-focused leadership reflection tool designed to help engineering leaders 
               navigate situational challenges through structured frameworks.
             </p>
           </div>

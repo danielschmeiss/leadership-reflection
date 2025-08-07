@@ -384,7 +384,7 @@ function App() {
 
   const getTitle = () => {
     switch (currentState) {
-      case 'dashboard': return 'Reflect & Act';
+      case 'dashboard': return 'Reflacto';
       case 'decision-tree': return 'Identify Your Challenge';
       case 'reflection': 
         if (session) {

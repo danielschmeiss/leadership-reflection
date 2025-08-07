@@ -2,7 +2,7 @@
   "dashboard": {
     "hero": {
       "title": "Figure Out What to Do Next",
-      "subtitle": "Tackle tough feedback, conflicts, and decisions in just 5-10 minutes",
+      "subtitle": "Pause, reflect and act with purpose.",
       "ctaText": "Begin Your Reflection Now",
       "privacyText": "Private, evidence-based, and designed to give you immediate steps forward"
     },
@@ -421,7 +421,7 @@
     }
   },
   "layout": {
-    "tagline": "Pause, reflect, and move forward with purpose.",
+    "tagline": "Pause, reflect and act with purpose.",
     "privacy": {
       "badge": "Private",
       "title": "Your Privacy is Protected",
