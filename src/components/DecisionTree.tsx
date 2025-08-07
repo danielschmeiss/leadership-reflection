@@ -3,7 +3,7 @@ import {
   Target, Users, MessageSquare, GitBranch, Zap, ArrowLeft, ArrowRight, 
   CheckCircle, User, UserCheck, Building2, ThumbsUp, AlertTriangle, BarChart3, 
   TrendingUp, FileText, Shield, UserPlus, Heart, Compass, MessageCircle, UserX, 
-  Handshake, ClipboardCheck, Megaphone, Settings 
+  Handshake, ClipboardCheck, Megaphone, Settings, Lightbulb 
 } from './icons';
 import { decisionTree, decisionTreeNodes } from '../data/frameworks';
 import { DecisionTreeNode, FrameworkType, SituationCategory } from '../types';

@@ -447,6 +447,10 @@ function App() {
   const handleNavigateToDashboard = () => {
     setCurrentState('dashboard');
     updateURL('dashboard');
+    // Clear any hash fragments from the URL
+    if (window.location.hash) {
+      window.history.replaceState(null, '', window.location.pathname + window.location.search);
+    }
   };
 
   const getFrameworkRationale = (frameworkId: string, category?: string, subcategory?: string) => {
