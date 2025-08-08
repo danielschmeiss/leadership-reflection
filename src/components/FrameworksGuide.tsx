@@ -267,17 +267,17 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-700 rounded-2xl p-8 text-white shadow-lg">
+      <div className="bg-gradient-to-r from-teal-600 via-cyan-600 to-teal-700 rounded-2xl p-8 text-white shadow-lg">
         <div className="flex items-start gap-6">
           <div className="p-4 bg-white bg-opacity-20 backdrop-blur-sm rounded-xl">
             <Lightbulb className="w-12 h-12" />
           </div>
           <div className="flex-1">
             <h1 className="text-3xl font-bold mb-3 font-sora">Leadership Frameworks Guide</h1>
-            <p className="text-xl text-blue-100 mb-4">
+            <p className="text-xl text-teal-100 mb-4">
               Comprehensive explanations of all available frameworks to help you choose the right approach for your leadership challenges.
             </p>
-            <div className="flex items-center gap-2 text-blue-200">
+            <div className="flex items-center gap-2 text-teal-200">
               <CheckCircle className="w-4 h-4" />
               <span>Research-backed • Proven in practice • Ready to use</span>
             </div>
@@ -305,7 +305,7 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
                 <MessageSquare className="w-5 h-5" />
               </div>
               <h3 className="text-xl font-bold text-gray-900 font-sora">Feedback</h3>
-              <div className="h-px bg-blue-200 flex-1"></div>
+              <div className="h-px bg-teal-200 flex-1"></div>
             </div>
             <div className="grid md:grid-cols-2 gap-4">
               {frameworks.filter(f => f.usedFor.some(u => u.category === 'feedback')).map((framework) => (
@@ -615,7 +615,7 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
                     <button
                       key={index}
                       onClick={() => handleReflectionClick(usage.category, usage.subcategory)}
-                      className="group flex items-center gap-2 px-3 py-2 bg-blue-100 hover:bg-blue-200 text-blue-800 hover:text-blue-900 rounded-full text-sm font-medium transition-all duration-200 hover:shadow-sm"
+                      className="group flex items-center gap-2 px-3 py-2 bg-teal-100 hover:bg-teal-200 text-teal-800 hover:text-teal-900 rounded-full text-sm font-medium transition-all duration-200 hover:shadow-sm"
                       title={`Start a ${usage.label.toLowerCase()} reflection`}
                     >
                       <span>{usage.label}</span>
@@ -664,7 +664,7 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
                 <ul className="space-y-3">
                   {framework.keyBenefits.map((benefit, index) => (
                     <li key={index} className="flex items-start gap-3">
-                      <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                      <div className="w-2 h-2 bg-teal-500 rounded-full mt-2 flex-shrink-0"></div>
                       <span className="text-gray-700 leading-relaxed">{benefit}</span>
                     </li>
                   ))}
@@ -756,7 +756,7 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
                       >
                         <ExternalLink className="w-4 h-4 text-gray-500 mt-0.5 flex-shrink-0" />
                         <div>
-                          <h4 className="font-medium text-gray-900 group-hover:text-blue-600 text-sm">
+                          <h4 className="font-medium text-gray-900 group-hover:text-teal-600 text-sm">
                             {link.title}
                           </h4>
                           <p className="text-xs text-gray-600 mt-1">
@@ -774,14 +774,14 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
       </div>
 
       {/* Footer */}
-      <div className="bg-blue-50 rounded-2xl p-6 border border-blue-200">
+      <div className="bg-teal-50 rounded-2xl p-6 border border-teal-200">
         <div className="flex items-start gap-3 mb-4">
-          <div className="p-2 bg-blue-600 rounded-lg text-white">
+          <div className="p-2 bg-teal-600 rounded-lg text-white">
             <Lightbulb className="w-5 h-5" />
           </div>
           <div>
-            <h4 className="font-semibold text-blue-900 mb-2">Ready to get started?</h4>
-            <p className="text-blue-800 text-sm">
+            <h4 className="font-semibold text-teal-900 mb-2">Ready to get started?</h4>
+            <p className="text-teal-800 text-sm">
               Each framework is designed to be practical and immediately actionable. Choose the one that matches your current challenge, or start with a new reflection to get a personalized recommendation.
             </p>
           </div>
@@ -792,7 +792,7 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
             onClick={() => {
               window.location.href = '/decide';
             }}
-            className="group flex items-center gap-3 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-200 shadow-sm hover:shadow-md"
+            className="group flex items-center gap-3 bg-teal-600 hover:bg-teal-700 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-200 shadow-sm hover:shadow-md"
           >
             <div className="p-1 bg-white bg-opacity-20 rounded-lg">
               <Play className="w-4 h-4" />

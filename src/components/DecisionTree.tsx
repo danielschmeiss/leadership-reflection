@@ -234,7 +234,7 @@ export function DecisionTree({ onFrameworkSelected, onNavigationChange, preselec
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl max-w-lg w-full p-8 shadow-2xl">
             <div className="text-center mb-6">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl text-white mb-4">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-teal-600 to-cyan-600 rounded-2xl text-white mb-4">
                 <Lightbulb className="w-8 h-8" />
               </div>
               <h2 className="text-2xl font-bold text-gray-900 mb-3 font-sora">Welcome to Leadership Reflection</h2>
@@ -244,32 +244,32 @@ export function DecisionTree({ onFrameworkSelected, onNavigationChange, preselec
             </div>
 
             <div className="space-y-4 mb-8">
-              <div className="bg-blue-50 rounded-xl p-4 border border-blue-200">
+              <div className="bg-teal-50 rounded-xl p-4 border border-teal-200">
                 <div className="flex items-start gap-3">
-                  <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0 mt-0.5">1</div>
+                  <div className="w-6 h-6 bg-teal-600 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0 mt-0.5">1</div>
                   <div>
-                    <h4 className="font-semibold text-blue-900 mb-1">Pick your challenge type</h4>
-                    <p className="text-sm text-blue-800">Choose from feedback, conflicts, decisions, and more</p>
+                    <h4 className="font-semibold text-teal-900 mb-1">Pick your challenge type</h4>
+                    <p className="text-sm text-teal-800">Choose from feedback, conflicts, decisions, and more</p>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-emerald-50 rounded-xl p-4 border border-emerald-200">
+              <div className="bg-teal-50 rounded-xl p-4 border border-teal-200">
                 <div className="flex items-start gap-3">
-                  <div className="w-6 h-6 bg-emerald-600 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0 mt-0.5">2</div>
+                  <div className="w-6 h-6 bg-teal-600 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0 mt-0.5">2</div>
                   <div>
-                    <h4 className="font-semibold text-emerald-900 mb-1">Answer guided questions</h4>
-                    <p className="text-sm text-emerald-800">Follow a proven framework with helpful examples</p>
+                    <h4 className="font-semibold text-teal-900 mb-1">Answer guided questions</h4>
+                    <p className="text-sm text-teal-800">Follow a proven framework with helpful examples</p>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-purple-50 rounded-xl p-4 border border-purple-200">
+              <div className="bg-teal-50 rounded-xl p-4 border border-teal-200">
                 <div className="flex items-start gap-3">
-                  <div className="w-6 h-6 bg-purple-600 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0 mt-0.5">3</div>
+                  <div className="w-6 h-6 bg-teal-600 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0 mt-0.5">3</div>
                   <div>
-                    <h4 className="font-semibold text-purple-900 mb-1">Get actionable insights</h4>
-                    <p className="text-sm text-purple-800">Receive specific next steps and save as PDF</p>
+                    <h4 className="font-semibold text-teal-900 mb-1">Get actionable insights</h4>
+                    <p className="text-sm text-teal-800">Receive specific next steps and save as PDF</p>
                   </div>
                 </div>
               </div>
@@ -278,7 +278,7 @@ export function DecisionTree({ onFrameworkSelected, onNavigationChange, preselec
             <div className="flex flex-col gap-3">
               <button
                 onClick={() => setShowOnboarding(false)}
-                className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 shadow-sm hover:shadow-md"
+                className="w-full bg-gradient-to-r from-teal-600 to-cyan-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-teal-700 hover:to-cyan-700 transition-all duration-200 shadow-sm hover:shadow-md"
               >
                 Get Started
               </button>
@@ -287,7 +287,7 @@ export function DecisionTree({ onFrameworkSelected, onNavigationChange, preselec
                   setShowOnboarding(false);
                   setShowQuickQuiz(true);
                 }}
-                className="w-full text-blue-600 px-6 py-2 rounded-xl font-medium hover:bg-blue-50 transition-all duration-200"
+                className="w-full text-teal-600 px-6 py-2 rounded-xl font-medium hover:bg-teal-50 transition-all duration-200"
               >
                 Take Quick Quiz Instead
               </button>
@@ -319,7 +319,7 @@ export function DecisionTree({ onFrameworkSelected, onNavigationChange, preselec
             </div>
             <div className="w-full bg-gray-200 rounded-full h-2">
               <div 
-                className="bg-blue-600 rounded-full h-2 transition-all duration-300"
+                className="bg-teal-600 rounded-full h-2 transition-all duration-300"
                 style={{ width: `${((quizStep + 1) / quickQuizQuestions.length) * 100}%` }}
               ></div>
             </div>
@@ -335,10 +335,10 @@ export function DecisionTree({ onFrameworkSelected, onNavigationChange, preselec
                 <button
                   key={index}
                   onClick={() => handleQuizAnswer(option.value)}
-                  className="w-full text-left p-4 rounded-lg border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-all duration-200 group"
+                  className="w-full text-left p-4 rounded-lg border border-gray-200 hover:border-teal-300 hover:bg-teal-50 transition-all duration-200 group"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-4 h-4 rounded-full border-2 border-gray-300 group-hover:border-blue-600"></div>
+                    <div className="w-4 h-4 rounded-full border-2 border-gray-300 group-hover:border-teal-600"></div>
                     <span className="font-medium text-gray-900">{option.text}</span>
                   </div>
                 </button>
@@ -423,7 +423,7 @@ export function DecisionTree({ onFrameworkSelected, onNavigationChange, preselec
           <div className="flex justify-center pt-6">
             <button
               onClick={goBack}
-              className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium text-sm hover:bg-blue-50 px-4 py-2 rounded-lg transition-all border border-blue-200 hover:border-blue-300"
+              className="inline-flex items-center gap-2 text-teal-600 hover:text-teal-700 font-medium text-sm hover:bg-teal-50 px-4 py-2 rounded-lg transition-all border border-teal-200 hover:border-teal-300"
             >
               <ArrowLeft className="w-4 h-4" />
               Back to categories
@@ -435,25 +435,25 @@ export function DecisionTree({ onFrameworkSelected, onNavigationChange, preselec
 
       {/* Smart Quiz Option - Only show on first level */}
       {isFirstLevel && !showQuickQuiz && (
-        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 border border-blue-200">
+        <div className="bg-gradient-to-r from-teal-50 to-cyan-50 rounded-xl p-6 border border-teal-200">
           <div className="text-center">
             <div className="mb-4">
-              <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-600 rounded-xl text-white mb-3">
+              <div className="inline-flex items-center justify-center w-12 h-12 bg-teal-600 rounded-xl text-white mb-3">
                 <Zap className="w-6 h-6" />
               </div>
-              <h3 className="text-lg font-bold text-blue-900 mb-2 font-sora">Not sure which category fits?</h3>
-              <p className="text-blue-700 text-sm mb-4">Answer 2 quick questions and we'll recommend the best approach</p>
+              <h3 className="text-lg font-bold text-teal-900 mb-2 font-sora">Not sure which category fits?</h3>
+              <p className="text-teal-700 text-sm mb-4">Answer 2 quick questions and we'll recommend the best approach</p>
             </div>
             <div className="flex flex-col sm:flex-row gap-3 items-center justify-center">
               <button
                 onClick={() => setShowQuickQuiz(true)}
-                className="bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-700 transition-all duration-200 shadow-sm hover:shadow-md"
+                className="bg-teal-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-teal-700 transition-all duration-200 shadow-sm hover:shadow-md"
               >
                 Take 30-Second Quiz
               </button>
               <button
                 onClick={() => setShowOnboarding(true)}
-                className="text-blue-600 hover:text-blue-800 font-medium text-sm underline hover:no-underline transition-colors"
+                className="text-teal-600 hover:text-teal-800 font-medium text-sm underline hover:no-underline transition-colors"
               >
                 or see how this works
               </button>
