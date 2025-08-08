@@ -8,6 +8,7 @@ import {
 import { decisionTree, decisionTreeNodes } from '../data/frameworks';
 import { DecisionTreeNode, FrameworkType, SituationCategory } from '../types';
 import content from '../data/content.json';
+import { getCategoryGradient, getCategoryBackground } from '../config/categoryColors';
 
 interface DecisionTreeProps {
   onFrameworkSelected: (framework: FrameworkType, category: SituationCategory, subcategory: string) => void;
@@ -58,16 +59,9 @@ const getSpecificIcon = (framework: string, subcategory: string) => {
   return getCategoryIcon('other');
 };
 
+// Use centralized color configuration
 const getCategoryColor = (category: string) => {
-  switch (category) {
-    case 'feedback': return 'from-blue-500 to-blue-600';
-    case 'conflict': return 'from-amber-500 to-orange-600';
-    case 'decision': return 'from-purple-500 to-purple-600';
-    case 'stakeholder': return 'from-emerald-500 to-emerald-600';
-    case 'team-dynamics': return 'from-rose-500 to-pink-600';
-    case 'other': return 'from-slate-500 to-gray-600';
-    default: return 'from-blue-500 to-blue-600';
-  }
+  return getCategoryGradient(category);
 };
 
 const getFrameworkDescription = (framework: FrameworkType) => {
@@ -87,16 +81,9 @@ const getFrameworkDescription = (framework: FrameworkType) => {
   }
 };
 
+// Use centralized color configuration
 const getCategoryBackgroundClass = (category: string) => {
-  switch (category) {
-    case 'feedback': return 'bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200 hover:from-blue-100 hover:to-blue-150';
-    case 'conflict': return 'bg-gradient-to-br from-amber-50 to-orange-100 border-amber-200 hover:from-amber-100 hover:to-orange-150';
-    case 'decision': return 'bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200 hover:from-purple-100 hover:to-purple-150';
-    case 'stakeholder': return 'bg-gradient-to-br from-emerald-50 to-emerald-100 border-emerald-200 hover:from-emerald-100 hover:to-emerald-150';
-    case 'team-dynamics': return 'bg-gradient-to-br from-rose-50 to-pink-100 border-rose-200 hover:from-rose-100 hover:to-pink-150';
-    case 'other': return 'bg-gradient-to-br from-slate-50 to-gray-100 border-slate-200 hover:from-slate-100 hover:to-gray-150';
-    default: return 'bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200 hover:from-blue-100 hover:to-blue-150';
-  }
+  return getCategoryBackground(category);
 };
 
 export function DecisionTree({ onFrameworkSelected, onNavigationChange, preselectedCategory }: DecisionTreeProps) {

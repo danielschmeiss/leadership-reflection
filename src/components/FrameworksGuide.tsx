@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Shield, MessageSquare, Users, Target, GitBranch, BarChart3, TrendingUp, FileText, UserPlus, Heart, Compass, Lightbulb, CheckCircle, List, ArrowRight, Play, ExternalLink, Copy, Link } from './icons';
+import { getCategoryGradient } from '../config/categoryColors';
 
 interface FrameworksGuideProps {
   onStartReflection?: (category: string, subcategory: string) => void;
@@ -8,6 +9,14 @@ interface FrameworksGuideProps {
 
 export function FrameworksGuide({ onStartReflection, onStartNewReflection }: FrameworksGuideProps) {
   const [copiedFramework, setCopiedFramework] = useState<string | null>(null);
+  
+  // Helper function to get framework color based on primary category
+  const getFrameworkColor = (usedFor: Array<{ category: string; subcategory: string; label: string }>) => {
+    if (usedFor.length > 0) {
+      return getCategoryGradient(usedFor[0].category);
+    }
+    return getCategoryGradient('other'); // fallback
+  };
 
   const copyFrameworkLink = async (frameworkId: string) => {
     const url = `${window.location.origin}/frameworks#${frameworkId}`;
@@ -38,7 +47,6 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
       id: 'sbi',
       title: 'SBI Framework (Situation-Behavior-Impact)',
       icon: <MessageSquare className="w-6 h-6" />,
-      color: 'from-blue-500 to-blue-600',
       usedFor: [
         { category: 'feedback', subcategory: 'positive', label: 'Feedback → Positive feedback' },
         { category: 'feedback', subcategory: 'developmental', label: 'Feedback → Developmental feedback' }
@@ -57,7 +65,6 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
       id: 'feedforward-coaching',
       title: 'Feedforward Coaching',
       icon: <Compass className="w-6 h-6" />,
-      color: 'from-blue-500 to-blue-600',
       usedFor: [
         { category: 'feedback', subcategory: 'peer-to-peer-feedback-facilitation', label: 'Feedback → Peer-to-peer feedback facilitation' }
       ],
@@ -75,7 +82,6 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
       id: 'mediation',
       title: 'Mediation Framework',
       icon: <Users className="w-6 h-6" />,
-      color: 'from-amber-500 to-orange-600',
       usedFor: [
         { category: 'conflict', subcategory: 'with-team-member', label: 'Conflict → With team member' },
         { category: 'conflict', subcategory: 'between-team-members', label: 'Conflict → Between team members' }
@@ -93,7 +99,6 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
       id: 'interest-based-negotiation',
       title: 'Interest-Based Negotiation',
       icon: <GitBranch className="w-6 h-6" />,
-      color: 'from-amber-500 to-orange-600',
       usedFor: [
         { category: 'conflict', subcategory: 'cross-team-conflict', label: 'Conflict → Cross-team conflict' }
       ],
@@ -111,7 +116,6 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
       id: 'decision-matrix',
       title: 'Decision Matrix',
       icon: <BarChart3 className="w-6 h-6" />,
-      color: 'from-purple-500 to-purple-600',
       usedFor: [
         { category: 'decision', subcategory: 'operational', label: 'Decision → Operational (Team)' }
       ],
@@ -128,7 +132,6 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
       id: 'pros-cons',
       title: 'Pros/Cons Analysis',
       icon: <TrendingUp className="w-6 h-6" />,
-      color: 'from-purple-500 to-purple-600',
       usedFor: [
         { category: 'decision', subcategory: 'strategic', label: 'Decision → Strategic (Domain/Organization)' }
       ],
@@ -145,7 +148,6 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
       id: 'responsibility-mapping',
       title: 'RACI/Responsibility Mapping (Responsible-Accountable-Consulted-Informed)',
       icon: <FileText className="w-6 h-6" />,
-      color: 'from-purple-500 to-purple-600',
       usedFor: [
         { category: 'decision', subcategory: 'ownership-accountability-gaps', label: 'Decision → Ownership/Accountability gaps' }
       ],
@@ -164,7 +166,6 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
       id: 'bound',
       title: 'BOUND Framework (Baseline-Objectivity-Understand-Negotiate-Document)',
       icon: <Shield className="w-6 h-6" />,
-      color: 'from-emerald-500 to-emerald-600',
       usedFor: [
         { category: 'stakeholder', subcategory: 'expectation-management', label: 'Stakeholder → Expectation management' }
       ],
@@ -182,7 +183,6 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
       id: 'alignment-canvas',
       title: 'Stakeholder Alignment Framework',
       icon: <Target className="w-6 h-6" />,
-      color: 'from-emerald-500 to-emerald-600',
       usedFor: [
         { category: 'stakeholder', subcategory: 'alignment-with-leadership', label: 'Stakeholder → Alignment with leadership' }
       ],
@@ -200,7 +200,6 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
       id: 'delegation-empowerment',
       title: 'Delegation/Empowerment',
       icon: <UserPlus className="w-6 h-6" />,
-      color: 'from-rose-500 to-pink-600',
       usedFor: [
         { category: 'team-dynamics', subcategory: 'ownership-clarity', label: 'Team dynamics → Ownership clarity' }
       ],
@@ -217,7 +216,6 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
       id: 'five-dysfunctions',
       title: '5 Dysfunctions of a Team',
       icon: <Heart className="w-6 h-6" />,
-      color: 'from-rose-500 to-pink-600',
       usedFor: [
         { category: 'team-dynamics', subcategory: 'team-health-check', label: 'Team dynamics → Team health check' }
       ],
@@ -235,7 +233,6 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
       id: 'grow',
       title: 'GROW Model (Goal-Reality-Options-Way Forward)',
       icon: <Target className="w-6 h-6" />,
-      color: 'from-slate-500 to-gray-600',
       usedFor: [
         { category: 'other', subcategory: 'free-reflection', label: 'Other → Free reflection' }
       ],
@@ -301,7 +298,7 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
           {/* Feedback Frameworks */}
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <div className="p-2 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg text-white">
+              <div className={`p-2 bg-gradient-to-r ${getCategoryGradient('feedback')} rounded-lg text-white`}>
                 <MessageSquare className="w-5 h-5" />
               </div>
               <h3 className="text-xl font-bold text-gray-900 font-sora">Feedback</h3>
@@ -314,7 +311,7 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
                   onClick={() => scrollToFramework(framework.id)}
                   className="flex items-start gap-4 p-4 bg-blue-50 hover:bg-blue-100 rounded-xl border border-blue-200 hover:border-blue-300 transition-all duration-200 text-left group"
                 >
-                  <div className={`p-2 bg-gradient-to-r ${framework.color} rounded-lg text-white group-hover:scale-105 transition-transform flex-shrink-0`}>
+                  <div className={`p-2 bg-gradient-to-r ${getFrameworkColor(framework.usedFor)} rounded-lg text-white group-hover:scale-105 transition-transform flex-shrink-0`}>
                     {framework.icon}
                   </div>
                   <div className="flex-1">
@@ -346,7 +343,7 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
           {/* Conflict Frameworks */}
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <div className="p-2 bg-gradient-to-r from-amber-500 to-orange-600 rounded-lg text-white">
+              <div className={`p-2 bg-gradient-to-r ${getCategoryGradient('conflict')} rounded-lg text-white`}>
                 <Users className="w-5 h-5" />
               </div>
               <h3 className="text-xl font-bold text-gray-900 font-sora">Conflict</h3>
@@ -359,7 +356,7 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
                   onClick={() => scrollToFramework(framework.id)}
                   className="flex items-start gap-4 p-4 bg-amber-50 hover:bg-amber-100 rounded-xl border border-amber-200 hover:border-amber-300 transition-all duration-200 text-left group"
                 >
-                  <div className={`p-2 bg-gradient-to-r ${framework.color} rounded-lg text-white group-hover:scale-105 transition-transform flex-shrink-0`}>
+                  <div className={`p-2 bg-gradient-to-r ${getFrameworkColor(framework.usedFor)} rounded-lg text-white group-hover:scale-105 transition-transform flex-shrink-0`}>
                     {framework.icon}
                   </div>
                   <div className="flex-1">
@@ -391,7 +388,7 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
           {/* Decision Frameworks */}
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <div className="p-2 bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg text-white">
+              <div className={`p-2 bg-gradient-to-r ${getCategoryGradient('decision')} rounded-lg text-white`}>
                 <Target className="w-5 h-5" />
               </div>
               <h3 className="text-xl font-bold text-gray-900 font-sora">Decision</h3>
@@ -404,7 +401,7 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
                   onClick={() => scrollToFramework(framework.id)}
                   className="flex items-start gap-4 p-4 bg-purple-50 hover:bg-purple-100 rounded-xl border border-purple-200 hover:border-purple-300 transition-all duration-200 text-left group"
                 >
-                  <div className={`p-2 bg-gradient-to-r ${framework.color} rounded-lg text-white group-hover:scale-105 transition-transform flex-shrink-0`}>
+                  <div className={`p-2 bg-gradient-to-r ${getFrameworkColor(framework.usedFor)} rounded-lg text-white group-hover:scale-105 transition-transform flex-shrink-0`}>
                     {framework.icon}
                   </div>
                   <div className="flex-1">
@@ -443,7 +440,7 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
           {/* Stakeholder Frameworks */}
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <div className="p-2 bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-lg text-white">
+              <div className={`p-2 bg-gradient-to-r ${getCategoryGradient('stakeholder')} rounded-lg text-white`}>
                 <GitBranch className="w-5 h-5" />
               </div>
               <h3 className="text-xl font-bold text-gray-900 font-sora">Stakeholder</h3>
@@ -456,7 +453,7 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
                   onClick={() => scrollToFramework(framework.id)}
                   className="flex items-start gap-4 p-4 bg-emerald-50 hover:bg-emerald-100 rounded-xl border border-emerald-200 hover:border-emerald-300 transition-all duration-200 text-left group"
                 >
-                  <div className={`p-2 bg-gradient-to-r ${framework.color} rounded-lg text-white group-hover:scale-105 transition-transform flex-shrink-0`}>
+                  <div className={`p-2 bg-gradient-to-r ${getFrameworkColor(framework.usedFor)} rounded-lg text-white group-hover:scale-105 transition-transform flex-shrink-0`}>
                     {framework.icon}
                   </div>
                   <div className="flex-1">
@@ -488,7 +485,7 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
           {/* Team Dynamics Frameworks */}
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <div className="p-2 bg-gradient-to-r from-rose-500 to-pink-600 rounded-lg text-white">
+              <div className={`p-2 bg-gradient-to-r ${getCategoryGradient('team-dynamics')} rounded-lg text-white`}>
                 <Heart className="w-5 h-5" />
               </div>
               <h3 className="text-xl font-bold text-gray-900">Team Dynamics</h3>
@@ -501,7 +498,7 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
                   onClick={() => scrollToFramework(framework.id)}
                   className="flex items-start gap-4 p-4 bg-rose-50 hover:bg-rose-100 rounded-xl border border-rose-200 hover:border-rose-300 transition-all duration-200 text-left group"
                 >
-                  <div className={`p-2 bg-gradient-to-r ${framework.color} rounded-lg text-white group-hover:scale-105 transition-transform flex-shrink-0`}>
+                  <div className={`p-2 bg-gradient-to-r ${getFrameworkColor(framework.usedFor)} rounded-lg text-white group-hover:scale-105 transition-transform flex-shrink-0`}>
                     {framework.icon}
                   </div>
                   <div className="flex-1">
@@ -533,7 +530,7 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
           {/* Other Frameworks */}
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <div className="p-2 bg-gradient-to-r from-slate-500 to-gray-600 rounded-lg text-white">
+              <div className={`p-2 bg-gradient-to-r ${getCategoryGradient('other')} rounded-lg text-white`}>
                 <Compass className="w-5 h-5" />
               </div>
               <h3 className="text-xl font-bold text-gray-900">General Problem-Solving</h3>
@@ -546,7 +543,7 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
                   onClick={() => scrollToFramework(framework.id)}
                   className="flex items-start gap-4 p-4 bg-gray-50 hover:bg-gray-100 rounded-xl border border-gray-200 hover:border-gray-300 transition-all duration-200 text-left group"
                 >
-                  <div className={`p-2 bg-gradient-to-r ${framework.color} rounded-lg text-white group-hover:scale-105 transition-transform flex-shrink-0`}>
+                  <div className={`p-2 bg-gradient-to-r ${getFrameworkColor(framework.usedFor)} rounded-lg text-white group-hover:scale-105 transition-transform flex-shrink-0`}>
                     {framework.icon}
                   </div>
                   <div className="flex-1">
@@ -575,7 +572,7 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
         {frameworks.map((framework) => (
           <div key={framework.id} id={framework.id} className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden scroll-mt-8">
             {/* Framework Header */}
-            <div className={`bg-gradient-to-r ${framework.color} text-white p-6`}>
+            <div className={`bg-gradient-to-r ${getFrameworkColor(framework.usedFor)} text-white p-6`}>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
                   <div className="p-3 bg-white bg-opacity-20 backdrop-blur-sm rounded-xl">
