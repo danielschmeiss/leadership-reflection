@@ -886,7 +886,7 @@ export const frameworks: Record<string, Framework> = baseFrameworks;
 
 export const decisionTree: DecisionTreeNode = {
   id: 'root',
-  question: 'What\'s your biggest leadership challenge right now?',
+  question: 'What situation would you like to reflect on?',
   options: [
     {
       text: 'Handle Team Tensions - When team members aren\'t getting along or there\'s ongoing friction',
@@ -894,12 +894,12 @@ export const decisionTree: DecisionTreeNode = {
       category: 'conflict'
     },
     {
-      text: 'Deliver Difficult Feedback - When someone\'s performance or behavior needs to change',
+      text: 'Deliver Feedback - When someone\'s performance or behavior needs to change',
       next: 'feedback',
       category: 'feedback'
     },
     {
-      text: 'Make a Tough Decision - When you\'re weighing important options with real consequences',
+      text: 'Make a Decision - When you\'re weighing important options with real consequences',
       next: 'decision',
       category: 'decision'
     },

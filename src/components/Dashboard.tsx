@@ -42,20 +42,20 @@ export function Dashboard({ onStartNewReflection, onStartCategoryReflection, onV
   return (
     <div className="w-full space-y-8">
       {/* Welcome Hero */}
-      <div className="w-full relative overflow-hidden bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-700 rounded-2xl p-8 text-white shadow-lg">
-        <div className="relative z-10">
+      <div className="w-full relative overflow-hidden bg-gradient-to-r from-teal-600 via-cyan-600 to-teal-700 rounded-2xl p-8 text-white shadow-lg">
+        <div className="relative z-10 text-center">
           <div className="mb-8">
             <h1 className="text-4xl font-bold mb-3 font-sora">{content.dashboard.hero.title}</h1>
-            <p className="text-xl text-blue-100">
+            <p className="text-xl text-teal-100">
               {content.dashboard.hero.subtitle}
             </p>
           </div>
           
           <button
             onClick={onStartNewReflection}
-            className="group flex items-center gap-4 bg-white text-gray-900 px-8 py-4 rounded-xl font-semibold text-lg hover:bg-gray-50 transition-all duration-200 shadow-lg hover:shadow-xl"
+            className="group inline-flex items-center gap-4 bg-white text-gray-900 px-8 py-4 rounded-xl font-semibold text-lg hover:bg-gray-50 transition-all duration-200 shadow-lg hover:shadow-xl"
           >
-            <div className="p-2 bg-blue-600 rounded-lg text-white group-hover:bg-blue-700 transition-colors">
+            <div className="p-2 bg-teal-600 rounded-lg text-white group-hover:bg-teal-700 transition-colors">
               <Play className="w-6 h-6" />
             </div>
             {content.dashboard.hero.ctaText}
@@ -63,7 +63,7 @@ export function Dashboard({ onStartNewReflection, onStartCategoryReflection, onV
           </button>
           
           <div className="mt-4">
-            <p className="text-sm text-blue-200">
+            <p className="text-sm text-teal-200">
               {content.dashboard.hero.privacyText}
             </p>
           </div>
