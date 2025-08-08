@@ -40,6 +40,8 @@ export function EnhancedReflectionForm({
   const [showAiSuggestion, setShowAiSuggestion] = useState(false);
   const [expandedAnswers, setExpandedAnswers] = useState<Set<string>>(new Set());
   const [showFrameworkDetails, setShowFrameworkDetails] = useState(false);
+  const [aiPrompts, setAiPrompts] = useState<Record<string, { systemPrompt: string; userPrompt: string }>>({});
+  const [showAiPrompt, setShowAiPrompt] = useState(false);
   
   const { isConfigured, isConnected, isLoading, generateResponse } = useLocalLLM();
 
@@ -173,25 +175,66 @@ export function EnhancedReflectionForm({
       return;
     }
 
+    // Build comprehensive context with all requested information
     const completedResponses = framework.questions.slice(0, currentQuestionIndex)
       .filter(q => responses[q.id])
       .map((q, index) => `${index + 1}. ${q.text}\nResponse: ${convertResponseToText(responses[q.id])}`)
       .join('\n\n');
 
-    const systemPrompt = `You are a leadership coach. Give brief, actionable guidance. Be concise but helpful.`;
+    // Include framework description and rationale
+    const frameworkContext = `Framework: ${framework.name}
+Description: ${framework.description}
+${frameworkRationale ? `
+Why this framework: ${frameworkRationale.description}
+When to use: ${frameworkRationale.whenToUse}
+Key benefits: ${frameworkRationale.keyBenefits.join(', ')}` : ''}`;
 
-    const userPrompt = `Leadership situation: ${problemDescription}
+    // Include question-specific help and context
+    const questionContext = `Current Question: ${currentQuestion.text}
+${currentQuestion.helpText ? `Context/Guidance: ${currentQuestion.helpText}` : ''}
+${currentQuestion.placeholder ? `Example approach: ${currentQuestion.placeholder}` : ''}`;
 
-Framework: ${framework.name}
-Current question: ${currentQuestion.text}
+    // Build comprehensive user prompt with all context
+    const userPrompt = `REFLECTION CONTEXT:
+Leadership Situation: ${problemDescription}
 
-${responses[currentQuestion.id] ? `My draft: ${convertResponseToText(responses[currentQuestion.id])}\n\n` : ''}Give me 2-3 specific, actionable tips to answer this question well. Keep it short and practical.`;
+${frameworkContext}
+
+${completedResponses ? `PREVIOUS ANSWERS:
+${completedResponses}
+
+` : ''}${questionContext}
+
+${responses[currentQuestion.id] ? `CURRENT DRAFT:
+${convertResponseToText(responses[currentQuestion.id])}
+
+` : ''}ASSISTANCE REQUEST:
+Please provide 2-3 specific, actionable tips to help me answer this current question effectively. Consider:
+- The framework's purpose and methodology
+- My previous responses and the reflection journey so far  
+- The specific guidance provided for this question
+- How this question builds on what I've already explored
+
+Keep your response practical and focused on helping me create a thoughtful, actionable answer.`;
+
+    const systemPrompt = `You are an expert leadership coach specializing in structured reflection frameworks. You help leaders think through challenges systematically and develop actionable insights. Your guidance is:
+- Specific and practical, not generic advice
+- Connected to the framework's methodology
+- Building on the person's previous responses
+- Focused on helping them develop their own insights rather than giving answers
+- Concise but thorough enough to be truly helpful`;
+
+    // Store the prompts for debugging/transparency
+    setAiPrompts(prev => ({
+      ...prev,
+      [currentQuestion.id]: { systemPrompt, userPrompt }
+    }));
 
     try {
       const result = await generateResponse({
         prompt: userPrompt,
         systemPrompt,
-        maxTokens: 200,
+        maxTokens: 300,
         temperature: 0.7
       });
 
@@ -206,6 +249,7 @@ ${responses[currentQuestion.id] ? `My draft: ${convertResponseToText(responses[c
           [currentQuestion.id]: result.text.trim()
         }));
       }
+
       setShowAiSuggestion(true);
     } catch (error) {
       setAiSuggestions(prev => ({
@@ -300,6 +344,15 @@ ${responses[currentQuestion.id] ? `My draft: ${convertResponseToText(responses[c
                     <div className="flex items-center gap-2">
                       <Sparkles className="w-4 h-4 text-emerald-600" />
                       <span className="text-sm font-medium text-emerald-900">AI Suggestions</span>
+                      {aiPrompts[currentQuestion.id] && (
+                        <button
+                          onClick={() => setShowAiPrompt(!showAiPrompt)}
+                          className="text-xs text-emerald-600 hover:text-emerald-700 underline ml-2"
+                          title="View the exact prompt sent to AI"
+                        >
+                          View Prompt
+                        </button>
+                      )}
                     </div>
                     <button
                       onClick={() => setShowAiSuggestion(false)}
@@ -308,6 +361,20 @@ ${responses[currentQuestion.id] ? `My draft: ${convertResponseToText(responses[c
                       <X className="w-4 h-4" />
                     </button>
                   </div>
+                  
+                  {showAiPrompt && aiPrompts[currentQuestion.id] && (
+                    <div className="mb-4 p-3 bg-white rounded-lg border border-emerald-300">
+                      <div className="text-xs text-emerald-700 font-medium mb-2">System Prompt:</div>
+                      <div className="text-xs text-gray-600 bg-gray-50 p-2 rounded whitespace-pre-wrap mb-3 max-h-24 overflow-y-auto">
+                        {aiPrompts[currentQuestion.id].systemPrompt}
+                      </div>
+                      <div className="text-xs text-emerald-700 font-medium mb-2">User Prompt:</div>
+                      <div className="text-xs text-gray-600 bg-gray-50 p-2 rounded whitespace-pre-wrap max-h-40 overflow-y-auto">
+                        {aiPrompts[currentQuestion.id].userPrompt}
+                      </div>
+                    </div>
+                  )}
+                  
                   <div className="text-gray-800 leading-relaxed prose prose-sm max-w-none prose-headings:text-emerald-900 prose-strong:text-emerald-900 prose-em:text-emerald-800 prose-code:bg-white prose-code:px-1 prose-code:rounded prose-ul:text-gray-800 prose-ol:text-gray-800">
                     <ReactMarkdown>{currentAiSuggestion}</ReactMarkdown>
                   </div>
@@ -430,6 +497,15 @@ ${responses[currentQuestion.id] ? `My draft: ${convertResponseToText(responses[c
                     <div className="flex items-center gap-2">
                       <Sparkles className="w-4 h-4 text-emerald-600" />
                       <span className="text-sm font-medium text-emerald-900">AI Suggestions</span>
+                      {aiPrompts[currentQuestion.id] && (
+                        <button
+                          onClick={() => setShowAiPrompt(!showAiPrompt)}
+                          className="text-xs text-emerald-600 hover:text-emerald-700 underline ml-2"
+                          title="View the exact prompt sent to AI"
+                        >
+                          View Prompt
+                        </button>
+                      )}
                     </div>
                     <button
                       onClick={() => setShowAiSuggestion(false)}
@@ -438,6 +514,20 @@ ${responses[currentQuestion.id] ? `My draft: ${convertResponseToText(responses[c
                       <X className="w-4 h-4" />
                     </button>
                   </div>
+                  
+                  {showAiPrompt && aiPrompts[currentQuestion.id] && (
+                    <div className="mb-4 p-3 bg-white rounded-lg border border-emerald-300 max-h-32 overflow-y-auto">
+                      <div className="text-xs text-emerald-700 font-medium mb-2">System Prompt:</div>
+                      <div className="text-xs text-gray-600 bg-gray-50 p-2 rounded whitespace-pre-wrap mb-3 max-h-16 overflow-y-auto">
+                        {aiPrompts[currentQuestion.id].systemPrompt}
+                      </div>
+                      <div className="text-xs text-emerald-700 font-medium mb-2">User Prompt:</div>
+                      <div className="text-xs text-gray-600 bg-gray-50 p-2 rounded whitespace-pre-wrap max-h-24 overflow-y-auto">
+                        {aiPrompts[currentQuestion.id].userPrompt}
+                      </div>
+                    </div>
+                  )}
+                  
                   <div className="text-gray-800 leading-relaxed prose prose-sm max-w-none prose-headings:text-emerald-900 prose-strong:text-emerald-900 prose-em:text-emerald-800 prose-code:bg-white prose-code:px-1 prose-code:rounded prose-ul:text-gray-800 prose-ol:text-gray-800">
                     <ReactMarkdown>{currentAiSuggestion}</ReactMarkdown>
                   </div>
@@ -518,6 +608,15 @@ ${responses[currentQuestion.id] ? `My draft: ${convertResponseToText(responses[c
                     <div className="flex items-center gap-2">
                       <Sparkles className="w-4 h-4 text-emerald-600" />
                       <span className="text-sm font-medium text-emerald-900">AI Suggestions</span>
+                      {aiPrompts[currentQuestion.id] && (
+                        <button
+                          onClick={() => setShowAiPrompt(!showAiPrompt)}
+                          className="text-xs text-emerald-600 hover:text-emerald-700 underline ml-2"
+                          title="View the exact prompt sent to AI"
+                        >
+                          View Prompt
+                        </button>
+                      )}
                     </div>
                     <button
                       onClick={() => setShowAiSuggestion(false)}
@@ -526,6 +625,20 @@ ${responses[currentQuestion.id] ? `My draft: ${convertResponseToText(responses[c
                       <X className="w-4 h-4" />
                     </button>
                   </div>
+                  
+                  {showAiPrompt && aiPrompts[currentQuestion.id] && (
+                    <div className="mb-4 p-3 bg-white rounded-lg border border-emerald-300 max-h-40 overflow-y-auto">
+                      <div className="text-xs text-emerald-700 font-medium mb-2">System Prompt:</div>
+                      <div className="text-xs text-gray-600 bg-gray-50 p-2 rounded whitespace-pre-wrap mb-3 max-h-16 overflow-y-auto">
+                        {aiPrompts[currentQuestion.id].systemPrompt}
+                      </div>
+                      <div className="text-xs text-emerald-700 font-medium mb-2">User Prompt:</div>
+                      <div className="text-xs text-gray-600 bg-gray-50 p-2 rounded whitespace-pre-wrap max-h-24 overflow-y-auto">
+                        {aiPrompts[currentQuestion.id].userPrompt}
+                      </div>
+                    </div>
+                  )}
+                  
                   <div className="text-gray-800 leading-relaxed prose prose-sm max-w-none prose-headings:text-emerald-900 prose-strong:text-emerald-900 prose-em:text-emerald-800 prose-code:bg-white prose-code:px-1 prose-code:rounded prose-ul:text-gray-800 prose-ol:text-gray-800">
                     <ReactMarkdown>{currentAiSuggestion}</ReactMarkdown>
                   </div>
