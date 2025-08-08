@@ -124,8 +124,9 @@ const updateURL = (route: AppState, params?: Record<string, string>) => {
       break;
   }
   
-  // Clear existing search params and add new ones
+  // Clear existing search params and hash, then add new ones
   url.search = '';
+  url.hash = '';
   if (params) {
     Object.entries(params).forEach(([key, value]) => {
       if (value) url.searchParams.set(key, value);
@@ -447,10 +448,6 @@ function App() {
   const handleNavigateToDashboard = () => {
     setCurrentState('dashboard');
     updateURL('dashboard');
-    // Clear any hash fragments from the URL
-    if (window.location.hash) {
-      window.history.replaceState(null, '', window.location.pathname + window.location.search);
-    }
   };
 
   const getFrameworkRationale = (frameworkId: string, category?: string, subcategory?: string) => {
