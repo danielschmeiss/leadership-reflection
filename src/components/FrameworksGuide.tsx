@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Shield, MessageSquare, Users, Target, GitBranch, BarChart3, TrendingUp, FileText, UserPlus, Heart, Compass, Lightbulb, CheckCircle, List, ArrowRight, Play, ExternalLink, Copy, Link } from './icons';
-import { getCategoryGradient } from '../config/categoryColors';
+import { getCategoryGradient, getCategoryBackground } from '../config/categoryColors';
 
 interface FrameworksGuideProps {
   onStartReflection?: (category: string, subcategory: string) => void;
@@ -16,6 +16,14 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
       return getCategoryGradient(usedFor[0].category);
     }
     return getCategoryGradient('other'); // fallback
+  };
+
+  // Helper function to get framework background class based on primary category
+  const getFrameworkBackgroundClass = (usedFor: Array<{ category: string; subcategory: string; label: string }>) => {
+    if (usedFor.length > 0) {
+      return getCategoryBackground(usedFor[0].category);
+    }
+    return getCategoryBackground('other'); // fallback
   };
 
   const copyFrameworkLink = async (frameworkId: string) => {
@@ -309,7 +317,7 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
                 <button
                   key={framework.id}
                   onClick={() => scrollToFramework(framework.id)}
-                  className="flex items-start gap-4 p-4 bg-blue-50 hover:bg-blue-100 rounded-xl border border-blue-200 hover:border-blue-300 transition-all duration-200 text-left group"
+                  className={`flex items-start gap-4 p-4 rounded-xl transition-all duration-200 text-left group ${getFrameworkBackgroundClass(framework.usedFor)}`}
                 >
                   <div className={`p-2 bg-gradient-to-r ${getFrameworkColor(framework.usedFor)} rounded-lg text-white group-hover:scale-105 transition-transform flex-shrink-0`}>
                     {framework.icon}
@@ -354,7 +362,7 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
                 <button
                   key={framework.id}
                   onClick={() => scrollToFramework(framework.id)}
-                  className="flex items-start gap-4 p-4 bg-amber-50 hover:bg-amber-100 rounded-xl border border-amber-200 hover:border-amber-300 transition-all duration-200 text-left group"
+                  className={`flex items-start gap-4 p-4 rounded-xl transition-all duration-200 text-left group ${getFrameworkBackgroundClass(framework.usedFor)}`}
                 >
                   <div className={`p-2 bg-gradient-to-r ${getFrameworkColor(framework.usedFor)} rounded-lg text-white group-hover:scale-105 transition-transform flex-shrink-0`}>
                     {framework.icon}
@@ -399,7 +407,7 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
                 <button
                   key={framework.id}
                   onClick={() => scrollToFramework(framework.id)}
-                  className="flex items-start gap-4 p-4 bg-purple-50 hover:bg-purple-100 rounded-xl border border-purple-200 hover:border-purple-300 transition-all duration-200 text-left group"
+                  className={`flex items-start gap-4 p-4 rounded-xl transition-all duration-200 text-left group ${getFrameworkBackgroundClass(framework.usedFor)}`}
                 >
                   <div className={`p-2 bg-gradient-to-r ${getFrameworkColor(framework.usedFor)} rounded-lg text-white group-hover:scale-105 transition-transform flex-shrink-0`}>
                     {framework.icon}
@@ -451,7 +459,7 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
                 <button
                   key={framework.id}
                   onClick={() => scrollToFramework(framework.id)}
-                  className="flex items-start gap-4 p-4 bg-emerald-50 hover:bg-emerald-100 rounded-xl border border-emerald-200 hover:border-emerald-300 transition-all duration-200 text-left group"
+                  className={`flex items-start gap-4 p-4 rounded-xl transition-all duration-200 text-left group ${getFrameworkBackgroundClass(framework.usedFor)}`}
                 >
                   <div className={`p-2 bg-gradient-to-r ${getFrameworkColor(framework.usedFor)} rounded-lg text-white group-hover:scale-105 transition-transform flex-shrink-0`}>
                     {framework.icon}
@@ -496,7 +504,7 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
                 <button
                   key={framework.id}
                   onClick={() => scrollToFramework(framework.id)}
-                  className="flex items-start gap-4 p-4 bg-rose-50 hover:bg-rose-100 rounded-xl border border-rose-200 hover:border-rose-300 transition-all duration-200 text-left group"
+                  className={`flex items-start gap-4 p-4 rounded-xl transition-all duration-200 text-left group ${getFrameworkBackgroundClass(framework.usedFor)}`}
                 >
                   <div className={`p-2 bg-gradient-to-r ${getFrameworkColor(framework.usedFor)} rounded-lg text-white group-hover:scale-105 transition-transform flex-shrink-0`}>
                     {framework.icon}
@@ -541,7 +549,7 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
                 <button
                   key={framework.id}
                   onClick={() => scrollToFramework(framework.id)}
-                  className="flex items-start gap-4 p-4 bg-gray-50 hover:bg-gray-100 rounded-xl border border-gray-200 hover:border-gray-300 transition-all duration-200 text-left group"
+                  className={`flex items-start gap-4 p-4 rounded-xl transition-all duration-200 text-left group ${getFrameworkBackgroundClass(framework.usedFor)}`}
                 >
                   <div className={`p-2 bg-gradient-to-r ${getFrameworkColor(framework.usedFor)} rounded-lg text-white group-hover:scale-105 transition-transform flex-shrink-0`}>
                     {framework.icon}

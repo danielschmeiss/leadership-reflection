@@ -4,14 +4,14 @@ This directory contains centralized color configuration for reflection framework
 
 ## Overview
 
-The `categoryColors.ts` file defines all colors used across the application for the six main reflection categories:
+The `categoryColors.ts` file defines all colors used across the application for the six main reflection categories, using colors directly inspired by the logo:
 
-- **Conflict** (Handle Team Tensions) - Amber/Orange theme
-- **Feedback** (Deliver Feedback) - Blue theme  
-- **Decision** (Make a Decision) - Purple theme
-- **Stakeholder** (Align with Leadership) - Emerald/Green theme
-- **Team Dynamics** (Improve Team Dynamics) - Rose/Pink theme
-- **Other** (Free-form reflection) - Slate/Gray theme
+- **Conflict** (Handle Team Tensions) - Golden Yellow/Orange (warm end of logo)
+- **Feedback** (Deliver Feedback) - Deep Blue (left side of logo)  
+- **Decision** (Make a Decision) - Cyan/Turquoise (blue-green transition)
+- **Stakeholder** (Align with Leadership) - Teal (middle section of logo)
+- **Team Dynamics** (Improve Team Dynamics) - Emerald Green (green section)
+- **Other** (Free-form reflection) - Lime Green (bright green from logo)
 
 ## How to Change Colors
 
