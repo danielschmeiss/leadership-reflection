@@ -237,24 +237,24 @@
   },
   "pros-cons": {
     "options": {
-      "tip": "List the strategic alternatives you're considering, focusing on significantly different approaches rather than minor variations.",
+      "tip": "List the viable strategic alternatives you're seriously considering, focusing on significantly different approaches rather than minor variations.",
       "example": "Build in-house platform, adopt existing SaaS solution, hybrid approach with core in-house and integrations, partner with vendor for custom solution."
     },
     "advantages": {
-      "tip": "For each option, list the benefits and positive outcomes, considering both immediate and long-term advantages.",
+      "tip": "For each option, identify the key benefits, positive outcomes, and potential upsides, considering both immediate and long-term advantages.",
       "example": "In-house: Full control, custom features, no vendor lock-in, team learning. SaaS: Fast implementation, proven reliability, ongoing support."
     },
     "disadvantages": {
-      "tip": "Honestly assess the drawbacks and potential negative consequences of each option, including hidden costs.",
+      "tip": "Honestly assess the risks, costs, drawbacks, and potential downsides of each option, including hidden costs and opportunity costs.",
       "example": "In-house: High development cost, ongoing maintenance burden, longer time to market. SaaS: Limited customization, monthly costs, data dependency."
     },
     "alignment": {
-      "tip": "Consider how each option fits with your organization's long-term strategy, values, and technical direction.",
+      "tip": "Assess how well each option fits with your organization's long-term strategic goals, product direction, company mission, values, and technical direction.",
       "example": "In-house aligns with our platform strategy and engineering growth goals. SaaS aligns with our speed-to-market and focus-on-core-business priorities."
     },
     "stakeholders": {
-      "tip": "Identify who needs to be involved in or informed about this decision, considering both technical and business stakeholders.",
-      "example": "Engineering team, Product leadership, Finance (for budget), Legal (for vendor contracts), Customer Success (for user impact)."
+      "tip": "For each option, identify the critical stakeholders who need to be consulted, what specific input you need from them, and whose buy-in is essential for success.",
+      "example": "Option 1 - Engineering team (technical feasibility), Finance (budget approval), Legal (compliance review). Option 2 - Product leadership (strategy alignment), Customer Success (user impact assessment)."
     }
   },
   "raci": {

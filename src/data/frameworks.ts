@@ -534,17 +534,17 @@ const baseFrameworks: Record<string, Framework> = {
     questions: [
       {
         id: 'options',
-        text: 'What strategic options are available?',
+        text: 'What are the viable options you\'re considering?',
         type: 'enumeration',
         required: true,
         itemLabel: 'Strategic Option',
         minItems: 2,
         placeholder: 'Build in-house analytics platform',
-        helpText: 'List all viable strategic alternatives. Each should be a distinct choice with different implications for your organization or domain.'
+        helpText: 'List the viable strategic alternatives you\'re seriously considering. Each should be a distinct choice with different implications for your organization or domain.'
       },
       {
         id: 'advantages',
-        text: 'What are the advantages of each option?',
+        text: 'What are the key advantages or potential upsides of each option?',
         type: 'itemized-analysis',
         required: true,
         referencedQuestion: 'options',
@@ -553,7 +553,7 @@ const baseFrameworks: Record<string, Framework> = {
       },
       {
         id: 'disadvantages',
-        text: 'What are the disadvantages of each option?',
+        text: 'What are the risks, costs, or downsides of each option?',
         type: 'itemized-analysis',
         required: true,
         referencedQuestion: 'options',
@@ -562,7 +562,7 @@ const baseFrameworks: Record<string, Framework> = {
       },
       {
         id: 'alignment',
-        text: 'How does each option align with long-term vision or goals?',
+        text: 'How well does each option align with long-term strategic goals, product direction, or company mission?',
         type: 'itemized-analysis',
         required: true,
         referencedQuestion: 'options',
@@ -571,10 +571,10 @@ const baseFrameworks: Record<string, Framework> = {
       },
       {
         id: 'stakeholders',
-        text: 'Which stakeholders need to be engaged?',
+        text: 'Who are the critical stakeholders for each option, and what input or buy-in do you need from them?',
         type: 'textarea',
         required: true,
-        placeholder: 'Product, Engineering, Security, QA, Customer Success for feature decision'
+        placeholder: 'For each option, identify key stakeholders (Product, Engineering, Finance, etc.) and specify what input/approval you need from each'
       }
     ]
   },
