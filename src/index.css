@@ -6,8 +6,12 @@
 
 /* Font loading optimization - reduce FOUT */
 html {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* Apply custom fonts only after they're loaded */
+html.fonts-loaded {
   font-family: 'Roboto', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-display: block;
 }
 
 /* Prevent horizontal scrolling on mobile */

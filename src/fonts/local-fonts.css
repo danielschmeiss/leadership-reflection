@@ -76,7 +76,7 @@
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 400;
-  font-display: block;
+  font-display: fallback;
   src: url('/Roboto/static/Roboto-Regular.ttf') format('truetype');
 }
 
@@ -124,7 +124,7 @@
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 700;
-  font-display: block;
+  font-display: fallback;
   src: url('/Roboto/static/Roboto-Bold.ttf') format('truetype');
 }
 
