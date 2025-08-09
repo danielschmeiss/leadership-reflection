@@ -56,7 +56,7 @@
       ]
     },
     {
-      "source": "/**/*.ttf",
+      "source": "/(.*)\\.ttf",
       "headers": [
         {
           "key": "Content-Type",
@@ -69,7 +69,7 @@
       ]
     },
     {
-      "source": "/**/*.woff2",
+      "source": "/(.*)\\.woff2",
       "headers": [
         {
           "key": "Content-Type",
