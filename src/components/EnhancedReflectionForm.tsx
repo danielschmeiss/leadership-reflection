@@ -31,6 +31,9 @@ export function EnhancedReflectionForm({
   subcategory,
   frameworkRationale
 }: EnhancedReflectionFormProps) {
+  // Detect if device is mobile to prevent auto-focus that triggers keyboard
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  
   const [responses, setResponses] = useState<Record<string, QuestionResponse>>(initialResponses);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [hasAttemptedNext, setHasAttemptedNext] = useState(false);
@@ -404,7 +407,7 @@ Keep your response practical and focused on helping me create a thoughtful, acti
                   }))}
                   placeholder={currentQuestion.placeholder}
                   className="w-full p-4 border-2 border-gray-300 rounded-xl focus:ring-4 focus:ring-blue-200 focus:border-blue-500 text-gray-900 placeholder-gray-500 shadow-sm hover:border-gray-400 transition-all duration-200"
-                  autoFocus
+                  autoFocus={!isMobile}
                 />
               </div>
               {showAiSuggestion && (
@@ -548,7 +551,7 @@ Keep your response practical and focused on helping me create a thoughtful, acti
                   className={`w-full p-4 border-2 border-gray-300 rounded-xl focus:ring-4 focus:ring-blue-200 focus:border-blue-500 resize-none text-gray-900 placeholder-gray-500 shadow-sm hover:border-gray-400 transition-all duration-200 ${
                     useAccordionLayout ? 'h-60' : 'h-40'
                   }`}
-                  autoFocus
+                  autoFocus={!isMobile}
                 />
               </div>
               {showAiSuggestion && (
@@ -1369,7 +1372,7 @@ function EnumerationInput({ question, items, onChange }: {
               onChange={(e) => updateItem(index, e.target.value)}
               placeholder={`${question.itemLabel} ${index + 1}`}
               className="flex-1 p-3 border-2 border-gray-300 rounded-lg focus:ring-4 focus:ring-blue-200 focus:border-blue-500 text-gray-900 placeholder-gray-500 shadow-sm hover:border-gray-400 transition-all duration-200"
-              autoFocus={index === items.length - 1}
+              autoFocus={!isMobile && index === items.length - 1}
             />
             {items.length > 1 && (
               <button
