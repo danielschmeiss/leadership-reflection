@@ -112,11 +112,22 @@ npm run preview
 
 ## 🛡️ Privacy & Security
 
+### Data Privacy
 - **Local-First**: All reflections stored in your browser's local storage
-- **No Tracking**: No analytics, cookies, or external data collection
+- **No Tracking**: Minimal anonymous analytics only (Vercel Analytics)
 - **Offline Capable**: Works without internet connection
 - **Data Control**: Export or delete your data anytime
 - **Privacy-Conscious AI**: AI assistance uses anonymized, formatted prompts with privacy warnings
+
+### Security Measures
+- **Updated Dependencies**: Regular security audits and vulnerability patches
+- **Content Security Policy**: Comprehensive CSP headers prevent XSS attacks
+- **Security Headers**: X-Frame-Options, X-Content-Type-Options, and more
+- **Input Sanitization**: ReactMarkdown configured with security restrictions
+- **Responsible Disclosure**: Security policy at `/.well-known/security.txt`
+
+### Security Reporting
+Found a security issue? Please report it responsibly to: `reflacto-contact@proton.me`
 
 ## 🏗️ Technical Architecture
 

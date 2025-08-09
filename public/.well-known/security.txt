@@ -1,0 +1,31 @@
+Contact: mailto:reflacto-contact@proton.me
+Preferred-Languages: en, de
+Canonical: https://www.reflacto.com/.well-known/security.txt
+Policy: https://www.reflacto.com/privacy
+Acknowledgments: https://www.reflacto.com/about
+
+# Security Policy
+
+We take the security of Reflacto seriously. If you discover a security vulnerability, please report it responsibly.
+
+## Reporting Security Issues
+
+Please report security vulnerabilities to: reflacto-contact@proton.me
+
+Include the following information:
+- Description of the vulnerability
+- Steps to reproduce the issue
+- Potential impact
+- Any suggested fixes
+
+## What NOT to report:
+- Issues already listed in our public repositories
+- Missing security headers (we're aware and working on comprehensive coverage)
+- Vulnerabilities in third-party dependencies (please report to the maintainers)
+
+## Response Timeline:
+- Acknowledgment: Within 48 hours
+- Initial assessment: Within 7 days
+- Regular updates: Every 7 days until resolved
+
+Thank you for helping keep Reflacto secure!

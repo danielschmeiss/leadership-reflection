@@ -427,7 +427,14 @@ Keep your response practical and focused on helping me create a thoughtful, acti
                   
                   
                   <div className="text-gray-800 leading-relaxed prose prose-sm max-w-none prose-headings:text-emerald-900 prose-strong:text-emerald-900 prose-em:text-emerald-800 prose-code:bg-white prose-code:px-1 prose-code:rounded prose-ul:text-gray-800 prose-ol:text-gray-800">
-                    <ReactMarkdown>{currentAiSuggestion}</ReactMarkdown>
+                    <ReactMarkdown 
+                      disallowedElements={['script', 'iframe', 'object', 'embed']}
+                      unwrapDisallowed={true}
+                      linkTarget="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {currentAiSuggestion}
+                    </ReactMarkdown>
                   </div>
                 </div>
               )}
@@ -572,7 +579,14 @@ Keep your response practical and focused on helping me create a thoughtful, acti
                   </div>
                   
                   <div className="text-gray-800 leading-relaxed prose prose-sm max-w-none prose-headings:text-emerald-900 prose-strong:text-emerald-900 prose-em:text-emerald-800 prose-code:bg-white prose-code:px-1 prose-code:rounded prose-ul:text-gray-800 prose-ol:text-gray-800">
-                    <ReactMarkdown>{currentAiSuggestion}</ReactMarkdown>
+                    <ReactMarkdown 
+                      disallowedElements={['script', 'iframe', 'object', 'embed']}
+                      unwrapDisallowed={true}
+                      linkTarget="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {currentAiSuggestion}
+                    </ReactMarkdown>
                   </div>
                 </div>
               )}
@@ -662,7 +676,14 @@ Keep your response practical and focused on helping me create a thoughtful, acti
                   
                   
                   <div className="text-gray-800 leading-relaxed prose prose-sm max-w-none prose-headings:text-emerald-900 prose-strong:text-emerald-900 prose-em:text-emerald-800 prose-code:bg-white prose-code:px-1 prose-code:rounded prose-ul:text-gray-800 prose-ol:text-gray-800">
-                    <ReactMarkdown>{currentAiSuggestion}</ReactMarkdown>
+                    <ReactMarkdown 
+                      disallowedElements={['script', 'iframe', 'object', 'embed']}
+                      unwrapDisallowed={true}
+                      linkTarget="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {currentAiSuggestion}
+                    </ReactMarkdown>
                   </div>
                 </div>
               )}
