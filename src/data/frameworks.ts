@@ -915,8 +915,9 @@ export const decisionTree: DecisionTreeNode = {
     },
     {
       text: 'Other - Free-form reflection for unique or complex leadership situations',
-      next: 'other',
-      category: 'other'
+      framework: 'grow',
+      category: 'other',
+      subcategory: 'free-reflection'
     }
   ]
 };
