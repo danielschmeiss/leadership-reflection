@@ -77,10 +77,15 @@ export function Dashboard({ onStartNewReflection, onStartCategoryReflection, onV
       {/* Why Pause to Reflect */}
       <div className="w-full bg-white rounded-2xl p-8 shadow-sm border border-gray-200">
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4 font-sora">Why pause to reflect?</h2>
+          <h2 className="text-3xl font-bold text-gray-900 mb-4 font-sora">
+            Why <span className="font-quicksand">
+              Refl<span className="font-normal">act</span>o
+            </span>?
+          </h2>
           <p className="text-lg text-gray-700 max-w-4xl mx-auto leading-relaxed">
-            Leaders move fast, but quick decisions under pressure can strain relationships or miss what really matters. 
-            Reflection creates a brief pause to think clearly and lead with intention.
+            Leaders move fast, but quick decisions under pressure can strain relationships or miss what really matters.
+            <br />
+            <em>Reflection creates a brief pause to think clearly and lead with intention.</em>
           </p>
         </div>
         
@@ -91,7 +96,7 @@ export function Dashboard({ onStartNewReflection, onStartCategoryReflection, onV
                 <div className="p-2 bg-blue-500 rounded-lg text-white">
                   <Users className="w-5 h-5" />
                 </div>
-                <h4 className="font-semibold text-blue-900 font-sora">Build trust in your team</h4>
+                <h4 className="font-semibold text-blue-900 font-sora">Build trust</h4>
               </div>
               <p className="text-sm text-blue-800 mb-3">
                 Reflection helps you respond calmly instead of reacting impulsively—essential for keeping trust intact.
@@ -117,7 +122,7 @@ export function Dashboard({ onStartNewReflection, onStartCategoryReflection, onV
                 <div className="p-2 bg-amber-500 rounded-lg text-white">
                   <Target className="w-5 h-5" />
                 </div>
-                <h4 className="font-semibold text-amber-900 font-sora">Make fairer, clearer calls</h4>
+                <h4 className="font-semibold text-amber-900 font-sora">Make fair calls</h4>
               </div>
               <p className="text-sm text-amber-800 mb-3">
                 Slowing down to reflect reduces bias and helps you consider different perspectives before deciding.
@@ -143,7 +148,7 @@ export function Dashboard({ onStartNewReflection, onStartCategoryReflection, onV
                 <div className="p-2 bg-emerald-500 rounded-lg text-white">
                   <TrendingUp className="w-5 h-5" />
                 </div>
-                <h4 className="font-semibold text-emerald-900 font-sora">Navigate tough choices with confidence</h4>
+                <h4 className="font-semibold text-emerald-900 font-sora">Navigate choices</h4>
               </div>
               <p className="text-sm text-emerald-800 mb-3">
                 Leaders who regularly reflect report improved judgment and are rated as more effective by their teams.
