@@ -42,7 +42,6 @@ const getSpecificIcon = (framework: string, subcategory: string) => {
   // Decision situations
   if (subcategory === 'operational') return <Settings className="w-6 h-6" />;
   if (subcategory === 'strategic') return <Target className="w-6 h-6" />;
-  if (subcategory === 'ownership-accountability-gaps') return <UserCheck className="w-6 h-6" />;
   
   // Stakeholder situations
   if (subcategory === 'expectation-management') return <Shield className="w-6 h-6" />;

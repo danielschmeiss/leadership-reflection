@@ -985,12 +985,6 @@ export const decisionTreeNodes: Record<string, DecisionTreeNode> = {
         framework: 'pros-cons',
         category: 'decision',
         subcategory: 'strategic'
-      },
-      {
-        text: 'Ownership/Accountability gaps',
-        framework: 'responsibility-mapping',
-        category: 'decision',
-        subcategory: 'ownership-accountability-gaps'
       }
     ]
   },

@@ -49,7 +49,7 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
       }
     }
   }, []);
-  const frameworks = [
+  const allFrameworks = [
     // FEEDBACK FRAMEWORKS
     {
       id: 'sbi',
@@ -256,6 +256,9 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
     }
   ];
 
+  // Filter out RACI framework from visual display while keeping underlying data
+  const frameworks = allFrameworks.filter(framework => framework.id !== 'responsibility-mapping');
+
   const handleReflectionClick = (category: string, subcategory: string) => {
     if (onStartReflection) {
       onStartReflection(category, subcategory);
@@ -429,13 +432,6 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
                           <li>• Strategic decisions</li>
                           <li>• Long-term impact</li>
                           <li>• Second-order effects</li>
-                        </>
-                      )}
-                      {framework.id === 'responsibility-mapping' && (
-                        <>
-                          <li>• Who does what (RACI)</li>
-                          <li>• Eliminate dropped tasks</li>
-                          <li>• Clear decision authority</li>
                         </>
                       )}
                     </ul>

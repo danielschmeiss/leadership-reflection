@@ -2,6 +2,10 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Important Directives
+
+**NEVER COMMIT WITHOUT PERMISSION**: Do not run git commit, git add, or any git operations that modify the repository without explicit user instruction. Always ask for permission before committing changes.
+
 ## Common Development Commands
 
 - `npm run dev` - Start development server with hot reload at http://localhost:5173
