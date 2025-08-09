@@ -487,6 +487,20 @@ Keep your response practical and focused on helping me create a thoughtful, acti
                                   )) : null}
                                 </div>
                               );
+                            case 'rating':
+                              // Find the original question to get the label
+                              const originalQuestion = framework.questions.find(q => q.id === ref.questionId);
+                              const ratingLabel = originalQuestion?.labels?.[referencedData];
+                              return (
+                                <div className="flex items-center gap-3">
+                                  <div className="flex items-center justify-center w-8 h-8 bg-blue-600 text-white rounded-lg font-bold flex-shrink-0">
+                                    {referencedData}
+                                  </div>
+                                  <span className="font-medium text-blue-800">
+                                    {ratingLabel || `Rating ${referencedData}`}
+                                  </span>
+                                </div>
+                              );
                             default:
                               if (Array.isArray(referencedData)) {
                                 return (
@@ -1255,31 +1269,45 @@ function RatingInput({ question, value, onChange }: {
         <p className="text-blue-800 text-sm mb-4">
           Select a rating from {question.scale[0]} to {question.scale[1]}
         </p>
-        <div className="flex items-center justify-center gap-1 sm:gap-2 flex-wrap">
+        <div className="space-y-2">
           {Array.from({ length: question.scale[1] - question.scale[0] + 1 }, (_, i) => {
             const rating = question.scale[0] + i;
+            const isSelected = value === rating;
+            const label = question.labels?.[rating];
+            
             return (
               <button
                 key={rating}
                 onClick={() => onChange(rating)}
-                className={`flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-lg border-2 transition-all ${
-                  value === rating 
+                className={`w-full p-3 rounded-lg border-2 transition-all text-left flex items-center gap-3 ${
+                  isSelected
                     ? 'bg-blue-600 border-blue-600 text-white' 
-                    : 'border-gray-300 hover:border-blue-300 text-gray-600'
+                    : 'bg-white border-gray-300 hover:border-blue-300 hover:bg-blue-50 text-gray-900'
                 }`}
               >
-                {rating}
+                <div className={`flex items-center justify-center w-8 h-8 rounded-lg font-bold flex-shrink-0 ${
+                  isSelected 
+                    ? 'bg-white bg-opacity-20 text-white' 
+                    : 'bg-blue-100 text-blue-600'
+                }`}>
+                  {rating}
+                </div>
+                <div className="flex-1">
+                  {label ? (
+                    <span className={`font-medium ${isSelected ? 'text-white' : 'text-gray-900'}`}>
+                      {label}
+                    </span>
+                  ) : (
+                    <span className={`${isSelected ? 'text-blue-100' : 'text-gray-500'}`}>
+                      Rating {rating}
+                    </span>
+                  )}
+                </div>
               </button>
             );
           })}
         </div>
       </div>
-      
-      {question.labels && value && question.labels[value] && (
-        <div className="p-4 bg-green-50 rounded-lg border border-green-200">
-          <p className="text-green-800 font-medium">{question.labels[value]}</p>
-        </div>
-      )}
     </div>
   );
 }
