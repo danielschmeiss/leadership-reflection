@@ -1343,6 +1343,8 @@ function EnumerationInput({ question, items, onChange }: {
   items: string[];
   onChange: (items: string[]) => void;
 }) {
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  
   const addItem = () => {
     onChange([...items, '']);
   };
