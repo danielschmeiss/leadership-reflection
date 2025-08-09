@@ -223,6 +223,14 @@ export function Layout({
                       Leadership Frameworks
                     </button>
                   </li>
+                  <li>
+                    <button
+                      onClick={() => window.location.pathname = '/about'}
+                      className="text-gray-600 hover:text-gray-900 underline hover:no-underline transition-colors cursor-pointer"
+                    >
+                      About Reflacto
+                    </button>
+                  </li>
                 </ul>
               </div>
 

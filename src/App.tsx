@@ -11,6 +11,7 @@ import { ReflectionHistory } from './components/ReflectionHistory';
 import { ReflectionSummary } from './components/ReflectionSummary';
 import { ReflectionCompletion } from './components/ReflectionCompletion';
 import { FrameworksGuide } from './components/FrameworksGuide';
+import { About } from './components/About';
 import { Imprint } from './components/Imprint';
 import { LocalLLMGuide } from './components/LocalLLMGuide';
 import { Privacy } from './components/Privacy';
@@ -27,6 +28,7 @@ type AppState =
   | 'history'
   | 'view-reflection'
   | 'frameworks-guide'
+  | 'about'
   | 'imprint'
   | 'local-llm-guide'
   | 'privacy';
@@ -68,6 +70,8 @@ const parseURL = (): { route: AppState; params: URLSearchParams } => {
     return { route: 'view-reflection', params };
   } else if (pathname === '/frameworks') {
     return { route: 'frameworks-guide', params };
+  } else if (pathname === '/about') {
+    return { route: 'about', params };
   } else if (pathname === '/imprint') {
     return { route: 'imprint', params };
   } else if (pathname === '/local-llm-guide') {
@@ -113,6 +117,9 @@ const updateURL = (route: AppState, params?: Record<string, string>) => {
       break;
     case 'frameworks-guide':
       url.pathname = '/frameworks';
+      break;
+    case 'about':
+      url.pathname = '/about';
       break;
     case 'imprint':
       url.pathname = '/imprint';
@@ -412,6 +419,7 @@ function App() {
       case 'history': return 'Reflection History';
       case 'view-reflection': return viewingReflection?.title || 'Reflection';
       case 'frameworks-guide': return 'Leadership Frameworks Guide';
+      case 'about': return 'About Reflacto';
       case 'imprint': return 'Legal Information';
       case 'local-llm-guide': return 'Local LLM Integration';
       case 'privacy': return 'Privacy & Data Collection';
@@ -435,6 +443,8 @@ function App() {
         return 'Review your past reflections to identify patterns and track your leadership development over time.';
       case 'frameworks-guide':
         return 'Comprehensive explanations of all available frameworks to help you choose the right approach for your leadership challenges.';
+      case 'about':
+        return 'Learn about the vision behind Reflacto and how it combines leadership development with privacy-first AI integration.';
       case 'imprint':
         return 'Legal information and contact details according to § 5 TMG.';
       case 'local-llm-guide':
@@ -754,6 +764,9 @@ function App() {
             }}
           />
         );
+
+      case 'about':
+        return <About />;
 
       default:
         return null;
