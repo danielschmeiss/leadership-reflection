@@ -26,6 +26,7 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
     return getCategoryBackground('other'); // fallback
   };
 
+
   const copyFrameworkLink = async (frameworkId: string) => {
     const url = `${window.location.origin}/frameworks#${frameworkId}`;
     try {
@@ -313,7 +314,7 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
                 <MessageSquare className="w-5 h-5" />
               </div>
               <h3 className="text-xl font-bold text-gray-900 font-sora">Feedback</h3>
-              <div className="h-px bg-teal-200 flex-1"></div>
+              <div className="h-px bg-green-200 flex-1"></div>
             </div>
             <div className="grid md:grid-cols-2 gap-4">
               {frameworks.filter(f => f.usedFor.some(u => u.category === 'feedback')).map((framework) => (
@@ -326,7 +327,7 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
                     {framework.icon}
                   </div>
                   <div className="flex-1">
-                    <h4 className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors mb-2">
+                    <h4 className="font-semibold text-gray-900 group-hover:text-green-600 transition-colors mb-2">
                       {framework.title}
                     </h4>
                     <ul className="text-sm text-gray-700 space-y-1">
@@ -358,7 +359,7 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
                 <Users className="w-5 h-5" />
               </div>
               <h3 className="text-xl font-bold text-gray-900 font-sora">Conflict</h3>
-              <div className="h-px bg-amber-200 flex-1"></div>
+              <div className="h-px bg-blue-200 flex-1"></div>
             </div>
             <div className="grid md:grid-cols-2 gap-4">
               {frameworks.filter(f => f.usedFor.some(u => u.category === 'conflict')).map((framework) => (
@@ -371,7 +372,7 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
                     {framework.icon}
                   </div>
                   <div className="flex-1">
-                    <h4 className="font-semibold text-gray-900 group-hover:text-amber-600 transition-colors mb-2">
+                    <h4 className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors mb-2">
                       {framework.title}
                     </h4>
                     <ul className="text-sm text-gray-700 space-y-1">
@@ -403,7 +404,7 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
                 <Target className="w-5 h-5" />
               </div>
               <h3 className="text-xl font-bold text-gray-900 font-sora">Decision</h3>
-              <div className="h-px bg-purple-200 flex-1"></div>
+              <div className="h-px bg-yellow-200 flex-1"></div>
             </div>
             <div className="grid md:grid-cols-2 gap-4">
               {frameworks.filter(f => f.usedFor.some(u => u.category === 'decision')).map((framework) => (
@@ -416,7 +417,7 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
                     {framework.icon}
                   </div>
                   <div className="flex-1">
-                    <h4 className="font-semibold text-gray-900 group-hover:text-purple-600 transition-colors mb-2">
+                    <h4 className="font-semibold text-gray-900 group-hover:text-yellow-600 transition-colors mb-2">
                       {framework.title}
                     </h4>
                     <ul className="text-sm text-gray-700 space-y-1">
@@ -448,7 +449,7 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
                 <GitBranch className="w-5 h-5" />
               </div>
               <h3 className="text-xl font-bold text-gray-900 font-sora">Stakeholder</h3>
-              <div className="h-px bg-emerald-200 flex-1"></div>
+              <div className="h-px bg-cyan-200 flex-1"></div>
             </div>
             <div className="grid md:grid-cols-2 gap-4">
               {frameworks.filter(f => f.usedFor.some(u => u.category === 'stakeholder')).map((framework) => (
@@ -461,7 +462,7 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
                     {framework.icon}
                   </div>
                   <div className="flex-1">
-                    <h4 className="font-semibold text-gray-900 group-hover:text-emerald-600 transition-colors mb-2">
+                    <h4 className="font-semibold text-gray-900 group-hover:text-cyan-600 transition-colors mb-2">
                       {framework.title}
                     </h4>
                     <ul className="text-sm text-gray-700 space-y-1">
@@ -493,7 +494,7 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
                 <Heart className="w-5 h-5" />
               </div>
               <h3 className="text-xl font-bold text-gray-900">Team Dynamics</h3>
-              <div className="h-px bg-rose-200 flex-1"></div>
+              <div className="h-px bg-lime-200 flex-1"></div>
             </div>
             <div className="grid md:grid-cols-2 gap-4">
               {frameworks.filter(f => f.usedFor.some(u => u.category === 'team-dynamics')).map((framework) => (
@@ -506,7 +507,7 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
                     {framework.icon}
                   </div>
                   <div className="flex-1">
-                    <h4 className="font-semibold text-gray-900 group-hover:text-rose-600 transition-colors mb-2">
+                    <h4 className="font-semibold text-gray-900 group-hover:text-lime-600 transition-colors mb-2">
                       {framework.title}
                     </h4>
                     <ul className="text-sm text-gray-700 space-y-1">
@@ -576,7 +577,7 @@ export function FrameworksGuide({ onStartReflection, onStartNewReflection }: Fra
         {frameworks.map((framework) => (
           <div key={framework.id} id={framework.id} className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden scroll-mt-8">
             {/* Framework Header */}
-            <div className={`bg-gradient-to-r ${getFrameworkColor(framework.usedFor)} text-white p-6`}>
+            <div className={`bg-gradient-to-r ${getFrameworkColor(framework.usedFor)} text-black p-6`}>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
                   <div className="p-3 bg-white bg-opacity-20 backdrop-blur-sm rounded-xl">
