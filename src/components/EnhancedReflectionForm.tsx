@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Save, ArrowRight, ArrowLeft, AlertCircle, HelpCircle, Lightbulb, CheckCircle, Target, Plus, X, Star, Bot, Settings, Loader, Wifi, Sparkles, ChevronRight, ChevronDown, BookOpen } from './icons';
+import { Save, ArrowRight, ArrowLeft, AlertCircle, Lightbulb, CheckCircle, Target, Plus, X, Settings, Loader, Sparkles, ChevronRight, ChevronDown, BookOpen, Copy, ClipboardCheck, AlertTriangle } from './icons';
 import ReactMarkdown from 'react-markdown';
 import { Framework, Question, QuestionResponse } from '../types';
 import { useLocalLLM } from '../hooks/useLocalLLM';
@@ -40,8 +40,8 @@ export function EnhancedReflectionForm({
   const [showAiSuggestion, setShowAiSuggestion] = useState(false);
   const [expandedAnswers, setExpandedAnswers] = useState<Set<string>>(new Set());
   const [showFrameworkDetails, setShowFrameworkDetails] = useState(false);
-  const [aiPrompts, setAiPrompts] = useState<Record<string, { systemPrompt: string; userPrompt: string }>>({});
-  const [showAiPrompt, setShowAiPrompt] = useState(false);
+  const [copiedToClipboard, setCopiedToClipboard] = useState(false);
+  const [showCopyToast, setShowCopyToast] = useState(false);
   
   const { isConfigured, isConnected, isLoading, generateResponse } = useLocalLLM();
 
@@ -224,11 +224,7 @@ Keep your response practical and focused on helping me create a thoughtful, acti
 - Focused on helping them develop their own insights rather than giving answers
 - Concise but thorough enough to be truly helpful`;
 
-    // Store the prompts for debugging/transparency
-    setAiPrompts(prev => ({
-      ...prev,
-      [currentQuestion.id]: { systemPrompt, userPrompt }
-    }));
+    // Note: Prompts are available via generateAIPrompts() for copy functionality
 
     try {
       const result = await generateResponse({
@@ -257,6 +253,77 @@ Keep your response practical and focused on helping me create a thoughtful, acti
         [currentQuestion.id]: `Error: ${error instanceof Error ? error.message : 'Failed to get AI assistance'}`
       }));
       setShowAiSuggestion(true);
+    }
+  };
+
+  // Generate AI prompts for current question
+  const generateAIPrompts = () => {
+    // Build comprehensive context with all requested information
+    const completedResponses = framework.questions.slice(0, currentQuestionIndex)
+      .filter(q => responses[q.id])
+      .map((q, index) => `${index + 1}. ${q.text}\nResponse: ${convertResponseToText(responses[q.id])}`)
+      .join('\n\n');
+
+    // Include framework description and rationale
+    const frameworkContext = `Framework: ${framework.name}
+Description: ${framework.description}
+${frameworkRationale ? `
+Why this framework: ${frameworkRationale.description}
+When to use: ${frameworkRationale.whenToUse}
+Key benefits: ${frameworkRationale.keyBenefits.join(', ')}` : ''}`;
+
+    // Include question-specific help and context
+    const questionContext = `Current Question: ${currentQuestion.text}
+${currentQuestion.helpText ? `Context/Guidance: ${currentQuestion.helpText}` : ''}
+${currentQuestion.placeholder ? `Example approach: ${currentQuestion.placeholder}` : ''}`;
+
+    // Build comprehensive user prompt with all context
+    const userPrompt = `REFLECTION CONTEXT:
+Leadership Situation: ${problemDescription}
+
+${frameworkContext}
+
+${completedResponses ? `PREVIOUS ANSWERS:
+${completedResponses}
+
+` : ''}${questionContext}
+
+${responses[currentQuestion.id] ? `CURRENT DRAFT:
+${convertResponseToText(responses[currentQuestion.id])}
+
+` : ''}ASSISTANCE REQUEST:
+Please provide 2-3 specific, actionable tips to help me answer this current question effectively. Consider:
+- The framework's purpose and methodology
+- My previous responses and the reflection journey so far  
+- The specific guidance provided for this question
+- How this question builds on what I've already explored
+
+Keep your response practical and focused on helping me create a thoughtful, actionable answer.`;
+
+    const systemPrompt = `You are an expert leadership coach specializing in structured reflection frameworks. You help leaders think through challenges systematically and develop actionable insights. Your guidance is:
+- Specific and practical, not generic advice
+- Connected to the framework's methodology
+- Building on the person's previous responses
+- Focused on helping them develop their own insights rather than giving answers
+- Concise but thorough enough to be truly helpful`;
+
+    return { systemPrompt, userPrompt };
+  };
+
+
+  // Copy AI prompt to clipboard
+  const copyAIPromptToClipboard = async () => {
+    const prompts = generateAIPrompts();
+    const fullPrompt = `SYSTEM PROMPT:\n${prompts.systemPrompt}\n\nUSER PROMPT:\n${prompts.userPrompt}`;
+    
+    try {
+      await navigator.clipboard.writeText(fullPrompt);
+      setCopiedToClipboard(true);
+      setTimeout(() => setCopiedToClipboard(false), 2000);
+      setShowCopyToast(true);
+      setTimeout(() => setShowCopyToast(false), 8000);
+    } catch (error) {
+      console.error('Failed to copy to clipboard:', error);
     }
   };
 
@@ -344,15 +411,6 @@ Keep your response practical and focused on helping me create a thoughtful, acti
                     <div className="flex items-center gap-2">
                       <Sparkles className="w-4 h-4 text-emerald-600" />
                       <span className="text-sm font-medium text-emerald-900">AI Suggestions</span>
-                      {aiPrompts[currentQuestion.id] && (
-                        <button
-                          onClick={() => setShowAiPrompt(!showAiPrompt)}
-                          className="text-xs text-emerald-600 hover:text-emerald-700 underline ml-2"
-                          title="View the exact prompt sent to AI"
-                        >
-                          View Prompt
-                        </button>
-                      )}
                     </div>
                     <button
                       onClick={() => setShowAiSuggestion(false)}
@@ -362,18 +420,6 @@ Keep your response practical and focused on helping me create a thoughtful, acti
                     </button>
                   </div>
                   
-                  {showAiPrompt && aiPrompts[currentQuestion.id] && (
-                    <div className="mb-4 p-3 bg-white rounded-lg border border-emerald-300">
-                      <div className="text-xs text-emerald-700 font-medium mb-2">System Prompt:</div>
-                      <div className="text-xs text-gray-600 bg-gray-50 p-2 rounded whitespace-pre-wrap mb-3 max-h-24 overflow-y-auto">
-                        {aiPrompts[currentQuestion.id].systemPrompt}
-                      </div>
-                      <div className="text-xs text-emerald-700 font-medium mb-2">User Prompt:</div>
-                      <div className="text-xs text-gray-600 bg-gray-50 p-2 rounded whitespace-pre-wrap max-h-40 overflow-y-auto">
-                        {aiPrompts[currentQuestion.id].userPrompt}
-                      </div>
-                    </div>
-                  )}
                   
                   <div className="text-gray-800 leading-relaxed prose prose-sm max-w-none prose-headings:text-emerald-900 prose-strong:text-emerald-900 prose-em:text-emerald-800 prose-code:bg-white prose-code:px-1 prose-code:rounded prose-ul:text-gray-800 prose-ol:text-gray-800">
                     <ReactMarkdown>{currentAiSuggestion}</ReactMarkdown>
@@ -497,15 +543,6 @@ Keep your response practical and focused on helping me create a thoughtful, acti
                     <div className="flex items-center gap-2">
                       <Sparkles className="w-4 h-4 text-emerald-600" />
                       <span className="text-sm font-medium text-emerald-900">AI Suggestions</span>
-                      {aiPrompts[currentQuestion.id] && (
-                        <button
-                          onClick={() => setShowAiPrompt(!showAiPrompt)}
-                          className="text-xs text-emerald-600 hover:text-emerald-700 underline ml-2"
-                          title="View the exact prompt sent to AI"
-                        >
-                          View Prompt
-                        </button>
-                      )}
                     </div>
                     <button
                       onClick={() => setShowAiSuggestion(false)}
@@ -514,19 +551,6 @@ Keep your response practical and focused on helping me create a thoughtful, acti
                       <X className="w-4 h-4" />
                     </button>
                   </div>
-                  
-                  {showAiPrompt && aiPrompts[currentQuestion.id] && (
-                    <div className="mb-4 p-3 bg-white rounded-lg border border-emerald-300 max-h-32 overflow-y-auto">
-                      <div className="text-xs text-emerald-700 font-medium mb-2">System Prompt:</div>
-                      <div className="text-xs text-gray-600 bg-gray-50 p-2 rounded whitespace-pre-wrap mb-3 max-h-16 overflow-y-auto">
-                        {aiPrompts[currentQuestion.id].systemPrompt}
-                      </div>
-                      <div className="text-xs text-emerald-700 font-medium mb-2">User Prompt:</div>
-                      <div className="text-xs text-gray-600 bg-gray-50 p-2 rounded whitespace-pre-wrap max-h-24 overflow-y-auto">
-                        {aiPrompts[currentQuestion.id].userPrompt}
-                      </div>
-                    </div>
-                  )}
                   
                   <div className="text-gray-800 leading-relaxed prose prose-sm max-w-none prose-headings:text-emerald-900 prose-strong:text-emerald-900 prose-em:text-emerald-800 prose-code:bg-white prose-code:px-1 prose-code:rounded prose-ul:text-gray-800 prose-ol:text-gray-800">
                     <ReactMarkdown>{currentAiSuggestion}</ReactMarkdown>
@@ -608,15 +632,6 @@ Keep your response practical and focused on helping me create a thoughtful, acti
                     <div className="flex items-center gap-2">
                       <Sparkles className="w-4 h-4 text-emerald-600" />
                       <span className="text-sm font-medium text-emerald-900">AI Suggestions</span>
-                      {aiPrompts[currentQuestion.id] && (
-                        <button
-                          onClick={() => setShowAiPrompt(!showAiPrompt)}
-                          className="text-xs text-emerald-600 hover:text-emerald-700 underline ml-2"
-                          title="View the exact prompt sent to AI"
-                        >
-                          View Prompt
-                        </button>
-                      )}
                     </div>
                     <button
                       onClick={() => setShowAiSuggestion(false)}
@@ -626,18 +641,6 @@ Keep your response practical and focused on helping me create a thoughtful, acti
                     </button>
                   </div>
                   
-                  {showAiPrompt && aiPrompts[currentQuestion.id] && (
-                    <div className="mb-4 p-3 bg-white rounded-lg border border-emerald-300 max-h-40 overflow-y-auto">
-                      <div className="text-xs text-emerald-700 font-medium mb-2">System Prompt:</div>
-                      <div className="text-xs text-gray-600 bg-gray-50 p-2 rounded whitespace-pre-wrap mb-3 max-h-16 overflow-y-auto">
-                        {aiPrompts[currentQuestion.id].systemPrompt}
-                      </div>
-                      <div className="text-xs text-emerald-700 font-medium mb-2">User Prompt:</div>
-                      <div className="text-xs text-gray-600 bg-gray-50 p-2 rounded whitespace-pre-wrap max-h-24 overflow-y-auto">
-                        {aiPrompts[currentQuestion.id].userPrompt}
-                      </div>
-                    </div>
-                  )}
                   
                   <div className="text-gray-800 leading-relaxed prose prose-sm max-w-none prose-headings:text-emerald-900 prose-strong:text-emerald-900 prose-em:text-emerald-800 prose-code:bg-white prose-code:px-1 prose-code:rounded prose-ul:text-gray-800 prose-ol:text-gray-800">
                     <ReactMarkdown>{currentAiSuggestion}</ReactMarkdown>
@@ -958,30 +961,51 @@ Keep your response practical and focused on helping me create a thoughtful, acti
                                 </button>
                               )}
                               
-                              <button
-                                onClick={getLocalAIAssistance}
-                                disabled={isLoading}
-                                className={`flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all duration-200 shadow-sm hover:shadow-md w-full sm:w-auto ${
-                                  isConfigured && isConnected
-                                    ? 'bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white'
-                                    : 'bg-gradient-to-r from-gray-400 to-gray-500 hover:from-gray-500 hover:to-gray-600 text-white'
-                                }`}
-                                title={isConfigured && isConnected ? 'Get assistance from local AI' : 'Configure local AI assistant'}
-                              >
-                                {isLoading ? (
-                                  <Loader className="w-5 h-5 animate-spin" />
-                                ) : isConfigured && isConnected ? (
-                                  <Sparkles className="w-5 h-5" />
-                                ) : (
-                                  <Settings className="w-5 h-5" />
-                                )}
-                                <span className="hidden sm:inline">
-                                  {isLoading ? 'Thinking...' : isConfigured && isConnected ? 'AI Assistance' : 'Setup AI'}
-                                </span>
-                                <span className="sm:hidden">
-                                  {isLoading ? '...' : isConfigured && isConnected ? 'AI' : 'Setup'}
-                                </span>
-                              </button>
+                              {/* AI Actions - Copy and Send buttons */}
+                              <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+                                <button
+                                  onClick={copyAIPromptToClipboard}
+                                  className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-medium transition-all duration-200 shadow-sm hover:shadow-md bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white"
+                                  title="Copy AI prompt to clipboard"
+                                >
+                                  {copiedToClipboard ? (
+                                    <ClipboardCheck className="w-4 h-4" />
+                                  ) : (
+                                    <Copy className="w-4 h-4" />
+                                  )}
+                                  <span className="hidden sm:inline">
+                                    {copiedToClipboard ? 'Copied!' : 'Copy Prompt'}
+                                  </span>
+                                  <span className="sm:hidden">
+                                    {copiedToClipboard ? '✓' : 'Copy'}
+                                  </span>
+                                </button>
+                                
+                                <button
+                                  onClick={getLocalAIAssistance}
+                                  disabled={isLoading}
+                                  className={`flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-medium transition-all duration-200 shadow-sm hover:shadow-md ${
+                                    isConfigured && isConnected
+                                      ? 'bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white'
+                                      : 'bg-gradient-to-r from-gray-400 to-gray-500 hover:from-gray-500 hover:to-gray-600 text-white'
+                                  }`}
+                                  title={isConfigured && isConnected ? 'Send prompt to local AI' : 'Configure local AI assistant first'}
+                                >
+                                  {isLoading ? (
+                                    <Loader className="w-4 h-4 animate-spin" />
+                                  ) : isConfigured && isConnected ? (
+                                    <Sparkles className="w-4 h-4" />
+                                  ) : (
+                                    <Settings className="w-4 h-4" />
+                                  )}
+                                  <span className="hidden sm:inline">
+                                    {isLoading ? 'Thinking...' : isConfigured && isConnected ? 'Send to AI' : 'Setup AI'}
+                                  </span>
+                                  <span className="sm:hidden">
+                                    {isLoading ? '...' : isConfigured && isConnected ? 'Send' : 'Setup'}
+                                  </span>
+                                </button>
+                              </div>
                               
                               <button
                                 onClick={handleNext}
@@ -1018,6 +1042,30 @@ Keep your response practical and focused on helping me create a thoughtful, acti
           isOpen={showLLMConfig} 
           onClose={() => setShowLLMConfig(false)} 
         />
+        
+        {/* Copy Success Toast */}
+        {showCopyToast && (
+          <div className="fixed top-6 right-6 z-50 bg-emerald-600 text-white px-6 py-4 rounded-xl shadow-lg border border-emerald-500 animate-in slide-in-from-top-2 duration-500 max-w-md">
+            <div className="flex items-start gap-3">
+              <CheckCircle className="w-5 h-5 mt-0.5 flex-shrink-0" />
+              <div>
+                <div className="font-semibold mb-1">Copied to Clipboard! 📋</div>
+                <div className="text-sm text-emerald-100">
+                  Your AI prompt is ready to paste into your preferred AI assistant.
+                </div>
+                <div className="mt-3 p-3 bg-amber-500 bg-opacity-20 rounded-lg border border-amber-400 border-opacity-30">
+                  <div className="flex items-start gap-2 mb-2">
+                    <AlertTriangle className="w-4 h-4 text-amber-200 mt-0.5 flex-shrink-0" />
+                    <div className="text-xs text-amber-100 font-semibold">Privacy Notice:</div>
+                  </div>
+                  <div className="text-xs text-amber-100 leading-relaxed">
+                    You're sharing personal leadership reflections. <strong>Consider using local LLMs (like Ollama) for maximum privacy</strong>, or only use trusted AI services and avoid sharing sensitive company information.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   }
@@ -1102,32 +1150,53 @@ Keep your response practical and focused on helping me create a thoughtful, acti
             Cancel
           </button>
 
-          {/* Right side: AI Assistance + Next/Complete Button */}
+          {/* Right side: AI Actions + Next/Complete Button */}
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center order-first sm:order-last">
-            <button
-              onClick={getLocalAIAssistance}
-              disabled={isLoading}
-              className={`flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all duration-200 shadow-sm hover:shadow-md w-full sm:w-auto ${
-                isConfigured && isConnected
-                  ? 'bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white'
-                  : 'bg-gradient-to-r from-gray-400 to-gray-500 hover:from-gray-500 hover:to-gray-600 text-white'
-              }`}
-              title={isConfigured && isConnected ? 'Get assistance from local AI' : 'Configure local AI assistant'}
-            >
-              {isLoading ? (
-                <Loader className="w-5 h-5 animate-spin" />
-              ) : isConfigured && isConnected ? (
-                <Sparkles className="w-5 h-5" />
-              ) : (
-                <Settings className="w-5 h-5" />
-              )}
-              <span className="hidden sm:inline">
-                {isLoading ? 'Thinking...' : isConfigured && isConnected ? 'AI Assistance' : 'Setup AI'}
-              </span>
-              <span className="sm:hidden">
-                {isLoading ? '...' : isConfigured && isConnected ? 'AI' : 'Setup'}
-              </span>
-            </button>
+            {/* AI Actions - Copy and Send buttons */}
+            <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+              <button
+                onClick={copyAIPromptToClipboard}
+                className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-medium transition-all duration-200 shadow-sm hover:shadow-md bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white"
+                title="Copy AI prompt to clipboard"
+              >
+                {copiedToClipboard ? (
+                  <ClipboardCheck className="w-4 h-4" />
+                ) : (
+                  <Copy className="w-4 h-4" />
+                )}
+                <span className="hidden lg:inline">
+                  {copiedToClipboard ? 'Copied!' : 'Copy Prompt'}
+                </span>
+                <span className="lg:hidden">
+                  {copiedToClipboard ? '✓' : 'Copy'}
+                </span>
+              </button>
+              
+              <button
+                onClick={getLocalAIAssistance}
+                disabled={isLoading}
+                className={`flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-medium transition-all duration-200 shadow-sm hover:shadow-md ${
+                  isConfigured && isConnected
+                    ? 'bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white'
+                    : 'bg-gradient-to-r from-gray-400 to-gray-500 hover:from-gray-500 hover:to-gray-600 text-white'
+                }`}
+                title={isConfigured && isConnected ? 'Send prompt to local AI' : 'Configure local AI assistant first'}
+              >
+                {isLoading ? (
+                  <Loader className="w-4 h-4 animate-spin" />
+                ) : isConfigured && isConnected ? (
+                  <Sparkles className="w-4 h-4" />
+                ) : (
+                  <Settings className="w-4 h-4" />
+                )}
+                <span className="hidden lg:inline">
+                  {isLoading ? 'Thinking...' : isConfigured && isConnected ? 'Send to AI' : 'Setup AI'}
+                </span>
+                <span className="lg:hidden">
+                  {isLoading ? '...' : isConfigured && isConnected ? 'Send' : 'Setup'}
+                </span>
+              </button>
+            </div>
             
             <button
               onClick={handleNext}
@@ -1155,6 +1224,30 @@ Keep your response practical and focused on helping me create a thoughtful, acti
         isOpen={showLLMConfig} 
         onClose={() => setShowLLMConfig(false)} 
       />
+      
+      {/* Copy Success Toast */}
+      {showCopyToast && (
+        <div className="fixed top-6 right-6 z-50 bg-emerald-600 text-white px-6 py-4 rounded-xl shadow-lg border border-emerald-500 animate-in slide-in-from-top-2 duration-500 max-w-md">
+          <div className="flex items-start gap-3">
+            <CheckCircle className="w-5 h-5 mt-0.5 flex-shrink-0" />
+            <div>
+              <div className="font-semibold mb-1">Copied to Clipboard! 📋</div>
+              <div className="text-sm text-emerald-100">
+                Your AI prompt is ready to paste into your preferred AI assistant.
+              </div>
+              <div className="mt-3 p-3 bg-amber-500 bg-opacity-20 rounded-lg border border-amber-400 border-opacity-30">
+                <div className="flex items-start gap-2 mb-2">
+                  <AlertTriangle className="w-4 h-4 text-amber-200 mt-0.5 flex-shrink-0" />
+                  <div className="text-xs text-amber-100 font-semibold">Privacy Notice:</div>
+                </div>
+                <div className="text-xs text-amber-100 leading-relaxed">
+                  You're sharing personal leadership reflections. <strong>Consider using local LLMs (like Ollama) for maximum privacy</strong>, or only use trusted AI services and avoid sharing sensitive company information.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       
     </div>
   );
