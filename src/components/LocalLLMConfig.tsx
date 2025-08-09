@@ -6,9 +6,10 @@ import { LocalLLMConfig as LLMConfig, DEFAULT_CONFIGS } from '../services/localL
 interface LocalLLMConfigProps {
   isOpen: boolean;
   onClose: () => void;
+  onConfigChange?: () => void;
 }
 
-export function LocalLLMConfig({ isOpen, onClose }: LocalLLMConfigProps) {
+export function LocalLLMConfig({ isOpen, onClose, onConfigChange }: LocalLLMConfigProps) {
   const llmState = useLocalLLM();
   const { 
     isConfigured, 
@@ -49,13 +50,25 @@ export function LocalLLMConfig({ isOpen, onClose }: LocalLLMConfigProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    configure(formData);
+    // For manual submission, don't assume connection state - let it test
+    configure(formData, false);
+    // Notify parent component that config changed
+    onConfigChange?.();
   };
 
   const handleQuickSetup = (provider: keyof typeof DEFAULT_CONFIGS, model: string) => {
     const quickConfig = getQuickSetupConfig(provider, model);
     setFormData(quickConfig);
-    configure(quickConfig);
+    // Don't assume connection will work - let it test properly
+    configure(quickConfig, false);
+    // Notify parent component that config changed
+    onConfigChange?.();
+  };
+
+  const handleClearConfig = () => {
+    clearConfig();
+    // Notify parent component that config changed
+    onConfigChange?.();
   };
 
   const connectionStatus = () => {
@@ -294,7 +307,7 @@ export function LocalLLMConfig({ isOpen, onClose }: LocalLLMConfigProps) {
                           Retry Connection
                         </button>
                         <button
-                          onClick={clearConfig}
+                          onClick={handleClearConfig}
                           className="px-3 py-1.5 text-xs text-red-700 hover:bg-red-100 rounded transition-colors"
                         >
                           Clear
@@ -364,7 +377,7 @@ export function LocalLLMConfig({ isOpen, onClose }: LocalLLMConfigProps) {
                           Retry Connection
                         </button>
                         <button
-                          onClick={clearConfig}
+                          onClick={handleClearConfig}
                           className="px-3 py-1.5 text-xs text-red-700 hover:bg-red-100 rounded transition-colors"
                         >
                           Clear

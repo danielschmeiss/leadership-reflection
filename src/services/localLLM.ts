@@ -195,20 +195,46 @@ class LocalLLMService {
     };
   }
 
-  // Test connection to local LLM with LM Studio compatible approach
+  // Test connection to local LLM using same format detection as generateResponse
   async testConnection(): Promise<{ success: boolean; error?: string }> {
     try {
+      // Use the same format detection logic as generateResponse
+      let result: LocalLLMResponse;
       
-      // For LM Studio, go directly to OpenAI-compatible format
-      // Send a simple test message
-      const result = await this.tryOpenAIFormat(
-        'Hi', // Simple test prompt
-        'You are a helpful assistant.', // Simple system prompt
-        10, // Small max tokens
-        0.1 // Low temperature for consistent response
-      );
+      // For LM Studio (port 1234), try OpenAI format first
+      if (this.config.baseUrl.includes('1234')) {
+        try {
+          result = await this.tryOpenAIFormat(
+            'Hi', // Simple test prompt
+            'You are a helpful assistant.', // Simple system prompt
+            10, // Small max tokens
+            0.1 // Low temperature for consistent response
+          );
+        } catch (error) {
+          // If OpenAI format fails, try Ollama format as fallback
+          try {
+            result = await this.tryOllamaFormat('Hi', 'You are a helpful assistant.', 10, 0.1);
+          } catch (fallbackError) {
+            // Both formats failed, throw the last error
+            throw fallbackError;
+          }
+        }
+      } else {
+        // For Ollama and others, try Ollama format first
+        try {
+          result = await this.tryOllamaFormat('Hi', 'You are a helpful assistant.', 10, 0.1);
+        } catch (error) {
+          // If Ollama format fails, try OpenAI format as fallback
+          try {
+            result = await this.tryOpenAIFormat('Hi', 'You are a helpful assistant.', 10, 0.1);
+          } catch (fallbackError) {
+            // Both formats failed, throw the last error
+            throw fallbackError;
+          }
+        }
+      }
 
-      if (result.text && result.text.trim()) {
+      if (result.text && result.text.trim() && !result.error) {
         return { success: true };
       } else {
         return { success: false, error: result.error || 'No response from local LLM' };

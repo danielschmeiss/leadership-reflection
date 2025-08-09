@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, createContext, useContext } from 'react';
+import { flushSync } from 'react-dom';
 import LocalLLMService, { LocalLLMConfig, LocalLLMRequest, LocalLLMResponse, DEFAULT_CONFIGS } from '../services/localLLM';
 
 interface UseLocalLLMState {
@@ -9,6 +10,7 @@ interface UseLocalLLMState {
   config: LocalLLMConfig | null;
   service: LocalLLMService | null;
   hasAttemptedAutoTest: boolean;
+  stateId: number; // Add unique ID to track state updates
 }
 
 interface UseLocalLLMActions {
@@ -20,6 +22,9 @@ interface UseLocalLLMActions {
 }
 
 const LOCAL_LLM_CONFIG_KEY = 'local_llm_config';
+
+// Create context for shared state
+const LocalLLMContext = createContext<(UseLocalLLMState & UseLocalLLMActions) | null>(null);
 
 // Helper function to provide detailed error messages
 function getDetailedErrorMessage(error: string, config: LocalLLMConfig | null): string {
@@ -55,7 +60,19 @@ function getDetailedErrorMessage(error: string, config: LocalLLMConfig | null): 
   return `Connection failed: ${error}\n\nTroubleshooting:\n• Check that your local LLM is running at ${baseUrl}\n• Verify the model '${model}' is available\n• Try restarting your local LLM service`;
 }
 
-export function useLocalLLM(): UseLocalLLMState & UseLocalLLMActions {
+// Provider component that manages the shared state
+export function LocalLLMProvider({ children }: { children: React.ReactNode }) {
+  const value = useLocalLLMInternal();
+  
+  return React.createElement(
+    LocalLLMContext.Provider,
+    { value },
+    children
+  );
+}
+
+// Internal hook that actually manages the state
+function useLocalLLMInternal(): UseLocalLLMState & UseLocalLLMActions {
   const [state, setState] = useState<UseLocalLLMState>({
     isConfigured: false,
     isConnected: false,
@@ -63,8 +80,19 @@ export function useLocalLLM(): UseLocalLLMState & UseLocalLLMActions {
     error: null,
     config: null,
     service: null,
-    hasAttemptedAutoTest: false
+    hasAttemptedAutoTest: false,
+    stateId: 0
   });
+
+  // Debug: Log hook instances and when they're called
+  React.useEffect(() => {
+    console.log('useLocalLLM hook instance - current state:', { 
+      isConfigured: state.isConfigured, 
+      isConnected: state.isConnected, 
+      isLoading: state.isLoading, 
+      stateId: state.stateId 
+    });
+  }, [state.isConfigured, state.isConnected, state.isLoading, state.stateId]);
 
   // Load saved configuration on mount
   useEffect(() => {
@@ -78,7 +106,8 @@ export function useLocalLLM(): UseLocalLLMState & UseLocalLLMActions {
           isConfigured: true,
           config,
           service,
-          hasAttemptedAutoTest: false
+          hasAttemptedAutoTest: false,
+          stateId: prev.stateId + 1
         }));
       } catch (error) {
         console.error('Failed to load LLM config:', error);
@@ -87,52 +116,81 @@ export function useLocalLLM(): UseLocalLLMState & UseLocalLLMActions {
     }
   }, []);
 
-  const configure = useCallback((config: LocalLLMConfig) => {
+  const configure = useCallback((config: LocalLLMConfig, forceConnectedState?: boolean) => {
     const service = new LocalLLMService(config);
-    setState(prev => ({
-      ...prev,
-      isConfigured: true,
-      config,
-      service,
-      error: null,
-      isConnected: false,
-      hasAttemptedAutoTest: false,
-      isLoading: false
-    }));
     
-    // Save to localStorage
+    // Save to localStorage first
     localStorage.setItem(LOCAL_LLM_CONFIG_KEY, JSON.stringify(config));
+    
+    // Set the connection state directly based on the parameter
+    const isConnected = forceConnectedState ?? false;
+    const willAutoTest = !forceConnectedState; // Will auto-test if not forced
+    
+    console.log('Configure called:', { 
+      baseUrl: config.baseUrl, 
+      model: config.model, 
+      forceConnectedState, 
+      willAutoTest, 
+      isConnected 
+    });
+    
+    // Then use flushSync to force synchronous state update
+    flushSync(() => {
+      setState(prev => ({
+        ...prev,
+        isConfigured: true,
+        config,
+        service,
+        error: null,
+        isConnected, // Use the forced state or default to false
+        hasAttemptedAutoTest: forceConnectedState ? true : false, // Skip auto-test if forced
+        isLoading: willAutoTest, // Set loading if we expect auto-test to run
+        stateId: prev.stateId + 1
+      }));
+    });
+    console.log('After configure setState - should have isConnected:', isConnected, 'isLoading:', willAutoTest);
   }, []);
 
   const testConnection = useCallback(async () => {
     if (!state.service) return;
 
-    setState(prev => ({ ...prev, isLoading: true, error: null }));
+    console.log('Starting connection test...', { config: state.config });
+    setState(prev => ({ ...prev, isLoading: true, error: null, stateId: prev.stateId + 1 }));
 
     try {
       const result = await state.service.testConnection();
       const errorMessage = result.error ? getDetailedErrorMessage(result.error, state.config) : null;
       
-      setState(prev => ({
-        ...prev,
-        isLoading: false,
-        isConnected: result.success,
-        error: errorMessage,
-        hasAttemptedAutoTest: true
-      }));
+      console.log('Connection test result:', { success: result.success, error: errorMessage, willSetConnected: result.success });
+      flushSync(() => {
+        setState(prev => ({
+          ...prev,
+          isLoading: false,
+          isConnected: result.success,
+          error: errorMessage,
+          hasAttemptedAutoTest: true,
+          stateId: prev.stateId + 1
+        }));
+      });
+      console.log('After setState - isConnected should be:', result.success);
     } catch (error) {
       const errorMessage = getDetailedErrorMessage(
         error instanceof Error ? error.message : 'Connection test failed',
         state.config
       );
       
-      setState(prev => ({
-        ...prev,
-        isLoading: false,
-        isConnected: false,
-        error: errorMessage,
-        hasAttemptedAutoTest: true
-      }));
+      console.log('Connection test failed with exception:', error, 'Setting isConnected to false');
+      flushSync(() => {
+        setState(prev => ({
+          ...prev,
+          isLoading: false,
+          isConnected: false,
+          error: errorMessage,
+          hasAttemptedAutoTest: true,
+          stateId: prev.stateId + 1
+        }));
+      });
+      console.log('After exception setState - isConnected should be: false');
     }
   }, [state.service, state.config]);
 
@@ -144,7 +202,7 @@ export function useLocalLLM(): UseLocalLLMState & UseLocalLLMActions {
       };
     }
 
-    setState(prev => ({ ...prev, isLoading: true, error: null }));
+    setState(prev => ({ ...prev, isLoading: true, error: null, stateId: prev.stateId + 1 }));
 
     try {
       const response = await state.service.generateResponse(request);
@@ -152,7 +210,8 @@ export function useLocalLLM(): UseLocalLLMState & UseLocalLLMActions {
         ...prev,
         isLoading: false,
         isConnected: !response.error,
-        error: response.error || null
+        error: response.error || null,
+        stateId: prev.stateId + 1
       }));
       return response;
     } catch (error) {
@@ -161,7 +220,8 @@ export function useLocalLLM(): UseLocalLLMState & UseLocalLLMActions {
         ...prev,
         isLoading: false,
         isConnected: false,
-        error: errorMessage
+        error: errorMessage,
+        stateId: prev.stateId + 1
       }));
       return {
         text: '',
@@ -171,14 +231,18 @@ export function useLocalLLM(): UseLocalLLMState & UseLocalLLMActions {
   }, [state.service]);
 
   const clearConfig = useCallback(() => {
-    setState({
-      isConfigured: false,
-      isConnected: false,
-      isLoading: false,
-      error: null,
-      config: null,
-      service: null,
-      hasAttemptedAutoTest: false
+    // Use flushSync to ensure immediate state update
+    flushSync(() => {
+      setState(prev => ({
+        isConfigured: false,
+        isConnected: false,
+        isLoading: false,
+        error: null,
+        config: null,
+        service: null,
+        hasAttemptedAutoTest: false,
+        stateId: prev.stateId + 1
+      }));
     });
     localStorage.removeItem(LOCAL_LLM_CONFIG_KEY);
   }, []);
@@ -193,10 +257,13 @@ export function useLocalLLM(): UseLocalLLMState & UseLocalLLMActions {
 
   // Auto-test connection when service is configured or reconfigured
   useEffect(() => {
-    if (state.service && state.isConfigured && !state.hasAttemptedAutoTest && !state.isLoading) {
-      testConnection();
+    if (state.service && state.isConfigured && !state.hasAttemptedAutoTest) {
+      // Add a small delay to ensure flushSync has completed
+      setTimeout(() => {
+        testConnection();
+      }, 10);
     }
-  }, [state.service, state.isConfigured, state.hasAttemptedAutoTest, state.isLoading, testConnection]);
+  }, [state.service, state.isConfigured, state.hasAttemptedAutoTest, testConnection]);
 
   return {
     ...state,
@@ -206,4 +273,15 @@ export function useLocalLLM(): UseLocalLLMState & UseLocalLLMActions {
     clearConfig,
     getQuickSetupConfig
   };
+}
+
+// Public hook that components use to access the shared state
+export function useLocalLLM(): UseLocalLLMState & UseLocalLLMActions {
+  const context = useContext(LocalLLMContext);
+  
+  if (!context) {
+    throw new Error('useLocalLLM must be used within a LocalLLMProvider');
+  }
+  
+  return context;
 }

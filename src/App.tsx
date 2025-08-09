@@ -15,6 +15,7 @@ import { Imprint } from './components/Imprint';
 import { LocalLLMGuide } from './components/LocalLLMGuide';
 import { Privacy } from './components/Privacy';
 import { useReflections } from './hooks/useLocalStorage';
+import { LocalLLMProvider } from './hooks/useLocalLLM';
 import { frameworks, getCustomizedFramework } from './data/frameworks';
 import { FrameworkType, SituationCategory, Situation, QuestionResponse } from './types';
 
@@ -760,7 +761,7 @@ function App() {
   };
 
   return (
-    <>
+    <LocalLLMProvider>
       <Layout
         title={getTitle()}
         helpText={getHelpText()}
@@ -778,7 +779,7 @@ function App() {
         <SpeedInsights />
         <Analytics />
       </Suspense>
-    </>
+    </LocalLLMProvider>
   );
 }
 

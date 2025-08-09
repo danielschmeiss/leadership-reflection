@@ -24,8 +24,14 @@ export function Layout({
   const [showInfo, setShowInfo] = React.useState(false);
   const [showPrivacy, setShowPrivacy] = React.useState(false);
   const [showLLMConfig, setShowLLMConfig] = React.useState(false);
+  const [forceUpdate, setForceUpdate] = React.useState(0);
   
-  const { isConfigured, isConnected, isLoading } = useLocalLLM();
+  const { isConfigured, isConnected, isLoading, stateId } = useLocalLLM();
+  
+  // Debug: log the values to see what the Layout component is seeing
+  React.useEffect(() => {
+    console.log('Layout button state:', { isConfigured, isConnected, isLoading, forceUpdate, stateId });
+  }, [isConfigured, isConnected, isLoading, forceUpdate, stateId]);
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -132,6 +138,7 @@ export function Layout({
               {/* AI Assistant Setup Badge */}
               <div className="relative">
                 <button
+                  key={`ai-button-${isConfigured}-${isConnected}-${isLoading}-${forceUpdate}`}
                   onClick={() => setShowLLMConfig(true)}
                   className={`flex items-center gap-1 sm:gap-2 text-xs p-2 sm:px-4 sm:py-2 rounded-full border transition-all cursor-pointer ${
                     isConfigured && isConnected && !isLoading
@@ -180,7 +187,15 @@ export function Layout({
         {/* Local LLM Configuration Modal */}
         <LocalLLMConfig 
           isOpen={showLLMConfig} 
-          onClose={() => setShowLLMConfig(false)} 
+          onClose={() => {
+            setShowLLMConfig(false);
+            // Force re-render after modal closes
+            setForceUpdate(prev => prev + 1);
+          }}
+          onConfigChange={() => {
+            // Force immediate re-render when config changes
+            setForceUpdate(prev => prev + 1);
+          }}
         />
 
         {/* Footer */}
