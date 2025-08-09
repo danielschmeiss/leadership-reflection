@@ -19,6 +19,8 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
+        // Remove modulepreload hints for lazy-loaded chunks
+        inlineDynamicImports: false,
         manualChunks: (id) => {
           // Vendor chunks
           if (id.includes('node_modules')) {
@@ -92,17 +94,31 @@ export default defineConfig({
             return 'app-utils';
           }
         }
+      },
+      // Advanced tree shaking
+      treeshake: {
+        moduleSideEffects: false,
+        propertyReadSideEffects: false,
+        unknownGlobalSideEffects: false
       }
     },
     // Increase chunk size warning limit
     chunkSizeWarningLimit: 600,
-    // Enable source maps for better debugging
+    // Enable source maps for better debugging (disabled for production performance)
     sourcemap: false,
     // Optimize CSS
     cssCodeSplit: true,
     // Target modern browsers for smaller output
-    target: 'esnext',
-    // Enable minification
-    minify: 'esbuild'
+    target: ['es2020', 'chrome60', 'firefox60', 'safari11'],
+    // Enable minification with aggressive settings
+    minify: 'esbuild',
+    // Optimize dependencies
+    commonjsOptions: {
+      include: [/node_modules/]
+    },
+    // Enable advanced optimizations
+    reportCompressedSize: true,
+    // Optimize asset handling
+    assetsInlineLimit: 2048 // Inline small assets as base64
   }
 });
