@@ -1062,7 +1062,7 @@ Keep your response practical and focused on helping me create a thoughtful, acti
   
   // Original layout for other frameworks
   return (
-    <div className="relative w-full space-y-8">
+    <div className="relative w-full space-y-4 sm:space-y-8">
       {/* Progress Header */}
       <div className="bg-gray-100 rounded-lg p-3 border border-gray-200">
         <div className="flex items-center justify-between">
@@ -1090,21 +1090,21 @@ Keep your response practical and focused on helping me create a thoughtful, acti
       </div>
 
       {/* Question Card */}
-      <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-8">
-        <div className="mb-8">
+      <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-4 sm:p-8 w-full overflow-hidden">
+        <div className="mb-6 sm:mb-8">
           <div className="flex items-start justify-between mb-4">
             <div className="flex items-start gap-4 flex-1">
               <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
                 {currentQuestionIndex + 1}
               </div>
               <div className="flex-1">
-                <h3 className="text-2xl font-bold text-gray-900 mb-3">
+                <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2 sm:mb-3">
                   {currentQuestion.text}
                   {currentQuestion.required && <span className="text-red-500 ml-1">*</span>}
                 </h3>
                 
                 {currentQuestion.placeholder && (
-                  <p className="text-sm text-gray-600 font-normal mb-4">
+                  <p className="text-sm text-gray-600 font-normal mb-3 sm:mb-4">
                     {currentQuestion.placeholder}
                   </p>
                 )}
@@ -1255,14 +1255,14 @@ function RatingInput({ question, value, onChange }: {
         <p className="text-blue-800 text-sm mb-4">
           Select a rating from {question.scale[0]} to {question.scale[1]}
         </p>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center justify-center gap-1 sm:gap-2 flex-wrap">
           {Array.from({ length: question.scale[1] - question.scale[0] + 1 }, (_, i) => {
             const rating = question.scale[0] + i;
             return (
               <button
                 key={rating}
                 onClick={() => onChange(rating)}
-                className={`flex items-center justify-center w-12 h-12 rounded-lg border-2 transition-all ${
+                className={`flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-lg border-2 transition-all ${
                   value === rating 
                     ? 'bg-blue-600 border-blue-600 text-white' 
                     : 'border-gray-300 hover:border-blue-300 text-gray-600'
