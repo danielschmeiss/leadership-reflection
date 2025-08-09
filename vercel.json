@@ -1,7 +1,47 @@
 {
   "rewrites": [
     {
-      "source": "/((?!api|_next|_static|_vercel|favicon.ico|logo.png|android-chrome-.*|apple-touch-icon.png|favicon-.*|sw.js|manifest.json|sitemap.xml|robots.txt|.*\\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)).*)",
+      "source": "/about",
+      "destination": "/"
+    },
+    {
+      "source": "/frameworks",
+      "destination": "/"
+    },
+    {
+      "source": "/decide",
+      "destination": "/"
+    },
+    {
+      "source": "/decide/:path*",
+      "destination": "/"
+    },
+    {
+      "source": "/reflect",
+      "destination": "/"
+    },
+    {
+      "source": "/complete",
+      "destination": "/"
+    },
+    {
+      "source": "/history",
+      "destination": "/"
+    },
+    {
+      "source": "/view",
+      "destination": "/"
+    },
+    {
+      "source": "/imprint",
+      "destination": "/"
+    },
+    {
+      "source": "/local-llm-guide",
+      "destination": "/"
+    },
+    {
+      "source": "/privacy",
       "destination": "/"
     }
   ],
