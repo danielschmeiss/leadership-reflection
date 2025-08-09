@@ -1,5 +1,5 @@
 // Service Worker for Reflacto - Cache static assets for better performance
-const CACHE_NAME = 'reflacto-v1';
+const CACHE_NAME = 'reflacto-v2'; // Updated version to invalidate old cache
 const STATIC_ASSETS = [
   '/',
   '/manifest.json',
@@ -46,7 +46,7 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch event - serve from cache, fallback to network
+// Fetch event - smart caching strategy
 self.addEventListener('fetch', (event) => {
   // Only handle GET requests
   if (event.request.method !== 'GET') {
@@ -63,35 +63,58 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  event.respondWith(
-    caches.match(event.request)
-      .then((cachedResponse) => {
-        if (cachedResponse) {
-          // Serve from cache
-          return cachedResponse;
-        }
-
-        // Clone the request because it can only be consumed once
-        const fetchRequest = event.request.clone();
-
-        return fetch(fetchRequest).then((response) => {
-          // Check if response is valid
-          if (!response || response.status !== 200 || response.type !== 'basic') {
-            return response;
-          }
-
-          // Clone the response because it can only be consumed once
-          const responseToCache = response.clone();
-
-          // Cache JavaScript and CSS files
-          if (event.request.url.includes('/assets/') || 
-              event.request.url.endsWith('.js') || 
-              event.request.url.endsWith('.css')) {
+  // Network-first strategy for JavaScript chunks to prevent stale chunk errors
+  if (event.request.url.includes('/assets/') && 
+      (event.request.url.endsWith('.js') || event.request.url.endsWith('.css'))) {
+    event.respondWith(
+      fetch(event.request)
+        .then((response) => {
+          // If fetch succeeds, cache the new version
+          if (response && response.status === 200 && response.type === 'basic') {
+            const responseToCache = response.clone();
             caches.open(CACHE_NAME)
               .then((cache) => {
                 cache.put(event.request, responseToCache);
               });
           }
+          return response;
+        })
+        .catch(() => {
+          // If network fails, try cache as fallback
+          return caches.match(event.request)
+            .then((cachedResponse) => {
+              if (cachedResponse) {
+                console.log('[SW] Serving stale asset from cache:', event.request.url);
+                return cachedResponse;
+              }
+              // If no cache either, let it fail
+              throw new Error('Asset not available offline');
+            });
+        })
+    );
+    return;
+  }
+
+  // Cache-first strategy for static assets (images, fonts, etc.)
+  event.respondWith(
+    caches.match(event.request)
+      .then((cachedResponse) => {
+        if (cachedResponse) {
+          return cachedResponse;
+        }
+
+        return fetch(event.request).then((response) => {
+          // Check if response is valid
+          if (!response || response.status !== 200 || response.type !== 'basic') {
+            return response;
+          }
+
+          // Cache static assets
+          const responseToCache = response.clone();
+          caches.open(CACHE_NAME)
+            .then((cache) => {
+              cache.put(event.request, responseToCache);
+            });
 
           return response;
         });
