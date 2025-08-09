@@ -3,18 +3,22 @@ import React, { useState, useEffect, Suspense } from 'react';
 // Lazy load analytics components to prevent blocking initial render
 const SpeedInsights = React.lazy(() => import('@vercel/speed-insights/react').then(module => ({ default: module.SpeedInsights })));
 const Analytics = React.lazy(() => import('@vercel/analytics/react').then(module => ({ default: module.Analytics })));
+
+// Lazy load heavy components to reduce initial bundle size
+const EnhancedReflectionForm = React.lazy(() => import('./components/EnhancedReflectionForm').then(module => ({ default: module.EnhancedReflectionForm })));
+const ReflectionHistory = React.lazy(() => import('./components/ReflectionHistory').then(module => ({ default: module.ReflectionHistory })));
+const ReflectionCompletion = React.lazy(() => import('./components/ReflectionCompletion').then(module => ({ default: module.ReflectionCompletion })));
+const FrameworksGuide = React.lazy(() => import('./components/FrameworksGuide').then(module => ({ default: module.FrameworksGuide })));
+const About = React.lazy(() => import('./components/About').then(module => ({ default: module.About })));
+const LocalLLMGuide = React.lazy(() => import('./components/LocalLLMGuide').then(module => ({ default: module.LocalLLMGuide })));
+const Privacy = React.lazy(() => import('./components/Privacy').then(module => ({ default: module.Privacy })));
+
+// Keep frequently used components as direct imports
 import { Layout } from './components/Layout';
 import { Dashboard } from './components/Dashboard';
 import { DecisionTree } from './components/DecisionTree';
-import { EnhancedReflectionForm } from './components/EnhancedReflectionForm';
-import { ReflectionHistory } from './components/ReflectionHistory';
 import { ReflectionSummary } from './components/ReflectionSummary';
-import { ReflectionCompletion } from './components/ReflectionCompletion';
-import { FrameworksGuide } from './components/FrameworksGuide';
-import { About } from './components/About';
 import { Imprint } from './components/Imprint';
-import { LocalLLMGuide } from './components/LocalLLMGuide';
-import { Privacy } from './components/Privacy';
 import { useReflections } from './hooks/useLocalStorage';
 import { LocalLLMProvider } from './hooks/useLocalLLM';
 import { frameworks, getCustomizedFramework } from './data/frameworks';
@@ -646,22 +650,24 @@ function App() {
         
         // Use enhanced form for all frameworks
         return (
-          <EnhancedReflectionForm
-            framework={framework}
-            problemDescription={getProblemDescription(session.category, session.subcategory)}
-            onSave={(responses) => {
-              // Store structured responses directly
-              handleSaveReflection(responses);
-            }}
-            onCancel={() => {
-              setCurrentState('dashboard');
-              updateURL('dashboard');
-            }}
-            initialResponses={session.editingReflection?.responses || {}}
-            category={session.category}
-            subcategory={session.subcategory}
-            frameworkRationale={getFrameworkRationale(session.framework, session.category, session.subcategory)}
-          />
+          <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div></div>}>
+            <EnhancedReflectionForm
+              framework={framework}
+              problemDescription={getProblemDescription(session.category, session.subcategory)}
+              onSave={(responses) => {
+                // Store structured responses directly
+                handleSaveReflection(responses);
+              }}
+              onCancel={() => {
+                setCurrentState('dashboard');
+                updateURL('dashboard');
+              }}
+              initialResponses={session.editingReflection?.responses || {}}
+              category={session.category}
+              subcategory={session.subcategory}
+              frameworkRationale={getFrameworkRationale(session.framework, session.category, session.subcategory)}
+            />
+          </Suspense>
         );
       }
 
@@ -669,32 +675,36 @@ function App() {
         if (!session) return null;
         const reflectionToEdit = session.editingReflection || session.viewingReflection;
         return (
-          <ReflectionCompletion
-            framework={getCustomizedFramework(session.framework, session.category, session.subcategory)}
-            responses={session.completedResponses || session.editingReflection?.responses || session.viewingReflection?.responses || {}}
-            problemDescription={getProblemDescription(session.category, session.subcategory)}
-            onContinue={() => {
-              setCurrentState('history');
-              setSession(null);
-              updateURL('history');
-            }}
-            onStartNew={() => {
-              setSession(null);
-              setCurrentState('decision-tree');
-              updateURL('decision-tree');
-            }}
-            onEdit={reflectionToEdit ? () => handleEditReflection(reflectionToEdit) : undefined}
-          />
+          <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div></div>}>
+            <ReflectionCompletion
+              framework={getCustomizedFramework(session.framework, session.category, session.subcategory)}
+              responses={session.completedResponses || session.editingReflection?.responses || session.viewingReflection?.responses || {}}
+              problemDescription={getProblemDescription(session.category, session.subcategory)}
+              onContinue={() => {
+                setCurrentState('history');
+                setSession(null);
+                updateURL('history');
+              }}
+              onStartNew={() => {
+                setSession(null);
+                setCurrentState('decision-tree');
+                updateURL('decision-tree');
+              }}
+              onEdit={reflectionToEdit ? () => handleEditReflection(reflectionToEdit) : undefined}
+            />
+          </Suspense>
         );
 
       case 'history':
         return (
-          <ReflectionHistory
-            reflections={reflections}
-            onEdit={handleEditReflection}
-            onDelete={handleDeleteReflection}
-            onViewCompletion={handleViewCompletion}
-          />
+          <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div></div>}>
+            <ReflectionHistory
+              reflections={reflections}
+              onEdit={handleEditReflection}
+              onDelete={handleDeleteReflection}
+              onViewCompletion={handleViewCompletion}
+            />
+          </Suspense>
         );
 
       case 'view-reflection':
@@ -711,62 +721,74 @@ function App() {
         return <Imprint />;
 
       case 'local-llm-guide':
-        return <LocalLLMGuide />;
+        return (
+          <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div></div>}>
+            <LocalLLMGuide />
+          </Suspense>
+        );
 
       case 'privacy':
         return (
-          <Privacy 
-            onBack={() => {
-              setCurrentState('dashboard');
-              updateURL('dashboard');
-            }}
-          />
+          <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div></div>}>
+            <Privacy 
+              onBack={() => {
+                setCurrentState('dashboard');
+                updateURL('dashboard');
+              }}
+            />
+          </Suspense>
         );
 
       case 'frameworks-guide':
         return (
-          <FrameworksGuide 
-            onStartReflection={(category, subcategory) => {
-              // Find the appropriate framework for this category/subcategory combination
-              const frameworkMapping: Record<string, Record<string, string>> = {
-                'feedback': {
-                  'positive': 'sbi',
-                  'developmental': 'sbi',
-                  'peer-to-peer-feedback-facilitation': 'feedforward-coaching'
-                },
-                'conflict': {
-                  'with-team-member': 'mediation',
-                  'between-team-members': 'mediation',
-                  'cross-team-conflict': 'interest-based-negotiation'
-                },
-                'decision': {
-                  'operational': 'decision-matrix',
-                  'strategic': 'pros-cons',
-                  'ownership-accountability-gaps': 'responsibility-mapping'
-                },
-                'stakeholder': {
-                  'alignment-with-leadership': 'alignment-canvas',
-                  'expectation-management': 'bound'
-                },
-                'team-dynamics': {
-                  'ownership-clarity': 'delegation-empowerment',
-                  'team-health-check': 'five-dysfunctions'
-                },
-                'other': {
-                  'free-reflection': 'grow'
+          <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div></div>}>
+            <FrameworksGuide 
+              onStartReflection={(category, subcategory) => {
+                // Find the appropriate framework for this category/subcategory combination
+                const frameworkMapping: Record<string, Record<string, string>> = {
+                  'feedback': {
+                    'positive': 'sbi',
+                    'developmental': 'sbi',
+                    'peer-to-peer-feedback-facilitation': 'feedforward-coaching'
+                  },
+                  'conflict': {
+                    'with-team-member': 'mediation',
+                    'between-team-members': 'mediation',
+                    'cross-team-conflict': 'interest-based-negotiation'
+                  },
+                  'decision': {
+                    'operational': 'decision-matrix',
+                    'strategic': 'pros-cons',
+                    'ownership-accountability-gaps': 'responsibility-mapping'
+                  },
+                  'stakeholder': {
+                    'alignment-with-leadership': 'alignment-canvas',
+                    'expectation-management': 'bound'
+                  },
+                  'team-dynamics': {
+                    'ownership-clarity': 'delegation-empowerment',
+                    'team-health-check': 'five-dysfunctions'
+                  },
+                  'other': {
+                    'free-reflection': 'grow'
+                  }
+                };
+                
+                const frameworkId = frameworkMapping[category]?.[subcategory];
+                if (frameworkId) {
+                  handleFrameworkSelected(frameworkId as FrameworkType, category as SituationCategory, subcategory);
                 }
-              };
-              
-              const frameworkId = frameworkMapping[category]?.[subcategory];
-              if (frameworkId) {
-                handleFrameworkSelected(frameworkId as FrameworkType, category as SituationCategory, subcategory);
-              }
-            }}
-          />
+              }}
+            />
+          </Suspense>
         );
 
       case 'about':
-        return <About />;
+        return (
+          <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div></div>}>
+            <About />
+          </Suspense>
+        );
 
       default:
         return null;
