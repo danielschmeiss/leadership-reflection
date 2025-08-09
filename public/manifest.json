@@ -1,7 +1,7 @@
 {
   "name": "Reflacto - Leadership Reflection Tool",
   "short_name": "Reflacto",
-  "description": "Privacy-focused leadership reflection tool for engineering leaders. Navigate situational challenges through proven frameworks like SBI, GROW, RACI, mediation, and decision-making models. 100% local storage, offline capable.",
+  "description": "Privacy-focused leadership reflection tool by Daniel Schmeiß for leaders across engineering, product, management, and beyond. Navigate situational challenges through proven frameworks like SBI, GROW, mediation, and decision-making models. 100% local storage, offline capable.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
@@ -17,7 +17,7 @@
       "sizes": "512x512",
       "type": "image/png",
       "platform": "wide",
-      "label": "Reflect & Act dashboard showing leadership framework selection"
+      "label": "Reflacto dashboard showing leadership framework selection"
     }
   ],
   "icons": [
@@ -49,7 +49,6 @@
     "GROW Model for goal-oriented coaching", 
     "Mediation framework for conflict resolution",
     "Decision matrices and pros/cons analysis",
-    "RACI responsibility mapping",
     "BOUND framework for expectation management",
     "Stakeholder alignment tools",
     "Team dynamics assessment",
