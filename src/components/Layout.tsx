@@ -24,17 +24,8 @@ export function Layout({
   const [showInfo, setShowInfo] = React.useState(false);
   const [showPrivacy, setShowPrivacy] = React.useState(false);
   const [showLLMConfig, setShowLLMConfig] = React.useState(false);
-  const [refreshKey, setRefreshKey] = React.useState(0);
   
-  // Create a fresh instance of the hook state every time we need to check
-  const [buttonState, setButtonState] = React.useState(() => {
-    const config = localStorage.getItem('local_llm_config');
-    return {
-      isConfigured: !!config,
-      isConnected: false,
-      isLoading: false
-    };
-  });
+  const { isConfigured, isConnected, isLoading } = useLocalLLM();
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -50,53 +41,8 @@ export function Layout({
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, [onNavigateToImprint]);
 
-  // Function to manually refresh button state from localStorage
-  const refreshButtonState = React.useCallback(async () => {
-    const configStr = localStorage.getItem('local_llm_config');
-    if (!configStr) {
-      setButtonState({ isConfigured: false, isConnected: false, isLoading: false });
-      return;
-    }
 
-    try {
-      const config = JSON.parse(configStr);
-      setButtonState(prev => ({ ...prev, isConfigured: true, isLoading: true }));
-      
-      // Test the connection directly
-      const LocalLLMService = (await import('../services/localLLM')).default;
-      const service = new LocalLLMService(config);
-      const result = await service.testConnection();
-      
-      setButtonState({
-        isConfigured: true,
-        isConnected: result.success,
-        isLoading: false
-      });
-    } catch (error) {
-      setButtonState({
-        isConfigured: true,
-        isConnected: false,
-        isLoading: false
-      });
-    }
-  }, []);
 
-  // Check connection status on initial mount
-  useEffect(() => {
-    const configStr = localStorage.getItem('local_llm_config');
-    if (configStr) {
-      // There's a saved config, check if it's actually connected
-      refreshButtonState();
-    }
-  }, [refreshButtonState]);
-
-  // Only update when modal closes
-  useEffect(() => {
-    if (!showLLMConfig && refreshKey > 0) {
-      // Modal just closed, refresh the button state manually
-      refreshButtonState();
-    }
-  }, [showLLMConfig, refreshKey, refreshButtonState]);
 
 
   return (
@@ -186,41 +132,38 @@ export function Layout({
               {/* AI Assistant Setup Badge */}
               <div className="relative">
                 <button
-                  key={`llm-button-${buttonState.isConfigured}-${buttonState.isConnected}-${buttonState.isLoading}-${refreshKey}`}
                   onClick={() => setShowLLMConfig(true)}
                   className={`flex items-center gap-1 sm:gap-2 text-xs p-2 sm:px-4 sm:py-2 rounded-full border transition-all cursor-pointer ${
-                    buttonState.isConfigured && buttonState.isConnected && !buttonState.isLoading
+                    isConfigured && isConnected && !isLoading
                       ? 'text-emerald-700 bg-emerald-50 border-emerald-200 hover:bg-emerald-100'
-                      : buttonState.isConfigured && buttonState.isLoading
+                      : isConfigured && isLoading
                       ? 'text-yellow-700 bg-yellow-50 border-yellow-200'
                       : 'text-blue-700 bg-blue-50 border-blue-200 hover:bg-blue-100'
                   }`}
                   title={
-                    buttonState.isConfigured && buttonState.isConnected && !buttonState.isLoading
+                    isConfigured && isConnected && !isLoading
                       ? 'Local AI Connected'
-                      : buttonState.isConfigured && buttonState.isLoading
+                      : isConfigured && isLoading
                       ? 'Testing AI Connection...'
                       : 'Setup Local AI Assistant'
                   }
                 >
-                  {buttonState.isConfigured && buttonState.isConnected && !buttonState.isLoading ? (
+                  {isConfigured && isConnected && !isLoading ? (
                     <Bot className="w-3 h-3 sm:w-4 sm:h-4" />
-                  ) : buttonState.isConfigured && buttonState.isLoading ? (
+                  ) : isConfigured && isLoading ? (
                     <Settings className="w-3 h-3 sm:w-4 sm:h-4 animate-spin" />
                   ) : (
                     <Settings className="w-3 h-3 sm:w-4 sm:h-4" />
                   )}
                   <span className="font-medium text-xs hidden sm:inline">
-                    {(() => {
-                      const buttonText = buttonState.isConfigured && buttonState.isConnected && !buttonState.isLoading
-                        ? 'AI Ready'
-                        : buttonState.isConfigured && buttonState.isLoading
-                        ? 'Testing...'
-                        : buttonState.isConfigured && !buttonState.isConnected && !buttonState.isLoading
-                        ? 'Setup AI'
-                        : 'Setup AI';
-                      return buttonText;
-                    })()}
+                    {isConfigured && isConnected && !isLoading
+                      ? 'AI Ready'
+                      : isConfigured && isLoading
+                      ? 'Testing...'
+                      : isConfigured && !isConnected && !isLoading
+                      ? 'Setup AI'
+                      : 'Setup AI'
+                    }
                   </span>
                 </button>
               </div>
@@ -237,11 +180,7 @@ export function Layout({
         {/* Local LLM Configuration Modal */}
         <LocalLLMConfig 
           isOpen={showLLMConfig} 
-          onClose={() => {
-            setShowLLMConfig(false);
-            // Trigger refresh after modal closes
-            setRefreshKey(prev => prev + 1);
-          }} 
+          onClose={() => setShowLLMConfig(false)} 
         />
 
         {/* Footer */}
