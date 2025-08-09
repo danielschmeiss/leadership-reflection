@@ -106,19 +106,15 @@ export function Layout({
                             </div>
                             <div className="flex items-start gap-2">
                               <div className="w-2 h-2 bg-emerald-500 rounded-full mt-2 flex-shrink-0"></div>
+                              <span><strong>You Control Your Data:</strong> Export or delete anytime</span>
+                            </div>
+                            <div className="flex items-start gap-2">
+                              <div className="w-2 h-2 bg-emerald-500 rounded-full mt-2 flex-shrink-0"></div>
                               <span><strong>No Personal Data Collection:</strong> We don't track, store, or analyze your reflection content</span>
                             </div>
                             <div className="flex items-start gap-2">
                               <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
                               <span><strong>Anonymous Analytics:</strong> Vercel Analytics tracks page views and usage patterns (no personal data)</span>
-                            </div>
-                            <div className="flex items-start gap-2">
-                              <div className="w-2 h-2 bg-emerald-500 rounded-full mt-2 flex-shrink-0"></div>
-                              <span><strong>Offline Capable:</strong> Works without internet connection</span>
-                            </div>
-                            <div className="flex items-start gap-2">
-                              <div className="w-2 h-2 bg-emerald-500 rounded-full mt-2 flex-shrink-0"></div>
-                              <span><strong>You Control Your Data:</strong> Export or delete anytime</span>
                             </div>
                           </div>
                         </div>
