@@ -23,10 +23,20 @@ export function About() {
             <p className="text-xl text-blue-100 mb-4">
               Leadership reflection tools for the engineering community
             </p>
-            <p className="text-blue-100 leading-relaxed">
+            <p className="text-blue-100 leading-relaxed mb-6">
               Created with ❤️ to give back to the engineering leadership community and 
               demonstrate the power of privacy-first AI integration.
             </p>
+            
+            <a
+              href="https://www.linkedin.com/in/danielschmeiss/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center gap-3 bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-lg font-semibold transition-all duration-200 shadow-sm hover:shadow-md backdrop-blur-sm border border-white/20"
+            >
+              <ExternalLink className="w-4 h-4 group-hover:scale-110 transition-transform" />
+              Connect on LinkedIn
+            </a>
           </div>
         </div>
       </div>
@@ -112,6 +122,120 @@ export function About() {
                 <li>• Works in any browser while maintaining workflow flexibility</li>
               </ul>
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Technical Architecture */}
+      <div className="bg-gray-50 rounded-2xl p-8 border border-gray-200">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="p-2 bg-gray-600 rounded-lg text-white">
+            <Bot className="w-6 h-6" />
+          </div>
+          <h2 className="text-2xl font-bold text-gray-900 font-sora">Technical Implementation</h2>
+        </div>
+        
+        <div className="space-y-6 text-gray-700">
+          <p>
+            Reflacto uses modern web technologies to deliver a smooth user experience while ensuring 
+            data privacy by processing everything locally, with optional AI integration.
+          </p>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="bg-white rounded-lg p-6 border border-gray-200">
+              <h4 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                <Target className="w-4 h-4 text-blue-600" />
+                Component Architecture
+              </h4>
+              <ul className="text-sm space-y-2 text-gray-700">
+                <li><strong>React + TypeScript:</strong> Type-safe component architecture</li>
+                <li><strong>Context API:</strong> Global state for LLM configuration and connection status</li>
+                <li><strong>Framework System:</strong> Dynamic question generation based on situation context</li>
+                <li><strong>Responsive Design:</strong> Tailwind CSS with mobile-first approach</li>
+              </ul>
+            </div>
+
+            <div className="bg-white rounded-lg p-6 border border-gray-200">
+              <h4 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                <Shield className="w-4 h-4 text-green-600" />
+                Data Flow & Privacy
+              </h4>
+              <ul className="text-sm space-y-2 text-gray-700">
+                <li><strong>Local Storage:</strong> All reflection data stored in browser localStorage</li>
+                <li><strong>No Backend:</strong> Pure client-side application with no data transmission</li>
+                <li><strong>Export Capability:</strong> PDF generation using jsPDF and html2canvas</li>
+                <li><strong>Offline Ready:</strong> Progressive Web App architecture</li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="bg-blue-50 rounded-lg p-6 border border-blue-200">
+            <h4 className="font-semibold text-blue-900 mb-4">Local LLM Integration Flow</h4>
+            <div className="space-y-4 text-sm">
+              <div className="flex items-start gap-3">
+                <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-xs flex-shrink-0">1</div>
+                <div>
+                  <strong>Configuration & Connection Testing:</strong>
+                  <p className="text-gray-600 mt-1">
+                    User configures LM Studio endpoint (typically localhost:1234). The app tests connectivity 
+                    with a simple API call to verify the local server is running and accessible.
+                  </p>
+                  <code className="text-xs bg-gray-100 px-2 py-1 rounded mt-1 block">
+                    POST http://localhost:1234/v1/chat/completions
+                  </code>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-xs flex-shrink-0">2</div>
+                <div>
+                  <strong>Context Building:</strong>
+                  <p className="text-gray-600 mt-1">
+                    When user requests AI assistance, the app builds comprehensive context including 
+                    current question, previous responses, framework background, and specific guidance needs.
+                  </p>
+                  <code className="text-xs bg-gray-100 px-2 py-1 rounded mt-1 block">
+                    const context = buildPromptContext(framework, responses, currentQuestion)
+                  </code>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-xs flex-shrink-0">3</div>
+                <div>
+                  <strong>API Call with OpenAI Compatibility:</strong>
+                  <p className="text-gray-600 mt-1">
+                    Request sent to local LLM using OpenAI-compatible format. LM Studio translates 
+                    this to the underlying model (Llama, Mistral, etc.) and returns structured response.
+                  </p>
+                  <code className="text-xs bg-gray-100 px-2 py-1 rounded mt-1 block">
+                    {`{ "model": "local-model", "messages": [...], "temperature": 0.7 }`}
+                  </code>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-xs flex-shrink-0">4</div>
+                <div>
+                  <strong>Response Integration:</strong>
+                  <p className="text-gray-600 mt-1">
+                    AI suggestions integrated into the reflection interface without interrupting the user's 
+                    workflow. All processing happens locally with no data leaving the device.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-amber-50 rounded-lg p-4 border border-amber-200">
+            <h4 className="font-semibold text-amber-900 mb-2">Technical Considerations</h4>
+            <ul className="text-sm space-y-1 text-amber-800">
+              <li>• <strong>CORS Policy:</strong> Chrome allows localhost API calls from HTTPS origins</li>
+              <li>• <strong>Error Handling:</strong> Graceful degradation when LLM is unavailable</li>
+              <li>• <strong>Performance:</strong> Async operations prevent UI blocking during API calls</li>
+              <li>• <strong>Security:</strong> No API keys required, all communication stays local</li>
+              <li>• <strong>Flexibility:</strong> Copy prompt feature works with any AI service as fallback</li>
+            </ul>
           </div>
         </div>
       </div>
@@ -202,7 +326,7 @@ export function About() {
       {/* Footer Note */}
       <div className="text-center py-6">
         <p className="text-gray-600 text-sm">
-          Made with React, TypeScript, and a passion for helping engineering leaders grow.
+          Made with React, Claude Code, and a passion for helping engineering leaders grow.
         </p>
       </div>
     </div>
