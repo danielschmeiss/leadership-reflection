@@ -1,4 +1,10 @@
 {
+  "rewrites": [
+    {
+      "source": "/((?!api|_next|_static|_vercel|favicon.ico|logo.png|android-chrome-.*|apple-touch-icon.png|favicon-.*|sw.js|manifest.json|sitemap.xml|robots.txt|.*\\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)).*)",
+      "destination": "/"
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",
