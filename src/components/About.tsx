@@ -21,11 +21,10 @@ export function About() {
               </span>
             </h1>
             <p className="text-xl text-blue-100 mb-4">
-              Leadership reflection tools for the engineering community
+              I'm Daniel and created this Leadership Reflection tool.
             </p>
             <p className="text-blue-100 leading-relaxed mb-6">
-              Created with ❤️ to give back to the engineering leadership community and 
-              demonstrate the power of privacy-first AI integration.
+              Built with ❤️ to help you through different situations with simple frameworks that give you a moment to pause and reflect.
             </p>
             
             <a
@@ -54,15 +53,15 @@ export function About() {
           <p>
             As an engineering leader, I've experienced firsthand how challenging it can be to navigate 
             complex people situations, team conflicts, and strategic decisions. The transition from 
-            an individual contributor to a leadership role often feels like navigating uncharted waters, 
+            an individual contributor to a leadership role sometimes feels like navigating uncharted waters, 
             where the challenges can seem overwhelming and the path forward unclear.
           </p>
           
           <p>
-            I wanted to create something that would help other engineering leaders pause, reflect, 
-            and act with intention rather than just reacting to situations. This tool combines 
-            research-backed leadership frameworks with modern technology to provide structured 
-            guidance when you need it most.
+            I wanted to create something that helps leaders across engineering, product, management, 
+            and beyond pause, reflect, and act with intention instead of merely reacting to situations. 
+            This tool combines research-backed leadership frameworks with modern technology to offer 
+            structured guidance when it's needed most.
           </p>
 
           <p>
@@ -326,7 +325,7 @@ export function About() {
       {/* Footer Note */}
       <div className="text-center py-6">
         <p className="text-gray-600 text-sm">
-          Made with React, Claude Code, and a passion for helping engineering leaders grow.
+          Made with React, Claude Code, and a passion for helping other people grow.
         </p>
       </div>
     </div>
