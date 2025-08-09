@@ -742,7 +742,7 @@ Keep your response practical and focused on helping me create a thoughtful, acti
                     {framework.name}
                   </h3>
                   <button
-                    onClick={() => window.location.href = getFrameworkGuideUrl(framework.id)}
+                    onClick={() => window.open(getFrameworkGuideUrl(framework.id), '_blank', 'noopener,noreferrer')}
                     className="flex items-center gap-1 text-xs text-slate-500 hover:text-slate-600 font-medium transition-colors"
                     title="View detailed framework guide"
                   >
