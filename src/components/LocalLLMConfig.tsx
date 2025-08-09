@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Settings, Zap, CheckCircle, AlertCircle, X, Bot, Wifi, WifiOff, Loader, ChevronDown, ChevronRight, Shield, Link } from './icons';
+import { Zap, CheckCircle, AlertCircle, X, Bot, Loader, ChevronDown, ChevronRight, Shield, Link } from './icons';
 import { useLocalLLM } from '../hooks/useLocalLLM';
 import { LocalLLMConfig as LLMConfig, DEFAULT_CONFIGS } from '../services/localLLM';
 
@@ -22,39 +22,14 @@ export function LocalLLMConfig({ isOpen, onClose }: LocalLLMConfigProps) {
   } = llmState;
 
 
-  const [formData, setFormData] = useState<LLMConfig>({
-    baseUrl: config?.baseUrl || 'http://localhost:11434',
-    model: config?.model || '',
-    apiKey: config?.apiKey || '',
-    timeout: config?.timeout || 30000
-  });
-
-  const [selectedProvider, setSelectedProvider] = useState<keyof typeof DEFAULT_CONFIGS>('ollama');
-  const [showManualConfig, setShowManualConfig] = useState(false);
   const [showPrivacyDetails, setShowPrivacyDetails] = useState(false);
   const [showGettingStarted, setShowGettingStarted] = useState(false);
 
   if (!isOpen) return null;
 
-  const handleProviderSelect = (provider: keyof typeof DEFAULT_CONFIGS) => {
-    setSelectedProvider(provider);
-    const defaultConfig = DEFAULT_CONFIGS[provider];
-    setFormData(prev => ({
-      ...prev,
-      baseUrl: defaultConfig.baseUrl,
-      apiKey: defaultConfig.apiKey || ''
-    }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // For manual submission, don't assume connection state - let it test
-    configure(formData, false);
-  };
 
   const handleQuickSetup = (provider: keyof typeof DEFAULT_CONFIGS, model: string) => {
     const quickConfig = getQuickSetupConfig(provider, model);
-    setFormData(quickConfig);
     // Don't assume connection will work - let it test properly
     configure(quickConfig, false);
   };
@@ -168,8 +143,8 @@ export function LocalLLMConfig({ isOpen, onClose }: LocalLLMConfigProps) {
                   <div>
                     <h3 className="font-semibold text-blue-900">Quick Setup Guide</h3>
                     <p className="text-sm text-blue-700 mt-1">
-                      <span className="font-medium">→ First:</span> Install Ollama or LM Studio 
-                      <span className="font-medium">→ Then:</span> Click connection buttons below
+                      <span className="font-medium">→ First:</span> Install LM Studio 
+                      <span className="font-medium">→ Then:</span> Click connection button below
                     </p>
                   </div>
                 </div>
@@ -184,29 +159,11 @@ export function LocalLLMConfig({ isOpen, onClose }: LocalLLMConfigProps) {
             {showGettingStarted && (
               <div className="px-6 pb-6">
                 <div className="mb-4 p-3 bg-blue-100 border border-blue-300 rounded-lg">
-                  <p className="text-sm font-medium text-blue-900">👇 Choose one option below, install it, then use the connection buttons in the next section</p>
+                  <p className="text-sm font-medium text-blue-900">👇 Install LM Studio, then use the connection button below</p>
                 </div>
-                <div className="grid md:grid-cols-2 gap-4 text-sm text-blue-800">
+                <div className="text-sm text-blue-800">
                   <div className="space-y-2">
-                    <h4 className="font-medium text-blue-900">📦 Ollama (Recommended)</h4>
-                    <ol className="space-y-1 list-decimal list-inside text-xs">
-                      <li>
-                        Download from{' '}
-                        <a 
-                          href="https://ollama.ai" 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="text-blue-600 hover:text-blue-800 underline"
-                        >
-                          ollama.ai
-                        </a>
-                      </li>
-                      <li>Install and run any model (e.g. <code className="bg-white px-1 rounded">ollama run llama3.2</code>)</li>
-                      <li><strong>Then click "Connect to Ollama" below</strong></li>
-                    </ol>
-                  </div>
-                  <div className="space-y-2">
-                    <h4 className="font-medium text-blue-900">🖥️ LM Studio</h4>
+                    <h4 className="font-medium text-blue-900">🖥️ LM Studio Setup</h4>
                     <ol className="space-y-1 list-decimal list-inside text-xs">
                       <li>
                         Download from{' '}
@@ -235,76 +192,6 @@ export function LocalLLMConfig({ isOpen, onClose }: LocalLLMConfigProps) {
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-gray-900">Connect to Your Local AI</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* Ollama Provider */}
-              <div className={`border-2 rounded-xl transition-all ${
-                config?.baseUrl?.includes('11434') && isConnected
-                  ? 'border-green-300 bg-green-50 ring-2 ring-green-200'
-                  : config?.baseUrl?.includes('11434') && error
-                  ? 'border-red-300 bg-red-50'
-                  : 'border-gray-200'
-              }`}>
-                <button
-                  onClick={() => handleQuickSetup('ollama', 'llama3.2')}
-                  className="w-full p-5 text-left hover:bg-blue-50 hover:bg-opacity-50 rounded-xl transition-all"
-                  disabled={isLoading && config?.baseUrl?.includes('11434')}
-                >
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center gap-3">
-                      <Link className="w-5 h-5 text-blue-600" />
-                      <div className="font-semibold text-gray-900">
-                        {config?.baseUrl?.includes('11434') && isConnected 
-                          ? 'Connected to Ollama' 
-                          : 'Connect to Ollama'}
-                      </div>
-                    </div>
-                    {config?.baseUrl?.includes('11434') && isLoading && (
-                      <Loader className="w-5 h-5 animate-spin text-blue-600" />
-                    )}
-                    {config?.baseUrl?.includes('11434') && isConnected && (
-                      <CheckCircle className="w-5 h-5 text-green-600" />
-                    )}
-                    {config?.baseUrl?.includes('11434') && error && !isLoading && (
-                      <AlertCircle className="w-5 h-5 text-red-600" />
-                    )}
-                  </div>
-                  <div className="text-sm text-gray-600">localhost:11434 • Any Ollama model</div>
-                </button>
-                
-                {/* Ollama-specific error and actions */}
-                {config?.baseUrl?.includes('11434') && error && !isLoading && (
-                  <div className="px-5 pb-4">
-                    <div className="p-3 bg-red-100 border border-red-200 rounded-lg">
-                      <div className="flex items-start gap-2 mb-2">
-                        <AlertCircle className="w-4 h-4 text-red-600 mt-0.5 flex-shrink-0" />
-                        <div>
-                          <p className="font-medium text-red-900 text-sm">Ollama Connection Failed</p>
-                          <p className="text-xs text-red-700 mt-1">{error}</p>
-                        </div>
-                      </div>
-                      <div className="flex gap-2 mt-3">
-                        <button
-                          onClick={testConnection}
-                          className="px-3 py-1.5 text-xs bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
-                        >
-                          Retry Connection
-                        </button>
-                        <button
-                          onClick={clearConfig}
-                          className="px-3 py-1.5 text-xs text-red-700 hover:bg-red-100 rounded transition-colors"
-                        >
-                          Clear
-                        </button>
-                      </div>
-                      <div className="mt-2 p-2 bg-blue-50 border border-blue-200 rounded text-xs">
-                        <p className="text-blue-800">
-                          <strong>Troubleshooting:</strong> Make sure Ollama is running with <code className="bg-white px-1 rounded">ollama run [model-name]</code>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-              
               {/* LM Studio Provider */}
               <div className={`border-2 rounded-xl transition-all ${
                 config?.baseUrl?.includes('1234') && isConnected
@@ -387,124 +274,41 @@ export function LocalLLMConfig({ isOpen, onClose }: LocalLLMConfigProps) {
                   </div>
                 )}
               </div>
+              
+              {/* Ollama Provider - Coming Soon */}
+              <div className="border-2 border-gray-200 rounded-xl transition-all opacity-60 relative">
+                {/* Coming Soon Badge */}
+                <div className="absolute top-3 right-3 z-10">
+                  <span className="px-2 py-1 text-xs font-medium text-gray-600 bg-gray-100 rounded-full">
+                    Coming Soon
+                  </span>
+                </div>
+                
+                <button
+                  disabled={true}
+                  className="w-full p-5 text-left rounded-xl transition-all cursor-not-allowed"
+                >
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-3">
+                      <Link className="w-5 h-5 text-gray-400" />
+                      <div className="font-semibold text-gray-500">
+                        Connect to Ollama
+                      </div>
+                    </div>
+                  </div>
+                  <div className="text-sm text-gray-400">localhost:11434 • Any Ollama model</div>
+                </button>
+                
+                <div className="px-5 pb-4">
+                  <div className="p-2 bg-gray-50 border border-gray-200 rounded text-xs text-gray-600">
+                    <p className="font-medium">🚧 In Development</p>
+                    <p>Ollama integration is being tested and will be available soon.</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Manual Configuration - Collapsible */}
-          <div className="space-y-4">
-            <button
-              onClick={() => setShowManualConfig(!showManualConfig)}
-              className="flex items-center gap-2 text-lg font-semibold text-gray-900 hover:text-blue-600 transition-colors"
-            >
-              {showManualConfig ? <ChevronDown className="w-5 h-5" /> : <ChevronRight className="w-5 h-5" />}
-              Advanced Configuration
-            </button>
-            
-            {showManualConfig && (
-              <div className="pl-6 border-l-2 border-gray-200">
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Provider Type
-                    </label>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                      {Object.keys(DEFAULT_CONFIGS).map((provider) => (
-                        <button
-                          key={provider}
-                          type="button"
-                          onClick={() => handleProviderSelect(provider as keyof typeof DEFAULT_CONFIGS)}
-                          className={`p-2 text-sm border rounded-lg transition-colors ${
-                            selectedProvider === provider
-                              ? 'border-blue-500 bg-blue-50 text-blue-700'
-                              : 'border-gray-200 hover:border-gray-300'
-                          }`}
-                        >
-                          {provider}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Base URL
-                    </label>
-                    <input
-                      type="url"
-                      value={formData.baseUrl}
-                      onChange={(e) => setFormData(prev => ({ ...prev, baseUrl: e.target.value }))}
-                      placeholder="http://localhost:11434"
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                      required
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Model Name
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.model}
-                      onChange={(e) => setFormData(prev => ({ ...prev, model: e.target.value }))}
-                      placeholder={selectedProvider === 'lmstudio' ? 'local-model (or any name)' : 'llama3.2, codellama, mistral, etc.'}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                      required
-                    />
-                    <p className="text-xs text-gray-500 mt-1">
-                      {selectedProvider === 'lmstudio' 
-                        ? 'For LM Studio: any name works (e.g., "local-model", "my-model")' 
-                        : 'For Ollama: use model names like "llama3.2" or "codellama"'
-                      }
-                    </p>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      API Key (Optional)
-                    </label>
-                    <input
-                      type="password"
-                      value={formData.apiKey}
-                      onChange={(e) => setFormData(prev => ({ ...prev, apiKey: e.target.value }))}
-                      placeholder="Leave empty for local deployments"
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Timeout (ms)
-                    </label>
-                    <input
-                      type="number"
-                      value={formData.timeout}
-                      onChange={(e) => setFormData(prev => ({ ...prev, timeout: Number(e.target.value) }))}
-                      min="5000"
-                      max="120000"
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    />
-                  </div>
-
-                  <div className="flex gap-3 pt-4">
-                    <button
-                      type="submit"
-                      className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 transition-all duration-200"
-                    >
-                      Save Configuration
-                    </button>
-                    <button
-                      type="button"
-                      onClick={onClose}
-                      className="px-6 py-3 text-gray-600 hover:text-gray-800 font-medium rounded-xl hover:bg-gray-100 transition-all"
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                </form>
-              </div>
-            )}
-          </div>
         </div>
       </div>
     </div>

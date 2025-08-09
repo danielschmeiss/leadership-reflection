@@ -156,16 +156,16 @@ export function LocalLLMGuide() {
           <div className="flex items-start gap-4">
             <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">1</div>
             <div>
-              <h3 className="font-semibold text-gray-900 mb-2">Run a Local LLM Server</h3>
+              <h3 className="font-semibold text-gray-900 mb-2">Run LM Studio</h3>
               <p className="text-gray-700 mb-2">
-                Install and run a local LLM server like <strong>Ollama</strong>, <strong>LM Studio</strong>, or <strong>text-generation-webui</strong> 
-                on your machine. These tools provide OpenAI-compatible APIs.
+                Install and run <strong>LM Studio</strong> on your machine. It provides an easy-to-use interface 
+                with OpenAI-compatible API endpoints.
               </p>
               <div className="bg-gray-50 rounded-lg p-3">
                 <code className="text-sm text-gray-800">
-                  # Example with Ollama:<br/>
-                  ollama serve --port 11434<br/>
-                  # Default endpoint: http://localhost:11434
+                  # LM Studio runs a local server at:<br/>
+                  # Default endpoint: http://localhost:1234<br/>
+                  # Enable CORS in server settings for web access
                 </code>
               </div>
             </div>
@@ -195,46 +195,27 @@ export function LocalLLMGuide() {
         </div>
       </div>
 
-      {/* Popular Local LLM Options */}
+      {/* Current Support: LM Studio */}
       <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-200">
         <div className="flex items-center gap-3 mb-6">
           <div className="p-2 bg-green-600 rounded-lg text-white">
             <Bot className="w-6 h-6" />
           </div>
-          <h2 className="text-2xl font-bold text-gray-900 ">Popular Local LLM Tools</h2>
+          <h2 className="text-2xl font-bold text-gray-900">Supported Local LLM Tool</h2>
         </div>
         
-        <div className="grid md:grid-cols-3 gap-6">
-          <div className="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
-            <h3 className="font-semibold text-gray-900 mb-2 ">Ollama</h3>
-            <p className="text-gray-700 text-sm mb-4">
-              Easy-to-use local LLM runner with simple setup. Great for beginners.
-            </p>
-            <div className="space-y-2 text-sm">
-              <div className="flex justify-between">
-                <span className="text-gray-600">Difficulty:</span>
-                <span className="text-green-600 font-medium">Easy</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">Default Port:</span>
-                <span className="font-mono">11434</span>
-              </div>
+        <div className="grid md:grid-cols-2 gap-6">
+          {/* LM Studio - Supported */}
+          <div className="border-2 border-green-300 bg-green-50 rounded-lg p-6 hover:shadow-md transition-shadow relative">
+            <div className="absolute top-3 right-3">
+              <span className="px-2 py-1 text-xs font-medium text-green-800 bg-green-200 rounded-full">
+                ✅ Fully Supported
+              </span>
             </div>
-            <a 
-              href="https://ollama.ai" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="mt-4 inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 transition-colors"
-            >
-              <span className="text-sm font-medium">Visit Ollama.ai</span>
-              <ExternalLink className="w-3 h-3" />
-            </a>
-          </div>
-          
-          <div className="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
-            <h3 className="font-semibold text-gray-900 mb-2 ">LM Studio</h3>
+            <h3 className="font-semibold text-gray-900 mb-2">LM Studio</h3>
             <p className="text-gray-700 text-sm mb-4">
-              User-friendly GUI for running local LLMs with built-in model browser.
+              User-friendly GUI for running local LLMs with built-in model browser. 
+              Fully integrated and tested with Reflacto.
             </p>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
@@ -245,6 +226,10 @@ export function LocalLLMGuide() {
                 <span className="text-gray-600">Default Port:</span>
                 <span className="font-mono">1234</span>
               </div>
+              <div className="flex justify-between">
+                <span className="text-gray-600">Status:</span>
+                <span className="text-green-600 font-medium">Ready to Use</span>
+              </div>
             </div>
             <a 
               href="https://lmstudio.ai" 
@@ -252,35 +237,41 @@ export function LocalLLMGuide() {
               rel="noopener noreferrer"
               className="mt-4 inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 transition-colors"
             >
-              <span className="text-sm font-medium">Visit LM Studio</span>
+              <span className="text-sm font-medium">Download LM Studio</span>
               <ExternalLink className="w-3 h-3" />
             </a>
           </div>
           
-          <div className="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
-            <h3 className="font-semibold text-gray-900 mb-2 ">Text Generation WebUI</h3>
-            <p className="text-gray-700 text-sm mb-4">
-              Advanced tool for power users with extensive customization options.
+          {/* Ollama - Coming Soon */}
+          <div className="border border-gray-200 rounded-lg p-6 opacity-60 relative">
+            <div className="absolute top-3 right-3">
+              <span className="px-2 py-1 text-xs font-medium text-gray-600 bg-gray-100 rounded-full">
+                🚧 Coming Soon
+              </span>
+            </div>
+            <h3 className="font-semibold text-gray-500 mb-2">Ollama</h3>
+            <p className="text-gray-500 text-sm mb-4">
+              Easy-to-use local LLM runner with simple setup. Integration coming soon.
             </p>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
-                <span className="text-gray-600">Difficulty:</span>
-                <span className="text-amber-600 font-medium">Advanced</span>
+                <span className="text-gray-400">Difficulty:</span>
+                <span className="text-gray-400 font-medium">Easy</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600">Default Port:</span>
-                <span className="font-mono">5000</span>
+                <span className="text-gray-400">Default Port:</span>
+                <span className="font-mono text-gray-400">11434</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-400">Status:</span>
+                <span className="text-amber-600 font-medium">In Development</span>
               </div>
             </div>
-            <a 
-              href="https://github.com/oobabooga/text-generation-webui" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="mt-4 inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 transition-colors"
-            >
-              <span className="text-sm font-medium">View on GitHub</span>
-              <ExternalLink className="w-3 h-3" />
-            </a>
+            <div className="mt-4 p-3 bg-gray-50 border border-gray-200 rounded">
+              <p className="text-xs text-gray-600">
+                <strong>Coming Soon:</strong> Ollama integration is being tested and will be available in a future update.
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -296,7 +287,7 @@ export function LocalLLMGuide() {
         
         <div className="space-y-4">
           <p className="text-green-800">
-            Follow these steps to set up local AI assistance for your leadership reflections:
+            Follow these steps to set up LM Studio with Reflacto for private AI assistance:
           </p>
           
           <div className="grid md:grid-cols-2 gap-6">
@@ -308,23 +299,23 @@ export function LocalLLMGuide() {
             </div>
             
             <div className="bg-white rounded-lg p-4 border border-green-200">
-              <h4 className="font-semibold text-green-900 mb-2">2. Choose Your LLM Tool</h4>
+              <h4 className="font-semibold text-green-900 mb-2">2. Download LM Studio</h4>
               <p className="text-sm text-green-800">
-                Download and install Ollama, LM Studio, or another local LLM runner.
+                Get LM Studio from lmstudio.ai and install it on your computer.
               </p>
             </div>
             
             <div className="bg-white rounded-lg p-4 border border-green-200">
-              <h4 className="font-semibold text-green-900 mb-2">3. Start Your Server</h4>
+              <h4 className="font-semibold text-green-900 mb-2">3. Setup LM Studio Server</h4>
               <p className="text-sm text-green-800">
-                Run your local LLM server and note the endpoint URL and port.
+                Download a model, go to "Local Server" tab, start server, and enable CORS.
               </p>
             </div>
             
             <div className="bg-white rounded-lg p-4 border border-green-200">
-              <h4 className="font-semibold text-green-900 mb-2">4. Configure in Reflacto</h4>
+              <h4 className="font-semibold text-green-900 mb-2">4. Connect in Reflacto</h4>
               <p className="text-sm text-green-800">
-                Click the AI assistant button and enter your localhost endpoint.
+                Click the AI button and use "Connect to LM Studio" for instant setup.
               </p>
             </div>
           </div>
