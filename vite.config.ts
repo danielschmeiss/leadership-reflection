@@ -4,6 +4,15 @@ import react from '@vitejs/plugin-react';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  server: {
+    hmr: {
+      overlay: false
+    }
+    // Temporarily disable CSP in development to allow local LLM connections
+    // headers: {
+    //   'Content-Security-Policy': "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' localhost:* 127.0.0.1:* http://localhost:1234 http://localhost:11434 http://localhost:8080 http://localhost:8000 http://127.0.0.1:1234 http://127.0.0.1:11434 http://127.0.0.1:8080 http://127.0.0.1:8000 ws: wss:; font-src 'self' data:; object-src 'none'; base-uri 'self';"
+    // }
+  },
   optimizeDeps: {
     include: ['lucide-react', 'react-markdown', 'jspdf', 'html2canvas'],
   },
