@@ -973,38 +973,28 @@ Keep your response practical and focused on helping me create a thoughtful, acti
                                   ) : (
                                     <Copy className="w-4 h-4" />
                                   )}
-                                  <span className="hidden sm:inline">
-                                    {copiedToClipboard ? 'Copied!' : 'Copy Prompt'}
-                                  </span>
-                                  <span className="sm:hidden">
-                                    {copiedToClipboard ? '✓' : 'Copy'}
-                                  </span>
                                 </button>
                                 
-                                <button
-                                  onClick={getLocalAIAssistance}
-                                  disabled={isLoading}
-                                  className={`flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-medium transition-all duration-200 shadow-sm hover:shadow-md ${
-                                    isConfigured && isConnected
-                                      ? 'bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white'
-                                      : 'bg-gradient-to-r from-gray-400 to-gray-500 hover:from-gray-500 hover:to-gray-600 text-white'
-                                  }`}
-                                  title={isConfigured && isConnected ? 'Send prompt to local AI' : 'Configure local AI assistant first'}
-                                >
-                                  {isLoading ? (
-                                    <Loader className="w-4 h-4 animate-spin" />
-                                  ) : isConfigured && isConnected ? (
-                                    <Sparkles className="w-4 h-4" />
-                                  ) : (
-                                    <Settings className="w-4 h-4" />
-                                  )}
-                                  <span className="hidden sm:inline">
-                                    {isLoading ? 'Thinking...' : isConfigured && isConnected ? 'Send to AI' : 'Setup AI'}
-                                  </span>
-                                  <span className="sm:hidden">
-                                    {isLoading ? '...' : isConfigured && isConnected ? 'Send' : 'Setup'}
-                                  </span>
-                                </button>
+{isConfigured && isConnected && (
+                                  <button
+                                    onClick={getLocalAIAssistance}
+                                    disabled={isLoading}
+                                    className={`flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-medium transition-all duration-200 shadow-sm hover:shadow-md bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white ${isLoading ? 'opacity-50' : ''}`}
+                                    title="Send prompt to local AI"
+                                  >
+                                    {isLoading ? (
+                                      <Loader className="w-4 h-4 animate-spin" />
+                                    ) : (
+                                      <Sparkles className="w-4 h-4" />
+                                    )}
+                                    <span className="hidden sm:inline">
+                                      {isLoading ? 'Thinking...' : 'Ask local LLM'}
+                                    </span>
+                                    <span className="sm:hidden">
+                                      {isLoading ? '...' : 'Ask'}
+                                    </span>
+                                  </button>
+                                )}
                               </div>
                               
                               <button
@@ -1164,38 +1154,28 @@ Keep your response practical and focused on helping me create a thoughtful, acti
                 ) : (
                   <Copy className="w-4 h-4" />
                 )}
-                <span className="hidden lg:inline">
-                  {copiedToClipboard ? 'Copied!' : 'Copy Prompt'}
-                </span>
-                <span className="lg:hidden">
-                  {copiedToClipboard ? '✓' : 'Copy'}
-                </span>
               </button>
               
-              <button
-                onClick={getLocalAIAssistance}
-                disabled={isLoading}
-                className={`flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-medium transition-all duration-200 shadow-sm hover:shadow-md ${
-                  isConfigured && isConnected
-                    ? 'bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white'
-                    : 'bg-gradient-to-r from-gray-400 to-gray-500 hover:from-gray-500 hover:to-gray-600 text-white'
-                }`}
-                title={isConfigured && isConnected ? 'Send prompt to local AI' : 'Configure local AI assistant first'}
-              >
-                {isLoading ? (
-                  <Loader className="w-4 h-4 animate-spin" />
-                ) : isConfigured && isConnected ? (
-                  <Sparkles className="w-4 h-4" />
-                ) : (
-                  <Settings className="w-4 h-4" />
-                )}
-                <span className="hidden lg:inline">
-                  {isLoading ? 'Thinking...' : isConfigured && isConnected ? 'Send to AI' : 'Setup AI'}
-                </span>
-                <span className="lg:hidden">
-                  {isLoading ? '...' : isConfigured && isConnected ? 'Send' : 'Setup'}
-                </span>
-              </button>
+{isConfigured && isConnected && (
+                <button
+                  onClick={getLocalAIAssistance}
+                  disabled={isLoading}
+                  className={`flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-medium transition-all duration-200 shadow-sm hover:shadow-md bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white ${isLoading ? 'opacity-50' : ''}`}
+                  title="Send prompt to local AI"
+                >
+                  {isLoading ? (
+                    <Loader className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <Sparkles className="w-4 h-4" />
+                  )}
+                  <span className="hidden lg:inline">
+                    {isLoading ? 'Thinking...' : 'Ask local LLM'}
+                  </span>
+                  <span className="lg:hidden">
+                    {isLoading ? '...' : 'Ask'}
+                  </span>
+                </button>
+              )}
             </div>
             
             <button
