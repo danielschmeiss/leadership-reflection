@@ -124,7 +124,7 @@ export function EnhancedReflectionForm({
     return scenarios[category || '']?.[subcategory || ''] || `The ${frameworkName} provides a structured approach to work through your leadership challenge step by step.`;
   };
   
-  // Check if this should use accordion layout (conflict, feedback, decision, and stakeholder reflections)
+  // Check if this should use accordion layout (conflict, feedback, decision, stakeholder, team-dynamics, and other reflections)
   const useAccordionLayout = (category === 'conflict' && (
     subcategory === 'with-team-member' || 
     subcategory === 'between-team-members' || 
@@ -143,6 +143,8 @@ export function EnhancedReflectionForm({
   )) || (category === 'team-dynamics' && (
     subcategory === 'ownership-clarity' ||
     subcategory === 'team-health-check'
+  )) || (category === 'other' && (
+    subcategory === 'free-reflection'
   ));
   
   // Update AI suggestion display when current question changes
