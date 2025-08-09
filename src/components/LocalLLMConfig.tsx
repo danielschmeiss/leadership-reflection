@@ -6,13 +6,11 @@ import { LocalLLMConfig as LLMConfig, DEFAULT_CONFIGS } from '../services/localL
 interface LocalLLMConfigProps {
   isOpen: boolean;
   onClose: () => void;
-  onConfigChange?: () => void;
 }
 
-export function LocalLLMConfig({ isOpen, onClose, onConfigChange }: LocalLLMConfigProps) {
+export function LocalLLMConfig({ isOpen, onClose }: LocalLLMConfigProps) {
   const llmState = useLocalLLM();
   const { 
-    isConfigured, 
     isConnected, 
     isLoading, 
     error, 
@@ -52,8 +50,6 @@ export function LocalLLMConfig({ isOpen, onClose, onConfigChange }: LocalLLMConf
     e.preventDefault();
     // For manual submission, don't assume connection state - let it test
     configure(formData, false);
-    // Notify parent component that config changed
-    onConfigChange?.();
   };
 
   const handleQuickSetup = (provider: keyof typeof DEFAULT_CONFIGS, model: string) => {
@@ -61,22 +57,8 @@ export function LocalLLMConfig({ isOpen, onClose, onConfigChange }: LocalLLMConf
     setFormData(quickConfig);
     // Don't assume connection will work - let it test properly
     configure(quickConfig, false);
-    // Notify parent component that config changed
-    onConfigChange?.();
   };
 
-  const handleClearConfig = () => {
-    clearConfig();
-    // Notify parent component that config changed
-    onConfigChange?.();
-  };
-
-  const connectionStatus = () => {
-    if (isLoading) return <Loader className="w-4 h-4 animate-spin text-blue-600" />;
-    if (isConnected) return <CheckCircle className="w-4 h-4 text-green-600" />;
-    if (error) return <AlertCircle className="w-4 h-4 text-red-600" />;
-    return <WifiOff className="w-4 h-4 text-gray-400" />;
-  };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
@@ -307,7 +289,7 @@ export function LocalLLMConfig({ isOpen, onClose, onConfigChange }: LocalLLMConf
                           Retry Connection
                         </button>
                         <button
-                          onClick={handleClearConfig}
+                          onClick={clearConfig}
                           className="px-3 py-1.5 text-xs text-red-700 hover:bg-red-100 rounded transition-colors"
                         >
                           Clear
@@ -377,7 +359,7 @@ export function LocalLLMConfig({ isOpen, onClose, onConfigChange }: LocalLLMConf
                           Retry Connection
                         </button>
                         <button
-                          onClick={handleClearConfig}
+                          onClick={clearConfig}
                           className="px-3 py-1.5 text-xs text-red-700 hover:bg-red-100 rounded transition-colors"
                         >
                           Clear
