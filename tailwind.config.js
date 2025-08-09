@@ -1,18 +1,13 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: {
-    files: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
-    options: {
-      // Safelist commonly used classes that might be dynamically generated
-      safelist: [
-        'animate-spin',
-        'animate-pulse',
-        'transition-all',
-        'duration-200',
-        'duration-300',
-      ]
-    }
-  },
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  safelist: [
+    'animate-spin',
+    'animate-pulse',
+    'transition-all',
+    'duration-200',
+    'duration-300',
+  ],
   theme: {
     extend: {
       fontFamily: {
