@@ -46,7 +46,7 @@ export function Layout({
 
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 relative">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 relative overflow-x-hidden">
       <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-6 max-w-5xl">
         {/* Header */}
         <header className="mb-6 sm:mb-8">
@@ -92,7 +92,7 @@ export function Layout({
                   
                   {/* Privacy panel */}
                   {showPrivacy && (
-                    <div className="absolute right-0 top-full mt-2 w-72 sm:w-80 bg-white rounded-xl shadow-lg border border-gray-200 p-4 sm:p-6 z-50 animate-in slide-in-from-top-2 duration-200 max-w-[calc(100vw-2rem)] -mr-4">
+                    <div className="absolute right-0 top-full mt-2 w-80 bg-white rounded-xl shadow-lg border border-gray-200 p-4 sm:p-6 z-50 animate-in slide-in-from-top-2 duration-200 max-w-[calc(100vw-2rem)] -translate-x-4">
                       <div className="flex items-start gap-4">
                         <div className="p-2 sm:p-3 bg-emerald-100 rounded-lg flex-shrink-0">
                           <Shield className="w-4 h-4 sm:w-6 sm:h-6 text-emerald-600" />

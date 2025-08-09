@@ -40,7 +40,7 @@ export function Dashboard({ onStartNewReflection, onStartCategoryReflection, onV
   };
 
   return (
-    <div className="w-full space-y-8">
+    <div className="w-full space-y-8 overflow-x-hidden">
       {/* Welcome Hero */}
       <div className="w-full relative overflow-hidden bg-gradient-to-r from-teal-600 via-cyan-600 to-teal-700 rounded-2xl p-8 text-white shadow-lg">
         <div className="relative z-10 text-center">
@@ -105,7 +105,7 @@ export function Dashboard({ onStartNewReflection, onStartCategoryReflection, onV
                 <p className="text-xs text-blue-600 italic cursor-help">
                   (Ochsner & Gross, 2005 – Emotional Regulation)
                 </p>
-                <div className="absolute bottom-6 left-0 w-72 bg-white rounded-lg shadow-lg border border-gray-200 p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
+                <div className="absolute bottom-6 left-0 w-72 max-w-[calc(100vw-2rem)] bg-white rounded-lg shadow-lg border border-gray-200 p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
                   <h5 className="font-semibold text-gray-900 mb-2">Ochsner & Gross (2005)</h5>
                   <p className="text-sm text-gray-700 mb-2">
                     Research on emotional regulation shows that leaders who pause to reflect before responding make better decisions and maintain stronger relationships.
@@ -131,7 +131,7 @@ export function Dashboard({ onStartNewReflection, onStartCategoryReflection, onV
                 <p className="text-xs text-amber-600 italic cursor-help">
                   (Kahneman – System 2 Thinking)
                 </p>
-                <div className="absolute bottom-6 left-0 w-72 bg-white rounded-lg shadow-lg border border-gray-200 p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
+                <div className="absolute bottom-6 left-0 w-72 max-w-[calc(100vw-2rem)] bg-white rounded-lg shadow-lg border border-gray-200 p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
                   <h5 className="font-semibold text-gray-900 mb-2">Daniel Kahneman</h5>
                   <p className="text-sm text-gray-700 mb-2">
                     Nobel laureate's research shows that "System 2" deliberate thinking reduces cognitive bias and leads to more rational decision-making compared to fast, intuitive responses.
@@ -157,7 +157,7 @@ export function Dashboard({ onStartNewReflection, onStartCategoryReflection, onV
                 <p className="text-xs text-emerald-600 italic cursor-help">
                   (Center for Creative Leadership program data)
                 </p>
-                <div className="absolute bottom-6 right-0 w-72 bg-white rounded-lg shadow-lg border border-gray-200 p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
+                <div className="absolute bottom-6 right-0 w-72 max-w-[calc(100vw-2rem)] bg-white rounded-lg shadow-lg border border-gray-200 p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10 -translate-x-4">
                   <h5 className="font-semibold text-gray-900 mb-2">Center for Creative Leadership</h5>
                   <p className="text-sm text-gray-700 mb-2">
                     Longitudinal studies of leadership effectiveness show that leaders who engage in regular reflective practices receive higher performance ratings from their teams and peers.
@@ -215,7 +215,7 @@ export function Dashboard({ onStartNewReflection, onStartCategoryReflection, onV
             <div className="absolute top-3 right-3">
               <HelpCircle className="w-4 h-4 text-blue-400 cursor-help" />
               {/* Tooltip */}
-              <div className="absolute right-0 top-6 w-64 bg-white rounded-lg shadow-lg border border-gray-200 p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
+              <div className="absolute right-0 top-6 w-64 max-w-[calc(100vw-2rem)] bg-white rounded-lg shadow-lg border border-gray-200 p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10 -translate-x-4">
                 <h5 className="font-semibold text-gray-900 mb-2">{content.dashboard.progress.tooltips.level.title}</h5>
                 <p className="text-sm text-gray-700 mb-2">
                   {content.dashboard.progress.tooltips.level.description}
@@ -251,7 +251,7 @@ export function Dashboard({ onStartNewReflection, onStartCategoryReflection, onV
             <div className="absolute top-3 right-3">
               <HelpCircle className="w-4 h-4 text-emerald-400 cursor-help" />
               {/* Tooltip */}
-              <div className="absolute right-0 top-6 w-64 bg-white rounded-lg shadow-lg border border-gray-200 p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
+              <div className="absolute right-0 top-6 w-64 max-w-[calc(100vw-2rem)] bg-white rounded-lg shadow-lg border border-gray-200 p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10 -translate-x-4">
                 <h5 className="font-semibold text-gray-900 mb-2">{content.dashboard.progress.tooltips.total.title}</h5>
                 <p className="text-sm text-gray-700">
                   {content.dashboard.progress.tooltips.total.description}
@@ -276,7 +276,7 @@ export function Dashboard({ onStartNewReflection, onStartCategoryReflection, onV
             <div className="absolute top-3 right-3">
               <HelpCircle className="w-4 h-4 text-purple-400 cursor-help" />
               {/* Tooltip */}
-              <div className="absolute right-0 top-6 w-64 bg-white rounded-lg shadow-lg border border-gray-200 p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
+              <div className="absolute right-0 top-6 w-64 max-w-[calc(100vw-2rem)] bg-white rounded-lg shadow-lg border border-gray-200 p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10 -translate-x-4">
                 <h5 className="font-semibold text-gray-900 mb-2">{content.dashboard.progress.tooltips.momentum.title}</h5>
                 <p className="text-sm text-gray-700 mb-2">
                   {content.dashboard.progress.tooltips.momentum.description}
